@@ -1,0 +1,186 @@
+---
+title: "Branches, commits and pull requests"
+sidebarTitle: "Commit and open PRs"
+description: "Branch, commit, push and open pull requests from the GitHub tab, publish new work as a fresh repository, and review changes before you merge."
+---
+
+import { reposMax } from '/snippets/limits.mdx';
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+The **GitHub** tab is the session's git panel: you switch branches, commit what the agent changed, push and open pull requests without leaving Alpha. To connect an account or attach a repository first, see [Connect GitHub and add repositories](/github/connect).
+
+Open it with **GitHub** in the workspace header, beside **Share**. Only the session's owner sees it.
+
+{/* screenshot to capture: /images/github/github-tab-overview.png — One repository, top to bottom: branch, changes, pull requests, then the account commits are authored as. */}
+
+Pick the place by what you want to do:
+
+| You want to | Use |
+| --- | --- |
+| Switch to a branch or start a new one | The branch row in the **GitHub** tab |
+| Commit and push what changed | **Changes** in the **GitHub** tab |
+| Open a pull request | The tab's footer button, **Create pull request** |
+| Put a project the agent built on GitHub for the first time | **Publish to GitHub** |
+| Have the changes checked before you merge | `/review` |
+| Read the raw diff in the transcript | `/diff` |
+| Merge, rebase, resolve a conflict or rewrite history | Ask the agent |
+
+## Switch or create a branch
+
+Click the branch row to open the branch list, then type in **Filter branches…**. Local branches come first, with a check on the current one. Branches that exist only on GitHub follow under **origin**.
+
+Type a name that doesn't exist yet and the list offers it, such as **Create feature/login**. Alpha creates the branch from where you are and switches to it. A name git wouldn't accept is never offered.
+
+{/* screenshot to capture: /images/github/github-branch-switcher.png — Type a new name and Create appears at the top of the list. */}
+
+When you switch to an existing branch with uncommitted changes, its name shows dimmed until git answers. If the changes would be overwritten, git refuses and the panel says why. If the branch row reads **detached @** and a commit, no branch is checked out: pick or create one, because the pull request button needs a branch.
+
+<Tip>
+Create a branch before you commit on `main`. Pull requests can't be opened from the default branch.
+</Tip>
+
+## Read the changes
+
+**Changes** lists every file that differs from the last commit, or reads "working tree clean". Each file carries a letter, as in VS Code:
+
+| Letter | Colour | Meaning |
+| --- | --- | --- |
+| **U** | Green | Untracked: a new file git doesn't know yet |
+| **A** | Green | Added to the index |
+| **M** | Amber | Modified |
+| **D** | Red | Deleted |
+| **R** | Neutral | Renamed. Hover over it to see the old and new paths. |
+| **!** | Red | Conflict: git needs a decision before you can commit |
+
+Beside the branch name, a pill shows where it stands against GitHub. **unpublished** means it has never been pushed. ↑ counts commits GitHub doesn't have yet, and ↓ counts commits you don't. Opening the tab fetches from GitHub when the last fetch is more than a minute old. **Refresh from GitHub**, beside the repository name, fetches at once.
+
+## Commit, push and pull
+
+Type a message in **Commit message (⌘↵ commits & pushes)** and pick one of two buttons:
+
+| Button | What it does |
+| --- | --- |
+| **Commit & push** | Commits every change listed and pushes the branch. Shortcut: <kbd>⌘</kbd><kbd>Enter</kbd> (Ctrl on Windows and Linux). |
+| **Commit** | Commits every change listed and keeps it local. The pill counts it as ↑1. |
+
+A commit always includes every listed file. To commit only some, ask the agent. If the push is refused, the commit still stands, counted as ahead, and the panel shows git's reason.
+
+{/* screenshot to capture: /images/github/github-changes-commit.png — One message, then Commit & push or Commit. The letters tell you what each file is about to do. */}
+
+**Pull** appears in the branch row when GitHub has commits you don't. It only fast-forwards: if both sides have moved on, git refuses rather than merge behind your back. **Push** appears when everything is committed but not yet on GitHub. Each repository runs one git operation at a time, so the other buttons wait while one runs.
+
+## Open a pull request
+
+The footer button reads **Create pull request**, or **Push & create PR** when the branch has commits GitHub doesn't have yet or has never been pushed. Alpha pushes the branch for you first.
+
+<Steps>
+  <Step title="Commit your changes">
+    The footer button appears only when **Changes** is empty. On the default branch it stays greyed out.
+  </Step>
+  <Step title="Open the form">
+    Click the footer button. The **New pull request** view shows your branch → a base selector set to the default branch, and a count such as "3 commits ahead of origin/main · will push first".
+  </Step>
+  <Step title="Write the title and description">
+    **Title** starts as your last commit's subject. **Describe the change… (optional)** is free text. Tick **Create as draft** for a draft pull request.
+  </Step>
+  <Step title="Create it">
+    Click **Create pull request**, or **Push & create pull request** when the branch still needs pushing. The footer turns into **View PR #12**, which opens the pull request on GitHub.
+
+    {/* screenshot to capture: /images/github/github-new-pr.png — The form pushes the branch first when it needs to, then opens the pull request. */}
+  </Step>
+</Steps>
+
+The footer button is greyed out, with the reason as its tooltip, in these cases:
+
+| Tooltip | What to do |
+| --- | --- |
+| "You're on main — create a branch for the changes first" | [Create a branch](#switch-or-create-a-branch). Your commits come with it. |
+| "No commits vs origin/main yet" | Commit something on the branch first. |
+| None, while a git operation runs | Wait for the commit, push, pull or switch to finish. |
+
+**Pull requests** lists up to 50 open pull requests, the current branch's pinned on top under "this branch · feature/login". Each row opens on GitHub, where you merge it.
+
+## Publish to GitHub
+
+**Publish to GitHub** creates a new repository from a project the agent built and pushes it. Open it from the empty tab's **Publish to GitHub** tile, or the repo switcher → **Publish to GitHub…**.
+
+<Steps>
+  <Step title="Choose what to publish">
+    Alpha lists `/workspace` and each project folder in it, such as "12 items · main · 3 commits · uncommitted changes" or "will run git init". Folders already linked to GitHub are greyed out.
+  </Step>
+  <Step title="Pick the owner, name and visibility">
+    Choose your account or a connected organization from the chips. **Repository name** is filled in from the folder: letters, digits, `-`, `_` and `.`, up to 100 characters. New repositories are **Private** unless you pick **Public**.
+  </Step>
+  <Step title="Create and push">
+    Click **Create repository & push**. When it's done, **Done** takes you to the tab with the new repository attached.
+
+    {/* screenshot to capture: /images/github/github-publish-form.png — Pick the folder, the owner and the visibility. Alpha does the rest in one push. */}
+  </Step>
+</Steps>
+
+A folder without a `.gitignore` gets a starter one that leaves out dependencies, build output, logs and `.env` files. A stray `.env` file stays out of the push either way. When every folder is already linked, the view reads **Already on GitHub**: "There's nothing new to publish. To send your latest changes there, ask the agent to commit and push them." A published repository counts toward the limit of {reposMax} ([Limits](/reference/limits)).
+
+## Review before you merge
+
+`/review` opens **Start a review**. In a Codex session, a separate review agent reads the workspace and posts **Review findings**. In a Claude Code session, Claude Code reviews in the transcript, and `/code-review` opens the same dialog. Typed with arguments, `/code-review` runs Claude Code's own review instead.
+
+| Option | What it reviews | You fill in |
+| --- | --- | --- |
+| **Review uncommitted changes** | Staged, unstaged and untracked files | Nothing |
+| **Review against a base branch** | Everything this branch would merge, like a pull request | **base branch, e.g. main**, suggested from the session's repositories |
+| **Review a commit** | The changes one commit introduced | **commit sha** |
+| **Custom review instructions** | Whatever you describe | What the reviewer should look at |
+
+`/review` followed by text skips the dialog and runs a custom review. A review waits for an idle session: during a turn, it answers "'/review' is disabled while a task is in progress."
+
+{/* screenshot to capture: /images/github/review-dialog-base-branch.png — Review against a base branch reads the whole branch the way a pull request would. */}
+
+`/diff` posts a **Workspace diff** card with the uncommitted changes of every repository in the workspace, new files included, one fold each. With nothing to show, it reads "No changes — the workspace matches its last commit."
+
+{/* screenshot to capture: /images/github/diff-card.png — One fold per repository; open the one you want to read. */}
+
+## Ask the agent, or fix what git refused
+
+The agent has an authenticated `git` and `gh`, with commits authored as you. Ask it for anything the panel doesn't do: merging, rebasing, resolving a conflict, committing some files or editing a pull request.
+
+<PromptCard label="Try this">
+
+```text
+Merge main into feature/login, resolve any conflicts in favour of the new sign-in code, run the tests, then push and tell me the pull request link.
+```
+
+</PromptCard>
+
+Alpha will:
+
+1. Fetch `main` and merge it into `feature/login`.
+2. Resolve the conflicts and run the tests.
+3. Push the branch and share the pull request's address.
+
+When git or GitHub refuses a commit, push, pull or branch switch, a red strip under the repository name shows its own words. Click it to dismiss it. The **New pull request** and **Publish to GitHub** views show their errors above their button.
+
+| Message | What to do |
+| --- | --- |
+| git says a switch would overwrite local changes | Commit them, or ask the agent to stash them, then switch again. |
+| git can't fast-forward on **Pull**, or rejects a push | Both sides have moved on. Ask the agent to merge or rebase, then push. |
+| "you already have a repository named harbor-landing — pick another name" | Change **Repository name**. |
+| "Resource not accessible by integration" on **Publish to GitHub** | Alpha may not create repositories under that owner yet. An owner of the account accepts Alpha's updated permissions on GitHub. |
+
+More fixes are in [Troubleshooting and FAQ](/reference/troubleshooting).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Connect GitHub and add repositories" icon="github" href="/github/connect">
+    Add organizations, attach repositories (a limit of {reposMax}), and fix one that won't attach.
+  </Card>
+  <Card title="Work on an existing repository" icon="route" href="/guides/existing-repo">
+    The whole loop on harbor-api: plan, branch, review and open a pull request.
+  </Card>
+  <Card title="Setups" icon="server" href="/sessions/setups">
+    Save a machine with your repositories cloned and installed, so sessions start ready.
+  </Card>
+  <Card title="Slash commands" icon="terminal" href="/reference/slash-commands">
+    Every command, including when `/review` and `/diff` are available.
+  </Card>
+</CardGroup>

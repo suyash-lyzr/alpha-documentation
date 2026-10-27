@@ -1,0 +1,179 @@
+---
+title: "Limits"
+sidebarTitle: "Limits"
+description: "Every size, count and time limit in Alpha in one place."
+---
+
+import { idlePark, turnMax, disk, promptMax, reposMax, uploadMax, imageMax, fileDownloadMax, folderDownloadMax, dictationMax, queueMax, sourceMax, buildMax, listenMax, publishPerSession, publishPerAccount, memory, instances, versionsKept, routinesMax, routineMinInterval, setupsMax, secretsMax, secretsTotal } from '/snippets/limits.mdx';
+
+This page lists every size, count and time limit in Alpha, and what you see when you reach one. Every feature page quotes these same values, so the numbers never disagree. If something fails without reaching a limit, go to [Troubleshooting](/reference/troubleshooting).
+
+<Note>
+Some limits are set by whoever runs your Alpha. Those are marked "(default)", and your Alpha may use a different value. Admins can see the turn length and publishing limits in use on the **Server** tab of the [Admin dashboard](/admin). If you don't see **Publish**, **Routines** or the mic in the composer, that feature isn't turned on for your Alpha, and its limits don't apply to you.
+</Note>
+
+## Sessions, sharing and search
+
+Each session runs on its own machine. These limits apply to each session, and to how you find and share sessions. [Sleep, wake and reset](/sessions/machines) explains what a sleeping machine keeps.
+
+{/* TODO confirm: the disk row. There is no product message for a full disk, so it describes ordinary system behaviour. */}
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Idle time before a machine sleeps | {idlePark} | Once no Alpha page of yours has been visible for this long, each session with nothing running goes to sleep. Nothing is lost. The machine wakes when you open the session, or when work arrives for it. |
+| Length of one turn | {turnMax} | The turn is stopped. Your next message carries on from the session so far. |
+| Disk per session's machine | {disk} | Writes inside the machine fail once the disk is full. Delete large files or build outputs to free space. |
+| Length of one message | {promptMax} | The message is refused with "prompt too large", and your text goes back into the composer. Attach long text as a file instead. |
+| Repositories in a session | {reposMax} | You can't add another. Repositories that a [setup](/sessions/setups) brings count toward this. |
+| Session name | 80 characters | A longer name, from **Rename session** or `/rename`, is cut to 80 characters. The same applies to a fork's "(fork)" title. |
+| Group name | 40 characters | The **Group name** field takes no more. |
+| People a session is [shared](/sharing) with by email | 20 | The change is refused with "at most 20 emails". Use **Anyone with the link** for a wider audience. |
+| Sessions in a message search | 15 | Message matches come from at most 15 sessions, and nothing says when more matched. Search for a rarer word to find the one you want. |
+| Searchable part of a message | The first 100,000 characters | Text past that point isn't found by search. Opening the session still shows all of it. |
+
+## Chat
+
+These limits shape what you send and how much can wait its turn. [Queue, steer or stop](/chat/queue-and-steer) and [The composer](/chat/composer) cover the features themselves.
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Queued messages | {queueMax} | Another is refused with "at most 20 queued messages" until one has run. |
+| Length of one queued message | {promptMax} | The same as any message. |
+| `/compact` instructions <Badge>Claude Code only</Badge> | 2,000 characters | The command is refused with "compact instructions must be at most 2000 characters". |
+| Length of one dictation | {dictationMax} | Recording stops by itself. Start the mic again to keep talking. |
+| Dictations started per minute | 6 | The mic doesn't start, and Alpha shows "Voice input disconnected — press the mic to try again." Wait a minute, then press the mic again. |
+| Dictations at once | 1 | A second one, for example from another tab, doesn't start and shows the same message. Stop the first one, then try again. |
+| Files listed for an `@` mention | 50 | Only the best 50 matches show. Type more of the path to narrow the list. |
+
+## Files
+
+Files reach the session's machine as uploads, and leave it as downloads. [Files and uploads](/workspace/files) and [File viewers](/workspace/file-viewers) cover both.
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Size of one uploaded file | {uploadMax} | The upload is refused, and the tile says "Upload failed". Hover it for the reason. |
+| Image the agent can see | {imageMax} | Larger images still land in the session's `uploads` folder. The agent gets them only as files, not as pictures it can look at. |
+| Size of one file you download or view | {fileDownloadMax} | The download is refused. The viewers say the file is more than they can fetch. |
+| Size of a folder you download | {folderDownloadMax} | The download is refused. `node_modules`, `.venv`, `.venvs`, `venv`, `__pycache__` and `.cache` are always left out and don't count. |
+| Text shown in a viewer | 512 KB | The code and source views show the first 512 KB, and the file header says "truncated at 512 KB". Download the file to read the rest. |
+| Results of the file search | 200 | Only the best 200 matches show. Type more of the name. |
+
+## Database
+
+The **Database** tab applies the same limits to your session's database and to a [production database](/publish/production-data). [Browse, edit and query data](/workspace/database-data) shows where each one appears.
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Rows shown for one SQL query | 500 | The result bar shows a **first 500 rows** chip. Add a `LIMIT` or a filter to see the rows you need. |
+| Rows per page in the grid | 500 | Pick **50 rows**, **100 rows**, **250 rows** or **500 rows**, then page through with **Next page**. |
+| Running time of one query | 55 seconds | The query is stopped. On a production database the message reads "the production database did not answer within 55 s". |
+| Changes in one save | 1,000 | The save is refused with "commit at most 1000 changes at a time", and nothing is applied. Save in smaller batches. |
+| Wait for a locked table | 5 seconds | A read or save gives up, for example while the agent runs a migration. Try again once the agent's turn ends. |
+
+## Publishing
+
+Each published app runs as its own service with its own versions. [Publish your app](/publish/publish-your-app) and [Manage a published app](/publish/manage) cover the flow.
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Published apps per session | {publishPerSession} | You can't publish another from this session. Republish an existing one instead. |
+| Published apps per account | {publishPerAccount} | You can't publish another until you delete one. |
+| Publishes at once | 1 per session | A second one is refused with "a deployment is already in progress for this session". Wait for the current publish to finish. |
+| App name | 40 characters | Lowercase letters, digits and dashes only, starting with a letter and ending with a letter or digit. The name is the app's address, so it can't be changed later. |
+| Run command | One line, 500 characters | The setting is refused with "the run command must be one line of at most 500 characters". |
+| Size of the source | {sourceMax} | Publishing stops with "workspace too large to deploy". Dependencies and build outputs are already left out, so look for large assets. |
+| Build time | {buildMax} | The build is stopped and the version fails. Slim down the build. |
+| Time for the app to start listening | {listenMax} | The version fails. Make sure the app binds `0.0.0.0` on the `PORT` it's given, and that its database is ready when it starts. |
+| Memory per copy of the app | {memory} | The app is stopped and the version fails with an out-of-memory message. |
+| CPU per copy of the app | 1 (default) | Each copy gets this much CPU. Busy periods are handled by more copies, up to the limit below. |
+| Copies running at once | {instances} | Your app never runs more copies than this at the same time, however busy it gets. An idle app scales to zero, so the first request after a quiet spell is slower. |
+| Versions kept | {versionsKept} | The oldest versions and their logs are removed as new ones arrive. The version serving traffic is never removed. |
+| **Production Logs** search text | 200 characters | The **Search the lines…** box takes no more. |
+| **Production Logs** lines kept on screen | 2,000 | As newer lines arrive, the oldest drop off the view. **↑ Older lines…** loads earlier lines 200 at a time. |
+
+## Routines, setups and secrets
+
+These limits count across your whole account, not per session.
+
+### Routines
+
+[Routines](/routines) covers timetables and runs.
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Routines | {routinesMax} | You can't create another until you remove one. Paused routines count. |
+| Shortest gap between runs | {routineMinInterval} | A timetable that runs more often is refused, because each run wakes the session's machine. |
+| Runs going at once | 5 per account | Other runs that are due wait for a free slot. |
+| A run that starts late | 10 minutes | A run more than 10 minutes late is skipped, not caught up. |
+| A command's running time | 600 seconds, or up to 3,600 if the routine sets it | The run is stopped and fails with "stopped after … s". |
+| A command | 1,000 characters | The routine is refused with "a command is at most 1000 characters". |
+| An agent instruction | 4,000 characters | The instruction box takes no more. |
+| One run's log | 256 KB | The rest of the output is cut. |
+| Runs kept | The last 50 per routine | Older runs and their logs are removed. |
+
+### Setups
+
+[Setups](/sessions/setups) covers building and sharing them.
+
+{/* Setup build and boot-script times, and the 8 KB secret value cap below, are operator settings with no snippet constant yet (config.go: FORGE_SETUP_BUILD_TIMEOUT_MS, FORGE_SETUP_BOOT_TIMEOUT_MS, FORGE_SECRET_MAX_BYTES). */}
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Setups | {setupsMax} | Another is refused with "at most 5 setups per account" until you delete one. Setups shared with you don't count. |
+| Repositories in a setup | 5 | The form says "At most 5 repositories per setup." |
+| Setup script | 32 KB | The save is refused with "the setup script must be under 32 KB". |
+| Boot script | 32 KB | The save is refused with "the boot script must be under 32 KB". |
+| Boot script's running time | 5 minutes (default) | The script is stopped and the session carries on, on the machine as built. A note in the session says it timed out and where its output is on the machine. |
+| Build time | 30 minutes (default) | The build fails with "timed out after 30 minutes". A failed rebuild keeps the previous build in use. |
+| Build log | 1 MB | The log ends with "… (log truncated — the rest is not kept)". The build itself carries on. |
+| Name | 60 characters | The save is refused with "name must be at most 60 characters". Names are unique across your Alpha. |
+| Description | 300 characters | Text past this is cut when you save. |
+| **Notes for the agent** | 4,000 characters | Text past this is cut when you save. |
+| **Shared with** | 20 emails | The save is refused with "at most 20 emails". |
+
+### Secrets
+
+[Secrets](/secrets) owns the naming rules and reserved names.
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Number of secrets | {secretsMax} | You can't add another until you delete one. Your global secrets and each session's own secrets are counted separately. |
+| Total size of secrets | {secretsTotal} | The new value is refused because the total would be too large. |
+| One value | 8 KB (default) | The value is refused with "value must be at most 8192 bytes". |
+| Name | 64 characters | The name is refused. It must start with a letter or `_`, then use only letters, digits and `_`. |
+
+## Skills, MCP servers and agents
+
+[Skills](/skills/overview), [MCP servers](/integrations/mcp-servers) and [Try it](/agents/try-it) each cover their feature in full.
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Skills you add | 64 per account | Adding another is refused with "at most 64 skills". Remove one first. |
+| Skills shared with everyone | 64 across your Alpha | Sharing another is refused with "at most 64 skills can be shared with everyone". |
+| Files in one skill | 120 | The skill is refused with "a skill may have at most 120 files". |
+| Size of one skill | 4 MB, and 1 MB per file | The skill is refused with "a skill may total at most 4 MB", or with the name of the file that is too large. |
+| `SKILL.md` | 256 KB | The skill is refused with "SKILL.md must be under 256 KB". Move detail into reference files beside it. |
+| Local MCP servers | 32 per account | Adding another is refused with "at most 32 MCP servers". Servers you didn't add yourself don't count. |
+| Arguments and settings of a local server | 64 arguments, 32 environment settings | The server is refused with "at most 64 arguments" or "at most 32 environment settings". |
+| Tools from one remote MCP server | 500 | The connection fails with "MCP server returned too many tools". Ask the vendor for a narrower endpoint. |
+| Connected tools named in the agent's tool list | 100 | Nothing fails. Past 100, none are listed up front. The agent looks each tool up by name when it needs it, and can still use every one. |
+| One **Try it** run | 900 seconds | The run is stopped and marked **Did not finish**, with "the run took longer than 900 s and was stopped". |
+| One **Try it** answer | 64 KiB | The rest is kept in the run's `stdout.txt`, and the card says where. |
+| Chats under **Earlier chats** | The newest 30 | Older chats stay in the agent's folder but aren't listed. |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Troubleshooting and FAQ" icon="life-ring" href="/reference/troubleshooting">
+    Fixes for the messages above, plus the failures that have nothing to do with a limit.
+  </Card>
+  <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
+    What keeps a machine awake past the idle time, and what survives a reset.
+  </Card>
+  <Card title="Monitor and troubleshoot production" icon="chart-line" href="/publish/monitor">
+    Spot an app running out of memory or slow to start before your users do.
+  </Card>
+  <Card title="Admin dashboard" icon="shield-halved" href="/admin">
+    Where admins see the turn length and publish counts this Alpha runs with.
+  </Card>
+</CardGroup>

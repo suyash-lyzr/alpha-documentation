@@ -1,37 +1,86 @@
 ---
-title: "Welcome to Alpha"
+title: "Alpha documentation"
 sidebarTitle: "Introduction"
-description: "An agent workbench where every session gets its own machine, live preview, files and git."
+description: "Describe what you want built. Alpha's agent builds it on its own machine, shows it to you live, and publishes it when you're ready."
 ---
 
-Alpha is a workspace for building software with an AI agent. You describe what you want in chat, and the agent writes the code, runs it and shows you the result while it works.
+import { idlePark } from '/snippets/limits.mdx';
 
-Every session runs on its own isolated machine, so the agent can install packages, start servers and run commands without touching anything else. Sessions pause when you leave and pick up where they stopped when you come back.
+Alpha is a workbench for building software with an AI agent. You describe the result in the chat; the agent writes the code, runs it on the session's own machine and shows it to you in a live **Preview**. When it looks right, **Publish** puts it on the internet at its own address.
 
-## What you get in a session
+<Frame>
+  <img
+    src="/images/get-started/hero-harbor.png"
+    alt="The Alpha workbench on the Harbor bookings session, with the sidebar collapsed to a menu button at the top left. On the left, the chat shows the request Use 24-hour times on the class cards, a folded row reading 1 command · 1 edit · 3 tools, and the agent's reply: Updated and checked in Preview. Class cards now show 09:00–12:00, 13:00–16:00, and 16:30–18:30. The composer below shows the placeholder Describe what to build… and the model chip reading gpt-6.1-s… · high. On the right, the workspace's Preview tab shows the Harbor Sailing School app served by node on port 3000: the headline Good days start on the water., a This week's classes heading with a count of 3, and cards for Beginner Dinghy, Intermediate Keelboat and Sunset Sail with their dates and 24-hour times. The GitHub, Share and Publish buttons sit at the top right."
+  />
+</Frame>
 
-<CardGroup cols={2}>
-  <Card title="Chat with the agent" icon="message">
-    Watch commands, plans and file edits stream in as the agent works. Send a message mid-turn to steer it.
+## Start here
+
+<CardGroup cols={3}>
+  <Card title="Quickstart" icon="play" href="/quickstart">
+    Build and publish your first app in about ten minutes.
   </Card>
-  <Card title="Live preview" icon="browser">
-    See the app the agent is building as soon as it runs, right next to the chat.
+  <Card title="How Alpha works" icon="layer-group" href="/get-started/how-alpha-works">
+    Sessions, machines, the workspace and what keeps running.
   </Card>
-  <Card title="Files, terminal and database" icon="folder-tree">
-    Browse and edit the workspace, open a shell, and inspect the session's database.
-  </Card>
-  <Card title="Git and publishing" icon="rocket">
-    Connect GitHub repositories and publish your app to a live address.
+  <Card title="Prompt Alpha well" icon="message-lines" href="/get-started/prompting">
+    What to say so the agent builds the right thing first time.
   </Card>
 </CardGroup>
 
-## Next steps
+## What you can build
 
 <CardGroup cols={2}>
-  <Card title="Quickstart" icon="play" href="/quickstart">
-    Build and preview your first app.
+  <Card title="Apps" icon="window" href="/quickstart">
+    Booking apps, internal tools and stores with sign-in, a database and a public address.
   </Card>
-  <Card title="Changelog" icon="list" href="/changelog">
-    See what's new in Alpha.
+  <Card title="Agents" icon="robot" href="/agents/build-an-agent">
+    Support bots, research teams and voice receptionists, tested with evals.
+  </Card>
+  <Card title="Decks and documents" icon="presentation-screen" href="/workspace/decks-and-drawings">
+    Pitches, investor updates and one-pagers, exported to PowerPoint or PDF.
+  </Card>
+  <Card title="Images and video" icon="clapperboard" href="/workspace/files">
+    Launch videos, logo concepts, product shots and diagrams.
+  </Card>
+  <Card title="Data" icon="chart-simple" href="/workspace/file-viewers">
+    Financial models and budgets as Excel workbooks, or a dashboard from your data.
+  </Card>
+  <Card title="Automations" icon="arrows-rotate" href="/routines">
+    A morning digest or a weekly check, run on a timetable by a routine.
+  </Card>
+</CardGroup>
+
+## Every session has its own machine
+
+Each session runs on an isolated cloud machine where the agent installs packages, starts servers and runs commands without touching any other session. Turns run on Alpha's servers, so work keeps going when you close the tab. After {idlePark} away, an idle machine sleeps; opening the session wakes it with every file as you left it.
+
+<CardGroup cols={3}>
+  <Card title="Chat" icon="comments" href="/chat/transcript">
+    Codex or Claude Code works in the chat. Steer it mid-turn.
+  </Card>
+  <Card title="Workspace" icon="table-columns" href="/workspace/overview">
+    Preview, files, Shell, Database and app sign-in beside the chat.
+  </Card>
+  <Card title="Ship" icon="rocket" href="/publish/publish-your-app">
+    Publish to a live https address, then republish each change.
+  </Card>
+</CardGroup>
+
+## Explore the docs
+
+<CardGroup cols={2}>
+  <Card title="Guides" icon="map" href="/guides/landing-page">
+    Five end-to-end builds, from a landing page to a weekly Slack summary.
+  </Card>
+  <Card title="Connect" icon="plug" href="/integrations/overview">
+    Integrations, MCP servers, secrets and skills.
+  </Card>
+  <Card title="Agents and evals" icon="flask" href="/agents/build-an-agent">
+    Build AI agents, try them on real input and prove them with evals.
+  </Card>
+  <Card title="Reference" icon="book" href="/reference/slash-commands">
+    Slash commands, shortcuts, limits and troubleshooting.
   </Card>
 </CardGroup>

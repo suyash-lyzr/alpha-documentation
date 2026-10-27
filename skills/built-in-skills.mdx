@@ -1,0 +1,151 @@
+---
+title: "Skills that ship with Alpha"
+sidebarTitle: "Built-in skills"
+description: "Seven skills are on by default and pick themselves up when a request fits: design, slides, agents, evals, interactive answers, search and voice."
+---
+
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+Alpha ships seven skills in every session, for Codex and Claude Code alike. Each one teaches the agent how Alpha does one kind of work, such as a landing page, a deck or a voice agent, and the agent loads it when your request fits. To add a skill of your own or install one from the catalog, see [Skills](/skills/overview).
+
+<Frame caption="Built-in skills read “ships with Alpha” and have no trash icon; skills the agent wrote have one.">
+  <img src="/images/skills/builtin-skills-list.png" alt="The Your skills shelf of the Skills page's Installed tab, reading 9 on, 0 off at its right. Full-width rows list Agent builder (agent-builder), Design system (design-system), Design To Motion (design-to-motion), Evals (evals), Generative UI (generative-ui), Landing Page Design (landing-page-design) and, cut off at the bottom, Search (search). Each row shows an icon, the display name in bold, the directory name in monospace and a one-line description. Agent builder, Design system, Evals and Generative UI show a package icon and ships with Alpha with their file count and size, such as 8 files, 63 KB, then 1d ago, a switch turned on and a chevron at the right. Design To Motion and Landing Page Design read written by the agent in “AI Design Skills” instead, with 14h ago, a switch turned on, a chevron and a trash icon." />
+</Frame>
+
+## How do built-in skills work?
+
+You don't need to name a skill. The agent reads each skill's description and picks it up when your request matches it, whether that comes in the first message or halfway through a session. A skill is instructions plus reference files that the agent reads when it needs them.
+
+| To… | Do this |
+| --- | --- |
+| Let the agent decide | Ask in plain words. "Make me a pitch deck" loads **Slides** on its own. |
+| Force one skill | Mention it: `$design-system` in Codex, `/design-system` in Claude Code. Type `$` (Codex) or `/` (Claude Code) in the [composer](/chat/composer#mention-files-sessions-and-skills) to pick from the list. |
+| See what this session has | Send `/skills`. |
+| Keep one for mentions only | Turn off **Let the agent use it on its own** in the skill's dialog. Admins only, since it changes the skill for every account. |
+| Stop using one | [Switch it off](#switch-a-built-in-skill-off) for your sessions. Other accounts keep theirs. |
+
+A built-in skill can't be edited or removed from the page. Its SKILL.md opens read-only, with "Read-only here: the frontmatter name and description are what the agent reads."
+
+## Which skill does what?
+
+| Skill | Ask for it with… | What you get | Read more |
+| --- | --- | --- | --- |
+| **Design system** | "Build a landing page for Harbor", "Make this page less generic" | A chosen look, applied across the build and saved to `styleguide.md` | [Below](#get-a-distinctive-design) |
+| **Slides** | "Make an 8-slide pitch deck", "a PowerPoint for Monday" | One deck file the workbench shows as slides and exports to PowerPoint or PDF | [Slides, drawings and diagrams](/workspace/decks-and-drawings) |
+| **Agent builder** | "I need an agent that triages support email" | A proved AI agent, drawn in the **Agent** tab | [Build an AI agent](/agents/build-an-agent) |
+| **Evals** | "Test the triage agent", "Did my change make it better?" | Test cases, a cost estimate and an **Evals** tab ready to start | [Set up evals](/evals/set-up) |
+| **Generative UI** | "Show me signups by week", "Quiz me on knots" | Charts, tables, sliders and forms drawn in the reply | [Answers you can interact with](/chat/interactive-answers) |
+| **Search** | "What did we decide about pricing last week?" | An answer from your other sessions, with a link to each one | [Below](#pick-up-context-from-another-session) |
+| **Voice agent** | "Build an AI receptionist for our phone line" | A voice app in the Preview, or on a phone number | [Voice agents](/agents/voice-agents) |
+
+## Get a distinctive design
+
+**Design system** loads before the agent writes any UI: a website, an app screen, a dashboard, an email, a game, in any stack from plain HTML to Next.js, Streamlit or SwiftUI. It steers away from generic defaults such as Inter, purple gradients and centred cards, and draws on 26 palettes, 15 type pairings and 15 layouts. It stays out of command-line tools, APIs and presentations, which **Slides** covers.
+
+What the agent does depends on your brief:
+
+| Your brief | What the agent does |
+| --- | --- |
+| Gives a direction ("minimal black and white, Swiss type") | Builds to it, no questions asked |
+| Is open, for a landing page, portfolio or brand site | Asks three visual questions in one card: palette, typography and layout, four options each, its recommendation first |
+| Is functional (a booking form, an admin panel, a dashboard) | Skips the questions and still picks a deliberate look |
+| Refines what exists ("make the hero more elegant") | Asks the three visual questions unless the look is already set, then shows three rendered directions as small pages you open in the [Preview](/workspace/preview) and builds the one you pick |
+
+<PromptCard label="Try this">
+
+```text
+Build a landing page for Harbor Sailing School. We teach adults and kids on a small harbour, and the page should get people to book a taster session.
+```
+
+</PromptCard>
+
+Alpha will:
+
+1. Ask the three visual questions in a [question card](/chat/plan-mode#answer-the-agents-questions). Each palette option lists its four colours.
+2. Build the page with your picks, tuned rather than copied from the preset.
+3. Check it in the machine's browser at 1600×900, 1280×800 and 390×844 before calling it done.
+4. Write the chosen direction to `styleguide.md` at the project root, and read it first on later turns so new pages match.
+
+{/* screenshot to capture: /images/skills/design-system-questions-card.png — One card holds all three questions. Something else… on each lets you describe your own. */}
+
+Skipping the card is fine: the agent goes with its recommended picks. To change the look later, say so. The agent updates `styleguide.md` along with the pages.
+
+## Build decks, agents, evals and voice apps
+
+Four built-in skills each own a surface of their own, documented on its page. These are the behaviours worth knowing before you ask.
+
+| Skill | What to expect |
+| --- | --- |
+| **Slides** | Every presentation becomes one HTML deck that opens in the slide viewer, whatever you call it. To change an existing `.pptx` instead, install the catalog's **PowerPoint** skill. |
+| **Agent builder** | Starts only when you ask for an agent in words, or name a framework. "Bot", "chatbot", "assistant" or "copilot" gets one question first: an AI agent, or a feature inside your app. It builds on Google ADK unless you name one of the other frameworks, proves the agent works, then opens it in the **Agent** tab. |
+| **Evals** | Works on an agent the **Agent builder** made. It drafts test cases with personas and situations, estimates the cost and opens the **Evals** tab. Nothing runs until you press **Start** there or ask the agent to run it. When you ask about a finished run, it reads the report, compares runs and proposes fixes. |
+| **Voice agent** | Builds on a realtime speech-to-speech model: OpenAI Realtime by default, or Gemini Live or ElevenLabs Agents. It asks for the provider key with a [secret request card](/secrets#what-happens-when-the-agent-needs-a-key), and for Twilio with a Connect card when calls or SMS are involved. It keeps a transcript of everything said to it. For phone calls it asks whether to record them, since that needs the caller's consent. |
+
+**Generative UI** is different: it shapes the agent's replies, not your project. Switching it off returns replies to plain Markdown. [Answers you can interact with](/chat/interactive-answers) shows every block it draws.
+
+## Pick up context from another session
+
+Each session sees only its own messages. **Search** lets the agent look through the other sessions on your account when you ask as if it already knows. It quotes what it finds and cites each session as a link, so you can open the source.
+
+<PromptCard label="Try this">
+
+```text
+What did we decide about waitlist emails for Harbor bookings? Use the same wording here.
+```
+
+</PromptCard>
+
+Alpha will:
+
+1. Search your other sessions for the distinctive words in your question, and try once more with other words if nothing matches.
+2. Read the messages around the best match.
+3. Answer with a link to the session the decision came from, and say so plainly if it finds nothing rather than guess.
+
+{/* screenshot to capture: /images/skills/search-skill-citation.png — The answer links the session it came from, so you can check the source. */}
+
+To point at one session directly, tag it. Type `@session:` and a word in the composer, then pick the session. It goes in as a badge with the session's title and reaches the agent as `@/s/` plus the session's code. The agent reads that session's latest messages to continue from it.
+
+| What Search does | What it doesn't do |
+| --- | --- |
+| Reads the messages of your sessions: yours and the agent's replies | Read sessions other people own, even ones shared with you, or commands and their output |
+| Reads at most 50 messages, about 24,000 characters, at a time, then reads on as needed | Open another session's machine, its files or its database |
+| Shows secret values in search results as `[redacted]` | Look up routines, published apps, MCP servers or secrets, which have their own commands |
+
+## Switch a built-in skill off
+
+Switching a built-in skill off takes it out of your sessions only. It stays on the page, and you can switch it back on at any time.
+
+<Steps>
+  <Step title="Open the Installed tab">
+    Click **Skills** in the sidebar, then **Installed**.
+  </Step>
+  <Step title="Turn off its switch">
+    Use the switch on the skill's row. The tooltip reads "On — in your sessions. Switch off to take it out of yours; other accounts keep theirs." In the skill's dialog the same switch is **Installed in your sessions**.
+  </Step>
+  <Step title="Send your next message">
+    Each session drops the skill from its next message on.
+  </Step>
+</Steps>
+
+Work a skill already did stays. A deck still opens in the slide viewer, and a published **Agent** tab still draws. With **Agent builder** off, the agent can't build or prove new agents in your sessions.
+
+<Note>
+<Badge>Admins only</Badge> **Ships with Alpha** in a skill's dialog decides whether it is in every account's sessions. Off moves it to the catalog. If one of the seven is missing from your **Installed** tab, an admin has done this: find it on the **Explore** tab and click **Install**.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Skills" icon="puzzle-piece" href="/skills/overview">
+    Add your own skills, or install the catalog's PDF, Figma and CI skills.
+  </Card>
+  <Card title="Build an AI agent" icon="robot" href="/agents/build-an-agent">
+    The prompts that start Agent builder, and how its proof works.
+  </Card>
+  <Card title="Slides, drawings and diagrams" icon="presentation-screen" href="/workspace/decks-and-drawings">
+    Review a deck, fix a slide by pointing at it, and export it.
+  </Card>
+  <Card title="Prompt Alpha well" icon="lightbulb" href="/get-started/prompting">
+    Word a request so the right skill picks it up first time.
+  </Card>
+</CardGroup>

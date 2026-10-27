@@ -1,0 +1,161 @@
+---
+title: "Add a database and sign-in, then go to production"
+sidebarTitle: "A data app with sign-in"
+description: "Grow the Harbor booking app into a members app with accounts and saved bookings, then publish it with its own production database."
+---
+
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+<Badge>About 30 minutes</Badge>
+
+This guide turns the Harbor class-booking app from the [quickstart](/quickstart) into a members app. Bookings move into a real database, members get accounts, and the published app gets a production database of its own. To add sign-in without a database, go straight to [Add sign-in to your app](/workspace/app-sign-in).
+
+By the end of this guide you will have Harbor live at its own address. Members sign up, book a class, and see only their own bookings. Every booking is saved in production's PostgreSQL.
+
+{/* screenshot to capture: /images/guides/data-app-00-result.png — The finished members page: each member sees only their own bookings. */}
+
+## Before you start
+
+Finish the [quickstart](/quickstart) first, so you have the "Harbor bookings" session with the app running in the [Preview](/workspace/preview) and published as `harbor`.
+
+To start fresh instead, send this prompt from the [home screen](/sessions/home-screen) and wait for the Preview to open. You'll publish for the first time in Step 5.
+
+<PromptCard label="Start here">
+
+```text
+Build a class-booking app for Harbor Sailing School: this week's timetable of dinghy and keelboat classes, each with a Book button that asks for a name and email. Run it so I can try it in the Preview.
+```
+
+</PromptCard>
+
+You don't need any API keys, a Google Cloud project or a database account. Alpha provides the database and app sign-in.
+
+<Note>
+If you don't see **Publish** beside **Share**, or the **Database** and **Sign-in** switches in Step 5 say "not offered on this Alpha", that part isn't turned on for your Alpha. Ask your administrator.
+</Note>
+
+## Build it
+
+<Steps>
+  <Step title="Save bookings in a database">
+    Right now, Harbor keeps bookings in memory, so a restart loses them. Ask the agent to move them into the session's own PostgreSQL. Each session has one ready, and it isn't switched on until something needs it.
+
+    <PromptCard label="Try this">
+
+    ```text
+    Save Harbor's bookings in the session's PostgreSQL database instead of in memory. Keep the class timetable in the code. Create a bookings table with the member's name, email, class, date and when it was booked, switch the Book button over to it, and add five test bookings so I can see them.
+    ```
+
+    </PromptCard>
+
+    Alpha will:
+
+    1. Switch on the [session's database](/workspace/database). The **Database** tab slides into the workspace and opens by itself.
+    2. Create the `bookings` table and point the app at the `DATABASE_URL` it now has.
+    3. Add the test bookings and restart the app in the Preview.
+  </Step>
+
+  <Step title="Look at the data and fix one row">
+    Open the **Database** tab and pick `bookings` from the **Tables** list. The **Data** view shows its rows like a spreadsheet.
+
+    Pick one test booking and change its class. Double-click the cell, type the right value, and press <kbd>Enter</kbd>. <kbd>Esc</kbd> cancels. The edit is staged, not saved: the toolbar now shows **Save 1** and **Discard**. Click **Save 1**. Alpha writes every staged change in one transaction and confirms with "Saved — 1 updated." More ways to filter, edit and query are in [Browse, edit and query data](/workspace/database-data).
+
+    {/* screenshot to capture: /images/guides/data-app-02-grid.png — A staged edit waits for Save 1, so nothing reaches the database by accident. */}
+  </Step>
+
+  <Step title="Add sign-in so members see only their own bookings">
+    [App sign-in](/workspace/app-sign-in) gives Harbor real member accounts, with Google or email and password. You don't set up a provider or paste any keys.
+
+    <PromptCard label="Try this">
+
+    ```text
+    Add member sign-in to Harbor. Members sign up with email and password or continue with Google, using sign-in, sign-up and forgot-password pages in Harbor's own design. Booking needs a signed-in member. Link each booking to the member's account, and add a My bookings page that shows only their own bookings.
+    ```
+
+    </PromptCard>
+
+    Alpha will:
+
+    1. Switch on sign-in for this session. The **Auth** tab opens.
+    2. Build the three pages and the **Continue with Google** button.
+    3. Link each booking to the member who made it, and add **My bookings**.
+
+    You can also switch it on yourself with **+** → **Sign-in**. While no one has signed in yet, the **Auth** tab's **Set up with agent** button sends "Add user sign-in to my app."
+
+    {/* screenshot to capture: /images/guides/data-app-03-signin.png — The sign-in page is Harbor's own, not a provider's. */}
+  </Step>
+
+  <Step title="Test sign-in in a new tab">
+    Click the Preview toolbar's **Open in new tab** button. Its tooltip is "Open in new tab (login cookies work there)": cookies there behave as in any browser tab. Sign-in also works inside the Preview, where Google's page opens in a window of its own and the app picks up when you finish. See [Sign in through another site](/workspace/preview#sign-in-through-another-site).
+
+    In the new tab, create an account such as `maya@example.com` and book a class. **My bookings** should list that class and none of the test bookings. Then open the **Auth** tab. Maya is in the **Users** list. An email-and-password account whose address isn't verified carries an **unverified** chip. If your Alpha verifies email addresses, a new account has to open the emailed link before it can sign in.
+
+    {/* screenshot to capture: /images/workspace/auth-users.png — Every member who signs in to the app appears in the Auth tab. */}
+  </Step>
+
+  <Step title="Republish with Database and Sign-in on">
+    Production gets its own database and the same sign-in, never the session's copies. A republish keeps the services the last version had, so a Harbor published in the quickstart needs them turned on once.
+
+    <Tabs>
+      <Tab title="Harbor is already published">
+        1. Open the **Publish** tab and click **Edit settings**.
+        2. Under **Production services**, turn on **Database** and **Sign-in**.
+        3. Click **Republish** in the bar at the bottom.
+
+        Or send the agent: "Republish harbor with its database and sign-in."
+      </Tab>
+      <Tab title="Not published yet">
+        1. Click **Publish** beside **Share**.
+        2. Check the popover: **Database** reads "its own, in production" and **Sign-in** reads "on".
+        3. Click **Publish**, then answer the agent's name question with `harbor`.
+      </Tab>
+    </Tabs>
+
+    [Manage a published app](/publish/manage) covers the rest of the form.
+
+    {/* screenshot to capture: /images/publish/publish-edit-settings.png — The production services switches decide what the next version carries. */}
+  </Step>
+
+  <Step title="Push the schema to production">
+    Once the new version is live, the **Publish** tab shows a **Production database** card. Choose **Schema only**: the tables without their rows, so test bookings stay in the session. Leave **Replace tables that already exist** off and click **Push schema**. The card confirms with "Pushed … tables (…) into harbor_…", and Harbor sees them at once.
+
+    If the push answers "the production database already has … tables", production has tables already, usually because the app runs its migrations when it starts. There is nothing to push. See [What if a push is refused?](/publish/production-data#what-if-a-push-is-refused).
+
+    <Warning>
+    Production's database starts empty. Until it has a `bookings` table, every page that reads bookings fails. **Replace tables that already exist** drops production's tables of the same name first, and their data is lost. There is no confirmation and no undo.
+    </Warning>
+
+    {/* screenshot to capture: /images/guides/data-app-06-push.png — After the push, the card shows when the schema arrived. */}
+  </Step>
+
+  <Step title="Check Production Logs">
+    Open the live address from the **Publish** tab with **Open**. Sign up there and book a class. Production uses the same accounts, so the new member also shows up in the **Auth** tab.
+
+    Then choose **+** → **Production Logs**. It shows the last hour and reads again every minute. Set the kind to **Requests** for one line per request: method, path, status and milliseconds. Set the level to **Errors** to see only failures. To ask about a line, hover it and click the speech-bubble icon. The line lands in the composer as quoted app output, unsent. See [Monitor and troubleshoot production](/publish/monitor).
+
+    {/* screenshot to capture: /images/guides/data-app-07-logs.png — One line per request, with the status coloured by class. */}
+  </Step>
+</Steps>
+
+<Check>
+The booking you made is in production. To see it, pick **harbor** under **Production** in the **Database** tab's database picker. The pill then shows **harbor** with a **prod** tag.
+</Check>
+
+You turned Harbor from a demo into a members app. Its bookings are saved in a database, members have accounts, and production has a database of its own.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Production database and sign-in" icon="server" href="/publish/production-data">
+    Run migrations in the start command, browse production's rows, and connect with postgres.js.
+  </Card>
+  <Card title="Browse, edit and query data" icon="table" href="/workspace/database-data">
+    Filter and sort rows, read a table's CREATE TABLE, and run SQL against the session's database.
+  </Card>
+  <Card title="Monitor and troubleshoot production" icon="chart-line" href="/publish/monitor">
+    Read request and CPU charts, and fix a publish that fails to start.
+  </Card>
+  <Card title="Add sign-in to your app" icon="user-lock" href="/workspace/app-sign-in">
+    How the sign-in flow works, and how to remove a member from the app.
+  </Card>
+</CardGroup>

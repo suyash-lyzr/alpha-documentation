@@ -1,0 +1,136 @@
+---
+title: "Share a session"
+sidebarTitle: "Share a session"
+description: "Let people watch a session live and read-only: anyone with the link, or only the people you name."
+---
+
+import { idlePark } from '/snippets/limits.mdx';
+
+Sharing lets other people watch one of your sessions as it happens: the chat, the plan, the files and the app in **Preview**. It is always read-only. Nobody you share with can send a message, run a command or change anything. To let someone build on your work in their own sessions, [save a setup](/sessions/setups) and share it with them. A [fork](/sessions/fork-and-delete) is a copy for you, not for them. To show a finished app to the world, [publish it](/publish/publish-your-app).
+
+## Who can see a session?
+
+Every session has one permanent, unguessable address, `/s/` followed by a 16-character code. It's the address in your browser bar while the session is open. Sharing decides who else that address works for.
+
+| Policy | Who can open the link | Do they need an Alpha account? | How it reaches them |
+| --- | --- | --- | --- |
+| **Private** (the default) | Only you. "The link is dead for everyone else." | — | It doesn't. |
+| **Anyone with the link** | Anyone who has the URL | No. Without one they get the chat only; signing in adds the files and **Preview**. | You send them the link. |
+| **Specific people** | Only the Alpha accounts whose emails you list | Yes, signed in with that email | The session appears under **Shared with you** in their sidebar, so they don't need the link. |
+
+Pick **Anyone with the link** to show work to someone who won't sign in to Alpha. Pick **Specific people** when the session holds anything you wouldn't post publicly: a forwarded link does nothing for someone who isn't on the list.
+
+<Frame caption="Every session starts Private: the link already exists, but it works only for you.">
+  <img src="/images/sharing/share-dialog-link.png" alt="The Share this session dialog, with a close button at its top right. The description reads: People you let in get a live, read-only view — the chat, the files and the app preview as they happen. They can't send messages, run commands, or change anything. Their watching doesn't keep the machine on: it sleeps once you've been away half an hour, unless the agent is working. Three options follow. Private, with a lock icon and the line Only you. The link is dead for everyone else., is highlighted with a filled check mark. Anyone with the link, with a globe icon, reads No account needed — anyone who opens the URL can watch. Specific people, with a people icon, reads Only the Alpha accounts you list below — the session shows up under Shared with you in their sidebar. Below them, the session's address, https://alpha.new/s/ followed by its code, is dimmed in monospace, with a copy icon at the right. The last line reads Sharing is off — this link currently works only for you." />
+</Frame>
+
+## Share a session
+
+Only the session's owner can change its sharing. Every change takes effect the moment you click. There's no save button.
+
+<Steps>
+  <Step title="Open the Share dialog">
+    Click **Share** (tooltip "Share this session (read-only)") at the top right of the workspace, beside **GitHub**. With the workspace hidden, it sits in the session header instead. The dialog is titled **Share this session**. A small green dot on the button means "Sharing is on".
+  </Step>
+  <Step title="Pick who can watch">
+    Click **Private**, **Anyone with the link** or **Specific people**. The choice applies at once.
+  </Step>
+  <Step title="Add people by email">
+    For **Specific people**, type an address into the field ("viewer@example.com — nobody is whitelisted yet") and press <kbd>Enter</kbd> or click **Add**. Each address becomes a chip. Click its **Remove** (×) to take it off. You can list up to 20 addresses, and they must match the emails people sign in to Alpha with.
+
+    {/* screenshot to capture: /images/sharing/share-dialog-specific-people.png — Each chip is an Alpha account that can watch. The session shows up in their sidebar. */}
+  </Step>
+  <Step title="Copy the link">
+    Click the copy button beside the address. Its tooltip changes from **Copy link** to **Copied**. Clicking the address itself selects it. With **Private** selected the link is dimmed, with the note "Sharing is off — this link currently works only for you."
+  </Step>
+</Steps>
+
+If Alpha refuses a change, the dialog shows the reason in red and puts the setting back. If you'd already closed the dialog, a banner says, for example, "Sharing for "Harbor bookings" wasn't changed: …" with the reason, so a session you think is private never stays shared without a word.
+
+| Message | What to do |
+| --- | --- |
+| "not an email address: …" | Fix the address and add it again. |
+| "at most 20 emails" | Remove someone first, or use **Anyone with the link**. |
+| "email whitelists need accounts — this server runs in guest mode" | Use **Anyone with the link**. See the note below. |
+
+<Note>
+If **Specific people** is greyed out with "Needs accounts — this server runs in guest mode.", your Alpha runs without accounts, so there are no emails to match. Ask whoever runs it, or share by link.
+</Note>
+
+## What can viewers do?
+
+Someone you've shared with, signed in to Alpha, gets the same workbench you use, read-only. The header shows a **view only** badge, followed by "· shared by" and your name when the chat column is wide enough. Its tooltip spells out the deal: they can watch, browse the files and open the preview, but not send messages or change anything.
+
+| Viewers can | Viewers can't |
+| --- | --- |
+| Watch the chat live, with every command, file edit and tool call | Send a message, steer, queue or stop a turn, or use slash commands |
+| Follow the **Plan** and the agents working under it | Open the **Shell**, **Database**, **Auth**, **Secrets** or **Routines** tabs |
+| Browse the [files](/workspace/files), read-only, with your secret values shown as `[redacted]` | Publish, or open **Publish**, **Production Logs** or **Production Metrics** |
+| Open the [**Preview**](/workspace/preview) and use the app | Use **GitHub**, see the session's cost, or add a service from **+** |
+| See the **Agent** tab, and eval results under **Evals** | Rename, fork, reset or delete the session, or change its sharing |
+
+A session with nothing in it yet shows "Nothing here yet — you'll see this session live as its owner works."
+
+{/* screenshot to capture: /images/sharing/share-viewer-workbench.png — A viewer's workbench: the view only badge replaces the controls, and there's no composer. */}
+
+## Watch without an Alpha account
+
+On an Alpha that uses accounts, a visitor who opens an **Anyone with the link** session without signing in gets a lighter page: the transcript alone, streaming live. On an Alpha without accounts, every visitor gets the read-only workbench instead. The header carries the session title, "Alpha · shared session", a status pill ("live", "agent working", "connecting…" or "stream ended") and a **view only** pill.
+
+To see the files and the app as well, the visitor clicks **Sign in for files & preview**. After signing in they land back on the same link, in the read-only workbench. With **Specific people**, a visitor who isn't signed in is asked to sign in first and returns to the link afterwards.
+
+{/* screenshot to capture: /images/sharing/share-observer-page.png — No account needed to watch the chat. Signing in adds the files and the preview. */}
+
+## Find sessions shared with you
+
+Sessions shared with your email appear in your sidebar under **Shared with you**, below your own. Each row shows the owner's name under the title and has no **⋯** menu. A session you opened from a link-only share sits there too while it's open. Search finds shared sessions by title.
+
+Hover a row for its card: "Shared by Priya · view only" and the machine's state. A machine that's asleep reads "Machine asleep · wakes when its owner is back". Watching doesn't wake it while its owner is away from Alpha. The transcript is always there, but the files say "this session's machine is asleep while its owner is away" until the owner returns or work starts.
+
+{/* screenshot to capture: /images/sharing/sidebar-shared-with-you.png — Shared sessions get their own section, with the owner's name on every row. */}
+
+## Stop sharing
+
+Pick **Private** in the **Share** dialog. Every viewer's live view ends at once, and the session leaves their **Shared with you** list. Removing one email does the same for that person only. Someone watching in the workbench is taken off the session and sees "This session is no longer shared with you." A visitor on the transcript-only page sees "The live stream ended — sharing may have been turned off. What's above is what was shared." The transcript they already saw stays on that page until they leave.
+
+<Warning>
+Sharing shows the whole session, including everything before you shared it, and the **Preview** is your running app with its data. Secret values are masked, but anything you typed into the chat or the app is visible. Use **Specific people** for anything sensitive, and set **Private** when you're done.
+</Warning>
+
+A few more rules:
+
+| Rule | What it means |
+| --- | --- |
+| A fork starts private | `/fork` gives the new session its own link and never copies the sharing policy. |
+| Viewers don't keep the machine awake | It sleeps {idlePark} after you leave unless the agent is working, however many people are watching. See [Sleep, wake and reset](/sessions/machines). |
+| Admins can watch any session | They see it read-only, like a viewer, and can switch a session's sharing off with **Turn sharing off** on the [Admin dashboard](/admin). |
+| Your own link opens your workbench | Opening your own `/s/` link takes you straight into the full session. |
+
+## When a link doesn't open
+
+Each of these is a full-page card with an **Open your own Alpha** button that leads to the viewer's own home screen.
+
+| Card | What it says | Why | What to tell the owner |
+| --- | --- | --- | --- |
+| **Nothing here** | "This share link isn't active — it may be wrong, or sharing was turned off." | The session is private, deleted, or the link is mistyped. Alpha shows these the same way on purpose. | Check the link, and turn on **Anyone with the link** or add your email. |
+| **No access** | "this account isn't on the viewer list — ask the owner to add your email" | The session uses **Specific people**, and the account you're signed in with isn't on it. | Add the email you sign in to Alpha with, or sign in with the listed one. |
+| **Can't open this session** | The reason, from Alpha | Something else went wrong, such as a network error. | Usually nothing. Reload the page, and send the owner the message if it persists. |
+
+{/* screenshot to capture: /images/sharing/share-nothing-here.png — A private session and a missing one look identical, so a link reveals nothing. */}
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Setups: ready-made machines" icon="layer-group" href="/sessions/setups">
+    Want someone to build on your work? Save a setup and share it with their email.
+  </Card>
+  <Card title="Publish your app" icon="rocket" href="/publish/publish-your-app">
+    Give people an address that doesn't depend on your session: a published app runs on its own.
+  </Card>
+  <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
+    Why a shared session's files and preview wait for you, and what wakes its machine.
+  </Card>
+  <Card title="Admin dashboard" icon="shield-halved" href="/admin">
+    Admins watch any session and can turn its sharing off from the dashboard.
+  </Card>
+</CardGroup>

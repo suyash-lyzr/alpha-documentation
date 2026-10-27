@@ -1,20 +1,35 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "maple",
   "name": "Alpha",
   "colors": {
-    "primary": "#1a54f0",
-    "light": "#749ff9",
-    "dark": "#1a54f0"
+    "primary": "#1A54F0",
+    "light": "#749FF9",
+    "dark": "#1A54F0"
   },
   "background": {
     "color": {
-      "light": "#fafaf9",
-      "dark": "#0e0e0d"
+      "light": "#FAFAF9",
+      "dark": "#0E0E0D"
     }
   },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
   "fonts": {
-    "family": "Geist"
+    "family": "Geist",
+    "heading": {
+      "family": "Geist",
+      "weight": 600
+    }
+  },
+  "icons": {
+    "library": "fontawesome"
+  },
+  "styling": {
+    "eyebrows": "section",
+    "codeblocks": "system"
   },
   "favicon": "/images/favicon.png",
   "logo": {
@@ -23,6 +38,12 @@
     "href": "https://alpha.new"
   },
   "navbar": {
+    "links": [
+      {
+        "label": "Changelog",
+        "href": "/changelog"
+      }
+    ],
     "primary": {
       "type": "button",
       "label": "Open Alpha",
@@ -32,18 +53,204 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Docs",
+        "tab": "Get started",
         "groups": [
           {
             "group": "Get started",
-            "pages": ["index", "quickstart"]
+            "pages": [
+              "index",
+              "quickstart",
+              "get-started/how-alpha-works",
+              "get-started/prompting",
+              "get-started/choose-the-right-tool"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/landing-page",
+              "guides/data-app",
+              "guides/existing-repo",
+              "guides/ai-agent",
+              "guides/weekly-summary"
+            ]
+          },
+          {
+            "group": "Your account",
+            "pages": [
+              "account/your-account",
+              "account/usage-and-costs"
+            ]
           }
         ]
       },
       {
-        "tab": "Changelog",
-        "pages": ["changelog"]
+        "tab": "Build",
+        "groups": [
+          {
+            "group": "Sessions",
+            "pages": [
+              "sessions/home-screen",
+              "sessions/start-a-session",
+              "sessions/organize",
+              "sessions/fork-and-delete",
+              "sessions/machines",
+              "sessions/setups"
+            ]
+          },
+          {
+            "group": "Chat with the agent",
+            "pages": [
+              "chat/composer",
+              "chat/queue-and-steer",
+              "chat/transcript",
+              "chat/plan-mode",
+              "chat/agents-and-models",
+              "chat/interactive-answers"
+            ]
+          },
+          {
+            "group": "Workspace",
+            "pages": [
+              "workspace/overview",
+              "workspace/preview",
+              "workspace/point-and-draw",
+              "workspace/files",
+              "workspace/file-viewers",
+              "workspace/decks-and-drawings",
+              "workspace/shell",
+              "workspace/database",
+              "workspace/database-data",
+              "workspace/app-sign-in"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Ship",
+        "groups": [
+          {
+            "group": "Publish",
+            "pages": [
+              "publish/publish-your-app",
+              "publish/manage",
+              "publish/production-data",
+              "publish/monitor"
+            ]
+          },
+          {
+            "group": "GitHub",
+            "pages": [
+              "github/connect",
+              "github/branches-and-prs"
+            ]
+          },
+          {
+            "group": "Share and automate",
+            "pages": [
+              "sharing",
+              "routines"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Connect",
+        "groups": [
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/overview",
+              "integrations/connect-apps",
+              "integrations/mcp-servers",
+              "integrations/in-your-app"
+            ]
+          },
+          {
+            "group": "Secrets",
+            "pages": [
+              "secrets"
+            ]
+          },
+          {
+            "group": "Skills",
+            "pages": [
+              "skills/overview",
+              "skills/built-in-skills"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Agents",
+        "groups": [
+          {
+            "group": "Build agents",
+            "pages": [
+              "agents/build-an-agent",
+              "agents/agent-tab",
+              "agents/try-it",
+              "agents/voice-agents"
+            ]
+          },
+          {
+            "group": "Evals",
+            "pages": [
+              "evals/set-up",
+              "evals/run",
+              "evals/results"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/slash-commands",
+              "reference/keyboard-shortcuts",
+              "reference/limits",
+              "reference/machine-environment",
+              "reference/troubleshooting"
+            ]
+          },
+          {
+            "group": "Administration",
+            "pages": [
+              "admin"
+            ]
+          },
+          {
+            "group": "Updates",
+            "pages": [
+              "changelog"
+            ]
+          }
+        ]
       }
     ]
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude"
+    ]
+  },
+  "search": {
+    "prompt": "Search the Alpha docs"
+  },
+  "seo": {
+    "metatags": {
+      "og:site_name": "Alpha docs"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/suyash-lyzr/alpha-documentation"
+    }
   }
 }

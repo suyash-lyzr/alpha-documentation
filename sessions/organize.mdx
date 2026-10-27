@@ -1,0 +1,146 @@
+---
+title: "Find and organize sessions"
+sidebarTitle: "Sidebar and search"
+description: "Pin, group, filter and search your sessions, and read their status at a glance."
+---
+
+The sidebar lists every session you own and every session shared with you. Each row also shows whether the agent is working or waiting for you. To start a new session, go to the [home screen](/sessions/home-screen). To copy a session or remove it for good, see [Fork or delete a session](/sessions/fork-and-delete).
+
+{/* screenshot to capture: /images/sessions/sidebar-overview.png — The pinned sidebar: page rows with their counts at the top, then Pinned, a custom group and the day groups. */}
+
+## Find your way around the sidebar
+
+The rows at the top open Alpha's pages. A count appears beside a row only when it is above zero. Rest the pointer on one of the page rows and Alpha starts loading that page, so it opens faster.
+
+| Row | What it opens | The count shows |
+| --- | --- | --- |
+| **New session** | The [home screen](/sessions/home-screen), where your next prompt starts a session | |
+| **Search** | [Session search](#search-every-session) | |
+| **Published** | Every app published from your sessions ([See everything you've published](/publish/monitor)) | Published apps across your sessions |
+| **Skills** | The [Skills](/skills/overview) page | Skills that are on |
+| **Routines** | Every [routine](/routines) on your account | |
+| **Integrations** | The [Integrations](/integrations/overview) page | Connected services and MCP servers |
+
+Below them, the list runs in this order: **Pinned**, then **Sessions** (your groups, **Ungrouped**, then the day groups), then **Shared with you**. The day groups are **Today**, **Yesterday**, a date for each earlier day of the past week, and **Older**. Your account menu sits at the bottom; [Your account and settings](/account/your-account) covers it.
+
+Press <kbd>⌘</kbd><kbd>B</kbd> (Ctrl on Windows and Linux) to keep the sidebar open or hide it. The button at its top right does the same. While it's hidden, rest the pointer on the window's left edge and the sidebar slides in over the page. It closes when the pointer leaves it, or when you press <kbd>Esc</kbd> while using it from the keyboard. Peeking needs a pointer, so it doesn't work on touch screens.
+
+Click a row to open the session. To open it in a new browser tab, <kbd>⌘</kbd>-click (Ctrl-click), <kbd>Shift</kbd>-click or middle-click it.
+
+## Read a session at a glance
+
+A row shows the session's title and, when something is happening, a mark beside it: the agent's marks sit before the title, a routine's clock after it. The open session's marks change immediately. The others update when the list refreshes, every 12 seconds while the tab is visible.
+
+| Mark | Meaning | What to do |
+| --- | --- | --- |
+| Spinner ("Agent working") | A turn is running. | Nothing. The turn keeps going even if you close the tab. |
+| Amber question-mark bubble ("Needs your input") | The agent is waiting on you: a [question card](/chat/plan-mode), or an action awaiting approval in a Claude Code session set to **Ask me**. | Open the session and answer. The mark clears as soon as you do. |
+| Green clock ("Routine scheduled") | A routine runs in this session on a timetable. | Nothing. See [Routines](/routines). |
+| Pulsing green clock ("Routine running now") | The routine is running now. | Open the session to watch it. |
+| Grey clock ("Routine paused" or "Routine chat — nothing scheduled yet") | A routine session with nothing scheduled. | Resume or schedule it from [Routines](/routines). |
+
+{/* screenshot to capture: /images/sessions/sidebar-row-states.png — Three rows: the agent working, the agent waiting on you, and a scheduled routine. */}
+
+### Rest on a row to see more
+
+Rest the pointer on a row for a little over half a second and a card opens beside it. It shows the prompt the session started with, up to 14 lines of it, because the title is only a short name for it. Under the prompt, the card shows the state of the session's machine. [Sleep, wake and reset](/sessions/machines) explains each state.
+
+| Card line | Meaning |
+| --- | --- |
+| "Machine running" | The machine is awake. |
+| "Machine starting" | The machine is booting or waking. |
+| "Machine asleep · wakes when you open it" | Nothing is lost. Opening the session wakes it. |
+| "No machine yet" | The session has no machine right now. One starts with your next message. |
+
+{/* screenshot to capture: /images/sessions/sidebar-hover-card.png — The hover card shows the first prompt in full, and whether the machine is awake. */}
+
+## Pin, rename and group sessions
+
+Hover a row and click **⋯** ("Session actions") to open its menu. Only sessions you own have one.
+
+| Item | What it does |
+| --- | --- |
+| **Pin** / **Unpin** | Moves the session to **Pinned**, at the top, in the order you pinned. |
+| **Rename** | Opens **Rename session**. Type up to 80 characters and press **Save** or <kbd>Enter</kbd>. You can also type `/rename` in the session's composer. |
+| **Move to group** | Lists your groups A to Z, with a check on the current one. **New group…** opens **New group**: name it (up to 40 characters) and press **Create group**. **Remove from group** appears when the session is in one. |
+| **Delete** | Deletes the session and its machine. See [Fork or delete a session](/sessions/fork-and-delete). |
+
+{/* screenshot to capture: /images/sessions/sidebar-session-menu.png — Move to group lists your groups, with New group… underneath. */}
+
+<Warning>
+**Delete** in this menu doesn't ask first. The session goes, and its machine and files go with it. There is no undo.
+</Warning>
+
+A group is a shared name on its sessions, so it exists only while it holds at least one. Moving the last session out removes the group. With **Group by** set to **Custom groups**, each group gets its own section above **Ungrouped**. Click its name to fold it; the open session stays visible. A pinned session shows under **Pinned** only, not in its group. A [fork](/sessions/fork-and-delete) starts ungrouped.
+
+Right-click a group's name for **Rename group** or **Delete group**. Deleting asks first, in **Delete group?**, for example "“Harbor” will be removed. The 3 sessions in it will no longer be grouped." The sessions stay. Only the grouping goes.
+
+## Filter, group and sort the list
+
+Click the filter icon beside the **Sessions** heading ("Filter, group and sort"). A dot on the icon means your view differs from the defaults. **Reset to defaults** puts them back. Pinned sessions always show, whatever the filters say.
+
+| Choice | Options | Default |
+| --- | --- | --- |
+| **Type** | **All**, **Sessions**, **Routines** (routine sessions only) | **All** |
+| **Last activity** | **1 day**, **3 days**, **7 days**, **30 days**, **All**. Days are calendar days, today included. | **All** |
+| **Group by** | **Custom groups** (your groups, then by day), **Date** (everything by day), **Unread** (an **Unread** section first, then by day), **None** (one list) | **Custom groups** |
+| **Sort by** | **Last activity** (newest first), **Created** (the day groups then go by creation date), **Name** (A to Z) | **Last activity** |
+
+If the filters hide everything, the list says "No sessions match this view."
+
+{/* screenshot to capture: /images/sessions/sidebar-view-menu.png — The view menu with Group by open. The dot on the icon shows the view is no longer the default. */}
+
+A session is unread when a turn started or ended since you last had it open in this browser. Opening it marks it read. Unread is tracked per browser, so reading a session on your laptop doesn't mark it read on another device. A browser you've never used starts with nothing unread.
+
+## What follows you to another device?
+
+Some of the sidebar's state is saved on your account, and some only in the browser you set it in.
+
+| Saved on your account | Saved in this browser only |
+| --- | --- |
+| Groups and which sessions are in them | Pins and their order |
+| The view: **Type**, **Last activity**, **Group by**, **Sort by** | Unread marks |
+| Session names | Folded groups and the folded **Pinned** section |
+
+## Search every session
+
+Click **Search** in the sidebar, or press <kbd>⌘</kbd><kbd>K</kbd>, to open the search box. Press it again to close it. With the field empty, the box lists your sessions, newest first, then the ones shared with you. Type and the results come in two passes. Title matches show at once, with the matched letters underlined. Matches inside messages follow shortly after you stop typing. Each shows its session, when it was last active and a quote of the matching message.
+
+Move through the results with <kbd>↑</kbd> and <kbd>↓</kbd>, press <kbd>Enter</kbd> to open one, and <kbd>Esc</kbd> to close. Inside the [Shell](/workspace/shell) terminal the shortcut belongs to the shell, and in the code editor it belongs to the editor, so use the **Search** row there.
+
+{/* screenshot to capture: /images/sessions/search-dialog-results.png — A title match comes first, then content matches with a quote from the message. */}
+
+| Searched | Not searched |
+| --- | --- |
+| Titles of your sessions and of sessions shared with you | The messages of sessions shared with you |
+| Your messages and the agent's replies, in your own sessions | Commands, tool calls and their output |
+| Parts of paths, emails and URLs, which punctuation splits into words | Files, routines and published apps |
+| The start of longer words, once you've typed 3 letters | Other forms of a word: "vendors" doesn't find "vendor" |
+| | Common English words such as "the" (unless they are all you typed), accent-free spellings of accented words, and words inside Chinese, Japanese or Korean text |
+
+Content matches come from at most 15 sessions, and nothing says when more matched. A session needs to match only one of your words, and the best matches come first, so the most distinctive word you remember works better than a long phrase. Secrets are masked in quotes.
+
+<Tip>
+To point the agent at an earlier session, type `@session:` and a word in the composer. Pick a match and a link to that session goes into your message. See [The composer](/chat/composer).
+</Tip>
+
+## Sessions shared with you
+
+Sessions other people share with your account appear under **Shared with you**, with the owner's name under each title. They are view only. They have no **⋯** menu, so you can't pin, rename, group or delete them. Their hover card says who shared them, for example "Shared by Maya Chen · view only". When the owner's machine is asleep, it adds "Machine asleep · wakes when its owner is back". To share your own sessions, see [Share a session](/sharing).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Fork or delete a session" icon="code-branch" href="/sessions/fork-and-delete">
+    Take a session in a new direction without touching the original, or remove one for good.
+  </Card>
+  <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
+    What the hover card's machine states mean, and when to reset a machine that won't wake.
+  </Card>
+  <Card title="Share a session" icon="share-nodes" href="/sharing">
+    Put a session in a teammate's **Shared with you** list, or open it to anyone with the link.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    <kbd>⌘</kbd><kbd>K</kbd>, <kbd>⌘</kbd><kbd>B</kbd> and every other key Alpha listens for.
+  </Card>
+</CardGroup>

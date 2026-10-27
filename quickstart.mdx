@@ -1,22 +1,129 @@
 ---
-title: "Quickstart"
-description: "Go from a prompt to a running app in a few minutes."
+title: "Build your first app"
+sidebarTitle: "Quickstart"
+description: "Go from one prompt to a running, published app in about 10 minutes."
 ---
 
+import { appUrl, idlePark } from '/snippets/limits.mdx';
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+<Badge>About 10 minutes</Badge>
+
+This guide walks you through one full pass of Alpha: describe an app, watch the agent build it, change it by pointing at it, and publish it. You don't write any code. If you'd rather understand the moving parts first, read [How Alpha works](/get-started/how-alpha-works).
+
+By the end of this guide you will have a booking page for a sailing school, live at its own `https://` address.
+
+{/* screenshot to capture: /images/get-started/quickstart-00-result.png — The finished Harbor booking app, published and open at its own address. */}
+
+## Before you start
+
+- An Alpha account. Open <a href={appUrl}>{appUrl}</a> and sign in, or see [Your account](/account/your-account).
+- Nothing to install. Every session gets its own machine in the cloud, so a browser is all you need.
+- No GitHub. This app lives in the session; you can [connect GitHub](/github/connect) later.
+
+<Warning>
+Keep API keys out of your messages. Anything you type in the composer lands in the transcript. Save keys as [secrets](/secrets) instead, and the agent gets them as environment variables.
+</Warning>
+
+## Build and publish the app
+
 <Steps>
-  <Step title="Open Alpha">
-    Go to [alpha.new](https://alpha.new) and sign in.
+  <Step title="Sign in and open the home screen">
+    After you sign in, Alpha opens on the [home screen](/sessions/home-screen): a greeting, the composer and a row of suggestion chips. There is no session yet. Your first message creates one.
+
+    <Frame caption="The home screen, with the Harbor prompt typed and ready to send.">
+      <img src="/images/get-started/quickstart-01-home.png" alt="The Alpha home screen with the sidebar collapsed to a menu button at the top left. The Alpha by Lyzr lockup sits above the greeting Late one, Alex. The machine's awake if you are. The composer holds the Harbor prompt, which starts Build a class-booking web app for Harbor Sailing School. Its bottom row shows, from the left, the paperclip, the agent chip reading codex, the model chip reading gpt-6.1-sol · high and the plan chip, then the setup chip reading blank machine, the repos chip, the microphone and the round send button. Below the composer are seven suggestion chips: Apps, Agents, Decks & docs, Images & video, Data, Automations and Research." />
+    </Frame>
   </Step>
-  <Step title="Describe what you want to build">
-    Type your idea into the composer and send it. Your first message creates the session and starts its machine.
+  <Step title="Describe the app">
+    Paste this prompt into the composer and press <kbd>Enter</kbd>. It names an outcome and how to check it; [Prompt Alpha well](/get-started/prompting) explains why that matters.
+
+    <PromptCard label="Try this">
+
+    ```text
+    Build a class-booking web app for Harbor Sailing School.
+    Show this week's classes (Beginner Dinghy, Intermediate Keelboat, Sunset Sail) as cards with the day, time, instructor and seats left, each with a Book button.
+    Booking asks for a name and email, takes one seat and shows a confirmation.
+    Keep the data in memory for now.
+    When it works, start it so I can see it in the Preview, and check that booking a class lowers its seats-left count.
+    ```
+
+    </PromptCard>
+
+    Alpha will:
+
+    1. Start a fresh machine for the session, usually in about a second.
+    2. Write the app in the machine's `/workspace` folder.
+    3. Start it on a port and check that booking works.
+    4. Open the Preview beside the chat.
   </Step>
-  <Step title="Watch the agent work">
-    The agent's commands, plans and file edits stream into the chat. Once the app is running, it appears in the **Preview**.
+  <Step title="Watch it work">
+    Your message appears at once, with a status line under it: "Starting a fresh machine…", then "Handing your prompt to the agent…". A seconds counter appears after three seconds. Once the agent has your prompt, the line shows a working word such as "Striking while hot…". [What happens when you start a session](/sessions/start-a-session) covers each phase.
+
+    <Frame caption="The session a moment after sending: the agent has picked up your prompt.">
+      <img src="/images/get-started/quickstart-02-starting.png" alt="A new session moments after the first message was sent, with the sidebar collapsed. The header shows the first 60 characters of the prompt as the title, Build a class-booking web app for Harbor Sailing School. Sho, then a pill with the Codex mark reading codex. The prompt sits in a bubble at the top right of the chat. Below it, a three-by-three pixel loader sits beside the shimmering words Striking while hot…. The composer at the bottom shows the placeholder Add a follow-up, the model chip reading gpt-6.1-sol · high, the plan chip, the microphone and a round Stop button with a square. At the top right are the +, GitHub and Share buttons and a panel button." />
+    </Frame>
+
+    The agent's commands, file edits and thoughts fold into one line with a tally. Click its chevron to see each one, as described in [Follow the agent's work](/chat/transcript). When the app serves a page, the **Preview** tab opens by itself.
   </Step>
-  <Step title="Iterate">
-    Send follow-up messages to change what you see. A message sent while the agent is working steers the current task.
+  <Step title="Check it at phone width">
+    In the Preview toolbar, choose the phone icon, **Mobile · 390px**. The frame narrows in place. If the device switch is hidden, drag the divider to widen the workspace. [Preview your app](/workspace/preview) covers the rest of the toolbar.
+
+    <Frame caption="Mobile narrows the frame, and the app's phone layout takes over.">
+      <img src="/images/workspace/preview-mobile.png" alt="The Preview tab with its toolbar: the Mobile device icon is highlighted, the port pill reads node · 3000, and Draw, Select and Open in new tab sit at the right. The Harbor Sailing School app sits in a narrow, rounded frame centred on the dark workspace. At this width the header holds only the Harbor Sailing School logo and a My bookings button, without the Our classes and Before you sail links. Under the line A little adventure is on the horizon, the headline Good days start on the water. spans the frame, followed by Find your first tack or your next adventure. There's a place on board for you. and Small crews. Fresh air. A new perspective. The sailboat photo, with its Meet you at the harbor. label and a round LESS LAND MORE SEA badge at the corner, sits below the text instead of beside it, and the This week's classes heading, with its count of 3, starts at the bottom." />
+    </Frame>
   </Step>
-  <Step title="Publish">
-    Ask the agent to deploy the app. Everything you publish is listed on the **Published** page with its live address.
+  <Step title="Point at something to change">
+    Click **Select** in the Preview toolbar, then click the description on the **Beginner Dinghy** card. The element becomes a chip in the composer, showing its tag and its first words, so the agent knows exactly which element you mean. Type `Make this text larger on mobile` and press <kbd>Enter</kbd>. Press <kbd>Esc</kbd> to cancel a pick. [Point at and draw on your app](/workspace/point-and-draw) shows the other ways to point.
+
+    <Frame caption="The picked paragraph waits in the composer as a chip, above your request.">
+      <img src="/images/get-started/quickstart-04-select.png" alt="The Harbor bookings session with the Preview on the right, showing the Harbor Sailing School app at desktop width. In the chat's composer, a chip above the text reads p 'Find your balance, catch t…' with an X to remove it, and the typed message reads Make this text larger on mobile. The paragraph the chip names, Find your balance, catch the breeze, and learn the sailing essentials., is the description on the Beginner Dinghy card." />
+    </Frame>
+  </Step>
+  <Step title="Send a follow-up while it works">
+    While the agent works, <kbd>Enter</kbd> **queues** your message: it runs as its own turn after the current one. <kbd>⌘ Enter</kbd> (Ctrl on Windows and Linux) **steers** instead: the message joins the running turn without stopping it. Try queueing `Show a "Full" label on classes with no seats left.` To swap which key does which, open **Account menu → Settings → New messages**. [Queue, steer or stop](/chat/queue-and-steer) has the details.
+  </Step>
+  <Step title="Publish the app">
+    Wait for the agent to finish, then click **Publish** at the right of the workspace tabs. The **Publish to production** popover shows what will go live: **Serves**, **Database**, **Sign-in** and **Access**. Click **Publish**, which sends "Deploy this." to the agent.
+
+    <Frame caption="The Publish to production popover, before anything is sent.">
+      <img src="/images/get-started/quickstart-05-publish.png" alt="The Publish popover open under the Publish pill at the top right of the workspace, beside the GitHub and Share buttons. It is titled Publish to production, with Google Cloud Run · us-east1 beneath. Four rows read: Serves, node · 3000; Database, its own, in production; Sign-in, off; Access, Public · anyone with the URL. A note under them reads The agent names it (the name is its address), builds it from source and publishes it; the Publish tab follows the rollout. Cancel and Publish buttons sit at the bottom." />
+    </Frame>
+
+    <Note>
+    If you don't see **Publish** beside **Share**, publishing isn't turned on for your Alpha.
+    </Note>
+  </Step>
+  <Step title="Name it and open the address">
+    The agent asks for a name in a [question card](/chat/plan-mode). Pick its suggestion or type your own, such as `harbor-bookings`. The name is the start of the app's address, so it can't be changed later. The **Publish** tab opens and follows the rollout through **Export**, **Plan**, **Build**, **Publish** and **Live**. This usually takes 2 to 6 minutes. When the version card shows **Published**, click **Open** on the **Published URL** card.
+
+    {/* screenshot to capture: /images/get-started/quickstart-06-live.png — The rollout finished: the app is live at its own address. */}
+
+    <Check>
+    Your app is live. Anyone with the address can open it, and it keeps running when your session sleeps.
+    </Check>
   </Step>
 </Steps>
+
+## What happens when you close the tab?
+
+The work carries on. Turns run on Alpha's servers, not in your browser, so the transcript is complete when you return. Once no Alpha tab of yours has been visible for {idlePark}, a session with nothing running goes to sleep. Opening it wakes it with every file and process as you left them. Your published app runs outside the session's machine, so it stays up either way. See [Sleep, wake and reset](/sessions/machines).
+
+You have done the core Alpha loop: describe, watch, point, publish.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Add a database and sign-in" icon="database" href="/guides/data-app">
+    Keep Harbor's bookings across restarts and let students sign in, then take both to production.
+  </Card>
+  <Card title="How Alpha works" icon="diagram-project" href="/get-started/how-alpha-works">
+    Sessions, machines, turns and the workspace, and how they fit together.
+  </Card>
+  <Card title="The composer" icon="keyboard" href="/chat/composer">
+    Attach files, mention them with @, pick a model and use slash commands.
+  </Card>
+  <Card title="Publish your app" icon="rocket" href="/publish/publish-your-app">
+    What can be published, the rules for names, and what to do when a build fails.
+  </Card>
+</CardGroup>

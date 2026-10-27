@@ -1,0 +1,161 @@
+---
+title: "Your session's database"
+sidebarTitle: "Database"
+description: "Every session can have its own PostgreSQL 16, switched on in about a second, with connection details and management tools."
+---
+
+import { uploadMax } from '/snippets/limits.mdx';
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+Every session can run its own PostgreSQL 16 server inside the session's machine. It stays off until your app needs it, starts in about a second, and from then on the **Database** tab shows it. This page covers turning it on, connecting to it and managing it. To browse tables, edit rows or run SQL, see [Browse, edit and query data](/workspace/database-data). For the database a published app uses, see [Production database and sign-in](/publish/production-data).
+
+<Badge>Owner only</Badge> People you [share the session](/sharing) with don't see the **Database** tab.
+
+<Frame caption="The Database tab: the server summary on the left, the database picker in the middle, Connect and the actions menu on the right.">
+  <img src="/images/workspace/database-grid.png" alt="The Harbor bookings session with the Database tab in front. The tab strip reads Preview, Shell, Database with its ×, then the file tabs README.md and server.js and the round + button. The toolbar reads, on the left, PostgreSQL 16.15 · 2 databases · up 7 min in small grey type. In the middle is the database picker pill with a blue dot, a database icon, the name forge and a chevron. On the right are Connect with a plug icon and the ⋯ Database actions button. Below, the Tables column lists bookings 8, classes 3, instructors 3, members 6 and schema_migrations 1, with 5 tables · 1 ext at the bottom. The classes table is open in the Data view with three rows, for Beginner Dinghy, Intermediate Keelboat and Sunset Sail. The chat on the left reports that the app now runs on PostgreSQL, with foreign keys across classes, bookings, instructors and members." />
+</Frame>
+
+## Turn the database on
+
+Nothing runs until something needs it, so a new session has no database server and no connection details. There are three ways to switch it on.
+
+| Way | What happens |
+| --- | --- |
+| Ask the agent for anything that stores data | The agent starts the database itself. The **Database** tab appears in the workspace and opens. |
+| **+** → **Database** in the workspace | A dimmed, pulsing **Database** tab appears (its tooltip reads "Starting PostgreSQL in this session's machine…") until the server is up, then the tab opens. |
+| **Install PostgreSQL 16** in the tab | Offered only on machines created before the database existed. It takes about a minute and needs the machine's network. |
+
+The agent uses this database by default whenever a project needs one, rather than SQLite or an in-memory store unless you ask for one. It doesn't switch the database on for projects that don't need it.
+
+<PromptCard label="Try this">
+
+```text
+Save every booking in the database: the member's name and email, the class, and the time slot. Add a migration for the tables and seed three sample classes.
+```
+
+</PromptCard>
+
+Alpha will:
+
+1. Start the session's PostgreSQL and open the **Database** tab.
+2. Write the schema as a migration file in your project, and the sample classes as a seed script, so both can be recreated later.
+3. Point the app at `DATABASE_URL` rather than a hard-coded connection string.
+
+## Connect from your app
+
+Once the database is on, every command the agent runs and every app it starts has these values in its environment. `psql` connects with no arguments, and your app should read `DATABASE_URL`.
+
+```env
+DATABASE_URL=postgresql://forge:forge@localhost:5432/forge
+PGHOST=localhost
+PGPORT=5432
+PGUSER=forge
+PGPASSWORD=forge
+PGDATABASE=forge
+```
+
+The server listens on `localhost` inside the machine, so only the agent's commands, the apps it starts and the [Shell](/workspace/shell) can reach it. Your own computer can't connect to it. The role is a superuser, so `CREATE EXTENSION` and `CREATE DATABASE` work.
+
+To see the values for the database you're looking at, click **Connect** in the toolbar. On a narrow workspace it shows as a plug icon only. Each row has a copy button.
+
+<Frame caption="Connect shows the values the agent's commands already have.">
+  <img src="/images/workspace/database-connect.png" alt="The Connect to forge dialog, with an X to close it. Its text reads: PostgreSQL runs inside this session's sandbox and listens on localhost there — reachable from the agent's commands and anything it starts, not from your machine. Every shell command already has these exported, so psql just works and apps should read DATABASE_URL. A secret named DATABASE_URL overrides it with your own server. Below are six rows, each with a copy button: DATABASE_URL, its value postgresql://forge:forge@localhost:5432/f… cut off at the column's edge, PGHOST localhost, PGPORT 5432, PGUSER forge, PGPASSWORD forge and PGDATABASE forge. The bottom line reads PostgreSQL 16.15 (Ubuntu 16.15-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu · up 8 min." />
+</Frame>
+
+To use a hosted PostgreSQL instead, add a [secret](/secrets) named `DATABASE_URL`. Your value wins over the built-in one, and the agent uses it for the app.
+
+## Switch or create a database
+
+The server can hold more than one database. The picker in the middle of the toolbar lists the session's databases with their sizes, and a check marks the one in view. The default database is the one `DATABASE_URL` points at.
+
+<Frame caption="The picker lists the server's databases with their sizes and checks the one in view.">
+  <img src="/images/workspace/database-picker.png" alt="The database picker open below its pill in the middle of the Database tab's toolbar. The pill reads forge, with a blue dot, a database icon and an up chevron, and the Structure and SQL switch shows at the left. The menu lists forge at 7.6 MB with a check mark, then postgres at 7.3 MB, then New database… with a plus icon." />
+</Frame>
+
+<Steps>
+  <Step title="Open the picker">
+    Click the database name in the middle of the toolbar, then click **New database…**. The item appears only while the server is running.
+  </Step>
+  <Step title="Name the database">
+    Type a name made of letters, digits and underscores, starting with a letter or an underscore, such as `analytics`. A name that's taken shows "analytics already exists." under the field.
+  </Step>
+  <Step title="Click Create">
+    The new database is owned by the same role and opens in the tab at once.
+  </Step>
+</Steps>
+
+The exported `DATABASE_URL` keeps pointing at the default database. To have an app use another one, copy its URL from **Connect**, or tell the agent which database to use.
+
+Below the session's databases, a **Production** section lists the databases of apps you published from this session. Picking one shows that app's production data, tagged **prod**. Alpha reads it from its own server, so the session's machine isn't woken for it. When a published app has a production database, the **Database** tab shows even while the session's own database is off, and opens on production. [Production database and sign-in](/publish/production-data) covers that view.
+
+<Note>
+If you don't see a **Production** section, either nothing you published from this session has a database, or publishing isn't turned on for your Alpha.
+</Note>
+
+## Export, import, reset or drop
+
+The **⋯** button at the right of the toolbar (tooltip "Database actions") holds the actions for the database in view. **Reset** and **Drop** carry its name, such as **Reset analytics…**.
+
+{/* screenshot to capture: /images/workspace/database-actions-menu.png — Reset and Drop are set apart in red at the bottom of the menu. */}
+
+| Action | What it does |
+| --- | --- |
+| **Refresh** | Reloads the tables and rows. Greyed out, marked "unsaved edits", while you have changes in the grid that aren't saved. |
+| **Export SQL dump** | Downloads the whole database as a plain `.sql` file. It leaves out owners and privileges, so it restores into any PostgreSQL, such as a hosted one or a teammate's laptop. |
+| **Import SQL file…** | Runs a `.sql` or `.txt` file you pick, such as a dump or a seed script, up to {uploadMax}. It stops at the first statement that fails and names its line. Statements before it stay applied. On success the toolbar reads "Imported seed.sql into analytics." |
+| **Reset analytics…** | Drops the database and recreates it empty. You confirm with **Reset database**. |
+| **Drop analytics…** | Deletes the database and everything in it. You confirm with **Drop database**. Not offered for the default database. |
+
+With a production database in view, the menu holds only **Refresh**. Production's tables come from the app's migrations or a push from the session.
+
+<Warning>
+Reset and drop can't be undone. Reset empties every table, row and extension in the database, and the agent's running apps lose their connections. Drop removes the database for good. Use **Export SQL dump** first if you might want the data back.
+</Warning>
+
+While a reset or an import runs, the tab locks the data and shows "Resetting database…" or "Importing SQL…". The result appears on the left of the toolbar for a few seconds, such as "analytics was reset — every table is gone." Click an error there to dismiss it.
+
+## What happens to your data?
+
+The database lives on the machine's disk, so it follows the machine. It never follows your app into production.
+
+| When | The session's database |
+| --- | --- |
+| You close the **Database** tab | Keeps running. The **×** only hides the tab ("Close the Database tab (the database keeps running)"). |
+| The machine [sleeps and wakes](/sessions/machines) | Kept. The server comes back with the machine. |
+| You [fork the session](/sessions/fork-and-delete) | Copied. The fork starts with the same databases and rows, and the two go their own ways after that. |
+| An admin resets the session's machine ([Reset the session's machine](/sessions/machines#reset-the-sessions-machine)) | Wiped, with every other file on the machine. The new machine starts with the database off. |
+| You [publish the app](/publish/publish-your-app) | Not copied. The published app gets its own production database, which starts empty. You fill it with migrations or by pushing the session's tables. |
+| You delete the session | Deleted with the session. |
+
+Keep your schema in migration files and your sample data in a seed script, as the agent does by default. Then a reset, a fresh machine or production can be rebuilt from the project.
+
+## When the database isn't available
+
+The tab says why it can't show data, and offers the fix when there is one.
+
+{/* screenshot to capture: /images/workspace/database-off.png — A session that hasn't switched its database on. */}
+
+| The tab shows | What it means | What to do |
+| --- | --- | --- |
+| Grey placeholder bars | The tab is reading the database, or the machine is starting or waking. | Wait a few seconds. The tab fills in by itself. |
+| "The database is off" | The session's database isn't switched on. | **+** → **Database**, or ask the agent. |
+| "PostgreSQL isn't installed in this sandbox" | The machine was created before the database existed. | Click **Install PostgreSQL 16**. The button reads "Installing… about a minute" while it works. |
+| "The database server isn't responding" | The server isn't accepting connections. The error it gave shows below the title. | Click **Start server**, or ask the agent to bring the database back. |
+| "The production database isn't reachable" | A production database picked in the picker can't be reached. | Click **Try again**. See [Monitor and troubleshoot production](/publish/monitor) if it persists. |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Browse, edit and query data" icon="table" href="/workspace/database-data">
+    Filter rows, stage edits and save them in one transaction, or run SQL with completions.
+  </Card>
+  <Card title="Production database and sign-in" icon="server" href="/publish/production-data">
+    Fill production with migrations or a push from the session, and browse it here.
+  </Card>
+  <Card title="Add sign-in to your app" icon="key" href="/workspace/app-sign-in">
+    Let people sign in to your app, and see who has in the Auth tab.
+  </Card>
+  <Card title="The Shell" icon="terminal" href="/workspace/shell">
+    Open a terminal on the machine, where `psql` connects with no arguments.
+  </Card>
+</CardGroup>

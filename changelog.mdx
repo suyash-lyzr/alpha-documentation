@@ -1,16 +1,116 @@
 ---
 title: "Changelog"
+sidebarTitle: "Changelog"
 description: "New features, improvements and fixes in Alpha."
 rss: true
 ---
 
-{/*
-  Add each release at the top as one <Update> block:
+import { appUrl, turnMax, uploadMax, imageMax, fileDownloadMax, folderDownloadMax, queueMax, routineMinInterval } from '/snippets/limits.mdx';
 
-  <Update label="v1.0.0" description="October 2026" tags={["Feature"]}>
-    ## What's new
-    - ...
-  </Update>
-*/}
+The changelog lists what changed in Alpha, newest release first. Each entry describes something you can see or do, and links to the section that explains it. This page has an RSS feed, so a feed reader can tell you when a release lands. For what Alpha does today, start with [How Alpha works](/get-started/how-alpha-works).
 
-Release notes will appear here.
+{/* TODO confirm: the date the docs site goes live; October 27, 2026 is the date this page was written. */}
+
+<Update label="October 27, 2026" description="Docs launched" tags={["Docs"]}>
+
+The Alpha docs are live. The examples and screenshots share one demo, the Harbor Sailing School, so the prompts and pictures fit together from one page to the next.
+
+- [Get started](/quickstart) takes you from a first prompt to a published app, then covers [how Alpha works](/get-started/how-alpha-works), [how to prompt it](/get-started/prompting), [which tool to reach for](/get-started/choose-the-right-tool), [your account](/account/your-account) and [usage and costs](/account/usage-and-costs).
+- Five guides walk through whole jobs: a [landing page](/guides/landing-page), a [data app with sign-in](/guides/data-app), an [existing repository](/guides/existing-repo), a [support-triage agent](/guides/ai-agent) and a [weekly Slack summary](/guides/weekly-summary).
+- Build covers [sessions and their machines](/sessions/machines), [setups](/sessions/setups), [the composer](/chat/composer), [queue and steer](/chat/queue-and-steer), [plan mode](/chat/plan-mode), [the workspace](/workspace/overview), [the Preview](/workspace/preview), [files](/workspace/files), [the database](/workspace/database), [the Shell](/workspace/shell) and [app sign-in](/workspace/app-sign-in).
+- Ship covers [publishing](/publish/publish-your-app), [managing a published app](/publish/manage), the [production database](/publish/production-data), [monitoring](/publish/monitor), [GitHub](/github/connect), [sharing](/sharing) and [routines](/routines).
+- Connect covers [integrations](/integrations/overview), [MCP servers](/integrations/mcp-servers), [secrets](/secrets) and [skills](/skills/overview).
+- Agents covers [building an agent](/agents/build-an-agent), [the Agent tab](/agents/agent-tab), [Try it](/agents/try-it), [voice agents](/agents/voice-agents) and [evals](/evals/set-up).
+- Reference holds [slash commands](/reference/slash-commands), [keyboard shortcuts](/reference/keyboard-shortcuts), [limits](/reference/limits), [the machine's environment](/reference/machine-environment), [troubleshooting](/reference/troubleshooting) and the [admin dashboard](/admin).
+
+</Update>
+
+<Update label="October 26, 2026" description="v0.1.0: Alpha's first production release" tags={["New", "Improved", "Fixed", "Security"]}>
+
+Alpha's first production release runs at {appUrl}. New lists what Alpha does. If you used Alpha before this release, Improved, Fixed and Security list what changed for you.
+
+### New
+
+- Every session runs its own agent, [Codex or Claude Code](/chat/agents-and-models#codex-or-claude-code), on [its own machine](/get-started/how-alpha-works#every-session-has-its-own-machine), with the agent's commands, plans and edits streaming beside a live [Preview](/workspace/preview).
+- A turn can run for up to [{turnMax}](/reference/limits), and it keeps running after you [close the tab](/sessions/machines#what-happens-when-i-close-the-tab).
+- Ask for an agent and Alpha builds it, draws it on the [Agent tab](/agents/agent-tab), and proves it with a live model run.
+- [**Try it**](/agents/try-it) on the Agent tab's canvas bar runs your agent's whole flow on an input you give it and lights up each step as it goes.
+- The [**Evals** tab](/evals/set-up) tests your agent on test cases for each persona and situation, and [**Fix with Alpha**](/evals/results#fix-failures-with-alpha) hands a failure back to the agent.
+- A built-in skill guides the agent when you ask for something people [talk to by voice](/agents/voice-agents), in the browser or over the phone.
+- After you confirm what will be served, the agent [publishes your app](/publish/publish-your-app#publish-your-app) under the name you choose, which becomes its address.
+- Once an app is live, the [**Production Logs** and **Production Metrics** tabs](/publish/monitor) show its log lines, requests, errors, latency and resource use.
+- The [**Published**](/publish/monitor#see-everything-you-ve-published) row in the sidebar lists every app and API published from your sessions, with its state and address.
+- A [routine](/routines) runs a command or an agent turn on a timetable, at most once every {routineMinInterval}, even when nobody has the session open.
+- Connectors, MCP servers and GitHub share one [Integrations catalog](/integrations/overview), and the agent can [ask you to connect](/integrations/connect-apps#when-the-agent-asks-you-to-connect) a service with a card in the transcript.
+- [Global secrets](/secrets#global-or-session-where-should-a-secret-live) reach every session you own, and a session's **Secrets** tab adds secrets only that session gets.
+- When the agent needs a key, it [posts a card instead of asking for it in a message](/secrets#what-happens-when-the-agent-needs-a-key), and **Add** opens the Secrets form with the name filled in.
+- [**Continue with Google** and **Continue with Microsoft**](/account/your-account#sign-in-to-alpha) sign you in to Alpha, and an address outside the allow-list [waits for an admin](/account/your-account#if-you-re-on-the-waitlist).
+- Apps you build get [sign-in of their own](/workspace/app-sign-in) from the **Auth** tab, with the users who signed in and a way to revoke them.
+- Where a picture reads better than prose, the agent [draws its answer](/chat/interactive-answers) as tables, charts, maps, sliders, checklists or quizzes, and formulas show as [typeset math](/chat/interactive-answers#read-formulas-in-a-reply).
+- [Built-in viewers](/workspace/file-viewers) open PDFs, images, HTML, Word, Excel and PowerPoint files, CSV, Excalidraw and BPMN, and a `.tex` file [compiles to a PDF beside it](/workspace/file-viewers#build-a-latex-document).
+- Right-click a file in the file tree to [download it](/workspace/files#download-what-the-agent-made), up to {fileDownloadMax}, or a folder as a `.tar.gz` of up to {folderDownloadMax}, and [search the tree](/workspace/files#find-a-file) by path.
+- The Preview has [**Back** and **Forward**](/workspace/preview#use-the-toolbar) for the app's own history, and a [**Logs** panel](/workspace/preview#read-the-logs) with the browser console and each server's output.
+- Click the mic to [dictate](/chat/composer#dictate-a-message) in any language, and the composer receives the text in English.
+- <kbd>⌘</kbd><kbd>K</kbd> (Ctrl on Windows and Linux) [searches your sessions](/sessions/organize#search-every-session) by title and by what was said in them.
+- Seven chips under the home composer, from **Apps** to **Research**, [suggest concrete prompts](/sessions/home-screen#start-from-a-suggestion) to start from.
+- Text you type in a composer [stays in this browser until you send it](/chat/composer#what-happens-to-my-unsent-text), so a reload or a switch of session no longer loses it.
+
+### Improved
+
+- "Deploy" is now **Publish** in the workbench, and a live app shows a green tick with [**Republish**](/publish/manage#republish-your-changes) as the main button.
+- A message you send while the agent works is [queued or steered](/chat/queue-and-steer), and the [**Settings** page](/account/your-account#change-your-settings) sets which one <kbd>Enter</kbd> does.
+- Up to {queueMax} queued messages, the plan's step line, sub-agents, connect requests and secret requests now share one [tray above the composer](/chat/queue-and-steer#manage-the-queue).
+- Each run of reasoning and tool calls [folds into one summary row](/chat/transcript#open-the-folded-actions), such as "3 commands · 5 searches · 4 thoughts", that opens its details.
+- **Published**, **Skills**, **Routines** and **Integrations** now sit under **Search** in the sidebar, and each session's **⋯** menu holds **Pin**, **Rename**, **Move to group** and **Delete**.
+- Your session groups are [saved to your account](/sessions/organize#what-follows-you-to-another-device), so they follow you to every device.
+- **Usage**, **Settings**, **Global secrets**, **Setups** and **Sign in with ChatGPT/Claude** moved to the [account menu](/account/your-account#find-everything-in-the-account-menu) at the bottom of the sidebar, and the permissions chip is gone.
+- A session's tabs come back as you left them after a reload, and while the machine wakes they [show a loading skeleton](/workspace/overview#what-do-the-tabs-show-while-the-machine-wakes) instead of an error.
+- A long session opens on its newest turns and [loads older ones as you scroll up](/chat/transcript#find-copy-and-export), so it shows sooner.
+- The [Skills page](/skills/overview#install-a-skill-from-the-catalog) opens on **Explore**, with a catalog you can order by **Most popular**, **Newest**, **A–Z** or **By category**.
+- You can [switch off any skill that ships with Alpha](/skills/built-in-skills#switch-a-built-in-skill-off) in your own sessions, built-in skills included.
+- Chat attachments can be up to {uploadMax}, and images over {imageMax} reach the agent [as files](/workspace/files#bring-your-own-files-in).
+- [Masking](/secrets#how-are-values-hidden-in-the-transcript) no longer hides plain email addresses, web addresses without a credential, or everyday values such as production and localhost.
+- If a secret your app uses has been deleted, [Republish](/publish/manage#republish-your-changes) now stops before anything goes live and names the missing secret.
+- The [admin dashboard](/admin)'s **Users** and **Sessions** tabs load 50 at a time, with search and filters run on the server.
+
+### Fixed
+
+- A session no longer loses its machine, and the work done since it [last slept](/sessions/machines#when-does-a-machine-go-to-sleep), when Alpha briefly loses track of the machine during maintenance.
+- A new version of Alpha no longer interrupts your work: a running turn carries on on another server, and an interrupted publish or setup build starts over.
+- Turns no longer fail when a reasoning model is silent for more than two minutes.
+- Sign-in and redirects now work [inside the Preview](/workspace/preview#sign-in-through-another-site), and pages on other sites, such as Stripe Checkout, open in their own window and return.
+- Starting the [database](/workspace/database) no longer opens the Preview on the database's port, and no longer races the machine's own setup.
+- Pen marks on a captured Preview now [land where you drew them](/workspace/point-and-draw#draw-on-the-preview) on high-density screens.
+- The [repository picker](/github/connect#add-a-repository) lists every repository in your GitHub installations, not only the oldest hundred.
+- An image the agent embeds in its answer from the session's files now shows inline and opens in the image viewer.
+- Decks already in a session's files no longer [open by themselves](/workspace/files#which-files-open-by-themselves) the first time you load the session.
+- Codex's own retry notices while a model stream reconnects, such as "Reconnecting... 1/5", no longer show as red error cards of raw JSON.
+
+### Security
+
+<Warning>
+If you used **Production Logs** before this release, the tab may have shown your published apps' environment values, secrets included, to anyone who could open the session. If that matters for your app, rotate the keys it uses and republish.
+</Warning>
+
+- [Production Logs](/publish/monitor#read-your-apps-logs) no longer shows a service's environment values, which it used to print from Cloud Run's audit entries.
+- A [published agent](/agents/build-an-agent) now answers `POST` requests only when they carry the session secret `AGENT_API_KEY` as a bearer token, while its health check stays open. An agent published before this release gets the key only when the agent publishes it again; **Republish** alone makes it public with no key.
+- Alpha's servers and newly built machines, Bun 1.4.4 on them included, reject certificates from the compromised eMudhra intermediate authorities, while machines and [setups](/sessions/setups) made before the rebuild keep Bun 1.4.3, which still accepts them, until they are rebuilt.
+
+</Update>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Build your first app" icon="rocket" href="/quickstart">
+    Go from a prompt to a published Harbor page in one sitting.
+  </Card>
+  <Card title="How Alpha works" icon="diagram-project" href="/get-started/how-alpha-works">
+    Sessions, machines, turns and what leaves the machine, in one read.
+  </Card>
+  <Card title="Limits" icon="gauge" href="/reference/limits">
+    Every number this page mentions, and what happens when you reach it.
+  </Card>
+  <Card title="Troubleshooting and FAQ" icon="life-ring" href="/reference/troubleshooting">
+    Fixes for the messages you might still see after a release.
+  </Card>
+</CardGroup>

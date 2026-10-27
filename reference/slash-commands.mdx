@@ -1,0 +1,181 @@
+---
+title: "Slash commands"
+sidebarTitle: "Slash commands"
+description: "Every command you can type after /, what it does, and where it works."
+---
+
+A slash command is a message that starts with `/` and acts on the session instead of going to the agent as a message. This page lists every command for Codex and Claude Code sessions and for the home screen, with what each one does and when it's refused. For `@` file mentions and `$` skill mentions, see [The composer](/chat/composer#mention-files-sessions-and-skills). The keys that move through the list are in [Keyboard shortcuts](/reference/keyboard-shortcuts).
+
+<Frame caption="A slash at the start of a message opens the command list above the composer.">
+  <img src="/images/chat/chat-slash-palette-codex.png" alt="A Codex session's composer with a single slash typed and the command palette open above it. Each row shows an icon, the command and its description, cut short at the right edge: /model, choose what model and reasoning effort…; /skills, list skills the agent can use…; /review, review my current changes and find is…; /rename, rename this session; /new, start a new session; /delete, permanently delete this session; /fork, fork this session — clones the VM, files a…; /init, create an AGENTS.md file with instructio…; /compact, summarize conversation to prevent hi…. The /model row is highlighted. The footer reads ↑↓ navigate, ↵ select, esc dismiss and, at the right, commands. The composer's bottom row shows the + button, the model chip reading gpt-6.1-s… · high, the plan chip, the microphone and the send button." />
+</Frame>
+
+## How commands work
+
+The list opens only when the whole message is a command: `/` as the first thing you type, with no space yet. In a Codex session, a slash in the middle of a sentence types a plain slash. In a Claude Code session, it opens the list of skills instead, so you can mention one as `/name`. Type more letters to filter. Names that start with what you typed come first, then names that contain it, then commands whose description mentions it.
+
+| You do | What happens |
+| --- | --- |
+| Pick a row with <kbd>↑</kbd> <kbd>↓</kbd> and <kbd>Enter</kbd>, or click it | The command runs at once, or opens its picker or dialog |
+| Type `/name` and an argument, then press <kbd>Enter</kbd> | The command runs with that argument, such as `/rename Harbor waitlist` or `/plan add a waitlist to full classes` |
+| Press <kbd>Esc</kbd> | The list closes |
+| Type a name that matches nothing | The list reads "No matching command" |
+
+Each row shows an icon, the command, an argument hint where the agent's command takes one (such as `[name]` or `<instruction>`), a short description and, for some rows, a tag. The list depends on the session's agent. A Codex session gets Codex's own command list, minus the commands that only make sense in a terminal, plus Alpha's own. A Claude Code session gets Alpha's commands first, then Claude Code's own and the session's own. On the [home screen](/sessions/home-screen#use-commands-before-the-session-exists) you get the list for the agent the next session will run, acting on that next session.
+
+Commands don't wait in the [queue](/chat/queue-and-steer). Some work while the agent is busy. The rest are refused with "'/review' is disabled while a task is in progress.", so wait for the turn to end or stop it first. The table below says which is which.
+
+## Use Alpha's commands
+
+These are Alpha's commands. Both agents get most of them. The **During a turn** column says whether a command still works while the agent is working.
+
+| Command | What it does | Agents | On the home screen | During a turn |
+| --- | --- | --- | --- | --- |
+| `/model` | Opens the **Model** picker for the [model and effort](/chat/agents-and-models#choose-a-model). In Claude Code, `/model <name>` switches straight to that model. | Both | Edits the draft | Works |
+| `/effort <level>` | Sets [reasoning effort](/chat/agents-and-models#set-reasoning-effort) to `low`, `medium`, `high`, `xhigh`, `max` or `ultracode`. `/effort auto` or `/effort default` goes back to the model's own. Bare `/effort` opens the **Model** picker. | <Badge>Claude Code only</Badge> | Edits the draft | Works |
+| `/plan` | Bare, opens the **Plan mode** picker. `/plan on` and `/plan off` switch [plan mode](/chat/plan-mode#switch-plan-mode-on). `/plan` followed by a request switches it on and sends the request as your next message. | Both | `/plan` with a request starts the session in plan mode | Refused |
+| `/review` | Opens **Start a review**. `/review <instructions>` skips the dialog and runs a custom [review](/github/branches-and-prs#review-before-you-merge). In Claude Code, `/code-review` opens the same dialog. Typed with arguments, it runs Claude Code's own review instead, such as `/code-review high --fix`. | Both | Starts the session as a review | Refused |
+| `/new` | Goes to the home screen. The new session starts with your next prompt. | Both | Clears the composer, the staged repos and the name | Refused |
+| `/fork` | Asks "Fork this session?", then **Fork session** copies the machine, files and transcript into a new session. See [Fork a session](/sessions/fork-and-delete#fork-a-session). | Both | Says there's nothing to fork yet | Refused |
+| `/init` | Starts a turn in which the agent writes its instructions file: `AGENTS.md` for Codex, `CLAUDE.md` for Claude Code. | Both | Starts the session with it | Refused |
+| `/compact` | Summarizes the session so far to free up context. A `/compact` chip and a "Context compacted" divider mark the spot in the [transcript](/chat/transcript). In Claude Code, `/compact <instructions>` says what the summary must keep, up to 2,000 characters. | Both | Says there's nothing to compact yet | Refused |
+| `/diff` | Posts a **Workspace diff** card: the uncommitted changes of every repository in the workspace, new files included. | Both | Says there's no workspace yet | Works |
+| `/mention` | Puts `@` in the composer so you can [mention a file](/chat/composer#mention-files-sessions-and-skills) | Both | Same | Works |
+| `/status` | Posts a **Session status** card. See [Read the session status card](#read-the-session-status-card). | Both | Shows the **Next session** card | Works |
+| `/usage` | Opens the [Usage dashboard](/account/usage-and-costs). In Claude Code, `/cost` still gives Claude Code's own cost and plan-limits report. | Both | Same | Works |
+| `/skills` | Posts a **Skills** card listing the [skills](/skills/overview) the agent can use, with how to call them: `$name` in Codex, `/name` in Claude Code | Both | A card of the skills every new session gets | Works |
+| `/mcp` | Posts an **MCP servers** card: each [MCP server](/integrations/mcp-servers) and its tools. In Claude Code, `/mcp reconnect`, `/mcp enable` or `/mcp disable` with a server name runs Claude Code's own command, and that is refused during a turn. | Both | A card of the servers every new session gets | Works |
+| `/agents` | Posts an **Agents** card listing the sub-agents Claude Code can hand work to in this session | <Badge>Claude Code only</Badge> | Says to run it in the session | Works |
+| `/integrations` | Opens [Integrations](/integrations/overview). `/integrations gmail` opens it at that entry. | Both | Same | Works |
+| `/harness` | Inside a session it's refused, because a session keeps its agent for life. On the home screen it opens the **Agent** chip, and `/harness codex` or `/harness claude` [picks the agent](/chat/agents-and-models#pick-the-agent-for-a-new-session). | Both | Picks the agent | Works |
+| `/rename` | Bare, opens **Rename session**. `/rename <name>` renames the session at once. Names are cut to 80 characters. See [Pin, rename and group sessions](/sessions/organize#pin-rename-and-group-sessions). | Both | Names the next session up front | Works |
+| `/delete` | Asks "Delete this session?", then **Delete session** removes the session with its machine and files. See [Delete a session](/sessions/fork-and-delete#delete-a-session). | Both | Says there's nothing to delete yet | Refused |
+
+<Note>
+If you don't see `/harness`, your Alpha offers one agent only, so there's nothing to choose.
+</Note>
+
+<Warning>
+`/delete` can't be undone. The session's machine and files go with it. Fork the session first if you might want it back.
+</Warning>
+
+## Run Claude Code's own commands
+
+<Badge>Claude Code only</Badge> In a Claude Code session, the list goes on past Alpha's commands with Claude Code's own and the session's own. Alpha doesn't handle these. It passes them to Claude Code, which runs each one as a turn in the session. The tag at the end of the row says where a command comes from.
+
+{/* screenshot to capture: /images/chat/chat-slash-palette-claude.png — Tags mark the commands Claude Code runs itself. */}
+
+| Tag | Where the command comes from | Examples |
+| --- | --- | --- |
+| claude | Claude Code's built-in commands that run without a terminal | `/context`, `/security-review`, `/simplify`, `/verify`, `/debug`, `/recap`, `/cost` |
+| skill | [Skills](/skills/overview) installed in the session, including [the ones Alpha ships](/skills/built-in-skills) | `/design-system`, `/slides`, `/search` |
+| custom | Command files in the workspace's `.claude/commands` folder | Whatever your project defines |
+| plugin | Commands from plugins Claude Code has loaded | Named `plugin:command` |
+| mcp | Prompts that a connected MCP server offers | Named after the server and prompt |
+
+The session's own commands join the list when you open it, so a skill the agent wrote a minute ago shows up next time you type `/`. A few things work differently from Alpha's commands:
+
+| Situation | What happens |
+| --- | --- |
+| The agent is working | Every one of these is refused until the turn ends, because each starts a turn |
+| You pick a skill, or a command whose hint is in angle brackets (a required argument) | Alpha puts `/name ` in the composer for you to finish, rather than running it bare |
+| You type a name the list doesn't have | It goes to Claude Code anyway, and Claude Code answers for it |
+| You pick or type one on the home screen | It starts the session, with the command as its first message |
+
+## Which commands does Alpha refuse?
+
+Some commands are listed but can't be used yet, and some are refused outright.
+
+**In Codex sessions**, commands that Codex offers but Alpha hasn't wired up are greyed out and marked **not in Alpha yet**. Picking one says "/resume isn't available in Alpha yet." The list follows the Codex version Alpha runs. Currently it holds `/experimental`, `/approve`, `/memories`, `/hooks`, `/archive`, `/resume`, `/recap`, `/goal`, `/agents`, `/side`, `/btw`, `/export`, `/warnings`, `/apps`, `/plugins` and `/subagents`. Commands that only make sense in a terminal, such as `/quit`, `/clear`, `/copy`, `/theme` and `/logout`, aren't listed at all. Typed anyway, they get "Unknown command: /quit".
+
+**In Claude Code sessions**, these commands are left out of the list. Typed anyway, each is refused with "/name isn't available in Alpha —" followed by the reason in the table.
+
+| Command | Reason Alpha gives |
+| --- | --- |
+| `/config`, `/settings`, `/output-style`, `/color`, `/focus`, `/fast`, `/advisor` | "Alpha sets the session's options (/model, /permissions, /plan)" |
+| `/doctor`, `/checkup`, `/reload-plugins`, `/import` | "Alpha sets up Claude Code in the session's machine" |
+| `/loop`, `/proactive`, `/schedule`, `/routines` | "an Alpha turn ends when its work does and nothing runs on a timer; queue follow-ups while it works instead" |
+| `/login` | "sign in from the sidebar (Claude sign-in)" |
+| `/logout` | "sign out from the sidebar (Claude sign-in)" |
+| `/resume`, `/continue` | "Alpha keeps every conversation; open the session from the sidebar" |
+| `/export` | "the transcript is this page, and /fork copies the whole session" |
+| `/memory` | "CLAUDE.md in the workspace is its memory; /init writes one" |
+| `/add-dir` | "the session's workspace is /workspace; attach a repository to add one" |
+| `/exit`, `/quit` | "close the tab, or /new for another session" |
+| `/batch` | "it fans out into parallel worktree agents, which an Alpha session doesn't run; /fork the session instead" |
+| `/ultrareview` | "it starts a paid review outside Alpha; /review runs one here" |
+| `/list-agents`, `/peers` | "/agents lists the sub-agents this session can use" |
+| `/auto-mode-setup` | "Permissions → Auto turns Claude's auto mode on" |
+| `/usage-credits`, `/extra-usage` | "manage your Claude plan at claude.com" |
+| `/remote-control`, `/rc` | "the session already runs remotely, in Alpha" |
+| `/design`, `/design-sync`, `/design-consent`, `/design-revoke` | "it needs a claude.ai design connection" |
+| `/heapdump` | "it dumps the agent's memory, credentials included" |
+
+**In every session**, `/permissions` isn't offered, because every session runs with full access. Typed, it gets "/permissions isn't offered — every session runs with full access." See [What about permissions?](/chat/agents-and-models#what-about-permissions)
+
+## Read the session status card
+
+`/status` posts a **Session status** card into the transcript. It's the quickest way to check what a session runs on before you ask for something big. On the home screen the same command shows the **Next session** card instead, described on [The home screen](/sessions/home-screen#use-commands-before-the-session-exists).
+
+{/* screenshot to capture: /images/chat/chat-status-card.png — Token usage is the whole session's total. The bar shows how full the context is right now. */}
+
+| Row | What it tells you |
+| --- | --- |
+| **Harness** | The agent: Codex or Claude Code |
+| **Model** | The model and effort, or "sandbox default" (Codex) and "Claude Code's default" when none is set |
+| **Permissions** | The permission mode. New sessions run with full access. |
+| **Mode** | "plan · the agent proposes a plan before building" with plan mode on, otherwise "build" |
+| **Directory** | The working folder, `/workspace` |
+| **Sandbox** | The machine's id and whether it is running or asleep |
+| **Account** | How the agent's model calls are paid for. A Codex session shows "API key" or "Alpha credential proxy". A Claude Code session shows "Claude subscription" when you signed in with your Claude plan, otherwise the key Alpha uses or "not signed in". |
+| **Session** | The agent's own id for the session |
+| **Forked from**, **Setup**, **Repos** | Shown only when the session was forked, started from a [setup](/sessions/setups), or has repositories |
+| **GitHub**, **Integrations**, **Secrets** | Your GitHub login or "not connected", the connected integrations or "none connected", and how many [global secrets](/secrets) your account holds |
+| **Token usage** | Input, cached and output tokens for the whole session so far. Shown once the agent has used some. |
+| **Context window** | How full the model's context is now. The bar turns amber at 70% and red at 90%. `/compact` brings it back down. |
+
+## Messages you might see
+
+| Message | What it means | What to do |
+| --- | --- | --- |
+| "'/review' is disabled while a task is in progress." | The command needs an idle session | Wait for the turn to end, or [stop it](/chat/queue-and-steer#stop-the-agent) |
+| "Unknown command: /quit" | A Codex session has no such command | Check the spelling, or send it as a normal message without the slash |
+| "/resume isn't available in Alpha yet." | A Codex command marked **not in Alpha yet** | Ask the agent in plain words for what you wanted |
+| "/login isn't available in Alpha — sign in from the sidebar (Claude sign-in)." | A Claude Code command Alpha refuses, with the reason | Use what the reason points to |
+| "A session's agent is fixed when it is created — this one runs Codex. Start a new session (/new) to use another." | `/harness` inside a session | Start a new session and pick the agent on the home screen |
+| "/harness takes codex or claude — not "gpt"." | `/harness` on the home screen with a name it doesn't know | Use `codex` or `claude` |
+| "/effort takes low, medium, high, xhigh, max or ultracode (or auto for the model's own) — not "huge"." | `/effort` with a level it doesn't take | Use one of the listed levels |
+| "nothing to compact yet — send a message first" | `/compact` in a session where the agent hasn't run yet | Send a message first |
+| "compact instructions must be at most 2000 characters" | `/compact <instructions>` in Claude Code was too long | Shorten the instructions to 2,000 characters or fewer |
+| "pick a base branch", "enter a commit sha", "review instructions must not be empty" | **Start a review** is missing what the chosen option needs | Fill in the field under the option |
+| "No changes — the workspace matches its last commit." | `/diff` found nothing uncommitted | Nothing. The workspace is clean. |
+| "Nothing to fork yet — this session begins with your first prompt." | A session command on the home screen, where no session exists yet | Send your first prompt, then run it in the session |
+
+A `/rename` name longer than 80 characters is cut, not refused. A command typed with files attached in a Codex session is sent to the agent as an ordinary message. For problems beyond these, see [Troubleshooting](/reference/troubleshooting).
+
+## Mention files, sessions and skills
+
+Two more characters open their own lists in the composer. They are covered in full on [The composer](/chat/composer#mention-files-sessions-and-skills).
+
+| Type | Lists | Inserts |
+| --- | --- | --- |
+| `@` | Files and folders in the session's workspace | `@path`, drawn as a badge |
+| `@session:` and a word | Your other sessions that match the word | A link to the session, which the agent can read |
+| `$` | Skills the agent can use <Badge>Codex only</Badge> | `$name`. In Claude Code, type `/` mid-sentence or pick the skill from the command list to get `/name` instead. |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Queue, steer or stop" icon="forward" href="/chat/queue-and-steer">
+    A command refused mid-turn needs an idle session. Stop the turn, or let it finish.
+  </Card>
+  <Card title="Choose the agent and model" icon="microchip" href="/chat/agents-and-models">
+    Why `/effort` and `/agents` exist only in Claude Code, and when ultracode pays off.
+  </Card>
+  <Card title="Branches, commits and pull requests" icon="code-branch" href="/github/branches-and-prs">
+    Each `/review` option in detail, and how to read the **Workspace diff** card.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    The keys for the palette, the composer and the workspace on one page.
+  </Card>
+</CardGroup>

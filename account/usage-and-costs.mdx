@@ -1,0 +1,180 @@
+---
+title: "Usage, costs and your own plan"
+sidebarTitle: "Usage and costs"
+description: "See what every session costs, how Alpha prices each model, and run sessions on your own ChatGPT or Claude plan."
+---
+
+Usage is what your sessions have cost in model tokens, priced in US dollars. Alpha records every turn and shows the total on the **Usage** dashboard, by day, by session and by model. To change the model a session runs, see [Choose the agent and model](/chat/agents-and-models). Admins who want every account's spend should use the [Admin dashboard](/admin).
+
+<Frame caption="On 30 days, four totals sit above the spend-by-day chart.">
+  <img src="/images/account/usage-dashboard-30d.png" alt="The top of the Usage page, with a menu button and the title Usage at the top left and the range switch Today, 7 days, 30 days and All time at the top right, 30 days selected. Four tiles run across the page: LAST 30 DAYS, $10.16, 20 turns; ALL TIME, $10.16, 10 sessions; SESSIONS, 10, active in this range; and AGENT TIME, 2h 10m, working on your prompts. Below them, the SPEND BY DAY chart reads Sep 29 – Oct 28 at its right, with the dates Sep 29, Oct 4, Oct 9, Oct 14, Oct 19, Oct 24 and Oct 28 along its base and gridlines labelled $5.08 and $10.16 at the right. A single bar, reaching $10.16, stands just before Oct 28; every other day is empty." />
+</Frame>
+
+## Where to see what you've spent
+
+You see only your own sessions' spend. People you [share a session](/sharing) with never see its cost.
+
+| Where | What it shows |
+| --- | --- |
+| Session header | The session's cost so far, at the right of the header, when the chat column is wide enough. An **≈** marks an estimate. Click it to open **Usage**. |
+| `/usage` | Opens the dashboard from any session or the [home screen](/sessions/home-screen). See [Slash commands](/reference/slash-commands). |
+| **Account menu → Usage** | The same dashboard. |
+
+## Read the Usage dashboard
+
+Pick a range at the top right: **Today**, **7 days**, **30 days** or **All time**. The dashboard opens on **30 days** and remembers your choice in this browser. It refreshes every 15 seconds while it's on screen.
+
+| Part | What it tells you |
+| --- | --- |
+| First tile | Spend and turns in the range (**Spent today**, **Last 7 days**, **Last 30 days** or **All time**). |
+| **All time** | Lifetime spend and session count. In the **All time** range it becomes **Turns**. |
+| **Sessions**, **Agent time** | Sessions active in the range, and how long the agent spent working. |
+| **Spend by day** | One bar per day. Past 62 days each bar is a week, and past 400 days each bar is a month. Hover a bar for its cost and turns. |
+| **Sessions** table | Sessions by spend. A pulsing dot means the agent is working there now. Click a row to open it. |
+| **Models** table | Spend per model, with the price used. |
+
+Some columns appear only in a wide window. Until your first turn, the page reads "No usage yet".
+
+{/* screenshot to capture: /images/account/usage-chart-hover.png — Hover a bar to read that day's cost and turn count. Illustrative values. */}
+
+## How is cost worked out?
+
+Alpha records tokens, not dollars, for every turn, `/compact` and `/review`, and prices them when you open the dashboard. A model priced later is priced for its past turns too.
+
+Each model's price comes from the first source that knows it:
+
+| Order | Source | Label in the **Models** table |
+| --- | --- | --- |
+| 1 | A price list set by whoever runs your Alpha | **your price list** |
+| 2 | OpenRouter's public model catalog, refreshed daily | **price catalog** |
+| 3 | OpenAI and Anthropic list prices built into Alpha | **list price** |
+
+**Price per 1M tokens** reads "\$x in · \$y out". Claude rows add a "cache write" price, because Claude charges more to write the prompt cache.
+
+Alpha never guesses a price. A model no source knows counts as \$0 and shows **unpriced** with a warning icon. A notice under the totals names it.
+
+A spend marked **≈** is estimated: "billed from the session's log before exact per-turn accounting existed."
+
+{/* screenshot to capture: /images/account/usage-models-prices.png — Each model's rate and where it came from. Illustrative values. */}
+
+## Who pays for the agent's work?
+
+By default the agent runs on your Alpha's keys, and that is your spend. Sign in with your own ChatGPT or Claude plan and the work bills to your plan instead. This isn't signing in to Alpha; it only decides who pays.
+
+| | Alpha's keys (default) | Your ChatGPT plan | Your Claude plan |
+| --- | --- | --- | --- |
+| Sessions it covers | Codex and Claude Code | Every Codex session you own | Every Claude Code session you own |
+| Who is billed | Your Alpha | OpenAI, through your plan | Anthropic, through your plan |
+| Limits that apply | Your Alpha's | Your plan's rate limits | Your plan's usage limits |
+| Plan you need | None | A paid ChatGPT plan | Claude Pro or Max |
+| How Usage shows it | Spend | A **+\$x sub** chip, outside every total | A **+\$x sub** chip, outside every total |
+
+Work on your plan still shows on the dashboard at its API-price value, in a notice and as a **+\$x sub** chip on each row, but never in a total. A sign-in or sign-out applies from each session's next message; earlier turns keep the billing they ran under. While you're signed in to ChatGPT, a Codex model picked by a `vendor/model` id still runs on your Alpha's key and counts as spend.
+
+{/* screenshot to capture: /images/account/usage-subscription-notice.png — Work on your own plan sits beside the spend, never inside it. Illustrative values. */}
+
+## Run Codex sessions on your ChatGPT plan
+
+<Steps>
+  <Step title="Open your connected accounts">
+    Open the [account menu](/account/your-account) and choose **Sign in with ChatGPT/Claude**. In the **Use your own plan** list, click **Sign in** on the **ChatGPT** row.
+
+    {/* screenshot to capture: /images/account/connected-accounts-list.png — The dot on the link icon means at least one plan is signed in. */}
+  </Step>
+  <Step title="Get a device code">
+    In **Run on your ChatGPT subscription**, click **Sign in with ChatGPT**. The dialog shows a link and a code. "The code expires in 15 minutes."
+
+    {/* screenshot to capture: /images/account/chatgpt-signin-code.png — Copy the code, then open the link and enter it there. */}
+  </Step>
+  <Step title="Approve it at OpenAI">
+    Open the link, sign in to ChatGPT and enter the code. The dialog then shows your email and plan.
+  </Step>
+  <Step title="Send your next message">
+    Each Codex session you own switches on its next message, showing "Applying your ChatGPT sign-in…" while its agent restarts. If the switch fails, it says so and keeps running on your Alpha's key.
+  </Step>
+</Steps>
+
+<Warning>
+Enter or paste a sign-in code only for a sign-in you started yourself, in this dialog. Never use a code someone else sends you.
+</Warning>
+
+Once you're signed in, the dialog offers:
+
+| Control or message | What it does |
+| --- | --- |
+| **Re-check** | Asks OpenAI again, so a plan you changed since signing in shows here. |
+| "This account is on the free plan…" | Codex needs a paid ChatGPT plan, so turns will likely be rejected. Upgrade and press **Re-check**, or sign out. |
+| **Sign out and use the server key** | Returns your Codex sessions to your Alpha's key from their next message. |
+
+While you're signed in, Codex sessions offer the models your ChatGPT plan includes.
+
+## Run Claude Code sessions on your Claude plan
+
+Open **Account menu → Sign in with ChatGPT/Claude** and click **Sign in** on the **Claude** row, or pick **Sign in with Claude…** from the home screen's agent chip. **Run Claude Code on your Claude subscription** offers two ways in.
+
+<Tabs>
+  <Tab title="Paste the code">
+    <Steps>
+      <Step title="Start the sign-in">
+        Click **Sign in with Claude**, then **Open** to approve on claude.com.
+
+        {/* screenshot to capture: /images/account/claude-signin-paste-code.png — Approve on claude.com, then paste the code it shows into this field. */}
+      </Step>
+      <Step title="Approve and paste the code">
+        Copy the code claude.com shows, paste it into the field and click **Submit**. The dialog confirms "Signed in — your Claude Code sessions use it from their next message." **Start over** gets a fresh link.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Paste a setup-token">
+    <Steps>
+      <Step title="Create a token on your own computer">
+        With Claude Code installed on your computer, run `claude setup-token` in a terminal and approve in the browser. It prints a token that starts with `sk-ant-oat`.
+      </Step>
+      <Step title="Paste it into Alpha">
+        In the dialog, click **Already have a token from `claude setup-token`? Paste it**, paste the token and click **Save**. This is the only way in when your Alpha can't run the sign-in itself.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+Alpha stores the token sealed, for your account only, and uses it only for your Claude Code sessions. Once signed in, the dialog shows **Claude subscription** and the date the token is valid until, and warns two weeks before it expires. **Sign in again** renews it. **Sign out and use the server key** switches back; where your Alpha has no Claude key of its own, the button reads **Sign out**.
+
+<Note>
+If the menu row reads **Sign in with ChatGPT** with no **Claude** in the list, or the dialog says "Claude subscription sign-in isn't enabled on this server", Claude sign-in isn't turned on for your Alpha.
+</Note>
+
+## Questions about usage
+
+<AccordionGroup>
+  <Accordion title="Why is a model's spend $0?">
+    **Causes:** no price source knows the model, so Alpha counts it as \$0 rather than guess.
+
+    **Fix:** ask whoever runs your Alpha to add the model to its price list (see [Admin dashboard](/admin)). Past turns are priced as soon as it's there.
+  </Accordion>
+  <Accordion title="Do deleted sessions still count?">
+    Yes. [Deleting a session](/sessions/fork-and-delete) keeps its usage. It shows in the **Sessions** table as "Deleted session", in italics, and can't be opened.
+  </Accordion>
+  <Accordion title="Which time zone are the days in?">
+    Your browser's. **Today** and each bar of **Spend by day** follow the time zone of the device you're looking from.
+  </Accordion>
+  <Accordion title="Does work on my own plan count toward a session's spend cap?">
+    No. If your Alpha caps what one session can spend on its keys, work on your own plan never counts toward it.
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Choose the agent and model" icon="microchip" href="/chat/agents-and-models">
+    The model a session runs sets the price per 1M tokens its turns are billed at.
+  </Card>
+  <Card title="Your account and settings" icon="user" href="/account/your-account">
+    Everything in the account menu, from **Settings** to **Send feedback**.
+  </Card>
+  <Card title="Admin dashboard" icon="gauge" href="/admin">
+    Admins only: every account's spend in one Usage tab, priced the same way.
+  </Card>
+  <Card title="Limits" icon="ruler" href="/reference/limits">
+    How long a turn can run and how big messages and uploads can be.
+  </Card>
+</CardGroup>

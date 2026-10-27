@@ -1,0 +1,231 @@
+---
+title: "Prompt Alpha well"
+sidebarTitle: "Prompting"
+description: "Say what done looks like, give the agent a way to check it, and change one thing at a time."
+---
+
+import { imageMax, promptMax, queueMax } from '/snippets/limits.mdx';
+
+A good prompt is a short brief: what should exist when the turn ends, how you will know it works, and what to leave alone. The agent does the rest, including testing its own work. For what each button in the composer does, see [The composer](/chat/composer). For choosing between plan mode, queueing and forking, see [Choose the right tool](/get-started/choose-the-right-tool).
+
+## Work in a short loop
+
+Small, checkable rounds beat one giant request.
+
+1. **State the outcome.** Say what should exist when the turn ends, in plain words.
+2. **Say what success looks like.** Name the check you will make: "I can book a seat in the Preview."
+3. **Set boundaries.** Say what to leave alone: "Don't add payments yet."
+4. **Let it test.** The agent has its own browser inside the session's machine. It is told to open your app at laptop and phone sizes and check the page before it reports back.
+5. **Change one thing at a time.** Look at the result in the [Preview](/workspace/preview), then send the next focused change.
+
+## Say what done looks like
+
+Give the agent a finish line. Each pair below comes from the Harbor Sailing School booking app.
+
+### A new app
+
+```text Weak
+Make me a booking app for my sailing school.
+```
+
+Why it's weak:
+
+- Nothing says who books, what they book or what the staff need.
+- There is no finish line, so the agent guesses one.
+
+```text Strong
+Build a class-booking app for Harbor Sailing School.
+Students pick a class (Beginner dinghy, Keelboat basics), see open seats
+for the next four weeks, and book with their name and email.
+Staff see every booking for a class on one page.
+Done means: I can book a seat in the Preview, it shows on the staff page,
+and a full class can't be booked. Don't add payments yet.
+```
+
+Why it works:
+
+- Users, data and screens are named.
+- "Done means" gives the agent a test to run before it hands back.
+
+### A bug: describe the symptom, not the fix
+
+```text Weak
+Fix the z-index on the mobile booking button.
+```
+
+Why it's weak:
+
+- It prescribes a cause you haven't confirmed. If the cause is elsewhere, the agent patches the wrong thing.
+
+```text Strong
+The Book button does nothing on mobile. On a phone-width screen, tapping
+Book on the Keelboat basics card shows no form and no error. On a laptop
+it works. Find out why, fix it, and check it at phone width before you
+tell me it's done.
+```
+
+Why it works:
+
+- It says what you did, what you expected and what happened instead.
+- The agent can reproduce it, so it looks for the real cause instead of guessing.
+
+### A design tweak
+
+```text Weak
+Make the homepage look better.
+```
+
+Why it's weak:
+
+- "Better" means something different to everyone. Expect a redesign you didn't ask for.
+
+```text Strong
+Make this heading smaller so the class list shows above the fold on a
+laptop. Keep the font and the colours.
+```
+
+Why it works:
+
+- Sent with the heading picked in the Preview (see the next section), "this heading" is exact.
+- It names one change, the reason for it, and what must not move.
+
+## Show it instead of describing it
+
+Pointing beats describing. Each of these puts exact context ahead of your text, so the agent never guesses which button or line you mean.
+
+| What you have | How to give it to the agent | Learn more |
+| --- | --- | --- |
+| A file: a spreadsheet, a PDF, a screenshot | **Add Attachment** (**+**) in the composer, or drag it onto the composer. Images up to [{imageMax}](/reference/limits) reach the agent as pictures it can see. | [Files and uploads](/workspace/files) |
+| A file already in the workspace | Type `@` and pick it, or drag it from the file tree | [The composer](/chat/composer) |
+| Something on the page | **Select** in the Preview, then click the element | [Point at and draw](/workspace/point-and-draw) |
+| A layout or visual problem | **Draw** in the Preview, mark it up, then **Add to chat** | [Point at and draw](/workspace/point-and-draw) |
+| An error in the app | Open **Logs** in the Preview and click the paperclip ("Attach the last lines to your next message") | [Preview your app](/workspace/preview) |
+| A few lines of code | Select them in the editor, then **Add selection to prompt** or <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>L</kbd> (Ctrl on Windows and Linux) | [Point at and draw](/workspace/point-and-draw) |
+
+<Frame caption="A chip waits above your text until you send.">
+  <img src="/images/workspace/pointing-chips-composer.png" alt="The composer of the Harbor bookings session with one chip above the typed text Make this text larger on mobile. The chip has a dashed-pointer icon, reads p and the quoted start of the paragraph it holds, Find your balance, catch t…, and has a small X on its right. Below the text sit the + button, the model gpt-6.1-s… · high, the plan chip, a microphone and the Send button." />
+</Frame>
+
+Long text works better as a file than pasted in: one message holds at most [{promptMax}](/reference/limits).
+
+## Let the agent ask
+
+When only you can decide something, the agent asks with a question card instead of guessing. Pick an option, type into **Something else…**, or choose **Skip — let the agent decide** to let it go with its recommendation.
+
+When the shape of the work isn't settled yet, switch on [plan mode](/chat/plan-mode) with the plan chip or <kbd>⇧</kbd> <kbd>Tab</kbd>. The agent explores, asks a few questions and proposes a plan. It changes no files until you press **Implement this plan**.
+
+## Keep keys out of your messages
+
+Anything you type lands in the transcript. When the composer holds something shaped like a known key, a warning strip names it.
+
+{/* screenshot to capture: /images/chat/chat-pasted-key-warning.png — The warning is advisory: it never blocks sending. */}
+
+<Warning>
+Never paste API keys, passwords or database URLs into a message. Add them under [Secrets](/secrets) instead. The agent reads them as environment variables, and the values stay out of the transcript. For a GitHub token, connect GitHub in the **GitHub** tab instead.
+</Warning>
+
+## Split big jobs
+
+One message with many unrelated asks gets uneven attention. Break it up.
+
+| When the job is… | Do this | Learn more |
+| --- | --- | --- |
+| Several changes in a row | Send them one at a time while the agent works. By default each one queues and runs in order, up to [{queueMax}](/reference/limits). | [Queue, steer or stop](/chat/queue-and-steer) |
+| Large or unclear | Start in plan mode and agree the plan first | [Plan mode](/chat/plan-mode) |
+| Unrelated to what this session is doing | Start a new session. Each has its own machine, so both can run at once. | [Start a session](/sessions/start-a-session) |
+| A different direction you want to try | Fork the session and try it there | [Fork or delete a session](/sessions/fork-and-delete) |
+
+## Start from an example prompt
+
+These come from the suggestion chips under the composer on the [home screen](/sessions/home-screen). Click a chip, hover a row to preview its prompt, and click the row to fill the composer. A pick replaces whatever you had typed, and nothing is sent, so edit it first.
+
+<Frame caption="The Apps list opens where the chip row was, under the composer.">
+  <img src="/images/sessions/home-suggestions-open.png" alt="The home composer, empty with the placeholder 'Describe what to build — / for commands, @ for files…', above its bottom row: the paperclip, the chips codex, gpt-6.1-sol · high, plan, blank machine and repos, the microphone and the round send button. Below it, in place of the suggestion chips, the Apps panel is open, with the Apps icon and title in its header and a close X on the right. Its rows read: Build a portfolio site and publish it live; Track habits with streaks and reminders; Take bookings for my small business; Manage my team's time-off requests; Run an online store with Stripe checkout; Make a neon snake game for the browser." />
+</Frame>
+
+<Tabs>
+  <Tab title="Apps">
+    ```text
+    Build an appointment booking app for my small business with available slots, email confirmations, and an admin calendar.
+    ```
+
+    ```text
+    Build a habit tracker with Google sign-in, a database, streaks and reminders, then publish it.
+    ```
+  </Tab>
+  <Tab title="Agents">
+    ```text
+    Build a customer support chatbot for my website that answers from my FAQ and hands off to email when it can’t help.
+    ```
+
+    ```text
+    Build a customer-support agent, then test it against 20 tricky questions and show me where it fails.
+    ```
+  </Tab>
+  <Tab title="Decks & docs">
+    ```text
+    Make a ten-slide pitch deck for my startup idea: problem, solution, market, business model, team, and the ask.
+    ```
+
+    ```text
+    Design a one-page sales PDF for an AI note-taking app: the problem, three benefits, a customer quote, pricing and a call to action.
+    ```
+  </Tab>
+  <Tab title="Images & video">
+    ```text
+    Make a 30-second motion-graphics launch video for a budgeting app: an animated title, three features with icons, and an end card with the logo.
+    ```
+
+    ```text
+    Design five logo concepts for a coffee brand called Ember, then show the best one on a cup, a storefront sign and a tote bag.
+    ```
+  </Tab>
+  <Tab title="Data">
+    ```text
+    Create sample sales data for a coffee chain with five stores, then build an interactive dashboard: revenue by store, best sellers and weekly trends.
+    ```
+
+    ```text
+    Make a monthly household budget spreadsheet with categories, formulas, red highlights for overspending and a summary chart.
+    ```
+  </Tab>
+  <Tab title="Automations">
+    ```text
+    Every weekday at 8am, collect the top AI news, summarise the five stories that matter, and email me the digest.
+    ```
+
+    ```text
+    Every Monday, check my three competitors’ blogs and changelogs and send me what changed.
+    ```
+  </Tab>
+  <Tab title="Research">
+    ```text
+    Compare the best laptops under $1,500 for video editing right now: specs, prices, and which one you’d pick for whom, in a clear table.
+    ```
+
+    ```text
+    Plan a week of healthy vegetarian dinners for two, with recipes, prep times and one grocery list grouped by aisle.
+    ```
+  </Tab>
+</Tabs>
+
+<Tip>
+Each suggestion is a starting point. Add your own "done means" line and a boundary before you send it.
+</Tip>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Build your first app" icon="rocket" href="/quickstart">
+    Put the loop to work on a real app, from the first prompt to the Preview.
+  </Card>
+  <Card title="Point at and draw on your app" icon="arrow-pointer" href="/workspace/point-and-draw">
+    Every way to hand the agent an element, a sketch or a selection.
+  </Card>
+  <Card title="Plan mode and the agent's questions" icon="compass-drafting" href="/chat/plan-mode">
+    Agree the approach before any file changes.
+  </Card>
+  <Card title="Choose the right tool" icon="signs-post" href="/get-started/choose-the-right-tool">
+    Plan or build, queue or steer, fork or start fresh.
+  </Card>
+</CardGroup>

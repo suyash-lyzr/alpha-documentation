@@ -1,0 +1,129 @@
+---
+title: "Fork or delete a session"
+sidebarTitle: "Fork and delete"
+description: "Fork a session to try another direction with everything copied, or delete one for good."
+---
+
+A fork is a new session that starts as an exact copy of another one. Its machine, its files and its transcript are copied, so it can take a different direction while the original carries on. Deleting a session removes it, its machine and everything it published, and it can't be undone. To keep the transcript but replace a broken machine, ask an admin to [reset the machine](/sessions/machines#reset-the-sessions-machine) instead.
+
+## Fork, start fresh, reset or delete?
+
+All four actions start from a session you own. They differ in what survives.
+
+| | Fork | New session | Reset the machine | Delete |
+| --- | --- | --- | --- | --- |
+| How | `/fork`, then **Fork session** | **New session** in the sidebar, then a prompt | Ask an admin: **Admin → Sessions → Reset the machine** | **⋯ → Delete** in the sidebar, or `/delete` |
+| Conversation | Copied into the fork | Starts empty | The transcript stays, but the agent starts with no memory of it | Gone |
+| Machine and files | Copied into the fork | A blank machine or a [setup](/sessions/setups) | Replaced with a fresh machine, from the session's setup if it has one | Gone |
+| The original | Untouched | Untouched | Same session, new machine | Gone |
+| Published apps | Stay with the original | None | Kept | Taken offline and deleted |
+| Use it to | Try a risky idea, or compare two directions from the same point | Start unrelated work | Recover from a machine that won't wake or is broken | Clear out work you're finished with |
+
+## Fork a session
+
+Fork when the next step could go wrong, or when you want two versions side by side. For example, fork "Harbor bookings" before you ask the agent to move the booking flow to a new payment provider. If the attempt fails, the original is still where you left it. Only the session's owner can fork it, and only between turns.
+
+<Steps>
+  <Step title="Type /fork in the composer">
+    Open the session and type `/fork`. The palette describes it as "fork this session — clones the VM, files and conversation". If a turn is running, wait for it to end or [stop it](/chat/queue-and-steer) first. Forking mid-turn is refused.
+  </Step>
+  <Step title="Confirm with Fork session">
+    The **Fork this session?** dialog explains what happens: "Alpha clones the whole session — micro-VM, workspace files and the conversation — into a new session you can take in a different direction. Takes ~15 seconds." Click **Fork session**, or **Cancel** to back out. If the original is asleep, Alpha wakes it to take the copy.
+
+    {/* screenshot to capture: /images/sessions/fork-confirm-dialog.png — Forking copies the whole session. The original isn't changed. */}
+  </Step>
+  <Step title="Work in the fork">
+    The fork opens at once at the top of the sidebar, named after the original with "(fork)" added, for example "Harbor bookings (fork)". It shows the copied transcript while its machine is starting. When the copy is ready, a card appears at the end of the transcript: "Forked from **Harbor bookings** — VM, files and conversation were cloned. This session now evolves on its own." Send your next message from there.
+
+    {/* screenshot to capture: /images/sessions/fork-card.png — The card marks where the fork begins. Everything above it is shared history. */}
+  </Step>
+</Steps>
+
+The fork's name is trimmed to 80 characters. Rename it from the sidebar's **⋯** menu or with `/rename`, as described in [Find and organize sessions](/sessions/organize). Later, `/status` in the fork shows a **Forked from** row with the original's name.
+
+### What a fork copies, and what it doesn't
+
+A fork takes everything the machine holds and the messages that built it. The agent remembers them, so you can refer to earlier work as you would in the original. Things that belong to the original session, rather than to its machine, stay behind.
+
+| Copied into the fork | Stays with the original |
+| --- | --- |
+| The transcript, including the agent's own memory of it | Sharing: the fork is private, with its own `/s/` link ([Share a session](/sharing)) |
+| Workspace files, installed packages and uncommitted changes | The group: the fork starts ungrouped, and it isn't pinned |
+| The session database and the data in it | Published apps, and the **Publish** tab |
+| The agent, model, effort, permissions and plan mode | [Session secrets](/secrets). Global secrets apply to every session anyway |
+| The repositories attached to the session, and the setup it came from | [Routines](/routines) |
+| The **Preview**, **Database**, **Auth** and **Agent** tabs | The **Shell**, **Secrets**, **Production Logs** and **Production Metrics** tabs. Open them again from the workspace's **+** menu |
+
+After the card appears, the two sessions are separate. Nothing you do in one reaches the other. The fork works the same way for Codex and Claude Code sessions.
+
+## Delete a session
+
+Deleting is for work you're finished with. Before you delete, push anything worth keeping to GitHub ([Branches, commits and pull requests](/github/branches-and-prs)), because the machine's files go with the session. Only the session's owner can delete it. Sessions shared with you have no **⋯** menu.
+
+There are two ways to delete, and only one of them asks first.
+
+| Where | Asks first? | What you see |
+| --- | --- | --- |
+| Sidebar: hover the row, click **⋯**, then **Delete** | No | The row disappears at once. If a turn or a publish may be running, it stays until Alpha has answered. |
+| Composer: type `/delete` ("permanently delete this session") | Yes | The **Delete this session?** dialog: "Cannot be undone. The session's sandbox and its files are deleted with it." Click **Delete session** to confirm. |
+
+If the session was open, you land on the [home screen](/sessions/home-screen). Another tab that had it open shows "This session was deleted."
+
+{/* screenshot to capture: /images/sessions/delete-confirm-dialog.png — /delete asks first. The sidebar's Delete doesn't. */}
+
+### What goes with a deleted session?
+
+| Deleted with the session | Kept |
+| --- | --- |
+| The transcript | What you pushed to GitHub |
+| The machine and every file on it, including uncommitted and unpushed work | Your global secrets and connected integrations |
+| Every app published from the session: the service, its custom domain and its production database | The setup the session started from |
+| The session's routines and session secrets | Forks of the session, which are separate sessions |
+| The session's app sign-in | Its usage. [Usage](/account/usage-and-costs) still counts it, listed as "Deleted session" |
+
+<Warning>
+Deleting can't be undone. There is no trash and no archive. **Delete** in the sidebar doesn't ask for confirmation, and a published app from the session goes offline for everyone, along with its production data. To set a session aside instead, move it into a group ([Find and organize sessions](/sessions/organize)).
+</Warning>
+
+## When fork or delete is refused
+
+A refusal shows as a red banner at the top of the chat, and nothing changes. If you deleted from the sidebar, the row stays or comes back. Click the banner to dismiss it.
+
+{/* screenshot to capture: /images/sessions/error-banner.png — A refusal leaves the session as it was and says why. */}
+
+| Message | When it appears | What to do |
+| --- | --- | --- |
+| "'/fork' is disabled while a task is in progress." | You typed `/fork` while a turn is running. | Wait for the turn to end, or [stop it](/chat/queue-and-steer), then fork. |
+| "'/delete' is disabled while a task is in progress." | You typed `/delete` while a turn is running. | Wait for the turn to end, or stop it. |
+| "a turn is running" | You deleted a session while its turn is running, from the sidebar or after a turn started behind the `/delete` dialog. | Stop the turn, or wait for it to end. Closing the tab doesn't stop it. |
+| "a deployment is in progress" | The session is publishing an app. | Wait for the version to finish ([Publish your app](/publish/publish-your-app)). |
+| "this session is still being forked — try again in a moment" | You acted on a fork's machine, or deleted the fork, before its card appeared. | Wait for the "Forked from" card, then try again. |
+| "Fork failed: …" in the fork's transcript | The copy couldn't be made. The reason follows the colon. | Delete the fork, then fork the original again. |
+| "Fork failed: the server restarted" | Alpha restarted while copying and couldn't copy again, for example because the original changed or the fork was used in the meantime. | Delete the fork, then fork the original again. |
+| "Nothing to fork yet — this session begins with your first prompt." | You typed `/fork` on the home screen. | Open the session you want to fork first. |
+| "Nothing to delete — no session has been started yet." | You typed `/delete` on the home screen. | Use **⋯ → Delete** on the session's row instead. |
+
+<Note>
+Admins can also delete other people's sessions from the [Admin dashboard](/admin). It refuses in the same situations: while a turn is running, while an app is publishing, or while the session is still being forked.
+</Note>
+
+## Limits and caveats
+
+A fork's copy is taken from the original's machine at the moment you confirm. If Alpha restarts while copying, it copies again, but only while the original has logged nothing new. In that case, changes made in the original's **Shell** since the fork, which leave no trace in the transcript, can come along. Session search shows the shared messages in both sessions, because both transcripts hold them. A fork starts with none of the original's published apps, so it can publish its own up to the per-session limit in [Limits](/reference/limits).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
+    Keep the transcript and swap only the machine, when it won't wake or is past repair.
+  </Card>
+  <Card title="Setups: ready-made machines" icon="server" href="/sessions/setups">
+    Starting the same way every time? Save a machine once and boot every new session from it.
+  </Card>
+  <Card title="Share a session" icon="share-nodes" href="/sharing">
+    A fork starts private. Give it its own link or invite list once it's worth showing.
+  </Card>
+  <Card title="Manage a published app" icon="rocket" href="/publish/manage">
+    Take an app down on its own, without deleting the session that built it.
+  </Card>
+</CardGroup>

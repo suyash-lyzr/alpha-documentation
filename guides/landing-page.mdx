@@ -1,0 +1,174 @@
+---
+title: "Build and publish a landing page"
+sidebarTitle: "A landing page"
+description: "For founders and marketers: a distinctive landing page for Harbor Sailing School, from first prompt to live address, without writing code."
+---
+
+import { appUrl, idlePark } from '/snippets/limits.mdx';
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+{/* TODO confirm: the time badge is an estimate (the publish step alone takes 2–6 minutes, per sandbox/AGENTS.md); time a real run end to end. */}
+
+<Badge>About 30 minutes</Badge>
+
+This guide takes a landing page from one message to a public address, and you never open a code file. You describe the school, pick a look from three questions, fix details by drawing on the page, add a signup form that keeps every email, and publish. To learn the basic loop first, start with the [quickstart](/quickstart).
+
+By the end of this guide you will have:
+
+- a landing page for Harbor Sailing School with a visual direction you chose;
+- a signup form that saves each email to a database;
+- the page live at a public `https://` address you can send to anyone.
+
+{/* screenshot to capture: /images/guides/landing-00-result.png — The finished Harbor Sailing School page at its published address. */}
+
+## Before you start
+
+- An Alpha account. Sign in at {appUrl}.
+- A few facts about the business you want on the page. This guide uses Harbor Sailing School, so you can copy every prompt as it is.
+
+There is nothing to install, and no account with a hosting provider. Alpha runs the page on [the session's own machine](/get-started/how-alpha-works) while you build it, and publishes it for you at the end.
+
+<Note>
+If you don't see **Publish** at the right of the workspace tabs, publishing isn't turned on for your Alpha. You can still do steps 1 to 5; ask whoever runs your Alpha about step 6.
+</Note>
+
+## Build the page
+
+<Steps>
+  <Step title="Describe the school and the feeling you want">
+    On the [home screen](/sessions/home-screen), paste this into the composer and press <kbd>Enter</kbd> to start the session. Say what the business is, what the page must hold and how it should feel. Leave the colours and fonts out: the last line asks the agent to put those to you. If you name a palette and typefaces yourself, the agent builds to your direction and skips the questions.
+
+    <PromptCard label="Try this">
+
+    ```text
+    Build a landing page for Harbor Sailing School, a small sailing school on the harbour front. We teach beginners and families on weekends from April to October, in two-person dinghies, with all the gear provided.
+
+    The page needs a hero with one clear call to action, what a first lesson is like, our three courses (Taster afternoon, Weekend course, Junior club), a short "meet the instructors" section and how to find us.
+
+    It should feel calm, outdoorsy and trustworthy, not corporate. Ask me about the look before you build.
+    ```
+
+    </PromptCard>
+
+    Alpha will:
+
+    1. Create the session and start its machine. Your first message is what creates it.
+    2. Open its [design-system skill](/skills/built-in-skills), which exists to keep pages from looking like generic AI output.
+    3. Ask you three visual questions in one card and wait for your answers before writing any code. It may ask one practical question first, such as what content the page needs.
+
+    {/* screenshot to capture: /images/guides/landing-01-prompt.png — Your first message creates the session; the look is left for the agent to ask about. */}
+  </Step>
+
+  <Step title="Pick a direction from the three visual questions">
+    A card titled **The agent has questions** appears in the transcript, marked "waiting for you". It asks about palette, typography and layout, with four options each. The palette options show their four colour values, and the agent's recommendation comes first. Pick one option per question, or choose **Something else…** and type your own, for example "sea greens with one warm orange accent". Then press **Send answers (3/3)**. **Skip — let the agent decide** takes its recommendations instead. More on these cards in [plan mode and the agent's questions](/chat/plan-mode).
+
+    The agent turns your picks into a short design brief in the transcript and saves it as `styleguide.md` at the project root, so later changes keep the same look. Then it builds the page and starts it. The [**Preview**](/workspace/preview) tab opens by itself as soon as the page answers.
+
+    {/* screenshot to capture: /images/guides/landing-02-directions.png — Three questions, four options each; the agent's recommendation comes first. */}
+  </Step>
+
+  <Step title="Review it at phone width">
+    Many visitors will open the link on a phone. In the [Preview](/workspace/preview) toolbar, choose the phone icon, **Mobile · 390px**. The page narrows in place, as it would on a phone. The tablet icon is **Tablet · 834px**, and **Desktop** returns to full width. If the device icons are missing, the workspace is too narrow for them: drag the divider beside the chat to widen it.
+
+    The agent already checks its pages at laptop, small-laptop and phone sizes before it calls them done, so this pass is about taste. Scroll the whole page and note what you'd change. The Preview reloads itself each time the agent finishes a turn, so you always see the latest version.
+
+    {/* screenshot to capture: /images/guides/landing-03-mobile.png — Mobile · 390px narrows the page in place, without leaving Alpha. */}
+  </Step>
+
+  <Step title="Fix things by drawing on the page">
+    Showing is faster than describing. Choose **Draw** in the Preview toolbar. A dock appears along the bottom with **Draw**, **Arrow**, **Box** and **Numbered pin**. Box the headline, draw an arrow at the button and drop numbered pins on anything else. The page keeps scrolling while you draw, and each mark stays on what it was drawn over. **Undo** is <kbd>⌘</kbd> <kbd>Z</kbd> (Ctrl on Windows and Linux), and <kbd>Esc</kbd> cancels.
+
+    Choose **Add to chat**. Alpha captures the whole page with your marks and attaches it to the composer as an image. Then write what each mark means and send it:
+
+    ```text
+    1: make this button the boldest thing on the page. 2: this paragraph is too long on a phone, cut it to two lines. The boxed headline should say "Learn to sail this summer".
+    ```
+
+    To change a word or a colour yourself, **Edit** lets you "change text, colours and spacing right on the page, then send the changes to the agent". Both are covered in [point at and draw on your app](/workspace/point-and-draw).
+
+    {/* screenshot to capture: /images/guides/landing-04-draw.png — Number your pins, then refer to them by number in your message. */}
+  </Step>
+
+  <Step title="Add a signup form that saves emails">
+    A landing page earns its keep when it collects interest. Ask for a form, and say you want to see the results:
+
+    <PromptCard label="Try this">
+
+    ```text
+    Add a signup form under the hero: "Get the season dates", email only. Save every signup with the time it arrived, show a short thank-you after submitting, and refuse an email that is already signed up.
+    ```
+
+    </PromptCard>
+
+    Alpha will:
+
+    1. Switch on the session's own PostgreSQL database. You don't set anything up: the [**Database**](/workspace/database) tab arrives and opens by itself.
+    2. Create a table for signups and wire the form to it.
+    3. Restart the page's server so it can reach the database. The Preview reloads with the form when the turn ends.
+
+    Test it in the Preview: type an email and submit it. Then open the **Database** tab, pick the signups table and stay on **Data**. Your test row is there. You can also [browse, edit and query the data](/workspace/database-data) from this tab.
+
+    {/* screenshot to capture: /images/guides/landing-05-signups.png — Each submission becomes a row in the session's database. */}
+  </Step>
+
+  <Step title="Publish and share the address">
+    Choose **Publish** at the right of the workspace tabs. The **Publish to production** box shows **Database** as "its own, in production" and **Access** as "Public · anyone with the URL". Choose **Publish**. It sends "Deploy this." to the agent, exactly as if you had typed it.
+
+    The agent asks for the app's name. The name is the address, `https://harbor-sailing-<project number>.<region>.run.app`, so it can't be changed later. Take the suggestion or type your own: lowercase letters, digits and dashes, starting with a letter, at most 40 characters. The **Publish** tab follows the build through **Export**, **Plan**, **Build**, **Publish** and **Live**, usually in 2–6 minutes.
+
+    At **Live**, the agent posts the address in the transcript. Copy it with the link icon beside **Republish** ("Copy the app's link"). The full walkthrough is in [publish your app](/publish/publish-your-app).
+
+    <Warning>
+    The published page gets its own production database, and it starts empty. The test emails you sent in the Preview stay in the session's database and don't move across. The agent creates the signups table in production before it reports the address. To see real signups, open the **Database** tab and choose the app under **Production** in the database picker. See [production data](/publish/production-data).
+    </Warning>
+
+    {/* screenshot to capture: /images/guides/landing-06-live.png — The stepper has reached Live, and the Published URL is the address to share. */}
+  </Step>
+</Steps>
+
+<Check>
+Open the address on your phone and sign up with your own email. The row appears under **Production** in the **Database** tab.
+</Check>
+
+## What happens when I close the tab?
+
+The published page keeps running. It lives outside the session's machine, so it stays up when the machine goes to sleep, {idlePark} after you leave Alpha. The Preview shows your working copy on the session's machine, not the published app, so always share the published address. When you change the page later, ask the agent for the change, then choose **Republish**. Each republish is a new version on the same address, and you can [roll back](/publish/manage) to an earlier version without a new build.
+
+## Make it better
+
+You now have the whole loop: describe, choose a look, review, point, extend and publish. Each of these is one message in the same session. Republish when you're happy with the result.
+
+Compare whole looks for a section before committing to one. The agent builds three small pages that you open in the Preview:
+
+```text
+Show me three directions for the hero. Keep the palette and fonts, and vary the composition and motion.
+```
+
+Replace placeholder imagery with pictures made for the page:
+
+```text
+Generate a hero image of two small dinghies on a calm harbour at golden hour, and use it in the hero with a soft fade into the page.
+```
+
+Get found in search and look good in link previews:
+
+```text
+Add a page title, a meta description and a share image so the link previews well when we post it.
+```
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Add a database and sign-in" icon="database" href="/guides/data-app">
+    Go further than a form: user accounts, saved data and a production database you can seed.
+  </Card>
+  <Card title="Manage a published app" icon="rocket" href="/publish/manage">
+    Republish, roll back to any earlier version, change its settings or delete it.
+  </Card>
+  <Card title="Point at and draw on your app" icon="pen" href="/workspace/point-and-draw">
+    Select one element as context, or edit text and colours on the page.
+  </Card>
+  <Card title="Share a session" icon="share-nodes" href="/sharing">
+    Let a co-founder read the whole build and open the Preview, with no way to change it.
+  </Card>
+</CardGroup>

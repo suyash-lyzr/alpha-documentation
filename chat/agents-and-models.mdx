@@ -1,0 +1,139 @@
+---
+title: "Choose the agent and model"
+sidebarTitle: "Agents and models"
+description: "Pick Codex or Claude Code for a session, set the model and reasoning effort, and know when ultracode is worth it."
+---
+
+Every session runs one coding agent, **Codex** or **Claude Code**, on a model you choose at a reasoning effort you set. Together they decide how the agent works and what each turn costs. To have the agent plan before it builds, see [Plan mode](/chat/plan-mode). To see what a session has spent, or to bill the work to your own plan, see [Usage, costs and your own plan](/account/usage-and-costs).
+
+<Frame caption="You pick the agent on the home screen, before the session exists.">
+  <img src="/images/chat/chat-agent-picker.png" alt="The Agent popover open above the home composer's agent chip, which reads codex and is highlighted. The popover's header reads Agent. The first row, selected with a check mark, has the Codex mark, the title Codex and a default badge, then the lines OpenAI's coding agent, in the session's machine. and Included. The second row has the Claude Code mark and the title Claude Code, then the lines Anthropic's Claude Code (the unmodified CLI), in the session's machine. and Using your Claude plan. The footer reads For the session this prompt starts — a session keeps its agent for life. Switching resets the model to the agent's default. Behind the popover, the end of the greeting, …e's awake if you are., shows at the right, and the composer's bottom row shows the paperclip, the model chip reading gpt-6.1-sol · high, the plan chip, the setup chip reading blank machine, the repos chip, the microphone and the round send button." />
+</Frame>
+
+## Codex or Claude Code?
+
+Codex is OpenAI's coding agent. Claude Code is Anthropic's own command-line agent, run unmodified. Both work in the session's machine, with the same workspace, Preview, database, skills, MCP servers and publishing. The differences are in how you talk to them.
+
+| | Codex | Claude Code |
+| --- | --- | --- |
+| Mention a [skill](/skills/overview) | `$name` | `/name` |
+| File `/init` writes for the agent | `AGENTS.md` | `CLAUDE.md` |
+| A [steer](/chat/queue-and-steer) joins the turn | At the next model call | At the next tool boundary |
+| Suggested next prompts after a turn | No | Yes |
+| Set effort with a command | No, use the Model chip | `/effort` |
+| List the sub-agents it can hand work to | No | `/agents` |
+| Session commands from skills, MCP prompts, `.claude/commands` and plugins | No | Yes, in the `/` menu |
+| **ultracode** effort | No | On models that offer xhigh |
+| Run on your own plan | ChatGPT | Claude (Pro or Max) |
+
+<Tip>
+**Not sure?** Keep the agent marked **default**. You can try the other one in your next session.
+</Tip>
+
+## Pick the agent for a new session
+
+You choose the agent on the [home screen](/sessions/home-screen), with the first chip in the composer. The chip shows the agent's mark and name, and its tooltip reads "The agent (/harness)". Click it and pick **Codex** or **Claude Code** from the **Agent** popover, or type `/harness codex` or `/harness claude`. A name it doesn't recognise gets "/harness takes codex or claude — not "x"."
+
+Each row's last line says how that agent runs for you: "Included" means it runs on your Alpha's keys, and "Using your Claude plan" means it bills your own plan. A row that reads "Connect your Claude account to use it" (or ChatGPT) opens that sign-in when you pick it. Once you're signed in, the agent is picked for you. If the agent you used last can't run for you right now, the chip shows a warning dot and its tooltip says which agent runs instead, for example "Claude Code isn't available to you right now, so this prompt's session runs Codex."
+
+Switching agents resets the model and effort to the new agent's defaults, because each agent has its own models. Plan mode carries over.
+
+<Note>
+If you don't see the agent chip, your Alpha offers only one agent, and every session runs that one.
+</Note>
+
+### Why can't I switch agents inside a session?
+
+A session keeps its agent for life. Codex and Claude Code can't read each other's history, so a switch would quietly throw away everything the agent knows about your work. The badge beside the session title names the agent, and `/status` lists it as **Harness**.
+
+{/* screenshot to capture: /images/chat/chat-harness-badge.png — The badge beside the title says which agent runs the session. */}
+
+Typing `/harness` in a session gets "A session's agent is fixed when it is created — this one runs Codex. Start a new session (/new) to use another." To move the work, push it to GitHub and start a new session on the other agent with the same repository.
+
+## Choose a model
+
+The Model chip sits in the composer, after the agent chip on the home screen. It shows the model's name, plus "· high" or similar once you've set an effort. Click it, or type `/model`, to open the **Model** popover.
+
+<Frame caption="Server default comes first; the effort ladder follows the model in use.">
+  <img src="/images/chat/chat-model-picker.png" alt="The Model popover open above the home composer's model chip, which reads gpt-6.1-sol · high and is highlighted. The popover's header reads Model. The list opens with Server default, selected with a check mark and a default badge, described as Whatever the Alpha server / sandbox snapshot is configured with. Below it come GPT-6.1-Sol, also with a default badge, Latest workhorse model for coding and everyday work.; GPT-6-Astra, Frontier intelligence for the most demanding work.; GPT-6-Sol, Previous generation workhorse model.; and GPT-6-Luna, Fast and affordable model for easier tasks. Under the list, a header reads Reasoning effort · GPT-6.1-Sol, followed by the pills default, low, medium, high, xhigh, max and ultra, each pill after default with small signal bars. The high pill is selected, and the line under the pills reads Greater reasoning depth for complex problems. The footer reads For the session this prompt starts. Change it later with /model. Behind the popover are the greeting Late one, Alex. and the composer's placeholder Describe what to build — / for comma…, and the suggestion chips Apps, Agents, Decks & docs, Images & video, Data, Automations and Research run along the bottom edge." />
+</Frame>
+
+The list is the agent's own, so it differs between Alphas and changes when your Alpha updates its machines. It opens with **Server default**, which runs whatever model your Alpha is set up with and stays selected until you pick another. The model the agent marks as its own default carries a **default** badge too. With Claude Code, the list follows the Claude account the session runs on.
+
+| You want to | Do this |
+| --- | --- |
+| Switch model | Pick a row. In a Claude Code session you can also type a name, for example `/model opus`. |
+| Go back to the default model | Pick **Server default**. |
+| Set the model for your next session | Pick it on the home screen. Alpha remembers the choice in this browser. |
+
+Picking a model resets the effort to that model's default. Changes apply from your next message; a running turn keeps the model it started with. If Alpha refuses a change, the chip goes back and a banner says why.
+
+In a Codex session, a new model sometimes can't pick up the agent's earlier history. The transcript then says "The previous conversation can't be resumed with the current model — starting a fresh agent session (workspace files are kept)." Restate anything the agent needs from earlier in the session.
+
+## Set reasoning effort
+
+Reasoning effort is how long the model thinks before it acts. More effort helps on hard problems and costs more tokens and time. The pills under **Reasoning effort** are the model's ladder, after a **default** pill that leaves the effort to the model. The line under the pills describes the effort you picked.
+
+| Effort | Use it for |
+| --- | --- |
+| low | Quick edits, renames, copy changes and questions about the code |
+| medium | Everyday building |
+| high, xhigh | Hard bugs, refactors across many files, unfamiliar codebases |
+| max | The hardest problems, when a lower effort keeps getting it wrong |
+
+Each model has its own ladder. A Codex model may list a top rung such as **ultra**, which is part of that ladder, not ultracode.
+
+In Claude Code, `/effort high` sets the effort, `/effort auto` returns to the model's default, and a bare `/effort` opens the picker. In Codex, use the Model chip; picking the same model again resets its effort.
+
+## When is ultracode worth it?
+
+Ultracode is xhigh effort plus multi-agent workflows <Badge>Claude Code only</Badge>. For every substantive task, Claude writes a workflow that fans the work out to many agents in phases, then waits for them. It shows as an extra pill with a workflow icon after the ladder, on Claude models that offer xhigh. You can also type `/effort ultracode`. The chip then reads "· ultracode".
+
+{/* screenshot to capture: /images/chat/chat-model-picker-ultracode.png — Ultracode sits apart from the ladder, and the picker says what it costs. */}
+
+<Warning>
+Ultracode multiplies cost. "Each substantive task runs as a workflow of many agents at once — expect several times the tokens, cost and time of xhigh." Turn it on for a large, parallel job, then pick another effort when it's done.
+</Warning>
+
+Use it for work that splits well, such as a migration across many modules or a broad codebase review. For a single bug, xhigh is usually enough and costs far less.
+
+Each workflow appears as a Workflow card in the [transcript](/chat/transcript). The card's **Stop** stops that workflow alone; the composer's stop button stops the whole turn, workflows included. The [Usage dashboard](/account/usage-and-costs) records "ultracode" as the effort.
+
+On a model without xhigh, the picker says "Ultracode needs a model with xhigh effort, and \{model\} has none — it won't take effect here. Pick another effort, or a model that offers ultracode." Where your Claude account or organization turns workflows off, the session runs at xhigh without them, and the transcript says so. To ask for one workflow without changing effort, write the word "ultracode" in your message.
+
+## What about permissions?
+
+Every session runs with full access. The agent installs packages, runs servers and edits files without asking, because its machine is its own and nothing it does reaches your other sessions. There's no permissions chip, and `/permissions` gets "/permissions isn't offered — every session runs with full access."
+
+Older sessions left on another mode show a permissions chip with a shield icon, so you can set them back.
+
+| Chip reads | Codex | Claude Code |
+| --- | --- | --- |
+| full access | **Full access** (default) | **Full access** (default) |
+| auto | **Auto (guardian)** | **Auto (Claude's classifier)** |
+| workspace | **Workspace write**: no dev servers or Preview | **Workspace write** |
+| read only | **Read only** | **Read only** |
+| ask me | Not offered | **Ask me**: Claude asks before each edit or command that needs approval, and the turn waits for you |
+
+Pick **Full access** and the chip disappears for good.
+
+## Run on your own plan
+
+By default the agent runs on your Alpha's keys. Sign in with ChatGPT and Codex sessions bill to your ChatGPT plan, with your plan's models in the list. Sign in with Claude and Claude Code sessions bill to your Claude plan. Each session switches on its next message. [Usage, costs and your own plan](/account/usage-and-costs#who-pays-for-the-agents-work) walks through both sign-ins.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Plan mode and the agent's questions" icon="compass-drafting" href="/chat/plan-mode">
+    Works the same on both agents: the agent explores, asks, then proposes a plan.
+  </Card>
+  <Card title="Follow the agent's work" icon="list-timeline" href="/chat/transcript">
+    Read Workflow and sub-agent cards, and stop one workflow without stopping the turn.
+  </Card>
+  <Card title="Usage, costs and your own plan" icon="receipt" href="/account/usage-and-costs">
+    See what each model and effort has cost, priced per token.
+  </Card>
+  <Card title="Slash commands" icon="terminal" href="/reference/slash-commands">
+    Every command in Codex and Claude Code sessions, including `/model` and `/effort`.
+  </Card>
+</CardGroup>

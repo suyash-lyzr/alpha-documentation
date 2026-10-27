@@ -1,0 +1,145 @@
+---
+title: "Browse, edit and query data"
+sidebarTitle: "Data, structure and SQL"
+description: "Edit tables like a spreadsheet, read their structure, and run SQL, all inside the Database tab."
+---
+
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+The Database tab's browser shows the tables of the database you pick in your session's PostgreSQL, in three views. **Data** is an editable grid, **Structure** shows how a table is built, and **SQL** runs queries against the whole database. To switch the database on, pick another database, connect from code or export a dump, see [Your session's database](/workspace/database).
+
+<Frame caption="Pick a table on the left, and its rows open in the Data grid.">
+  <img src="/images/workspace/database-grid.png" alt="The Database tab of the Harbor bookings session. The left column has a Tables filter box above the list bookings 8, classes 3, instructors 3, members 6 and schema_migrations 1, with classes selected. Above the grid sits the view switch reading Data, Structure and SQL, with Data active and the table name classes beside it. The grid toolbar shows Filter and a Search rows box on the left, and Refresh, Delete and Add row on the right. The column headers read id with a key icon, title, category, level and description, each with its type in small grey text. Three rows follow, for Beginner Dinghy, Intermediate Keelboat and Sunset Sail, with ids such as beginner-dinghy-2026-10-28. The footer reads 1–3 of 3 · 1 ms beside the Previous page and Next page arrows, with the page-size picker reading 100 rows on the right." />
+</Frame>
+
+## Find the rows you need
+
+The column on the left lists the database's tables, then its views (eye icon). Tables outside the `public` schema are grouped under their schema's name. A count prefixed with `~` is PostgreSQL's estimate, not an exact count. Type in **Tables** to narrow the list, and click a table to open it. While this browser tab stays open, Alpha remembers which table you had open in each database, and where you left each table: its page, sort, filters and search.
+
+In the **Data** view, the toolbar narrows the rows. Alpha runs each change as a query on the database, so sorting and filtering cover the whole table, not only the page on screen.
+
+| To | Do this |
+| --- | --- |
+| Sort | Click a column header. Click again to reverse the order, and a third time to clear it. <kbd>⌘</kbd>-click another header (Ctrl-click on Windows and Linux) to sort by it as well, up to four columns. |
+| Filter | Click **Filter**, pick a column, an operator and a value, then **Apply**. **Add filter** stacks another condition, and every condition must match. Each filter shows as a chip; click a chip to remove it (**Remove filter**), or click **Clear** in the popover. |
+| Search | Type in **Search rows**. Alpha matches the text anywhere in any column, ignoring case. |
+| Page through | Use **Previous page** and **Next page** in the footer. The picker on the right shows **50 rows**, **100 rows**, **250 rows** or **500 rows** per page. It starts at 100, and this browser remembers your choice. |
+| Copy a value | Click a cell and press <kbd>⌘</kbd><kbd>C</kbd>. |
+
+Hover a column header to see its full type, and the table it points to if it's a foreign key.
+
+The **Filter** operators:
+
+| Operator | Matches rows where the column… |
+| --- | --- |
+| **=**, **≠**, **>**, **≥**, **&lt;**, **≤** | compares to the value as stated |
+| **contains** | includes the text anywhere, ignoring case |
+| **LIKE**, **ILIKE** | matches a PostgreSQL pattern, such as `%harbor%`. **ILIKE** ignores case. |
+| **in list** | equals one of a comma-separated list, such as `a, b, c` |
+| **is NULL**, **is not NULL** | is empty, or isn't. These take no value. |
+
+## Edit rows like a spreadsheet
+
+Changes in the grid aren't written one cell at a time. They're staged, then saved together in one transaction, so a save either applies completely or not at all.
+
+{/* screenshot to capture: /images/workspace/database-grid-editing.png — Three staged changes, each marked in the grid. Nothing reaches the database until you save. */}
+
+| To | Do this |
+| --- | --- |
+| Change a cell | Double-click it, or select it and press <kbd>Enter</kbd>. Type, then press <kbd>Enter</kbd> or <kbd>Tab</kbd>, or click outside, to keep the edit. <kbd>Shift</kbd><kbd>Enter</kbd> adds a line break. <kbd>Esc</kbd> cancels. |
+| Set NULL or the default | In the cell editor, click the **NULL** chip, or **DEFAULT** to let PostgreSQL fill in the column's default. Each chip appears only where the column allows it. |
+| Add a row | Click **Add row**. A green row opens at the bottom, with the editor open on the first column that has no default. Columns with a default, such as an identity or serial key, show **DEFAULT** and are filled when you save. A column you must fill shows **required**. |
+| Delete rows | Tick the rows' checkboxes and click **Delete**. They turn red and struck through. Select them again and click **Undelete** to keep them. |
+| Save | Click **Save** with the count, such as **Save 3 changes**. A green bar confirms, for example "Saved — 1 updated, 1 added, 1 deleted." |
+| Throw changes away | Click **Discard** ("Discard all changes"). |
+
+If PostgreSQL rejects a save, nothing is applied. The row that failed is outlined in red, the error shows above the grid, and your changes stay staged so you can fix them and save again. One save takes at most 1,000 changes.
+
+Staged edits survive switching between Data, Structure and SQL. The badge in the header, such as "3 unsaved changes", takes you back to them. While edits are unsaved, sorting, the paging arrows and the page-size picker are locked, and hovering the row count or the picker shows "Save or discard your changes first". **Refresh** gives way to **Discard** and **Save**, and **Refresh tables and rows** under the table list waits too. Opening another table asks "Discard 3 unsaved changes in bookings and open classes?", with **Keep editing** and **Discard**.
+
+Some tables can't be edited, and the footer says why:
+
+| Footer chip | Meaning |
+| --- | --- |
+| **read-only** | A view, a materialized view or a foreign table. The chip's tooltip reads "Views and foreign tables are read-only here". |
+| **no primary key** | You can edit, but Alpha finds each row by its physical position, which PostgreSQL can change during cleanup (`VACUUM`). Add a primary key for safe editing. |
+
+Generated columns, and identity columns that PostgreSQL always fills, can't be typed into. A read or save that waits more than 5 seconds for a lock gives up. This usually means the agent is running a migration on that table, so try again once it finishes.
+
+## Read a table's structure
+
+**Structure** shows how the open table is built. **Columns** lists each column with its type, chips such as **pk**, **not null**, **unique**, **identity** and **generated**, and its default or the table it points to. **Indexes** and **Constraints** (foreign keys, unique and check constraints) follow.
+
+<Frame caption="Columns lists each column's type, chips and default or reference. Indexes follows.">
+  <img src="/images/workspace/database-structure.png" alt="The Structure view of the classes table. The heading reads classes, then table · 3 rows · 64.0 KB. The Columns section, with the count 13, lists id with a key icon, the type text and a pk chip; title varchar(100); category, level and description as text; class_date date; start_time and end_time time; instructor_id uuid with a link icon and an arrow to instructors(id); capacity int4; image and image_alt text; and created_at timestamptz with default now(). Every column after id carries a not null chip. Below, the Indexes section, with the count 3, lists classes_date_idx, classes_instructor_idx and classes_pkey, marked primary, each with its USING btree definition." />
+</Frame>
+
+**Definition** is rebuilt from PostgreSQL's catalog, not dumped byte for byte. Click **Copy SQL** to copy it.
+
+<Tip>
+Paste the copied definition into the composer with the change you want, such as "Add a waitlist_position column to this table." The agent then starts from the real schema, not from its memory of it.
+</Tip>
+
+## Run SQL
+
+**SQL** opens an editor on the whole database, with completions for its tables and columns. Write a query and click **Run**, or press <kbd>⌘</kbd><kbd>Enter</kbd>. If you select part of the text, only the selection runs. While the editor is empty it suggests a query for the open table; click the suggestion to insert it.
+
+<Frame caption="The bar between the editor and the results gives the command, the row count and the time.">
+  <img src="/images/workspace/database-sql.png" alt="The SQL view, with the database name forge beside the view switch. The editor holds one query: SELECT c.title, c.capacity, count(b.id) AS booked, c.capacity - count(b.id) AS seats_left FROM classes c LEFT JOIN bookings b ON b.class_id = c.id GROUP BY c.id ORDER BY c.class_date;. The bar below reads Run with its shortcut, then SELECT, 3 rows and 1 ms. The results grid has the columns title, capacity, booked and seats_left, each with its type, and three rows: Beginner Dinghy 8, 4, 4; Intermediate Keelboat 6, 2, 4; and Sunset Sail 10, 2, 8." />
+</Frame>
+
+| What you see | Meaning |
+| --- | --- |
+| The command, the row count and the time, such as "SELECT 3 rows · 1 ms" | The query ran. Statements that return no rows show their command, such as `UPDATE 3`, and "no result set". |
+| A **first 500 rows** chip | The result had more rows. Only the first 500 are shown, so add a `LIMIT` or a filter. |
+| A red message, with a red marker in the editor | PostgreSQL refused the query. The marker sits where it found the problem, and its **DETAIL** and **HINT** lines show below. |
+| A message at the far right of the bar | The last notice PostgreSQL sent, such as a warning from `DROP TABLE IF EXISTS`. |
+
+Each query runs on its own and commits straight away. A script of several statements runs as one transaction, so all of it applies or none does. A query is stopped after 55 seconds. After any statement that isn't a read, such as a `CREATE TABLE` or an `INSERT`, the table list and the open table's rows refresh by themselves.
+
+Drag the bar to give the editor or the results more room. What you've typed is kept in this browser, per database.
+
+<Warning>
+SQL in a session's database runs with full rights over it, and on a production database with the same rights as your app. There's no undo. `DROP`, `DELETE` and `TRUNCATE` take effect the moment they run, and your app sees the change at once. Export a dump first if you might want the data back; [Your session's database](/workspace/database) shows how.
+</Warning>
+
+{/* TODO confirm: whether the 500-row result cap, the 55 s query timeout, the 1,000-change save cap and the 5 s lock wait belong in snippets/limits.mdx and on /reference/limits. They are hard-coded in sandbox/dbquery.py and deploy_db_browse.go, so they are written out here. */}
+
+## What if the database has no tables?
+
+A database with no tables says "No tables in" followed by the database's name, with "Ask the agent to create your schema — it already has DATABASE_URL — or write the SQL yourself." **Open SQL** takes you to the editor. The agent is usually the faster route, because it writes the migration into your app's code as well.
+
+<PromptCard label="Try this">
+
+```text
+Create the schema for Harbor bookings: members, classes, instructors and bookings, with foreign keys and sensible defaults. Write it as a migration in the app, run it, and seed a week of sample classes.
+```
+
+</PromptCard>
+
+Alpha will:
+
+1. Write a migration file in your app's code and run it against the session's database.
+2. Insert sample rows, so the **Data** view has something to show.
+3. Tell you which tables it created. If the Database tab was already open, click **Refresh tables and rows** under the table list to see them.
+
+<Note>
+The Database tab is for the session's owner. [People you share the session with](/sharing) don't see it. The same three views also open on a published app's production database, chosen in the database picker; saves and SQL there change your live app's data. See [Production database and sign-in](/publish/production-data).
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Your session's database" icon="database" href="/workspace/database">
+    Switch PostgreSQL on, add a second database, connect from code, or export, import and reset.
+  </Card>
+  <Card title="Production database and sign-in" icon="server" href="/publish/production-data">
+    Your published app gets its own empty database. Bring the session's tables over when you're ready.
+  </Card>
+  <Card title="The Shell" icon="terminal" href="/workspace/shell">
+    Run `psql` against the same database from a terminal on the session's machine.
+  </Card>
+  <Card title="Add a database and sign-in, then go to production" icon="route" href="/guides/data-app">
+    A guided build that takes Harbor's data from the session all the way to production.
+  </Card>
+</CardGroup>

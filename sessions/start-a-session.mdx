@@ -1,0 +1,127 @@
+---
+title: "What happens when you start a session"
+sidebarTitle: "Starting a session"
+description: "Your first message creates the session, boots its machine in about a second, and hands the prompt to the agent."
+---
+
+import { promptMax, reposMax, uploadMax, imageMax, disk, turnMax } from '/snippets/limits.mdx';
+
+A session starts the moment you send your first message from the [home screen](/sessions/home-screen). Alpha creates the session, boots a machine for it alone, and hands your prompt to the agent, usually before you have finished reading your own message. To choose the agent, model, setup or repositories first, set them on the home screen. To go back to a session you already started, find it in the [sidebar](/sessions/organize).
+
+{/* screenshot to capture: /images/sessions/session-first-turn.png — A few seconds in: the agent is working, with the files panel open beside the chat. */}
+
+{/* Reviewer note: home.tsx StartingChrome ("Starting a fresh machine…", "Starting a machine from {setup}…", "Uploading your files into it…", "Handing your prompt to the agent…") renders inside the home screen, which workbench.tsx hides (`creating` → invisible, inert) for the whole creation. The lines a person sees come from lib/session-start.ts startNoteLabel and start-rows.tsx, which is what this page documents. */}
+
+## What happens when you press Enter?
+
+Starting a session takes four stages. Keep the tab open until your message has gone: attached files upload from your browser, and the message follows them. Once the agent has it, the turn runs on Alpha's servers, so you can close the tab and the work carries on.
+
+<Steps>
+  <Step title="Send the first message">
+    Press <kbd>Enter</kbd> in the home composer, or click the arrow button (**Start the session**). Everything you set on the home screen goes with the message: the agent, the model and effort, the permissions, plan mode, the setup, the repositories and any name you gave the session. Alpha creates the session and starts booting its machine at once, while your message is still on its way. While the session is being created, a second <kbd>Enter</kbd> does nothing, so you never get two sessions by accident.
+  </Step>
+  <Step title="Watch the session open">
+    The home screen dissolves into the session's layout, and the composer glides down to the bottom of the chat. Your message appears straight away as your bubble at the top of the transcript, and the header already carries the session's name: at first, the opening of your message. If sending takes more than a second, "Sending…" shows under the bubble. Browsers without view transitions, and systems set to reduce motion, skip the animation.
+
+    <Frame caption="Your message lands first, and the working line shows the agent has picked it up.">
+      <img src="/images/sessions/session-starting.png" alt="A new session moments after the first message was sent, with the sidebar collapsed. The header shows the first 60 characters of the message as the title, Build a class-booking web app for Harbor Sailing School. Sho, then a pill with the Codex mark reading codex. At the top of the transcript, the message asking for a class-booking web app for Harbor Sailing School sits in a bubble on the right. Below it, a three-by-three pixel loader sits beside the shimmering words Striking while hot…. The composer at the bottom shows the placeholder Add a follow-up, the model chip reading gpt-6.1-sol · high, the plan chip, the microphone and a round Stop button with a square. At the top right are the +, GitHub and Share buttons and a panel button." />
+    </Frame>
+  </Step>
+  <Step title="Let your files upload">
+    Attached files wait for the machine, then upload into `/workspace/uploads/`. Meanwhile a status line directly above the composer reads "Uploading 2 files…", with a seconds counter after three seconds. Each file adds a line such as `[Attached file: uploads/class-schedule.csv (12.4 KB)]` to your message, so the agent knows where to look. Images up to {imageMax} also reach the model as pictures it can see. [Files and uploads](/workspace/files) covers attaching more later.
+
+    {/* screenshot to capture: /images/sessions/session-uploading.png — Files go up once the machine is running, then the message goes to the agent. */}
+  </Step>
+  <Step title="Follow the first turn">
+    The machine boots from a ready image in about a second, with the agent already warm inside it. Repositories you chose are cloned before the turn begins; a [setup](/sessions/setups) starts with them in place. While the agent works, a pixel loader shows a rotating word such as "Thinking…" or "Striking while hot…" and counts the seconds. Then the transcript streams commands, edits and messages live; [Follow the agent's work](/chat/transcript) explains each part. Until the machine is up, the files panel reads "Sandbox is loading…" and workspace tabs that read from the machine, such as **Preview** and **Database**, show grey placeholder bars. They fill in by themselves once it is running.
+  </Step>
+</Steps>
+
+A first message that is a command, such as `/init`, opens the session with the command as a chip instead of a bubble. The status line reads "Starting the machine…" until the agent takes the command. With files attached, it reads "Uploading 2 files…" first, then "Handing /init to the agent…".
+
+## How does the session get its name?
+
+A session's name changes twice in its first moments, then stays put until you change it.
+
+| When | The name | Example |
+| --- | --- | --- |
+| When the session is created | "New session", or the name you gave it with `/rename` | New session |
+| As the first message lands | The first 60 characters of that message | Build a class-booking web app for Harbor Sailing School. Sho |
+| Shortly after | A short name of two to five words in Title Case | Harbor Class Booking App |
+
+The short name replaces the 60-character one only if nobody has renamed the session in the meantime. A name you set with `/rename` on the home screen is never replaced. To rename a session later, use **Rename** in its ⋯ menu in the [sidebar](/sessions/organize#pin-rename-and-group-sessions).
+
+<Note>
+If new sessions keep the first 60 characters of their first message as their name, short names aren't turned on for your Alpha.
+</Note>
+
+## Read the session header
+
+The header runs across the top of the chat. It tells you which session you're in, what runs it and what it has cost so far.
+
+<Frame caption="In a narrow chat column, the header keeps the title and the agent's mark.">
+  <img src="/images/sessions/session-header.png" alt="A close crop of the top left of a session header. A menu button for the collapsed sidebar comes first, then the title Harbor bookings in medium-weight text, then the Codex mark on its own, without the word codex." />
+</Frame>
+
+| Element | What it tells you |
+| --- | --- |
+| Title | The session's name, cut short when the chat column is narrow. Hover to read it in full. |
+| Agent badge | The mark and name of the agent, Codex or Claude Code. When the chat column is narrow, only the mark shows. Its tooltip reads "This session runs Codex. A session keeps its agent for life — start a new one to use another." See [Choose the agent and model](/chat/agents-and-models). |
+| Setup badge | The [setup](/sessions/setups) the machine was prepared from. It appears only on sessions started from one, and reads "deleted setup" once that setup is gone. |
+| Cost so far | What the session has spent, in US dollars. "≈ " in front means the figure is estimated. Click it ("Open usage") for the [usage dashboard](/account/usage-and-costs). It hides when the chat column is narrow. |
+| View-only badge | Takes the place of the cost in a session someone [shared with you](/sharing). |
+
+When the workspace is hidden, the right of the header also holds the **+** menu (**Add a tab**), the **GitHub** and **Share** buttons, **Show workspace** and **Show files**. While the workspace is showing, press <kbd>⌘</kbd><kbd>⇧</kbd><kbd>B</kbd> to fold the chat away and give the workspace the whole window. Press it again, or click **Show chat** at the left of the workspace's tab row, to bring the chat back. Use Ctrl instead of ⌘ on Windows and Linux. Every shortcut is listed in [Keyboard shortcuts](/reference/keyboard-shortcuts).
+
+## Open a session in a new tab
+
+Each session lives at a permanent address, `/s/{code}`, where the code is 16 random characters. The address bar follows the session you have open, so you can bookmark it or paste it into another tab. The same address is the session's [share link](/sharing). Until you share the session, only you and your Alpha's admins can open it.
+
+| To | Do this on a session in the sidebar |
+| --- | --- |
+| Open it in a new tab | <kbd>⌘</kbd>-click, or middle-click |
+| Open it in a new window | <kbd>⇧</kbd>-click |
+| Open it here | Click |
+
+Several sessions can work at the same time, each on its own machine, so a second tab is a good way to run two jobs side by side.
+
+## What if the session doesn't start?
+
+A start can fail in two places. Neither loses what you typed.
+
+| Where it failed | What you see | What to do |
+| --- | --- | --- |
+| Creating the session | You stay on the home screen with your prompt and files back in the composer. The error shows in red near the top of the page. | Read the error, click it to dismiss it, and press <kbd>Enter</kbd> again. |
+| Sending the first message | The session opens with your message back in its composer, and the error shows in red. | Fix what the error names, then press <kbd>Enter</kbd> to send it again. |
+
+A message longer than {promptMax} is refused with ["prompt too large"](/reference/troubleshooting#a-turn-fails-or-a-command-is-refused); attach the long text as a file instead. For other messages and their fixes, see [Troubleshooting and FAQ](/reference/troubleshooting).
+
+## What limits apply from the start?
+
+These apply from the first message. Values marked "(default)" are set by whoever runs your Alpha. The full list is on [Limits](/reference/limits).
+
+| Limit | Value |
+| --- | --- |
+| Length of one message | {promptMax} |
+| Repositories in a session | {reposMax} |
+| Size of one uploaded file | {uploadMax} |
+| Image the agent can see as a picture | {imageMax} |
+| Disk on the session's machine | {disk} |
+| Length of one turn | {turnMax} |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Follow the agent's work" icon="list-timeline" href="/chat/transcript">
+    Read commands, edits, plans and sub-agents as the first turn streams.
+  </Card>
+  <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
+    What the machine does after you leave, and how to start it over.
+  </Card>
+  <Card title="Setups: ready-made machines" icon="box" href="/sessions/setups">
+    Start sessions with your repositories cloned and dependencies installed.
+  </Card>
+  <Card title="Queue, steer or stop" icon="list-check" href="/chat/queue-and-steer">
+    Send your second message while the first turn is still running.
+  </Card>
+</CardGroup>

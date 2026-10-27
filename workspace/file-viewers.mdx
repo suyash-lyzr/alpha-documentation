@@ -1,0 +1,163 @@
+---
+title: "File viewers"
+sidebarTitle: "File viewers"
+description: "Code, Markdown, HTML, images, PDFs, Word, Excel, PowerPoint and LaTeX, each opened in a viewer made for it."
+---
+
+import { fileDownloadMax } from '/snippets/limits.mdx';
+
+A file viewer is the tab a file opens in when you click it in the files panel, built for its type: an editor for code, rendered pages for Markdown, HTML, PDFs and Office documents, and a compiled PDF for LaTeX. Every viewer is read-only, because the files belong to the agent; to change one, ask. Slide decks, Excalidraw drawings and BPMN diagrams are on [Slides, drawings and diagrams](/workspace/decks-and-drawings), and browsing, searching and downloading are on [Files and uploads](/workspace/files).
+
+<Frame caption="A file tab's header: the path, the Preview and Source switch, the size, the read-only chip and Refresh.">
+  <img src="/images/workspace/viewer-markdown.png" alt="The Harbor bookings session with README.md open in a file tab of the workspace. The tab strip reads Preview, Shell, Database, then README.md in front with its ×, then the round + button. The file's header reads, from left to right: the path README.md in monospace; a two-button switch with Preview selected and Source beside it; the size, 1.8 KB; a grey read-only chip; and a Refresh icon. Below it the README is rendered: a Harbor Sailing School heading, a line describing a small, responsive class booking app with an Express server and a plain JavaScript frontend, a Run section with npm install and npm start in a code block, a line saying the server binds to 0.0.0.0 using PORT or port 3000, a Behavior section of bullet points and the start of a Verification section. The files panel is open on the right, and the chat on the left shows the request to move the classes and bookings into the session's PostgreSQL database." />
+</Frame>
+
+## Which viewer opens a file?
+
+Alpha picks the viewer from the file's extension. A file that reads as binary and has no viewer shows "binary file" with its size and a **Download** button.
+
+| File types | Viewer | Point the agent at it | Section |
+| --- | --- | --- | --- |
+| Every text file: `.py`, `.ts`, `.json`, `.sql`, `.txt` and the rest | Code editor | Select text | [Code](#read-code) |
+| `.md`, `.markdown`, `.mdx`, `.mdown`, `.mkd`, `.mkdn` | Markdown | Select text | [Markdown](#read-markdown-and-html) |
+| `.html`, `.htm` | HTML | Pick, draw, edit | [HTML](#read-markdown-and-html) |
+| 23 image extensions, from `.png` and `.svg` to `.heic` and `.jxl` | Image | **Add to chat** | [Images](#look-at-images) |
+| `.pdf` | PDF | Select text, pick, draw | [PDFs](#read-pdfs) |
+| `.docx`, `.xlsx`, `.pptx`, `.csv`, `.tsv` | Office | Select text or cells, pick, draw | [Office](#read-word-excel-and-powerpoint-files) |
+| `.tex`, `.latex`, `.ltx` | LaTeX | As for PDFs | [LaTeX](#build-a-latex-document) |
+| `.deck.html`, `.slides.html`, `.excalidraw`, `.bpmn` | Deck, Excalidraw, BPMN | See their page | [Decks and drawings](/workspace/decks-and-drawings) |
+
+The pen, the picker and **Edit** sit at the header's right end, in the viewers that have them. While the agent writes files, an open viewer re-reads its file every few seconds; **Refresh** re-reads it at once. If a re-read fails, the header says "refresh failed" and the last good version stays. How picks and marks reach the agent is on [Point at and draw on your app](/workspace/point-and-draw).
+
+<Note>
+People you [share the session](/sharing) with open the same viewers, read-only, without the pen, the picker, **Edit**, **Add to prompt** or **Add to chat**, and they can't build a LaTeX document. The files they see have your secrets masked.
+</Note>
+
+## Read code
+
+Text files open in a code editor with syntax highlighting, line numbers, a minimap and folding. Typing in it shows "Read-only — ask the agent to change files".
+
+| To | Do this |
+| --- | --- |
+| Send lines to the agent | Select them, then click the floating **Add to prompt**, choose **Add selection to prompt** from the right-click menu, or press <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> (Ctrl on Windows and Linux). The chip shows the file name and the line range, such as `app.tsx:12-30`. |
+| Jump to a line from the transcript | Click a file reference in the agent's answer, such as `src/app.ts:42`. The file opens scrolled to that line, with the line marked. |
+| Read a very large file | Text over 512 KB is cut off and the header says "truncated at 512 KB". Download the file from the files panel to read the rest. |
+
+## Read Markdown and HTML
+
+Markdown and HTML files open rendered, with a **Preview** and **Source** switch in the header. Markdown renders GitHub-flavoured, tables and task lists included. Select text and **Add to prompt** stages it with the lines it came from.
+
+An HTML file's **Preview** runs the page in an isolated frame: scripts run and relative assets load, but nothing in the file can read your Alpha sign-in or act as you. The header carries the same tools as the app's [Preview](/workspace/preview):
+
+| Tool | Its tooltip | What the agent gets |
+| --- | --- | --- |
+| Pen | "Draw on the page and send it, marked up, with your next message" | A picture of the page with your marks. |
+| Picker | "Point at an element on the page to attach it to your next message" | The element you click, as a chip. <kbd>Esc</kbd> cancels. |
+| Edit | "Change text, colours and spacing right on the page, then send the changes to the agent" | The changes you made, for the agent to apply to the file. |
+
+{/* screenshot to capture: /images/workspace/viewer-html-preview.png — An HTML file in Preview with the picker armed: the hovered element is outlined before you click it. */}
+
+## Look at images
+
+Images open over a checkerboard, so transparency shows, fitted to the pane until you zoom. The header shows the size in pixels. A script inside an SVG never runs. Click the picture's area before using the keys.
+
+| Control | Key | What it does |
+| --- | --- | --- |
+| **Zoom out**, **Zoom in** | <kbd>−</kbd>, <kbd>+</kbd> | Steps the zoom. <kbd>⌘</kbd> with the scroll wheel, or a pinch, zooms about the pointer. |
+| **Fit** | <kbd>0</kbd> | Fits the picture to the pane. |
+| **1:1** (Actual size) | <kbd>1</kbd> | One image pixel per screen pixel. Drag to pan. |
+| **Add to chat** | | Attaches the picture to your next message, so the agent sees it. |
+
+**Add to chat** sends PNG, JPEG, GIF and WebP as they are. Any other format, or a very large file, is redrawn as a PNG or JPEG first, so the agent sees what you see. TIFF, HEIC, HEIF and JPEG XL show only where the browser decodes them, which means Safari. Elsewhere you get "This browser cannot show HEIC images (.heic) — Safari can. Download it to open it in another app."
+
+{/* screenshot to capture: /images/workspace/viewer-image.png — The image viewer: the size in the header, the zoom bar, and Add to chat. */}
+
+## Read PDFs
+
+A PDF opens as pages in a scrolling column, with selectable text. The bar under the pages holds **Previous page** (<kbd>←</kbd>), **Next page** (<kbd>→</kbd>), a page box, **Zoom out**, **Zoom in**, **Fit** and **Download the file**; the pen and the picker are in the header. No script in a PDF ever runs. Select text and **Add to prompt** sends it with its page.
+
+| Message | What it means |
+| --- | --- |
+| "This PDF is over {fileDownloadMax} — more than the viewer can fetch. Download it instead." | The file is past the [viewing limit](/reference/limits). |
+| "This PDF is password-protected — the viewer cannot open it." | Download it and open it with its password. |
+| "This file is not a valid PDF, or it is damaged." | Ask the agent to regenerate it. |
+| "The file is gone from the workspace." | It was moved or deleted after the tab opened. |
+
+### Point at a paragraph or table
+
+Click the picker, then hover: the paragraph, image, chart, table or link under the pointer is outlined. Hold <kbd>⇧</kbd> to narrow it to one line, or <kbd>⌥</kbd> to widen it to the region around, such as the table around a cell. Click to add a chip with the page, the position, the font, the text and what sits near it. <kbd>Esc</kbd> cancels.
+
+{/* screenshot to capture: /images/workspace/viewer-pdf-picker.png — The PDF picker outlines a whole table, ready to attach to your next message. */}
+
+### Draw on the pages
+
+Click the pen and mark the pages with the Preview's [drawing tools](/workspace/point-and-draw). Marks stay pinned to the page through zoom and reload. **Add to chat** renders the marked pages into one picture for your next message, each page labelled "Page N of M" when the document has more than one.
+
+{/* screenshot to capture: /images/workspace/viewer-pdf-draw.png — Marks on a PDF page, with the dock's Add to chat ready to send them. */}
+
+## Read Word, Excel and PowerPoint files
+
+The Office viewer renders Word, Excel and PowerPoint files, plus CSV and TSV, with their full styling: fonts, tables, images and charts, headers and footers, cell formats, merged cells and conditional formatting, slide themes and shapes. A workbook keeps its own sheet tabs; a CSV is one sheet. The bar has paging for Word and PowerPoint, **Zoom out**, **Zoom in**, **Fit** and **Download the file**, and the pen is in the header. There is no picker button: click an element to pick it. Links in documents are disabled.
+
+### Point at Word and PowerPoint content
+
+Select text and **Add to prompt** stages it with its page or slide numbers. Click a chart, picture or shape to pick it; in PowerPoint, any element on a slide. Word paragraphs and tables can't be clicked, so select their text.
+
+{/* screenshot to capture: /images/workspace/viewer-office-docx.png — A Word document laid out page by page, with its own fonts, table and header. */}
+
+### Point at spreadsheet cells
+
+In Excel, CSV and TSV files, select cells, a range, a row, a column or the whole sheet, then **Add to prompt**. The agent gets a Markdown table plus the formulas behind it. Charts, pictures and shapes can be clicked; cells can't.
+
+{/* screenshot to capture: /images/workspace/viewer-office-xlsx.png — A selected range in a spreadsheet, with Add to prompt floating beside it. */}
+
+### What the Office viewer can't open
+
+| Case | What you see |
+| --- | --- |
+| An old binary Office file saved as `.docx`, `.xlsx` or `.pptx` | "roster.xlsx is an old binary Office file (.doc/.xls/.ppt) — the viewer reads only the Open XML formats. Download it instead." Or ask the agent to convert it. |
+| Password-protected | "roster.xlsx is password-protected — the viewer cannot open it. Download it instead." |
+| A damaged file | "roster.xlsx is not a valid Office document." |
+| Over the [limit](/reference/limits) | "This file is over {fileDownloadMax} — more than the viewer can fetch. Download it instead." |
+| Caught mid-write | "The file could not be read again — showing the last version that could". **Refresh** once the turn ends. |
+
+Files named `.doc`, `.xls` or `.ppt`, and macro and template files (`.docm`, `.xlsm`, `.pptm`, `.dotx`), don't open here: they show "binary file" with **Download**. Animations, video and audio don't play. The page holds still while the pen is active.
+
+## Build a LaTeX document
+
+A `.tex`, `.latex` or `.ltx` file opens with a **PDF** view beside **Source**. Alpha compiles it in the session's machine with Tectonic, a XeTeX engine, on open and whenever the file changes, writes `<name>.pdf` next to it, and shows it in the PDF viewer with all its tools. **Build** compiles again by hand.
+
+{/* screenshot to capture: /images/workspace/viewer-latex.png — A LaTeX document built into a PDF, with the Built status above it. */}
+
+| Status line | What it means |
+| --- | --- |
+| "Compiling…" | A build is running. It takes a few seconds. |
+| "Built" | The PDF on screen matches the source. |
+| "2 errors — showing the last PDF that built" | The document doesn't compile. The errors are listed below, and each "line N" link opens **Source** at that line. |
+| "The document did not compile — the errors above say where. The Source view shows the file." | No version of the document has built yet. |
+| "a build or export is already running for this session" | One build or deck export runs per session at a time. Wait, then **Build**. |
+| "the LaTeX build timed out" | The build ran past its time limit and was stopped. Try **Build** again. |
+| "this session's machine has no LaTeX engine yet — send any message to re-provision it" | The machine is older than LaTeX support and couldn't fetch the engine. Any message updates it. |
+
+Only the session's owner can build. LuaTeX-only packages don't work, and a document can't run commands on the machine. A package the machine hasn't cached is downloaded on first use, which needs the machine's network.
+
+<Note>
+The PDF is an ordinary workspace file: it shows in the files panel, downloads like any file, and the agent can read it.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Point at and draw on your app" icon="arrow-pointer" href="/workspace/point-and-draw">
+    How chips and marked-up pictures ride along with your message, and how to remove one.
+  </Card>
+  <Card title="Slides, drawings and diagrams" icon="presentation-screen" href="/workspace/decks-and-drawings">
+    The viewers for decks, Excalidraw and BPMN, with Present and export to PowerPoint or PDF.
+  </Card>
+  <Card title="Files and uploads" icon="folder-open" href="/workspace/files">
+    Search the tree, download a whole folder, and upload your own files for the agent to read.
+  </Card>
+  <Card title="Limits" icon="gauge-high" href="/reference/limits">
+    The download, upload and image sizes that decide what a viewer can fetch.
+  </Card>
+</CardGroup>

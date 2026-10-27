@@ -1,0 +1,154 @@
+---
+title: "The Shell"
+sidebarTitle: "Shell"
+description: "A real terminal in your session's machine, with sudo, for when you want to run something yourself."
+---
+
+import { idlePark } from '/snippets/limits.mdx';
+
+The **Shell** is a terminal on your session's machine, open in the workspace beside the chat. You type as the same Linux account the agent works as, with `sudo`, in the same `/workspace` the agent edits. To look at files without typing commands, use [Files and uploads](/workspace/files). To browse or edit tables, use [the Database tab](/workspace/database-data).
+
+<Frame caption="The Shell opens in /workspace, the same folder the agent works in.">
+  <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Preview, then Shell with a terminal icon and its ×, then the round + button. At the right of the strip sit a trash can for Clear and a circular arrow for Restart shell, then the GitHub button, Share, Publish and the files button. The terminal fills the panel. At the prompt forge:/workspace$, ls lists README.md, booking-store.js, booking-store.test.js, node_modules, package-lock.json, package.json, public, server.js and styleguide.md. Then node --version prints v22.23.4, and a fresh prompt waits below. The chat on the left shows the agent's reply about switching the class cards to 24-hour times." />
+</Frame>
+
+The Shell and the agent reach the same machine. Pick the one that fits the job:
+
+| You want to | Use |
+| --- | --- |
+| Check something quickly: a version, a log file, an environment variable, a query | The Shell |
+| Install a tool for yourself, or poke at a running process | The Shell |
+| Build, fix or change the app | Ask the agent. The agent plans, edits and tests, and you can review every step in the [transcript](/chat/transcript). |
+| Switch on the database or sign-in, publish, or save a setup | Ask the agent. The **+** menu also has **Database**, **Sign-in** and **Publish**. Alpha's service commands are refused in the Shell. |
+| Keep a server running after you leave | Ask the agent. A command you start in the Shell normally ends when that shell does. |
+
+## Open the Shell
+
+The Shell is off until you open it. The agent never opens it for you.
+
+<Steps>
+  <Step title="Click + at the end of the tab strip">
+    Its tooltip reads "Open a tab, or turn on a service". If the workspace isn't showing yet, the same **+** sits in the chat header.
+  </Step>
+  <Step title="Choose Shell">
+    The **Shell** tab opens at once. If the session's machine is asleep, the terminal shows grey placeholder bars while it wakes, then the prompt appears. The Shell wakes a machine only while Alpha is in front of you. A Shell left open in a background browser tab waits, and never wakes it. See [Sleep, wake and reset](/sessions/machines).
+  </Step>
+</Steps>
+
+Hover the tab and it reads "An interactive terminal with full access to this machine". That is meant literally.
+
+<Note>
+The Shell is the session owner's alone. People you [share the session](/sharing) with never see the tab, admins included, and a shared session's viewers can't open a terminal on its machine in any other way.
+</Note>
+
+## Who am I in the Shell?
+
+You are the agent's own account, named `agent`. It has `sudo` with no password, so anything that needs root is one `sudo` away. Your home folder and starting folder are both `/workspace`, and `/workspace/.bashrc` runs when the shell starts, so aliases you keep there apply.
+
+Because you share an account with the agent, files you create without `sudo` belong to it too. The agent can change what you make, and you can change what it makes, with no permission errors either way.
+
+```bash
+id -un          # agent
+pwd             # /workspace
+echo $HOME      # /workspace
+```
+
+The shell starts with the session's environment already loaded: your [secrets](/secrets), the session database's connection variables and your [integrations'](/integrations/overview) variables. Type `printenv STRIPE_SECRET_KEY` and you see the value your app sees.
+
+The environment is read once, when the shell starts. If you add a secret or switch on the database while the Shell is open, click **Restart shell** to pick it up.
+
+## Install packages and query the database
+
+The machine is Ubuntu, and it's yours to change. System packages install with `sudo`, because `apt` refuses every account but root.
+
+```bash
+sudo apt-get update
+sudo apt-get install -y jq ripgrep
+```
+
+When the session's database is on, `psql` connects with no arguments. The connection variables are already set, so `DATABASE_URL` and the plain `psql` reach the same database as your app and the Database tab.
+
+```bash
+psql                                      # an interactive prompt on the session's database
+psql -c '\dt'                             # list its tables
+psql -c 'select count(*) from bookings;'  # run one query and return
+```
+
+{/* screenshot to capture: /images/workspace/shell-psql.png — psql connects to the session's database with no flags, because the Shell starts with its connection variables set. */}
+
+If `psql` can't connect, the database isn't on yet. Ask the agent for it, or choose **+** → **Database**, then click **Restart shell**. See [Your session's database](/workspace/database).
+
+## What can't the Shell do?
+
+The Shell sees the machine as the agent does, with a few deliberate exceptions. Alpha keeps its own machinery out of the terminal's view, and that rules out a handful of commands.
+
+| You try | What happens | Do this instead |
+| --- | --- | --- |
+| `forge db up`, or any other `forge` command | It prints "forge: the services commands (db up, auth up, deploy, setup, skill, deck) run from the agent — ask for them in the chat." | Ask the agent, or use the **+** menu for **Database**, **Sign-in** and **Publish**. |
+| Look inside Alpha's own folders | They are refused, and look empty under `sudo` | Nothing there is yours to change. Your secrets are already in the environment. |
+| `ls /root`, or `cd ~` | Both homes show `/workspace` | Work in `/workspace` as usual. |
+| `mount`, or a FUSE file system such as `sshfs` or `rclone mount` | It fails, even with `sudo` | Copy the files into `/workspace` instead. |
+| `lsof -p`, `ss -p` or `strace -p` on the agent's processes | They can't inspect processes the Shell didn't start | Start the program from the Shell to inspect it, or ask the agent. |
+
+{/* screenshot to capture: /images/workspace/shell-service-refusal.png — Alpha's service commands are refused in the Shell, with a line that tells you where to ask instead. */}
+
+For the full layout of the machine, including what is installed and where, see [Inside a session's machine](/reference/machine-environment).
+
+## Use it carefully
+
+The Shell has no walls of its own inside the machine. A command you run here can break what the agent is doing, and the agent won't know why.
+
+<Warning>
+You share an account with the agent, so a broad `killall node` or `pkill python` also stops the agent's own processes and the app's servers. Under `sudo` it reaches Alpha's processes in the machine too. A turn that is running when you do this can fail. The agent comes back at your next message, but the servers you stopped stay stopped until something starts them again. Kill processes by their exact ID instead.
+</Warning>
+
+Deleting files works the same way. `rm -rf` in `/workspace` removes the agent's work as well as yours, with no undo. Commit and push first if you're unsure. See [Branches, commits and pull requests](/github/branches-and-prs).
+
+## Clear, restart or close the Shell
+
+Two buttons show to the right of the tab strip while the **Shell** is in front.
+
+| Action | What happens |
+| --- | --- |
+| **Clear** | Clears the scrollback on screen. The shell and anything running in it keep going. |
+| **Restart shell** | Ends the shell and anything running in it, clears the screen, then opens a fresh shell with the session's current environment. |
+| Switch to another workspace tab | Nothing stops. A command left running, such as a dev server, carries on behind the other tab. |
+| Switch to another session, or reload the page | This shell ends. The **Shell** tab stays, and opens a fresh shell when you come back. |
+| Type `exit`, or press <kbd>Ctrl</kbd> <kbd>D</kbd> (Control on a Mac too) | The shell ends and the tab folds away. |
+| Click the tab's **×** ("Close the shell") | The same: the terminal, its scrollback and anything running in it are discarded. The next **+** → **Shell** starts fresh. |
+
+If the connection drops while the **Shell** tab is in front, the Shell reconnects by itself. It retries at once after a shell that was working, and backs off up to 15 seconds while a shell can't get going, for example while the machine wakes. A spinner shows over the scrollback meanwhile. A reconnect opens a new shell beneath the old scrollback, so a command that was running when the connection dropped has ended.
+
+An open Shell doesn't keep the machine awake. Once you've been away for {idlePark} with no turn running, the machine sleeps like any other, and the shell ends with it. A command running in the Shell doesn't count as work.
+
+## What do the Shell's messages mean?
+
+Most of the time the Shell prints nothing of its own. These lines come from Alpha rather than from your commands.
+
+| Message in the terminal | What it means | What to do |
+| --- | --- | --- |
+| "Lost contact with the machine." | The connection to the machine broke. | Wait. The Shell reconnects on its own. |
+| "Could not reach the machine." | Alpha couldn't find the way to the machine. | Wait. The Shell tries again by itself. |
+| "Could not prepare the shell in this machine." | Alpha couldn't install what the Shell needs on this machine. | Wait. The Shell tries again by itself. |
+| "The paused machine could not be resumed." | The machine is asleep and wouldn't wake. | Send a message to see the reason. See [What if a machine won't wake?](/sessions/machines#what-if-a-machine-wont-wake) |
+| "The shell could not be set up in this machine — close the tab and open it again." | The terminal couldn't start on this machine, and the tab closes by itself. | Choose **+** → **Shell** again. |
+| "forge: the services commands … ask for them in the chat." | You ran one of Alpha's service commands. | Ask the agent. |
+
+More fixes are in [Troubleshooting and FAQ](/reference/troubleshooting).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Inside a session's machine" icon="microchip" href="/reference/machine-environment">
+    The operating system, the tools already installed and where each kind of file lives.
+  </Card>
+  <Card title="Your session's database" icon="database" href="/workspace/database">
+    Switch on PostgreSQL so `psql` in the Shell has something to connect to.
+  </Card>
+  <Card title="Secrets" icon="key" href="/secrets">
+    Add the keys your commands read, then restart the Shell to load them.
+  </Card>
+  <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
+    What keeps a machine awake, and how to start over when one is beyond repair.
+  </Card>
+</CardGroup>

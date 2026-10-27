@@ -1,0 +1,205 @@
+---
+title: "Monitor and troubleshoot production"
+sidebarTitle: "Logs, metrics and failures"
+description: "Read your app's live logs and metrics, see everything you've published, and fix a publish that failed."
+---
+
+import { memory, listenMax, buildMax } from '/snippets/limits.mdx';
+
+Once an app is live, two workspace tabs show how it behaves in production: **Production Logs** for every line it writes and every request it answers, and **Production Metrics** for its traffic, errors, speed and resource use. This page also covers the **Published** page and what to do when a version fails. To republish, roll back or change settings, see [Manage a published app](/publish/manage).
+
+Both tabs read from Google Cloud, where the app runs, not from the session's machine. Only the session's owner sees them.
+
+<Note>
+The production tabs appear in the **+** menu once one of the session's apps has gone live and has an address. If you don't see **Publish** at all, publishing isn't turned on for your Alpha.
+</Note>
+
+## Read your app's logs
+
+Open **+** → **Production Logs**. Newest lines sit at the bottom, like a terminal. The tab reads Cloud Logging again every minute, or right away from the refresh button ("Read Cloud Logging again now"). It opens on the app you published most recently; if the session has more than one, switch with the app menu at the left of the filter row.
+
+{/* screenshot to capture: /images/publish/prod-logs-tab.png — Errors stand out with a red bar and an ERR tag. The strip above the lines counts them for you. */}
+
+| Control | Options | What it does |
+| --- | --- | --- |
+| **Search the lines…** | Up to 200 characters | Keeps lines that contain the text. Press <kbd>Enter</kbd> or click away to apply it. |
+| Time range | **Last hour**, **Last 24 hours**, **Last 7 days** | Starts on **Last hour**. Longer ranges add the date to each line. |
+| Level | **All levels**, **Errors**, **Warnings+**, **Info+** | Shows lines at that level and above. **Errors** includes critical lines. |
+| Kind | **All lines**, **Requests**, **App output**, **System** | **App output** is what your app prints. **Requests** has one line per request, with method, path, status and time in ms. **System** is Cloud Run's own lines, such as a crash or a memory limit. |
+| **↑ Older lines…** | 200 lines a page | Loads earlier lines. The tab keeps the newest 2,000. **Latest** jumps back to the bottom. |
+
+Log times are in UTC; hover one for the full timestamp. A new time range, level or search reads the log again from the start, while the kind only filters lines already loaded.
+
+## Hand a log line to the agent
+
+Hover any line and a speech-bubble icon appears. It copies the line into the composer, so you can ask the agent about it without retyping.
+
+<Steps>
+  <Step title="Hover the line that explains the problem">
+    The icon appears at the right end of the row. Its tooltip reads "Paste this line into the chat, quoted as the app's output, for the agent to look at".
+
+    {/* screenshot to capture: /images/publish/prod-logs-ask-agent.png — The line goes into the composer as quoted data, followed by a request to fix it. Nothing is sent until you press send. */}
+  </Step>
+  <Step title="Click the icon">
+    Alpha adds the line after anything you've already typed, with the app, time, version and level, and terminal colour codes stripped. It is quoted as the app's output, so the agent treats it as data, not instructions.
+  </Step>
+  <Step title="Add context and send">
+    Nothing is sent until you press send. The agent is told to fix the cause, republish, and read the new version's logs before it reports done.
+  </Step>
+</Steps>
+
+You can also describe the symptom in your own words. When you say a live app is broken or slow, the agent reads production logs and metrics before it changes any code, and opens the matching tab for you.
+
+## Check traffic, errors and resources
+
+Open **+** → **Production Metrics**. The tab, titled **Monitoring**, has two cards, and each card has its own period: **Past one hour**, **Past 24 hours** or **Past one week**. **Performance** starts on the past week and **Resources** on the past hour.
+
+{/* screenshot to capture: /images/publish/prod-metrics-tab.png — Performance answers whether the app is up and fast. Resources answers whether it's running out of room. Illustrative values. */}
+
+| Chart | Lines | Read it as |
+| --- | --- | --- |
+| **Requests** | Connected, Failed | Failed requests are the ones your app answered with a server error (5xx). |
+| **HTTP Statuses** | 2xx, 3xx, 4xx, 5xx | A rise in 4xx means the app refused requests, such as not found. A rise in 5xx means the app failed inside. |
+| **Request Durations (ms)** | p50, p95, p99 | A low p50 with a high p99 means most requests are fast but a few are slow. That's often a cold start after a quiet spell, or one slow route. |
+| **CPU Utilization** | CPU | The busiest instance's share of the CPU it's allowed. |
+| **Memory Utilization** | Memory | The busiest instance's share of its {memory} memory. Near 100% means the next spike can crash the instance. |
+
+Hover a chart to see each line's value at that moment, in your time zone. Each chart title has an ⓘ that explains the chart in plain words. Request counts draw a flat line at zero when the app is quiet. A duration, CPU or memory chart with nothing to plot says "No Data Available".
+
+<Note>
+Cloud Monitoring reports one to three minutes behind, so the last few minutes of traffic may not show yet. The tab reads again every minute.
+</Note>
+
+## See everything you've published
+
+The **Published** row in the sidebar, with a badge counting your apps, opens a list of every app and API published from your sessions. Use it to find an address or the session an app came from. Search by name, address or session, or filter with **All**, **Live**, **Publishing** and **Failed**.
+
+{/* screenshot to capture: /images/publish/published-page.png — One row per app, newest publish first. A failed row shows its last error in red. */}
+
+| Part of a row | What it tells you |
+| --- | --- |
+| Name, tag, state | The app's name, a tag reading **App** or **API** (an agent's API, called from code), and its state: **live**, **failed**, or the step a publish is on, such as **building**. |
+| Address | Opens the app. Reads "No address yet" until a version goes live. |
+| from *session* | Opens the session. Also shows the folder, when it was last published, its number of versions, and "database" if it has a production database. |
+| **Copy link**, **Open** | Copy the address, or open it in a new tab. |
+
+The page is read-only and lists only your own sessions. Until you publish something, it reads "Nothing is published yet." To republish, roll back, edit settings or delete, use the session's **Publish** tab.
+
+## When a publish fails
+
+A failed version never takes traffic. If an earlier version was serving, it keeps serving, so your live app doesn't go down. The **Publish** tab marks the step that failed and shows the first lines of the error, a hint and a **Cloud Build log** link. The version's **Log** opens by itself, and the session's transcript gets a failure card with the same hint and the end of the log.
+
+The **Log** in Alpha carries the build's own output. The **Cloud Build log** link opens the same build in the Google Cloud console, so it works only for people with access to the Google Cloud project your Alpha publishes to.
+
+{/* screenshot to capture: /images/publish/publish-failed-version.png — The failed step is marked in red. The hint under the error says what usually causes it. */}
+
+The agent reads the same log, so asking it is usually the fastest fix. The hints below are quoted as they appear; [Troubleshooting](/reference/troubleshooting#a-publish-fails) collects them with the rest.
+
+<AccordionGroup>
+  <Accordion title="“Couldn't recognize this stack”">
+    **Causes:** The folder has no manifest the builder knows, such as `package.json`, `requirements.txt`, `go.mod`, `Cargo.toml`, `Gemfile` or an `index.html`, and no `Dockerfile`. Often the wrong folder was published.
+
+    **Fix:** Publish the folder that holds the app, or add a `Dockerfile`.
+
+    ```text
+    The publish couldn't recognize the stack. Check which directory holds the app, then publish that one.
+    ```
+  </Accordion>
+  <Accordion title="“No start command was found”">
+    **Causes:** Nothing tells production how to start the server. There's no `start` script and no obvious entry file.
+
+    **Fix:** Add a start script, or set **Run command** in **Edit settings** on the [Publish tab](/publish/manage#change-how-the-app-runs), then republish.
+  </Accordion>
+  <Accordion title="“Dependency install failed”">
+    **Causes:** The lockfile is out of step with the manifest, or a dependency doesn't exist under that name or version.
+
+    **Fix:** Regenerate the lockfile in the session, then republish.
+
+    ```text
+    The publish failed installing dependencies. Bring the lockfile in step with the manifest, check it builds, and republish.
+    ```
+  </Accordion>
+  <Accordion title="“A build command failed” or “The build exceeded …”">
+    **Causes:** The app's build step fails, often because it needs a build-time variable such as `VITE_*` or `NEXT_PUBLIC_*` that wasn't picked for production. Or the build takes longer than {buildMax}.
+
+    **Fix:** Find the failing command in the **Log**. Pick missing variables in **Edit settings** → **Environment**; only variables picked there reach production. For a slow build, drop steps production doesn't need.
+  </Accordion>
+  <Accordion title="“The app never listened on 0.0.0.0:PORT within …”">
+    **Causes:** The app didn't start serving within {listenMax}. It may be bound to `localhost` or a fixed port instead of the `PORT` it's given. The start command may run a development server. Or the app needs its database tables at start, and production's database is still empty.
+
+    **Fix:** Bind `0.0.0.0` and read `PORT`. If the app needs tables at start, run migrations in the start command or push the session's schema. See [Production database and sign-in](/publish/production-data).
+
+    ```text
+    The publish failed because the app never listened on its port. Make it bind 0.0.0.0 on $PORT, use the production start command, and republish.
+    ```
+  </Accordion>
+  <Accordion title="“Out of memory at …”">
+    **Causes:** The app used more than its {memory} limit. Watch **Memory Utilization** on the **Production Metrics** tab.
+
+    **Fix:** Hold less in memory, such as large files read whole or big in-process caches. The limit is set for your whole Alpha; ask your administrator if the app needs more.
+  </Accordion>
+  <Accordion title="“Your organization policy forbids public services”">
+    **Causes:** Your Google Cloud organization doesn't allow services that anyone can open, and published apps are public.
+
+    **Fix:** A Google Cloud admin must allow public access (`allUsers`) on Cloud Run. Pass the message to your administrator.
+  </Accordion>
+</AccordionGroup>
+
+A hint about GCP permissions, credentials or a service account is a setup problem on your Alpha's side that your code can't fix. Pass it to your administrator. For limits such as source size, see [Limits](/reference/limits).
+
+## The service is up, but refuses its own address
+
+Some frameworks only answer hostnames on an allow-list. In production your app answers at a `.run.app` address, so if the list leaves it out, every visitor gets an error page. After each rollout, Alpha requests the app at its real address. If the framework refuses it, the version still goes live, with a yellow warning that starts "The service is up, but".
+
+{/* screenshot to capture: /images/publish/publish-live-host-warning.png — The version is live, but every visitor gets an error page until the allow-list includes .run.app. */}
+
+When the agent publishes, it sees this warning too. It is told to fix the config and republish before it reports done. To fix it yourself, add `.run.app` to the list next to the entries already there, so the Preview keeps working, then republish. For Vite 6.1 and later, Alpha already allows `.run.app` on the service, unless `vite.config` sets `preview.allowedHosts` itself.
+
+<CodeGroup>
+```js Vite (vite.config.js)
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  // Keep the hosts you already allow; add .run.app beside them.
+  server: { allowedHosts: [".run.app"] },
+  preview: { allowedHosts: [".run.app"] },
+});
+```
+
+```python Django (settings.py)
+# Keep the hosts you already allow; add .run.app beside them.
+ALLOWED_HOSTS = ["localhost", ".run.app"]
+```
+
+```ruby Rails (config/environments/production.rb)
+# config.hosts is empty in production by default, which allows every host.
+# If you set it, include Cloud Run's hostnames:
+config.hosts << /.*\.run\.app/
+```
+
+```python FastAPI / Starlette
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+
+# Keep the hosts you already allow; add *.run.app beside them.
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "*.run.app"])
+```
+</CodeGroup>
+
+For a static Vite site, the simpler fix is to remove the start script. The builder then serves the built files itself, with no allow-list. The same rule applies to anything else that checks the `Host` header or a request's `Origin`, such as CSRF or WebSocket origin checks.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Manage a published app" icon="sliders" href="/publish/manage">
+    Roll back to the last good version with a traffic switch, no rebuild, while the agent fixes what broke.
+  </Card>
+  <Card title="Production database and sign-in" icon="server" href="/publish/production-data">
+    Give an empty production database its tables, and browse its rows as the app sees them.
+  </Card>
+  <Card title="Routines" icon="calendar-clock" href="/routines">
+    Run periodic work for your app, since Cloud Run stops idle apps and in-app timers don't fire reliably.
+  </Card>
+  <Card title="Troubleshooting and FAQ" icon="life-ring" href="/reference/troubleshooting">
+    Fixes for machines, the Preview, turns and publishing in one place.
+  </Card>
+</CardGroup>

@@ -1,0 +1,149 @@
+---
+title: "Answers you can interact with"
+sidebarTitle: "Interactive answers"
+description: "When an answer is better seen than read, the agent draws tables, charts, sliders, maps, quizzes and math right in the chat."
+---
+
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+An interactive answer is a part of the agent's reply drawn as live UI: a table, a chart, sliders you drag, a map, a quiz. The rest of the reply stays ordinary text, and the UI builds as the agent writes. To put a chart or a form in your own app instead, ask the agent to build it and open it in the [Preview](/workspace/preview). For a slide deck, see [Slides, drawings and diagrams](/workspace/decks-and-drawings).
+
+{/* screenshot to capture: /images/chat/genui-what-if-sliders.png — Drag a slider and every figure follows it, without a new message to the agent. */}
+
+<PromptCard label="Try this">
+
+```text
+If I put $500 a month into an index fund at 7%, what do I have after 20 years?
+```
+
+</PromptCard>
+
+Alpha will:
+
+1. Answer with the balance at your numbers, in a sentence.
+2. Draw sliders for the deposit, the rate and the years, beside the balance and a chart.
+3. Recompute every figure in your browser as you move a slider. No new turn starts, so it costs nothing.
+
+## Show me, or build me?
+
+A question about information is answered in the chat, even when the whole answer is charts. Something for your app is code in your project, and nothing is drawn.
+
+| Show me: answered in the chat | Build me: code in your project |
+| --- | --- |
+| "Compare Postgres, MySQL and SQLite for a small SaaS" | "Add a pricing page" |
+| "Show me signups by week" | "Build a dashboard of signups for my app" |
+| "What do I have after 20 years at 7%?" | "Make me a mortgage calculator" |
+| "What are the best day hikes near Seattle? Show them on a map." | "Build me a store locator page with a map for my app" |
+
+"How does HTTPS work?" has nothing to chart, so it stays text. The figures in a block are always real: computed, read from your files or [database](/workspace/database-data), or given by you. The agent never draws placeholder numbers.
+
+{/* screenshot to capture: /images/chat/genui-comparison-table.png — Only the comparison is drawn. The verdict and the caveats stay as text around it. */}
+
+<Tip>
+A request that reads either way can land on the wrong side. Say "in the chat" or "build it into the app" to settle it.
+</Tip>
+
+## What can the agent draw?
+
+You don't name the block. Ask the question and the agent picks one.
+
+| Block | When it's used | A prompt to try |
+| --- | --- | --- |
+| Tables and comparison cards | Options to weigh side by side | "Compare Postgres, MySQL and SQLite for a small SaaS" |
+| Charts and figure tiles | Numbers over time, a breakdown, a total | "Show me signups by week" |
+| Buttons and short forms | A choice, or two or three details the agent needs before it goes on | Appear on their own when the agent needs your input |
+| What-if sliders | Figures that turn on numbers you might change | "What do I have after 20 years at 7%?" |
+| Maps with numbered pins | Where the places are is the point | "What are the best day hikes near Seattle? Show them on a map." |
+| Checklists with step timers | Something you tick off as you go, such as a recipe's timed steps | "I'm hosting a Sunday lamb roast and don't know how many are coming yet" |
+| Steppers | A count the figures follow, such as guests or servings | The same lamb roast prompt |
+| Simulations you can run again | Chance that an explanation rests on | "Help me understand the Monty Hall problem" |
+| Quizzes | Testing what you've learned | "Quiz me on the solar system" |
+| Flashcards | Studying a set of facts | "Make me flashcards on the parts of a sailboat" |
+| Photos | A place, dish, animal or object worth seeing | "Show me the five most iconic dishes of Rome, with photos" |
+
+Blocks can also sit in tabs, accordions and carousels. Photos come from Wikimedia Commons, credited to their author and licence. A trip plan stays a list: the agent draws a map only when where things are is the point.
+
+{/* screenshot to capture: /images/chat/genui-map.png — Tap a pin to read its note. Pins are numbered in the order the agent listed them. */}
+
+## Talk back through an answer
+
+Some controls work only in your browser. Others send a message, which appears in the transcript as your own, so nothing a click sends is hidden.
+
+| Control | What happens | Reaches the agent? |
+| --- | --- | --- |
+| What-if sliders and their fields | Every figure recomputes in your browser. Values settle when the pointer pauses, so a long drag updates in steps. | No |
+| Buttons, list items and follow-ups | Their text is sent as your next message. | Yes |
+| Forms | Submitting sends the button's text plus one `name: value` line per field you filled in. | Yes |
+| A clickable card | Sends its text plus a `Selected item: {…}` line with the card's details. | Yes |
+| Links and copy buttons | Links open web pages (`http` and `https` only) in a new tab. Copy buttons copy to your clipboard. | No |
+| Quiz | Each answer is graded on the spot. **Next** moves on, **See results** shows how many you got right, and **Try again** starts over. | Only **Go over what I missed**, which sends your misses |
+| Flashcards | "Tap to flip", then **Didn't know** or **Knew it**. At the end, **Review the … you missed** or **Start over**. | No |
+| Timer and stepper | The timer's start, pause and reset buttons, and the stepper's − and +. | No |
+| Map | Tap a pin for its note. The scroll wheel or one finger scrolls the chat; <kbd>⌘</kbd> with the wheel, or two fingers, moves the map. Use Ctrl instead of ⌘ on Windows and Linux. | No |
+
+A block's buttons stay disabled until the agent's text moves past that block, not until the whole reply ends. A click sent while the agent is working always [steers](/chat/queue-and-steer) the running turn, whatever your default for typed messages. If the turn can't take it, the message waits in the queue instead.
+
+{/* screenshot to capture: /images/chat/genui-quiz.png — Each answer is graded the moment you pick it. Only Go over what I missed, at the end, talks to the agent. */}
+
+## Read formulas in a reply
+
+TeX in a reply or in the agent's reasoning draws as typeset math, inline or centred on its own line. Codex's `\(…\)` and `\[…\]` and Claude Code's `$…$` and `$$…$$` draw the same.
+
+```text
+Explain gradient descent for linear regression, with the math.
+```
+
+Prices survive next to formulas: `$5 and $10`, `$HOME/$USER` and `($$)` stay as written. A formula shows as source until it is closed, and one wider than the chat scrolls sideways.
+
+{/* screenshot to capture: /images/chat/chat-math.png — Inline formulas sit in the sentence. Display formulas get a centred line of their own. */}
+
+## What are the limits?
+
+| Limit | What it means for you |
+| --- | --- |
+| State isn't kept across a reload | Slider settings, form values, ticks, timers and quiz progress reset. What a click already sent stays in your message. |
+| No live data | A block shows the figures the agent had when it wrote. Ask again for fresh ones. |
+| Map lines are straight | Lines join the stops directly, not along roads. Pins are only as exact as the coordinates the agent found. |
+| Photos need the internet | With no network on the session's machine, or no good match, the agent draws without them. |
+| A block that fails shows its code | You see its source as a code block, so the answer is never blank. A formula that can't be parsed shows in red. |
+| Viewers look but can't send | People you [share the session](/sharing) with see every block. Clicks that would send a message do nothing for them. |
+| Math draws only in the chat | The **Plan** tab, the **Agent** tab and Markdown file previews show TeX as source. |
+
+## Turn it off
+
+Interactive answers come from **Generative UI**, a [skill that ships with Alpha](/skills/built-in-skills), on by default for both agents. Switching it off changes only your sessions.
+
+<Steps>
+  <Step title="Open the Skills page">
+    Click **Skills** in the sidebar, then the **Installed** tab. **Generative UI** is listed under **Your skills**.
+  </Step>
+  <Step title="Switch it off">
+    Use the switch on its row, or open it and turn off **Installed in your sessions**. The dialog reads "Off keeps it out of your sessions alone."
+  </Step>
+  <Step title="Send your next message">
+    Replies are plain Markdown from then on. Blocks already in your transcripts keep drawing.
+  </Step>
+</Steps>
+
+To ask for a drawn answer outright while the skill is on, mention it in your message: `$generative-ui` in Codex, `/generative-ui` in Claude Code. Math draws either way; it isn't part of the skill.
+
+<Note>
+<Badge>Admins only</Badge> Two more switches in the same dialog decide for every account. **Ships with Alpha** off moves Generative UI to the catalog, so it is only in the sessions of accounts that install it. **Let the agent use it on its own** off means only a mention runs it.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Queue, steer or stop" icon="arrows-turn-right" href="/chat/queue-and-steer">
+    Choose whether a message typed mid-turn joins the running turn or waits for the next.
+  </Card>
+  <Card title="Prompt Alpha well" icon="lightbulb" href="/get-started/prompting">
+    Phrase a request so it lands as an answer in the chat or as code in your app.
+  </Card>
+  <Card title="Skills" icon="puzzle-piece" href="/skills/overview">
+    Install or write skills that teach the agent other ways to work and answer.
+  </Card>
+  <Card title="Follow the agent's work" icon="list-check" href="/chat/transcript">
+    Everything else a reply can hold: commands, edits, plans and errors.
+  </Card>
+</CardGroup>

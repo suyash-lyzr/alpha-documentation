@@ -1,0 +1,167 @@
+---
+title: "Inside a session's machine"
+sidebarTitle: "Machine environment"
+description: "What's installed, where files live, which environment variables are set, and the commands the agent uses to reach Alpha."
+---
+
+import { disk, uploadMax } from '/snippets/limits.mdx';
+
+Every session runs on a private Linux machine of its own. This page is the engineer's map of it: what's installed, where files live, which variables every command sees, and the `forge` commands the agent uses to switch Alpha's services on. For when the machine sleeps, wakes or resets, see [Sleep, wake and reset](/sessions/machines). To type commands into it yourself, open the [Shell](/workspace/shell).
+
+## What's installed on every machine
+
+A new machine starts from Alpha's base image. A [setup](/sessions/setups) starts from the same image with your repositories and dependencies already in place.
+
+| Part | What you get |
+| --- | --- |
+| Operating system | Ubuntu 24.04 |
+| The agents | Codex and Claude Code. Each session runs the one you picked when you started it. See [Choose the agent and model](/chat/agents-and-models). |
+| JavaScript | Node.js 22 with `npm`, and Bun |
+| Python | Python 3.12 with `venv`, `pip` and `uv` |
+| Database | PostgreSQL 16, installed but switched off until your app needs it. See [Your session's database](/workspace/database). |
+| Browser | A headless Chromium, driven by Playwright, which the agent uses to open and check its own pages at 1600×900 |
+| Command-line tools | `git`, `gh`, `ripgrep`, `jq`, `curl`, `unzip`, `nano`, `less`, `sudo` |
+| Documents | A slide exporter for PowerPoint and PDF, and a LaTeX engine that builds `.tex` files for the PDF viewer. See [File viewers](/workspace/file-viewers). |
+| Images | An image-generation command the agent calls without asking you for a key |
+| Disk | {disk}. See [Limits](/reference/limits). |
+
+The agent works as an ordinary Linux account named `agent`, with `sudo` and no password. So `sudo apt-get install` and global `npm` installs work, and whatever it installs stays on the machine through sleep and wake. A reset, which an admin does, throws it away and starts a fresh machine, from the session's setup if it has one. See [Reset the session's machine](/sessions/machines#reset-the-sessions-machine).
+
+## Where do my files live?
+
+Your project is `/workspace`. It's the folder the agent starts in, the root of the [file tree](/workspace/files), and the home folder in the Shell.
+
+| Path | What's there |
+| --- | --- |
+| `/workspace` | Your project. Everything the agent builds goes here. |
+| `/workspace/uploads` | Files you attach in the composer, up to {uploadMax} each ([Limits](/reference/limits)). They land as soon as you add them, before you send. |
+| `/workspace/<repo>` | Each repository you add, cloned under its own name. If the name is taken, it becomes `/workspace/<owner>-<repo>`. See [Connect GitHub and add repositories](/github/connect). |
+| `/home/agent` | The agent's own home: its settings, history and caches. In the Shell it shows `/workspace` instead. |
+| `/tmp/forge-browser` | Screenshots the agent's browser takes. Kept outside your project on purpose. Ask the agent to copy one in if you want it. |
+| `/etc/forge` | The session's own files: its identity, the environment files described below, and the switches for each service. Hidden from the Shell. |
+| `/var/lib/forge/serve` | The record and log of each server the agent started |
+
+Alpha keeps its own machinery in `/forge` and `/run/forge`. Neither the agent nor the Shell can see inside them. In the Shell, `/etc/forge` looks empty too, even under `sudo`, so Alpha's identity files and your secrets stay out of the terminal's view while their values still reach your environment.
+
+## Which environment variables are set?
+
+Nothing is set speculatively. A session without a database has no `DATABASE_URL`, and an app without sign-in has no sign-in variables. Each value appears the moment its service comes on.
+
+| Variable | Set when | What it holds |
+| --- | --- | --- |
+| `DATABASE_URL` | The session's database is on | `postgresql://forge:forge@localhost:5432/forge`. Apps should read this rather than hard-code a connection string. |
+| `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE` | The session's database is on | The same connection, split up, so `psql` connects with no arguments |
+| `FORGE_OIDC_ISSUER`, `FORGE_OIDC_CLIENT_ID`, `FORGE_OIDC_CLIENT_SECRET` | App sign-in is on | Your app's sign-in coordinates. See [Add sign-in to your app](/workspace/app-sign-in). |
+| `FORGE_AUTH_URL` | App sign-in is on | Where your app's own sign-up and forgot-password forms send their requests |
+| `FORGE_TOOLS_URL`, `FORGE_TOOLS_API_KEY` | Always, while the tools gateway is on for your Alpha | The address and key your app uses to call your connected apps and MCP servers. See [Use integrations in your app](/integrations/in-your-app). |
+| `GITHUB_TOKEN`, `GH_TOKEN` | You've connected GitHub | A token for `git`, `gh` and anything else that talks to GitHub. See [Connect GitHub and add repositories](/github/connect). |
+| `GIT_COMMITTER_NAME`, `GIT_COMMITTER_EMAIL` | You've connected GitHub | Alpha's GitHub app as the committer. You stay the author of every commit. |
+| `OPENAI_BASE_URL`, `OPENROUTER_BASE_URL` | You've added an `OPENAI_API_KEY` or `OPENROUTER_API_KEY` secret without its base URL | The provider's public address, so code that reads the pair works without you pasting a URL |
+| `PORT` | A server the agent started on a port | The port that server was asked to listen on |
+| Your secrets | You've added them | Every [global and session secret](/secrets), under the name you gave it |
+
+{/* TODO confirm: whether FORGE_SANDBOX_TOKEN (the bearer for FORGE_AUTH_URL) is in the session's environment. sandbox/AGENTS.md says every shell exports it, but no env file in services/backend/internal writes it; only deploy_rollout.go sets it on published apps. */}
+
+The values are layered in a fixed order, and the last one wins. Your secrets come last, so a secret named `DATABASE_URL` or `GITHUB_TOKEN` overrides the built-in value. Between secrets, a session secret beats a global one, and either beats the token from a GitHub connection. Names starting with `FORGE_` are reserved and can't be set as secrets, so the built-in sign-in and tools variables can't be overridden by accident.
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
+flowchart LR
+  db["Database settings"] --> app["App sign-in settings"]
+  app --> conn["Tools gateway settings"]
+  conn --> sec["Your secrets win"]
+  sec --> cmd["Agent commands and servers"]
+  sec --> shell["The Shell"]
+  classDef focus stroke:#1A54F0,stroke-width:1.5px;
+  class sec focus
+```
+
+Every command the agent runs, every server it starts and every new Shell read these variables as they start. A change reaches the agent's next command without a restart. A Shell that was already open keeps what it had, so click **Restart shell** to pick up a new secret or a database you switched on since it opened.
+
+A published app doesn't use these copies. It gets its own production database, the same sign-in client and your chosen settings when you publish. See [Production database and sign-in](/publish/production-data).
+
+## Run servers the Preview can reach
+
+The [Preview](/workspace/preview) shows any server in the machine that listens on a port and serves a page at `/`. Two rules decide whether yours shows up.
+
+| Rule | Why |
+| --- | --- |
+| Bind `0.0.0.0`, never `127.0.0.1` | The Preview reaches the machine from outside. For a server bound to `127.0.0.1` only, the Preview says it "is bound to 127.0.0.1 — unreachable from the preview proxy". For example `vite --host 0.0.0.0`, `next dev -H 0.0.0.0` or `uvicorn app:app --host 0.0.0.0`. Any port works. |
+| Start it with `forge serve` | The server runs detached, in its own log, so it outlives the turn and keeps serving through sleep and wake. A server started with a bare `&` or `nohup` can die with the command that started it. |
+
+`forge serve start` waits until something in its own process tree listens on the port, and exits with 0 only when the server is up and reachable from the Preview. If it fails, it says why: the server exited (with its last log lines), it bound `127.0.0.1`, another process holds the port, or it ignored the port it was given. The agent treats that exit code as the verdict, so it never tells you a server is running because the start command returned.
+
+```bash
+forge serve start web --port 5173 -- npm run dev -- --host 0.0.0.0
+forge serve status          # every server: alive, port, what / answers
+forge serve logs web        # one server's log
+forge serve restart web
+```
+
+By default the wait is 30 seconds. A server that builds or migrates before it listens can be given up to 600 seconds. A server still starting when the wait runs out is left running, and the agent checks it again later.
+
+In every permission mode except **Full access**, the agent's commands run in a restricted space where a server stops as soon as its command returns. So the agent starts servers outside that space, once the mode approves it. With Claude Code in **Workspace write**, Alpha shows you the start command to approve first. Where the mode allows no way out (**Read only**, and **Workspace write** with Codex), the agent asks you to switch to **Full access**. See [What about permissions?](/chat/agents-and-models#what-about-permissions)
+
+## Which commands does the agent use?
+
+The `forge` command is the agent's handle on Alpha. It switches services on, publishes, reads production and asks you for things through cards in the transcript. You never type these yourself: you ask in plain words, and the agent picks the command.
+
+| Command | What it does | Ask the agent |
+| --- | --- | --- |
+| `forge status` | Lists the services that are on, and what's published | "What's switched on in this session?" |
+| `forge db up` | Starts the session's PostgreSQL and sets `DATABASE_URL`. The **Database** tab opens. | "Save the bookings in a database." |
+| `forge auth up` | Registers the app for sign-in and sets the `FORGE_OIDC_*` variables. The **Auth** tab opens. | "Add user sign-in to my app." |
+| `forge serve start`, `status`, `logs`, `stop`, `restart` | Runs and manages servers, as above | "Start the app." |
+| `forge deploy check`, then `forge deploy --name` | Shows what publishing would build and the address it gets, then publishes. The **Publish** tab opens. See [Publish your app](/publish/publish-your-app). | "Deploy this." |
+| `forge deploy db push` | Copies the session database's tables, and with `--data` its rows, into the published app's production database | "Copy my tables and sample classes to production." |
+| `forge deploy rollback` | Moves all traffic back to the version that was serving before the latest change, or with `--to` to a numbered one, without a build. See [Roll back or forward](/publish/manage#roll-back-or-forward). | "Roll back the bookings app." |
+| `forge prod logs`, `forge prod metrics` | Reads a published app's runtime log or its traffic and errors. Opens the **Production Logs** or **Production Metrics** tab. See [Monitor and troubleshoot production](/publish/monitor). | "Why is production returning errors?" |
+| `forge integrations`, `docs`, `request` | Lists integrations, reads one's recipe, or posts a card in the transcript asking you to connect one. See [Integrations](/integrations/overview). | "Post each new booking to Slack." |
+| `forge tools list`, `forge tools exec` | Finds and runs one of your connected tools when there are too many to keep in the agent's tool list | No need to ask |
+| `forge secrets list`, `set`, `request` | Lists secret names (never values), saves a value the agent generated as a new session secret, or posts a card asking you for a key. See [Secrets](/secrets). | "Take payments with Stripe." |
+| `forge mcp add` | Installs a local MCP server for every session, or asks you to connect a remote one by URL. See [MCP servers](/integrations/mcp-servers). | "Install the Linear MCP server." |
+| `forge skill publish` | Installs a folder with a `SKILL.md` as a skill for every session. See [Skills](/skills/overview). | "Save this workflow as a skill." |
+| `forge setup save`, `list`, `status` | Saves this environment's recipe as a setup and builds it on a fresh machine. See [Setups](/sessions/setups). | "Save this environment as a setup." |
+| `forge routine create`, `update`, `fetch`, `open`, `delete` | Creates and manages work that runs on a timetable, even while the machine sleeps. See [Routines](/routines). | "Every Monday at 9, post last week's bookings to Slack." |
+| `forge deck open`, `forge deck export` | Opens a deck in the slide viewer, or writes it as PowerPoint or PDF. See [Slides, drawings and diagrams](/workspace/decks-and-drawings). | "Show me the deck." |
+| `forge search`, `forge session` | Searches your other sessions' messages, or reads one session, and cites them as links | "What did we decide about pricing in the other session?" |
+| `forge agent`, `forge evals` | Publishes an AI agent to the **Agent** tab and its evals to the **Evals** tab. See [Build an AI agent](/agents/build-an-agent). | "Build a support-triage agent." |
+
+<Note>
+Every `forge` command refuses to run in the Shell, even under `sudo`. It prints `forge: the services commands (db up, auth up, deploy, setup, skill, deck) run from the agent — ask for them in the chat.` Ask the agent instead, or use the workspace's **+** menu for **Database**, **Sign-in** and **Publish**.
+</Note>
+
+## Find logs and work within the limits
+
+These are the places to look when something in the machine misbehaves, and the few things it can't do.
+
+| Topic | What to know |
+| --- | --- |
+| A server's output | `forge serve logs <name>`, or the server logs in the [Preview](/workspace/preview#read-the-logs) |
+| PostgreSQL's own log | `/var/log/postgresql/postgresql-16-main.log` |
+| A setup's boot script | Its output is in `/var/log/forge-boot.log` on each new machine from the setup. See [Keep a setup current](/sessions/setups#keep-a-setup-current). |
+| Disk | {disk} per machine. Writes fail once it's full, so delete build outputs or large files. See [Limits](/reference/limits). |
+| `mount` and FUSE | Both fail, for the agent and in the Shell, even with `sudo`. Copy files into `/workspace` instead. |
+| `crontab`, timers and `sleep` loops | Not reliable. They don't run while the machine sleeps, its clock jumps when it wakes, they run without your environment, and you can't see their runs. Ask for a [routine](/routines) instead. |
+| Decks on a port | Never served. The Preview would frame a directory listing or one long page instead of slides, so the agent opens decks in the slide viewer with `forge deck open`. |
+
+<Note>
+If the agent can't publish, or `FORGE_TOOLS_URL` is missing from the environment, that feature isn't turned on for your Alpha. Ask your administrator.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="The Shell" icon="terminal" href="/workspace/shell">
+    Type into the same machine yourself, as the agent's account with `sudo`.
+  </Card>
+  <Card title="Secrets" icon="key" href="/secrets">
+    Add the keys that land last in the environment and win over every built-in value.
+  </Card>
+  <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
+    What survives a sleep, a fork and a reset, and what a reset wipes.
+  </Card>
+  <Card title="Limits" icon="gauge" href="/reference/limits">
+    Every number in one table: disk, uploads, turn length and publishing caps.
+  </Card>
+</CardGroup>

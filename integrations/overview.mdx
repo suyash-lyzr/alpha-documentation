@@ -1,0 +1,153 @@
+---
+title: "Integrations"
+sidebarTitle: "Integrations catalog"
+description: "One catalog of the apps, built-in services and MCP servers your agent and your apps can use."
+---
+
+An integration is anything outside your project's code that the agent, or the app it builds, can use: an app such as Gmail or Slack, a service built into every session such as PostgreSQL, or an MCP server that adds tools. The **Integrations** catalog holds all of them in one place, and anything you connect there works in every session you own. To sign in to an app, see [Connect an app](/integrations/connect-apps). For hosted or local MCP servers, see [MCP servers](/integrations/mcp-servers). To call your connections from the code the agent writes, see [Use integrations in your app](/integrations/in-your-app).
+
+<Frame caption="The catalog opens on Connectors, where each app offers Sign in or Connect.">
+  <img src="/images/integrations/integrations-page-apps.png" alt="The Integrations dialog, with a close button at its top right. Under the title Integrations, the lede reads: Sign in once and build with it across your sessions, apps and agents. Built-in integrations land in the agent's environment; connectors and MCP servers reach it as tools. Below it are the tabs Connectors (selected), MCPs and Connected, a search box with the placeholder Search — Gmail, Stripe, Notion, maps…, and the dropdowns All auth and All categories. Under them are the sub-tabs Connectors 25 (selected), Built in 6 and Connected 0, with a Refresh button at the right. A three-column grid of cards follows, sorted A to Z, among them Airtable, arXiv, Browserbase, Cal.com, Cloudflare, E2B, Fireflies, Gmail, Google Docs, Google Drive, Google Sheets, Hacker News, LinkedIn and Mem0, with more below. Each card shows a logo, a blue Verified check, a Connector badge, an API key, OAuth or No auth badge and a one-line description. Cards with API key or No auth show a Connect button; Gmail, the Google apps and LinkedIn, which use OAuth, show Sign in." />
+</Frame>
+
+## What counts as an integration?
+
+Each card names its kind with a coloured badge. Built-in services land in the agent's environment; connectors and MCP servers reach it as tools.
+
+| Kind (badge) | What it is | How you connect it | For example |
+| --- | --- | --- | --- |
+| **Connector** | A ready-made link to an outside app. Each function, such as "Send email", becomes a tool. | **Sign in** or **Connect** on the **Connectors** tab. | Gmail, Google Calendar, Slack, Jira |
+| **Built in** | A service in every session's machine. | Nothing to connect. The agent switches it on. | PostgreSQL, User sign-in |
+| **Remote MCP** | An MCP server hosted on the web, reached through Alpha. | **Sign in** or **Connect** under **MCPs → Remote**, or add one by its address. | Stripe, Notion, Sentry, Linear |
+| **Local MCP** | An MCP server that runs as a command inside every session's machine. | **Install** under **MCPs → Local**, or add a command. | Context7, Memory, Sequential thinking |
+
+Connector and remote MCP sign-ins never enter a session. Sessions and apps hold only a per-session key, never your password or the app's own token.
+
+<Note>
+If you don't see an app or MCP server you expected, it isn't turned on for your Alpha. An [admin](/admin) chooses which apps and hosted MCP servers the catalog offers.
+</Note>
+
+## Browse the catalog
+
+The catalog opens as a large dialog over whatever you are doing. It has no address of its own, so there is no Integrations page to bookmark. There are three ways in:
+
+| Way in | What opens |
+| --- | --- |
+| **Integrations** in the sidebar | The whole catalog. The row's badge counts what you have connected. |
+| [`/integrations`](/reference/slash-commands) in a session or on the home screen | The same dialog. `/integrations gmail` opens it at that entry. |
+| **Connect** *app* on a card the agent posts in the transcript, such as **Connect Gmail** | Only the entry the agent asked for, with its reason. **Browse all integrations →** opens the rest. |
+
+The dialog has three tabs, and each sub-tab shows a count.
+
+| Tab | Sub-tabs |
+| --- | --- |
+| **Connectors** | **Connectors** (outside apps), **Built in** and **Connected** |
+| **MCPs** | **Remote**, **Local** and **Connected**, with **Add server** at the right |
+| **Connected** | None. It lists everything that is on. |
+
+| Control | What it does |
+| --- | --- |
+| Search | Searches the open tab. |
+| **All auth** | Narrows the cards to **OAuth**, **API key** or **No auth**. |
+| **All categories** | Narrows the cards to one category on the open tab, such as "Business tools". |
+| **Refresh** | Loads apps and MCP servers afresh, past the copy Alpha keeps for a few minutes. |
+
+Cards are sorted A to Z. Click one to open its detail: what it gives the agent and how to connect it.
+
+## Read a card
+
+Every card tells you what a thing is, how it signs in and whether it is on.
+
+{/* screenshot to capture: /images/integrations/integrations-card-anatomy.png — One card, with its five parts numbered. */}
+
+1. **Logo.** A server with no mark of its own shows the MCP glyph.
+2. **Verified.** Alpha curated it. Servers you add yourself don't get the check.
+3. **Type badge.** **Connector**, **Built in**, **Remote MCP** or **Local MCP**.
+4. **Auth badge.** **OAuth** (sign in with the app's own account), **API key** (paste a key or credentials) or **No auth** (one click). Built-ins have none.
+5. **Action or status.** See the table below.
+
+| Corner reads | Meaning | Click it to |
+| --- | --- | --- |
+| **Sign in** | Not connected; uses OAuth. | Open the app's sign-in in a popup, or open its detail first when it needs more from you. |
+| **Connect** | Not connected; takes a key, extra fields or nothing. | Connect at once, or fill in its form in the detail. |
+| **Install** | A curated local MCP server. | Install it in every session you own. |
+| **Disconnected** | A remote server whose access was revoked. | Open its detail to remove it and add it again. |
+| Pill **Active**, green dot | Connected, or installed and on. | Open its detail to test, disconnect or switch it off. |
+| Pill **Off**, grey dot | A local server switched off. | Open its detail to switch it on. |
+
+When a remote server's sign-in has expired and can't be refreshed, its detail reads "Sign in again". Built-in cards show nothing in the corner, because they are always there.
+
+## Use the built-in services
+
+**Connectors → Built in** lists the six services every session's machine already has. The agent switches each one on when your project needs it.
+
+<Frame caption="Built in: six services, with no sign-in and no button.">
+  <img src="/images/integrations/integrations-page-builtin.png" alt="The Integrations dialog on the Connectors tab, with the sub-tabs Connectors 25, Built in 6 (selected) and Connected 0, the All auth and All categories dropdowns and a Refresh button. Six cards sit in a three-column grid, sorted A to Z: Alpha tools, GitHub, Headless browser, Image generation, PostgreSQL and User sign-in. Each card shows its logo, a blue Verified check, a grey Built in badge and a one-line tagline, most of them cut short: GitHub's begins Clone repos, push, open pull requests, Headless browser's The agent's own Chromium, for checking its work, and PostgreSQL's The session's own database, browsable in the, while Image generation's reads in full Hero images, icons and illustrations from a prompt. No card shows a button or a status pill." />
+</Frame>
+
+| Service | What the agent gets | How it's switched on |
+| --- | --- | --- |
+| [**PostgreSQL**](/workspace/database) | The session's own database: `DATABASE_URL` and the `PG*` variables. | The agent starts it when your app stores data; the **Database** tab opens. |
+| [**User sign-in**](/workspace/app-sign-in) | Google or email accounts for your app's users: `FORGE_OIDC_ISSUER`, `FORGE_OIDC_CLIENT_ID`, `FORGE_OIDC_CLIENT_SECRET`. | The agent turns it on when your app needs accounts; the **Auth** tab opens. |
+| **Image generation** | Hero images, icons and illustrations from a prompt, saved into the project. | The agent runs Alpha's image generator. No variables. |
+| **Headless browser** | Its own Chromium, to check its pages and read the web. | Always on, as browser tools. |
+| [**Alpha tools**](/integrations/in-your-app) | Everything you connected, callable from the agent, your app and its agents: `FORGE_TOOLS_URL`, `FORGE_TOOLS_API_KEY`. | Always set, in every shell and published app. |
+| [**GitHub**](/github/connect) | An authenticated `git` and `gh`: `GITHUB_TOKEN`, `GH_TOKEN`. | You connect it in a session's **GitHub** tab (**+** → **GitHub**), not here. |
+
+Click a built-in to see what the agent works from: a **Built into Alpha** box, a **What the agent gets** list of its variables for those that set any, and a collapsed **What the agent will follow** section. Expand it to read, word for word, the recipe the agent follows for that service.
+
+{/* screenshot to capture: /images/integrations/integrations-builtin-postgres.png — The recipe under What the agent will follow is the same text the agent reads. */}
+
+## Where does a connection reach?
+
+A connection belongs to your account, not to one session. Sign in to Gmail once and every session you own can use it.
+
+| Where | How it reaches your connections |
+| --- | --- |
+| The agent, in every session you own | As tools in its tool list. |
+| Your app in the [Preview](/workspace/preview) | Through the session's key, in `FORGE_TOOLS_URL` and `FORGE_TOOLS_API_KEY`. |
+| Apps you [publish](/publish/publish-your-app) | The same two variables, set on the published app. |
+| An app you export and run elsewhere | Paste the two lines from the session's key into its `.env`. |
+
+Connections belong to your account alone. Other people's sessions never get them, even when you [share a session](/sharing) with them.
+
+### When do changes take effect?
+
+Connecting, disconnecting or revoking something updates every running session of yours. If the agent is mid-turn, the change waits for that turn to end, so the new tools arrive with your next message.
+
+{/* TODO confirm: whether a session that is asleep picks up a connection change when it wakes. docs/backend/tools-gateway.md lists "A paused sandbox doesn't get the refresh" as a known gap. */}
+
+### Check what's on
+
+The **Connected** tab lists every connector you signed in to and every MCP server that is on. Built-in services never appear there. Its count matches the badge on the sidebar's **Integrations** row.
+
+{/* screenshot to capture: /images/integrations/integrations-page-connected.png — Connected gathers connectors and MCP servers of both kinds in one list. */}
+
+With nothing on, the tab reads "Nothing connected yet — sign in to a connector or install an MCP server."
+
+## What if a service isn't listed?
+
+It still works. Search for it, and when nothing matches the catalog says so: "A service that isn't here still works as a plain secret — the agent will name the variable."
+
+Ask the agent to use the service. When it needs a key it posts a card in the transcript, such as "The agent needs `HARBOR_WEATHER_API_KEY`", with an **Add HARBOR_WEATHER_API_KEY** button that saves the key as a [secret](/secrets). The agent then reads it as an environment variable. If the service offers an MCP server, you can also add it yourself under **MCPs → Add server**, as described in [MCP servers](/integrations/mcp-servers).
+
+<Warning>
+Never paste a key into the composer. Anything typed in the composer lands in the session's transcript, and Alpha warns you when your message looks like it holds one. Add keys under [Secrets](/secrets) or connect the app here.
+</Warning>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Connect an app" icon="right-to-bracket" href="/integrations/connect-apps">
+    Sign in with the popup, connect with a key, test a connection and answer the agent's Connect card.
+  </Card>
+  <Card title="MCP servers" icon="server" href="/integrations/mcp-servers">
+    Install Context7, sign in to Stripe or Notion, or add a server of your own by URL or command.
+  </Card>
+  <Card title="Use integrations in your app" icon="code" href="/integrations/in-your-app">
+    Find the session's key, copy its two `.env` lines and rotate it if it leaks.
+  </Card>
+  <Card title="Secrets" icon="key" href="/secrets">
+    For a service with no connector: store its key once and every session gets it.
+  </Card>
+</CardGroup>

@@ -1,0 +1,135 @@
+---
+title: "Try your agent"
+sidebarTitle: "Try it"
+description: "Run the whole agent on your own input, watch each step light up, and read its structured answer."
+---
+
+import { uploadMax } from '/snippets/limits.mdx';
+
+**Try it** is a chat next to the [Agent tab's](/agents/agent-tab) canvas. Each message you send runs your whole agent once, live, on the real model, and the reply is the answer your agent returns. It is for one input at a time, while you build. To run a set of test cases and grade every answer, [set up evals](/evals/set-up) instead.
+
+<Badge>Owner only</Badge> Every run spends your own model key, so people you [share the session](/sharing) with see the canvas but not **Try it**.
+
+{/* screenshot to capture: /images/agents/agent-try-it-empty.png — Try it opens beside the canvas. Pick a sample or write your own input. */}
+
+## Open Try it
+
+**Try it** sits on the toolbar in the bottom corner of the canvas, beside the evals button. Its tooltip reads "Run the whole flow on your own input". The button shows whenever the canvas draws your agent, which happens once the session's agent has [built one](/agents/build-an-agent).
+
+The chat opens beside the canvas, or below it on a narrow workspace. Drag the divider to give either more room, and double-click it to reset.
+
+To close the chat, click **Try it** again or **Close the chat** in its header.
+
+## Give it an input and run
+
+The composer has one field for each input your agent declares, named in words, with its type beside the name and its description as the placeholder.
+
+{/* screenshot to capture: /images/agents/agent-try-it-typed-fields.png — One field per input, typed to match. The chips below choose the framework and show the model. */}
+
+| Input type | What the field is | What to know |
+| --- | --- | --- |
+| `string` | A text box that grows as you type | With no description, the placeholder reads "Write the …". |
+| `integer` | A one-line field | Run stays off until it holds a whole number. Until then, the field says "A whole number, such as 3." |
+| `number` | A one-line field | Run stays off until it holds a number. Until then, the field says "A number, such as 2.5." |
+| `boolean` | A switch | It is `false` until you flip it. |
+| `path` | Text, or a file | Click **Attach a file**, or drop a file on the field. It uploads straight away. A PDF is sent as its text. |
+
+<Steps>
+  <Step title="Fill the fields">
+    Click a card under **Start from a sample** to fill every field without sending. If there are no samples, the chat says "No sample inputs for this agent yet. Write your own below, or have the builder draft a few." Click **Ask the agent for samples** and the session's agent writes three to five. After your first message, samples move to a row of pills above the composer, shown while the fields are empty or hold a sample. A check marks the ones you've already sent in this chat.
+  </Step>
+  <Step title="Pick the framework, if there is a choice">
+    The framework chip shows what this message runs on. If your agent was built for more than one framework, click it to choose. A framework whose live check hasn't passed reads "· not proved live" and still runs. The model chip beside it names the model, and its tooltip names the key the run reads, for example "The run reads OPENAI_API_KEY".
+  </Step>
+  <Step title="Run it">
+    Click **Run**, or press <kbd>Enter</kbd> in a text field. <kbd>Shift</kbd> + <kbd>Enter</kbd> adds a new line. You need to fill at least one field, unless the agent takes no inputs. In that case the composer says "This agent declares no inputs. Run sends it as it is."
+  </Step>
+</Steps>
+
+Fields you leave empty take the default values from the agent's `inputs.json`. If an input has no value in either place, the run is refused with a line naming the inputs it needs. Each message is a fresh run: your agent sees nothing from earlier messages in the chat. To keep the context of a conversation, put it in the input.
+
+Only one message runs at a time. If you press **Run** while an earlier message is still running, the button reads **Queued**. Your message then runs by itself, with the fields as they are at that point. Click **Queued** to cancel it. The queue lives in the page, so closing the tab drops it.
+
+## Watch the run
+
+While a message runs, the canvas shows where it is. Each card gets a dot: pulsing while that step runs, green when it is done and red if it failed. The **Inputs** card turns green as the run starts, and the **Answer** card gets its dot when the run ends. The strip under the chat header shows the same dots in run order. Steps that run together are joined by **+**.
+
+{/* screenshot to capture: /images/agents/agent-try-it-running.png — The dots are the run's real state: two steps done, one still running. */}
+
+The run takes place in the session's machine and doesn't depend on your tab. If you close the chat or the tab, it keeps going. Open the chat again and Alpha picks the run back up. Agents built on the Claude Agent SDK don't report their steps, so on those only the **Inputs** and **Answer** cards light up.
+
+## Read the answer
+
+When the run ends, the card under your message shows what your agent returned. The header shows the status (**Done**, **Did not finish** or **Stopped**) and how many seconds the run took. Short fields, such as numbers, flags or a word or two, appear as tiles. Longer text follows as sections under each field's name.
+
+{/* screenshot to capture: /images/agents/agent-try-it-answer.png — Short fields become tiles, and long text becomes sections. Illustrative values. */}
+
+| Control | What it does |
+| --- | --- |
+| **JSON** | Shows a structured answer as the raw JSON your agent returned. A plain-text answer has no **JSON** button. |
+| **Copy** | Copies the answer. |
+| The step count, for example **3 steps** | Lists each step with its time. |
+| **Edit and run again** | Appears when you hover over your message. It puts that message's inputs back in the fields, ready to change. |
+
+Two other things can appear on an answer card:
+
+- If the run passed but returned nothing, the card says "The run finished without an answer."
+- An **earlier version** tag means the agent has been checked again since that message ran, so the message ran an older build.
+
+Use **New chat** to start a clean chat and **Earlier chats** to reopen an old one.
+
+## What if a run fails or won't start?
+
+When a run fails, the card says "This run did not finish." Click **Details** to see the run's own reason, which reads "No reason was recorded." if there was none. Click **Ask the builder to look into it** to send the failure to the session's agent. It reads the run's logs, explains the cause and shows you a fix before it edits anything.
+
+"This run ended early: the sandbox stopped under it. Send your message again to try once more." means the session's machine stopped while the run was going. Nothing is wrong with your agent, so send the message again.
+
+If something is missing before you start, the chat says what it is, usually with one button that fixes it.
+
+{/* screenshot to capture: /images/agents/agent-try-it-missing-key.png — A missing key blocks Run until you add it under Secrets. */}
+
+| Notice | What it means | Button |
+| --- | --- | --- |
+| "Your agent is almost ready" | The agent hasn't been built into runnable code yet. | **Build it now** asks the session's agent to build it. |
+| "Add OPENAI_API_KEY under Secrets to run the agent." | No [secret](/secrets) in the session or your account holds the key the agent reads. The name depends on the agent: the key its definition names, else `OPENAI_API_KEY`, or `LYZR_API_KEY` for Lyzr agents. Claude Agent SDK agents accept `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN`, and the notice names both. | **Open Secrets** |
+| "This agent has no run script yet, so there is nothing to run. Rebuild it." | The built code is incomplete. **Run** stays off. | **Rebuild** |
+| "This agent was built for …; the definition takes … now. Rebuild it to match." | You changed the agent's inputs after it was built. | **Rebuild** |
+| "This agent was updated since it was last built. Rebuild it to try the latest version." | The definition changed after the last build. **Run** stays off. | **Rebuild** |
+| "We're still checking a live run of this agent. You can try it now anyway." | The final live check hasn't finished yet. | None. Messages still run. |
+
+## What does a run cost, and what is kept?
+
+<Warning>
+Every message is a real run on the real model, and it is billed to the key in your secrets, not to Alpha. An agent with several steps can make several model calls per message.
+</Warning>
+
+| Limit | Value |
+| --- | --- |
+| Length of one run | 900 seconds. A longer run is stopped and marked **Did not finish**, and **Details** reads "the run took longer than 900 s and was stopped". |
+| Size of one answer | 64 KiB. A longer answer is kept in the run's `stdout.txt`, and the card says where. |
+| Size of one message | 64 KiB across all text fields, or the start is refused with "Send a shorter message." Attached files don't count toward it. |
+| Attached file | {uploadMax}, the same as any [upload](/workspace/files). |
+| Chats listed under **Earlier chats** | The newest 30. Chats can't be renamed or deleted. |
+
+The session-wide limits are on [Limits](/reference/limits).
+
+<Note>
+Every chat and run is saved in your agent's folder, under `eval-runs/.playground/`, and you can open it in [Files](/workspace/files). When a run ends, Alpha replaces any environment value of 8 characters or more whose variable name ends in `KEY`, `TOKEN`, `SECRET` or `PASSWORD` with `[redacted]` in those files. Your secrets are also hidden in everything the chat shows. While a run is going, only step names, statuses and timings leave the machine.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Set up evals" icon="flask" href="/evals/set-up">
+    Turn the inputs you tried by hand into graded test cases that run in one go.
+  </Card>
+  <Card title="The Agent tab" icon="diagram-project" href="/agents/agent-tab">
+    Read each step's instructions, model and tools in the inspector before you run it.
+  </Card>
+  <Card title="Secrets" icon="key" href="/secrets#add-a-secret">
+    Add the model key your agent reads, for this session or for every session.
+  </Card>
+  <Card title="Build an AI agent" icon="robot" href="/agents/build-an-agent">
+    Change what the agent takes or returns, then come back and try it again.
+  </Card>
+</CardGroup>

@@ -1,0 +1,135 @@
+---
+title: "Connect an app"
+sidebarTitle: "Connect apps"
+description: "Sign in to an app or paste its key once, and its tools work in every session you own, your previews and the apps you publish."
+---
+
+Connecting an app links your account on an outside service, such as Gmail, Slack or Notion, to Alpha. You do it once, in [**Integrations**](/integrations/overview), and the app's functions become tools for the agent in every session you own, and for the apps and agents it builds. For a hosted server such as Linear or Stripe, see [MCP servers](/integrations/mcp-servers). A service with no connector works as a plain key under [Secrets](/secrets).
+
+<Note>
+Nothing is pasted into a message. You sign in or type a key in Alpha's own forms, and the connection is kept by Alpha and its connector service, never on your session's machine. If you don't see an app in the list, it isn't turned on for your Alpha. Ask your administrator.
+</Note>
+
+{/* screenshot to capture: /images/integrations/connector-detail-signin.png — An app's panel shows how you connect it and every function the agent gets once you do. */}
+
+## Sign in to an app
+
+Most apps connect through the app's own consent page, which Alpha opens in a small window.
+
+<Steps>
+  <Step title="Find the app">
+    Click **Integrations** in the sidebar. The catalog opens as a dialog on the **Connectors** tab, where the **Connectors** sub-tab lists the apps. Type the app's name in the search box. Inside a session, you can type `/integrations gmail` in the [composer](/chat/composer) instead, which opens the catalog at that app.
+  </Step>
+  <Step title="Click Sign in">
+    Click **Sign in** on the app's card, or open the card and click **Sign in** in its panel. A window opens on the app's consent page, for example Google's.
+  </Step>
+  <Step title="Approve, and let the window close">
+    Approve the access. The window's last page reads "Connected" and "You can close this window and go back to your chat.", and then closes itself. In Alpha, the app's card now shows **Active**.
+
+    {/* screenshot to capture: /images/integrations/oauth-popup-connected.png — You rarely see this page for long, because it closes itself. */}
+  </Step>
+</Steps>
+
+If a sign-in doesn't go to plan:
+
+| What happens | What Alpha does |
+| --- | --- |
+| Your browser blocks the window | Alpha sends the whole tab to the app's consent page instead. When you approve, you come back to the page you left, with the same app open. |
+| The sign-in fails | The window reads "The sign-in didn't complete", and the panel reads "The connector's authorization did not complete. Try connecting again." Click **Sign in** again. |
+| You take longer than 10 minutes | The sign-in expires and the app isn't connected. Close the window and click **Sign in** again. |
+
+## Connect with a key or extra fields
+
+Some apps ask for a key, account credentials or a few details instead of a consent page. Open the app's card to see which form it uses. A few apps need nothing at all: their panel reads "No credentials needed — connect it and its functions are available at once.", and **Connect** links them straight away.
+
+<Tabs>
+  <Tab title="API key">
+    The panel shows **Connect with an API key**. Paste the key into **API key**, then click **Connect**. As the form says, the key is "Stored by the connector service, never in a session."
+
+    {/* screenshot to capture: /images/integrations/connector-apikey-form.png — The key goes to the connector service, not to your session's machine. */}
+
+    Other apps ask for their key as a labelled field instead. Those use the **Extra fields** form.
+  </Tab>
+  <Tab title="Account credentials">
+    Apps that sign in with an account id and a token, such as Twilio, show **Connect with your account credentials**. Paste both into **Account SID : Auth Token** as one value with a colon between them, for example `ACxxxxxxxx:your-auth-token`. Then click **Connect**. A value without the colon is refused with "Use the form AccountSid:AuthToken".
+  </Tab>
+  <Tab title="Extra fields">
+    Some apps need details first: Telegram needs your bot token, and Jira needs your site's subdomain. The panel shows one labelled field for each. Fill them, then click **Sign in** (which continues to the consent page) or **Connect** (which connects straight away).
+  </Tab>
+</Tabs>
+
+<Tip>
+Alpha doesn't try a key you type against the app when you connect, and **Test connection** checks only that your account is linked. A wrong key shows up the first time the agent calls one of the app's tools. Ask the agent to make one small call, such as listing a few items, to check it early.
+</Tip>
+
+## Test, check or disconnect a connection
+
+Once an app is connected, its card shows **Active** and its panel reads **Connected**. The panel says the app's functions are now in the agent's tool list and in every app the agent builds. It starts "Signed in with Alpha's shared client" for an app you signed in to, and "Linked" for any other.
+
+{/* screenshot to capture: /images/integrations/connector-detail-connected.png — A green line under Test connection means your account is still linked. */}
+
+| Control | What it does |
+| --- | --- |
+| **Test connection** | Checks that your account is still linked and active, and prints a green or red line. |
+| **Connector scopes** | Lists every function the agent gets, with a readable name above its raw name. You can't switch single functions off. |
+| **Refresh** (the icon beside **Connector scopes**, on some apps) | Picks up functions the app has added since. |
+| **Disconnect** | Removes the connection at once, with no confirmation, and unlinks your account from the connector service too. Every session, preview and published app loses the app until you connect it again. |
+
+### When do changes reach my sessions?
+
+A connection belongs to your account, so Alpha updates the agent's tool list everywhere:
+
+| Where | When the change arrives |
+| --- | --- |
+| A running session with no turn in progress | Right away. |
+| A running session in the middle of a turn | When that turn ends, so the agent has it from its next turn. |
+| A session that is [asleep](/sessions/machines) | When it wakes. {/* TODO confirm: refreshToolsInRunningSandboxes (tools_routes.go) only reaches running machines; no code found that refreshes the agent's tool list when a sleeping machine wakes. */} |
+| Your previews and [published apps](/integrations/in-your-app) | On their next call, because they reach the app through Alpha with the session's key. |
+
+## When the agent asks you to connect
+
+When the agent needs an app you haven't connected, it posts a Connect card in the [transcript](/chat/transcript) with its reason. It doesn't wait: it carries on with the parts that don't depend on the app, such as logging emails instead of sending them, and finishes its turn.
+
+{/* screenshot to capture: /images/integrations/chat-connect-card-waiting.png — The card says what the agent wants and why, and connects without leaving the session. */}
+
+1. Click **Connect Gmail**. A small dialog opens for that app alone, with a **Why the agent asked** box above the usual sign-in or key form. **Browse all integrations →** opens the full catalog instead.
+2. Connect. The dialog closes, and the card changes to "Gmail is connected".
+3. Click **Tell the agent to continue**. Alpha sends "I connected Gmail in Alpha — its tools are in your tool list now. Continue." If the agent is still working, the message reads "from your next turn" instead of "now", and [steers](/chat/queue-and-steer) the running turn.
+
+Each open request also sits in a tray above the composer, so it stays in reach after the card scrolls away. A row reads "Connect **Gmail** · the agent asked for it" with a **Connect** button. Once the app is connected, the row reads "**Gmail** is connected · tell the agent to carry on" with **Continue**.
+
+{/* screenshot to capture: /images/integrations/composer-connect-dock.png — The tray keeps open requests in reach after their cards scroll out of view. */}
+
+If the tray was showing a request while you connected, Alpha presses **Continue** for you, once. The **×** on a row hides it in this browser.
+
+In one session, the agent can't post a card for the same app twice within 2 minutes, and it never posts one for an app you've already connected. People viewing a [shared session](/sharing) see the cards without buttons, and no tray.
+
+## What if a connection doesn't work?
+
+| Message or symptom | Fix |
+| --- | --- |
+| "The sign-in didn't complete" in the window, or "The connector's authorization did not complete. Try connecting again." in the panel | The sign-in didn't finish. Click **Sign in** again, and approve within 10 minutes. |
+| "sign-in is unavailable right now — try again in a moment" | Alpha couldn't start the sign-in. Wait a moment and click **Sign in** again. |
+| A red **Test connection** line ending "connect it again" | The connector service no longer holds an active link to your account. Click **Disconnect**, then connect again. |
+| "could not reach the tool service — try again in a moment" or "could not reach Composio" | The connector service didn't answer. Try again shortly. |
+| "Connectors could not be loaded" | Click **Refresh** at the right of the row under the tabs. |
+| The agent can't find the app's tools right after you connected | Its turn was already running. Click **Tell the agent to continue**, or send your next message. |
+
+For problems outside this page, see [Troubleshooting and FAQ](/reference/troubleshooting).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Use integrations in your app" icon="code" href="/integrations/in-your-app">
+    The two variables your app and its agents use to call what you connected.
+  </Card>
+  <Card title="MCP servers" icon="server" href="/integrations/mcp-servers">
+    Hosted servers such as Linear and Stripe, or one that runs in every session.
+  </Card>
+  <Card title="Secrets" icon="key" href="/secrets">
+    For a service with no connector: a key the agent reads from its environment.
+  </Card>
+  <Card title="Post a weekly summary to Slack" icon="calendar" href="/guides/weekly-summary">
+    Connect Slack and use it from a routine every Monday.
+  </Card>
+</CardGroup>

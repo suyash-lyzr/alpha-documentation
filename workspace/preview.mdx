@@ -1,0 +1,162 @@
+---
+title: "Preview your app"
+sidebarTitle: "Preview"
+description: "See the app running in your session's machine, test it at phone width, and read its logs."
+---
+
+import { idlePark } from '/snippets/limits.mdx';
+
+The **Preview** is your app, live, running on the session's machine and framed in the workspace next to the chat. It opens by itself the moment the agent starts a server that serves a page, and it reloads at the end of every turn so you always see the finished work. To show the agent a part of the page or draw on it, see [Point at and draw on your app](/workspace/point-and-draw). For the other tabs around it, see [The workspace](/workspace/overview).
+
+<Frame caption="The Preview's toolbar: the device switch on the left, the app's own navigation and port in the middle, and the tools on the right.">
+  <img src="/images/workspace/preview-toolbar.png" alt="The Preview tab of the workspace, with the round + button beside it, and the GitHub button, Share, a greyed Publish pill and the files button at the right of the strip. The toolbar below shows, from left to right: three device icons for Desktop, Tablet and Mobile, with Desktop highlighted; Back and Forward arrows; Reload preview; a port pill reading node · 3000 with a blue dot and a down chevron; and the Logs button. At the right end sit a pen for Draw, a dashed pointer for Select and the Open in new tab icon. The Harbor Sailing School app fills the frame: its header with the logo, Our classes, Before you sail and a My bookings button; the line A little adventure is on the horizon over the headline Good days start on the water., then Find your first tack or your next adventure. There's a place on board for you. and Small crews. Fresh air. A new perspective.; a sailboat photo with a Meet you at the harbor. label and a round LESS SCROLLING MORE SAILING badge at its corner; and This week's classes, with a count of 3 and a date pill reading Oct 26 – Nov 1, 2026 and This week, above the filters All classes, Beginner, Intermediate and All levels and the tops of three class cards tagged Beginner friendly, Build your skills and All levels welcome." />
+</Frame>
+
+## How does my app get here?
+
+Alpha watches the session's machine for anything listening on a port. Once something listens, a **Preview** tab joins the workspace. When a port's `/` answers with a web page, the tab opens on it. You never switch the Preview on yourself, because it follows what is actually running.
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
+flowchart LR
+  A[Agent starts a server] --> B[Listens on 0.0.0.0]
+  B --> C[Alpha finds the port]
+  C --> D{Does / serve a page?}
+  D -->|Yes| E[Framed in the Preview]
+  D -->|No| F[Listed in the port menu]
+  classDef focus stroke:#1A54F0,stroke-width:1.5px;
+  class E focus
+```
+
+Three rules decide what you see:
+
+| Rule | Why it matters |
+| --- | --- |
+| The server must listen on `0.0.0.0` | A server bound to `127.0.0.1` only answers inside the machine, so the Preview can't reach it. The agent knows this. |
+| `/` must serve a page | An API, a file listing or a slide deck is listed in the port menu but not framed. |
+| The frame reloads when a turn ends | Less than a second after the agent finishes, the Preview reloads on the app's home page, so the latest version is on screen. |
+
+If nothing listens for a few seconds, the tab goes away until something does. A restart doesn't make it blink. Closing the tab with its × only hides it, and the app keeps running. While the app runs, the **+** menu brings the tab back.
+
+## Use the toolbar
+
+The toolbar works like a small browser for your app. **Back** and **Forward** move through the app's own history, single-page routes included, and never move Alpha's own address bar.
+
+| Control | What it does |
+| --- | --- |
+| **Desktop**, **Tablet · 834px**, **Mobile · 390px** | Resizes the frame in place. Hidden when the workspace is narrow. |
+| **Back**, **Forward** | Greyed out when there's nowhere to go, or in a browser older than Chrome 102, Firefox 147 or Safari 26.2. |
+| **Reload preview** | Reloads the app's home page. |
+| Port pill, such as **node · 3000** | Shows the process and port on screen. Click it to [switch ports](#switch-ports). Reads "no page yet" or "no ports" when there's nothing to frame. |
+| **Logs** | Opens the [logs panel](#read-the-logs). A red dot and a tooltip such as "Logs · 2 errors" mean the app logged errors. |
+| **Draw**, **Select**, **Edit** | Mark up the page, point at an element, or change text, colours and spacing in place for the agent to apply. See [Point at and draw on your app](/workspace/point-and-draw). |
+| **Open in new tab** | Opens the app at its own address, where its sign-in cookies work normally. |
+
+People you [share the session](/sharing) with see the same Preview, without **Draw**, **Select** or **Edit**.
+
+## Switch ports
+
+When your app runs more than one server, such as a web front end and an API, the port pill lists them all. Ports that serve a page come first, with a check on the one on screen. The rest sit under "Also listening · no page to frame", each with its reason.
+
+<Frame caption="With one server running, the menu holds one port, checked as the one on screen.">
+  <img src="/images/workspace/preview-port-menu.png" alt="The Preview's port menu open under the port pill, which reads node · 3000 with a blue dot and an up chevron, between the Reload button and the Logs button. The menu holds one row, node · 3000, with a check mark at its right. Behind the menu, the app's Our classes and Before you sail links show through." />
+</Frame>
+
+| Reason in the menu | What is on that port |
+| --- | --- |
+| "404 at /" (or another status), "no page at /" | A server with no page at `/`, usually an API |
+| "a file listing at /" | A static file server pointed at a folder, never the app |
+| "a deck — open its file instead" | A slide deck. Decks open in [their own viewer](/workspace/decks-and-drawings). |
+| "not HTTP" | A server that doesn't speak HTTP |
+
+Click a row ("Open it anyway") to frame that port regardless.
+
+## Test other widths
+
+Pick **Tablet · 834px** or **Mobile · 390px** to narrow the frame to that width. The app's own layout rules apply, so you see its real phone layout, not a scaled-down desktop. **Desktop** fills the workspace again.
+
+<Frame caption="Mobile narrows the frame, and the app's phone layout takes over.">
+  <img src="/images/workspace/preview-mobile.png" alt="The Preview tab with its toolbar: the Mobile device icon is highlighted, the port pill reads node · 3000, and Draw, Select and Open in new tab sit at the right. The Harbor Sailing School app sits in a narrow, rounded frame centred on the dark workspace. At this width the header holds only the Harbor Sailing School logo and a My bookings button, without the Our classes and Before you sail links. Under the line A little adventure is on the horizon, the headline Good days start on the water. spans the frame, followed by Find your first tack or your next adventure. There's a place on board for you. and Small crews. Fresh air. A new perspective. The sailboat photo, with its Meet you at the harbor. label and a round LESS LAND MORE SEA badge at the corner, sits below the text instead of beside it, and the This week's classes heading, with its count of 3, starts at the bottom." />
+</Frame>
+
+To check a width the switch doesn't offer, use **Open in new tab** and resize that browser window.
+
+## Sign in through another site
+
+Sign-in pages such as Google's refuse to be shown inside another page. So when your app sends the frame to another site, such as a sign-in or a checkout, Alpha opens that site in a window of its own. If you clicked something in the app, the window opens by itself. Otherwise click **Continue to** that site. Finish there, and the app picks up in the Preview.
+
+{/* screenshot to capture: /images/workspace/preview-signin-escape.png — A Google sign-in opens in its own window. The app picks up in the frame when you finish there. */}
+
+If the frame ends up on another site's page anyway, a pill along the bottom says so, such as "weather.example.com is outside the app.", with **Open in new tab** and **Back to the app**. If sign-in keeps looping in the frame, use **Open in new tab**, where cookies behave as in any browser tab. To add sign-in to your app, see [App sign-in](/workspace/app-sign-in).
+
+<Warning>
+Each port has its own preview address, and that address is the only key. Anyone you give it to can use your app while the machine is awake, including any data the app shows without sign-in. Share the address only with people you'd show the app to.
+</Warning>
+
+## Read the logs
+
+Click **Logs** to open a panel under the frame. **Console** shows the app's browser console and uncaught errors, with a "Page loaded" divider at each load. Beside it is one tab per server the agent started, showing that server's log.
+
+{/* screenshot to capture: /images/workspace/preview-logs-console.png — The console shows the error the page hit. The web tab holds the server's own log. */}
+
+| Button | What it does |
+| --- | --- |
+| Paperclip ("Attach the last lines to your next message") | Adds the last 50 lines of the tab you're on to the composer as a chip named "Preview console" or after the server, such as "web log". Owner only. |
+| "Clear the console" | Empties the **Console** tab. |
+| "Close logs" | Hides the panel. |
+
+Drag the panel's top edge to resize it, up to 70% of the Preview's height. With the edge focused, <kbd>↑</kbd> and <kbd>↓</kbd> resize it too. People you share the session with see **Console** only.
+
+## What happens while the machine wakes?
+
+A machine sleeps once you've been away for {idlePark}, and opening the session wakes it. See [Sleep, wake and reset](/sessions/machines). Grey placeholder bars cover the frame until the app is back, usually within seconds.
+
+Where your Alpha keeps saved copies, the Preview doesn't wait. It shows the app at once from a copy taken as the machine went to sleep, with a note along the bottom. When the live app is ready, it fades in at the same address and scroll position, without a reload. **Edit** waits for the live page.
+
+{/* screenshot to capture: /images/workspace/preview-cached-copy.png — The saved copy is on screen at once. The live app replaces it by itself. */}
+
+The copy holds only what your app shows a visitor who isn't signed in. A signed-in page is never saved, so it can't reach anyone else. If you're signed in to your app, you see the signed-out copy until the live app takes over.
+
+<Note>
+If you don't see a saved copy while a machine wakes, it isn't turned on for your Alpha. The Preview waits for the live app instead.
+</Note>
+
+## Why does the Preview show a message?
+
+The frame, or a preview address opened in its own tab, says why there's no app. Most fixes are one sentence to the agent. More are in [Troubleshooting and FAQ](/reference/troubleshooting).
+
+{/* screenshot to capture: /images/workspace/preview-loopback.png — A server bound to 127.0.0.1 is running, but only the machine itself can reach it. */}
+
+| Message | What it means | What to do |
+| --- | --- | --- |
+| "… is bound to 127.0.0.1 — unreachable from the preview proxy." | The server only listens inside the machine. | Ask the agent: "Rebind the dev server to 0.0.0.0." |
+| "Nothing is listening right now — the app's server stopped." | The server crashed or was stopped. | Check **Logs**, then ask the agent to run it again. |
+| "… listening, but nothing to frame at /." | Every port is an API, a file listing or a deck. | Pick a port from the port menu, or ask the agent to start the web front end. |
+| "Blocked request. This host is not allowed" | The dev server (Vite, for example) refused the preview address. | Ask the agent to allow the preview host in its config. |
+| "Sandbox asleep" | You opened a preview address while the owner is away from Alpha. | Open the session in Alpha. The page reloads itself once the machine is back. |
+| "Sandbox didn't wake" | The machine couldn't be brought back. Nothing was discarded. | Open the session. The transcript says what went wrong. See [Sleep, wake and reset](/sessions/machines#what-if-a-machine-wont-wake). |
+| "Nothing on this port" | The machine is up, but nothing answered on that port. | Ask the agent to start the server, bound to `0.0.0.0`. |
+| "No live sandbox" | The session has no machine yet. | Open the session and ask the agent to run the app. |
+| "Port not previewable" | The port belongs to the machine's own runtime. | Ask the agent to use another port. |
+| "Unknown session" | No session matches the address. It may have been deleted. | Open the Preview from the session itself. |
+
+<Tip>
+The agent starts servers through Alpha, which reports success only once the Preview can reach the port. Those servers keep running between turns and through sleep. See [Inside a session's machine](/reference/machine-environment).
+</Tip>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Point at and draw on your app" icon="arrow-pointer" href="/workspace/point-and-draw">
+    Click a button in the Preview and the agent gets its selector, its styles and, where it can tell, its source file.
+  </Card>
+  <Card title="Add sign-in to your app" icon="right-to-bracket" href="/workspace/app-sign-in">
+    Turn on sign-in for your app and see who has signed up in the Auth tab.
+  </Card>
+  <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
+    What keeps the machine awake, and what to do if it won't come back.
+  </Card>
+  <Card title="Publish your app" icon="rocket" href="/publish/publish-your-app">
+    Give the app a permanent address that doesn't depend on the session's machine.
+  </Card>
+</CardGroup>

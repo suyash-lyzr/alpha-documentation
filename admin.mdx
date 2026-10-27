@@ -1,0 +1,224 @@
+---
+title: "Admin dashboard"
+sidebarTitle: "Admin dashboard"
+description: "For admins: every account, session, machine, deploy and integration on your Alpha, with the controls to manage them."
+---
+
+<Badge>Admins only</Badge>
+
+The Admin dashboard is the one page that shows your whole Alpha: every account, session, machine, published app and integration, with the controls to manage them. Open it from **Account menu → Admin**, or go to `/admin`. To see what your own sessions cost, use [Usage](/account/usage-and-costs) instead. To let one person watch a session, [share it](/sharing).
+
+{/* screenshot to capture: /images/admin/admin-overview.png — Six totals, any warnings, then the sessions working right now. Illustrative values. */}
+
+The dashboard refreshes every 15 seconds while it's on screen, and the header says how fresh the figures are. It reopens on the tab you used last in this browser. Each change you make shows its result in a green banner, or the server's reason in a red one.
+
+## Who is an admin?
+
+An admin is an account with the admin role. Alpha shows the **Admin** row only to admins, and the server refuses every admin request from anyone else. Anyone else who opens `/admin` reads "This account doesn't have the admin role. An admin can grant it from this page, or FORGE_ADMIN_EMAILS on the server pins it."
+
+| Kind of admin | How they get the role | Can it be taken away here? |
+| --- | --- | --- |
+| Pinned | Their email, or its `@domain`, is in `FORGE_ADMIN_EMAILS` on the server. Their chip reads **admin · pinned**. | No. Only removing them from that setting does, so the first admin, or a locked-out one, always has a way in. Pinned admins also skip the waitlist. |
+| By role | Another admin clicks **Make admin** on the **Users** tab. The role is stored on the account. | Yes, by another admin with **Remove admin role**. Nobody can remove their own. |
+| Everyone, in guest mode | The server runs with `FORGE_AUTH=guest`, so there are no accounts to tell apart. | There are no roles to change. |
+
+On an Alpha with accounts, new accounts start without the role, so nobody is an admin until `FORGE_ADMIN_EMAILS` names someone. While no admin is pinned and there is at most one admin, the **Overview** warns: "No admin is pinned by configuration — set FORGE_ADMIN_EMAILS so a locked-out admin can always get back in."
+
+<Note>
+If you don't see **Admin** in the account menu, your account doesn't have the admin role. In guest mode everyone sees it. Every change made from the dashboard is written to the server's log with the name of the admin who made it. There is no separate audit table, so the server log is the record.
+</Note>
+
+## Read the overview
+
+The **Overview** tab answers "is anything wrong, and who is working?" at a glance.
+
+| Part | What it tells you |
+| --- | --- |
+| **Accounts** | All accounts, with the number of admins and any leftover guest records |
+| **Sessions** | All sessions, and how many are working now |
+| **Machines on** | Machines running now, plus the asleep ones: "paused" on their node, or "checkpointed" as a saved copy with no machine |
+| **Spent today** | Model spend today across every account, with the last 30 days under it |
+| **All time** | Lifetime spend across every account |
+| **Deploys** | Published apps that are live, out of all of them, and the number of [setups](/sessions/setups) |
+| Notices | Machines that belong to no session (with a link to review them), machines in an unusual state, setups being built, and either the missing pinned admin or, in guest mode, that everyone is an admin |
+| **Working now** | Every session with a turn running or an app publishing. "No turn or deployment is running anywhere." when it's quiet. |
+| **Recent sessions** | The 8 most recently active sessions |
+
+Click any session row to watch it. You open it read-only, as a viewer: you see the transcript, the files and the **Preview**, but you can't send a message, and you don't get the owner's **Publish**, **Shell** or settings. See [what viewers can do](/sharing#what-can-viewers-do).
+
+## Approve and manage accounts
+
+The **Users** tab lists every account, 50 to a page. Accounts waiting for approval come first, then the rest by spend. Search by name, email or id.
+
+{/* screenshot to capture: /images/admin/admin-users.png — A waiting account sits at the top with its Approve button. Illustrative values. */}
+
+Each row shows the account's role chips, its sessions (● running, ⟳ working), its spend over 30 days and all time, how many browsers it is signed in on, and what it has connected: GitHub, integrations, secrets, and any ChatGPT or Claude sign-in. Some columns appear only in a wide window.
+
+| Chip | Meaning |
+| --- | --- |
+| **admin** | "Admin role stored on the account" |
+| **admin · pinned** | "Admin by configuration (FORGE_ADMIN_EMAILS)" |
+| **waiting** | "Signed in but not approved yet: sees only the waitlist screen" |
+| **guest** | "A guest-era record no account adopted" |
+| **you** | Your own account |
+
+### Approve someone on the waitlist
+
+When `FORGE_ALLOWED_EMAILS` limits who can sign in, a Google or Microsoft sign-in from an address that isn't on it gets an account and a place on the [waitlist](/account/your-account#if-you-re-on-the-waitlist). If `FORGE_WAITLIST_SLACK_WEBHOOK` is set, your team's Slack channel hears about each new one.
+
+<Steps>
+  <Step title="Find the waiting account">
+    Open the **Users** tab. Accounts with a **waiting** chip are listed first.
+  </Step>
+  <Step title="Click Approve and confirm">
+    The dialog shows the account's name and email and when they asked. "They can open Alpha right away: start sessions, use machines and spend on models. You can sign them out or delete the account later." Click **Approve**.
+
+    {/* screenshot to capture: /images/admin/admin-approve-dialog.png — Check the email before approving: approval lets them spend on models straight away. */}
+  </Step>
+  <Step title="Tell them to check again">
+    The banner reads "Sam Rivera can use Alpha now." They get in the next time they press **Check again** or refresh the waitlist screen.
+  </Step>
+</Steps>
+
+Adding their address to `FORGE_ALLOWED_EMAILS` lets them in too. Emptying the list lets everyone waiting in at once.
+
+### Change roles and sign-ins
+
+| Control | What it does | When it's missing or greyed out |
+| --- | --- | --- |
+| **Make admin** (shield with a plus) | Gives the account the admin role at once | Already an admin, a guest record, or guest mode |
+| **Remove admin role** (shield with a minus) | Takes the role back | Your own account, a pinned admin, or guest mode |
+| **Sign out everywhere** | Ends the account's sign-in on every browser, after asking. They can sign in again right away. | Guest mode, or the account isn't signed in anywhere |
+| **Delete account and everything it owns** | Deletes the account and all it owns, after asking | Your own account or a pinned admin. Greyed out while one of its sessions has a turn running. |
+
+<Warning>
+Deleting an account can't be undone. It removes every session the account owns, with each one's machine, published apps and secrets. It also removes the account's GitHub connection, its ChatGPT and Claude sign-ins and its own skills. Skills it shared with everyone stay. The confirmation names the account and its session count. Alpha refuses while a turn is running, an app is publishing or a session is being forked in any of its sessions.
+</Warning>
+
+## Step in on a session
+
+The **Sessions** tab lists every session on your Alpha, 50 to a page, by last activity. Search by title, owner, model, agent, repository or id, and narrow the list with **All**, **Working**, **Machine on** or **Shared**.
+
+Under each title you see the owner, plus **Claude Code** if that's the agent, the [setup](/sessions/setups) it started from, its repositories and any queued messages. The **State** column reads **running**, **parked** (asleep), **booting**, **cold** (no machine yet; one starts on the next message) or **working**, with a **deploying** chip while an app publishes. A spend marked **≈** is estimated, and one in amber includes turns on a model nothing prices.
+
+{/* screenshot to capture: /images/admin/admin-session-controls.png — Hover a row for its controls. Only the ones that apply right now appear. */}
+
+| Control | When it appears | What happens |
+| --- | --- | --- |
+| **Watch (read-only) in a new tab** | Always | Opens the session's `/s/<code>` page in a new tab, as a viewer |
+| **Interrupt the running turn** | A turn is running | Stops the turn. The row reads "stopping…" until it has. |
+| **Park the machine (checkpoint or pause)** | The machine is running and idle | Puts the machine to sleep now instead of waiting. It wakes as usual next time it's needed. |
+| **Turn sharing off** | The session is shared | Makes the session private and disconnects anyone watching: "“Harbor bookings” is private again." The owner can share it again. |
+| **Reset the machine (fresh VM, history forgotten)** | Always; greyed out while working or publishing | Asks first, then removes the machine. A fresh one boots on the owner's next message. |
+| **Delete session** | Always; greyed out while working or publishing | Asks first, then deletes the session, its machine and its published apps |
+
+<Warning>
+Reset and delete can't be undone. A reset loses the machine's files and the agent's memory of earlier turns, though the transcript stays. Deleting a session also takes down every app published from it. Neither is allowed while a turn is running, an app is publishing or the session is being forked, so interrupt the turn first. Uncommitted work on the machine is lost, so check with the owner before you reset.
+</Warning>
+
+For what a reset keeps on the owner's side, see [Sleep, wake and reset](/sessions/machines).
+
+## Clean up orphan machines
+
+The **Machines** tab lists every machine your Alpha's machine server reports, each matched to what claims it. Four tiles count them: **Running** ("VMs on a node right now"), **Paused** ("on their node, resumable"), **Checkpointed** ("sessions parked as snapshots, no VM") and **Orphans**.
+
+| Kind chip | What claims it | How it's removed |
+| --- | --- | --- |
+| **session** | A session | Reset or delete the session on the **Sessions** tab |
+| **setup build** | A setup being built | The setup's owner cancels the build from the setup |
+| **legacy** | "A user-level sandbox from before sessions had their own" | Deleting the account removes it |
+| **orphan** | "No session, user or setup claims this VM" | **Delete this machine**, on this tab |
+
+{/* screenshot to capture: /images/admin/admin-machines.png — Only an orphan has a delete button. */}
+
+An orphan is a machine that nothing on your Alpha claims. Deleting it asks first: "Nothing on this Alpha claims it; whatever is inside is lost." The **Overview** shows a notice whenever there is one to clean up.
+
+## See spend and published apps across Alpha
+
+The **Usage** tab is your whole Alpha's spend, "priced as the Usage page prices it". Pick **Today**, **7 days**, **30 days** or **All time**; the choice is remembered in this browser. The tiles show spend and turns for the range, all-time spend, **Accounts** billed and **Agent time**. Below are **Spend by day**, **By account**, **Sessions** (click one to watch it) and **Models**.
+
+If a model has no price, its turns count as $0 and a notice names it. Set `FORGE_MODEL_PRICES` on the server to price it, and its past turns are priced too. Work that ran on people's own ChatGPT or Claude plans is shown beside the totals, never in them. How prices are found is explained in [Usage, costs and your own plan](/account/usage-and-costs#how-is-cost-worked-out).
+
+The **Deploys** tab lists every app published on your Alpha. Search by name, address, session, owner or status. Each row shows the service and its address, a status chip (**queued**, **exporting**, **planning**, **building**, **deploying**, **live**, **failed** or **deleting**), the session and its owner, the number of rollouts and when it last published.
+
+{/* screenshot to capture: /images/admin/admin-deploys-tab.png — Every published app, whoever owns it. Illustrative values. */}
+
+From here you can **Open the deployed app** or **Watch the session**. Changes to a published app are the owner's, from the session's **Publish** tab. You watch as a viewer, so you don't get that tab. See [Manage a published app](/publish/manage). If publishing isn't turned on for your Alpha, a notice at the top says so and names the setting that turns it on. Apps published before it was turned off are still listed.
+
+## Choose what the integrations catalog offers
+
+The **Integrations** tab decides which hosted MCP servers and apps every account sees under [Integrations](/integrations/overview). Switch between **MCP** and **Composio** at the top. A third choice, **ACI**, is marked **Coming soon** and can't be opened.
+
+{/* screenshot to capture: /images/admin/admin-integrations-mcp.png — One switch per hosted server decides whether every account is offered it. */}
+
+| Switch | Off means | Accounts already connected |
+| --- | --- | --- |
+| A hosted MCP server, under **Hosted MCP servers** | It's no longer offered. Connecting to it fails with "&lt;name&gt; is turned off on this server". | Keep their connection |
+| An app, under **Composio toolkits** | It leaves every account's catalog. The switch sets the app's status in Composio itself, so Composio's dashboard always agrees. | Lose it: the agent stops seeing those connections, and Composio refuses their calls. This can take up to a minute to reach every server. |
+
+New apps are added in Composio, not here. Use **Manage in Composio** to open its dashboard. Until one is set up there, the tab reads "No Composio auth configs yet. Create one in Composio's dashboard."
+
+### Add a hosted MCP server
+
+<Steps>
+  <Step title="Open the form">
+    On **MCP**, click **Add server**. The dialog is titled **Add a hosted MCP server to the catalog**.
+
+    {/* screenshot to capture: /images/admin/admin-add-hosted-mcp.png — Id, MCP URL and Logo are needed before you can add it. */}
+  </Step>
+  <Step title="Fill in the fields">
+    Use the table below. The server checks every field and names the first one it can't accept.
+  </Step>
+  <Step title="Click Add to catalog">
+    The server appears in the catalog switched on, so every account is offered it at once. Switch it off first if you want to test it before others see it.
+  </Step>
+</Steps>
+
+| Field | What to enter |
+| --- | --- |
+| **Id** | Up to 40 lowercase letters, digits and hyphens, starting with a letter or digit. It can't be changed later or reuse a local server's id. |
+| **Name**, **Tagline**, **Description** | Required. The tagline is the one line on the server's card. |
+| **Category** | **Docs, search & the web**, **Development**, **Data & backends** or **Business tools** |
+| **MCP URL** | Required. A public `https` address. |
+| **Docs URL** | Optional. An `https` address. |
+| **Sign-in** | **OAuth**, **API key** or **None** |
+| **OAuth authorize URL**, **OAuth token URL** | Leave both blank if the vendor supports dynamic client registration; most do. Fill in both only for a pre-registered client, such as HubSpot's. Its client id and secret then go in the server's configuration. |
+| **Brand colour** | Required. Six hex digits, such as `FF6600`. |
+| **Keywords** | Optional, comma separated. They help people find it in search. |
+| **Logo** | Required. SVG code starting with `<svg`, or an `https` image address, up to 100 KB. |
+
+How people then connect to it is on [MCP servers](/integrations/mcp-servers).
+
+## Share skills and check the server
+
+Admins share skills from the **⋯** menu in one of their own skills' dialog, not from this dashboard. **Ship with Alpha** puts a skill in every account's sessions. **Add to catalog** lists it under **From Alpha** for each account to install. **Unpublish** gives it back to the account that added it. Only an admin can edit a shared skill. See [Who can change a shared skill?](/skills/overview#who-can-change-a-shared-skill).
+
+The **Server** tab is a read-only view of what your Alpha is running with. Nothing on it can be changed from the dashboard; whoever runs your server changes these settings there. Use it to check a setting before you report a problem.
+
+| Section | What it shows |
+| --- | --- |
+| Tiles | **Up for**, **Memory**, **Store** (skills and MCP servers on for every session) and **Setups** |
+| **Identity** | Guest mode or accounts (`FORGE_AUTH`), sign-in providers, whether password sign-up is open, the GitHub App, `FORGE_ALLOWED_EMAILS`, `FORGE_ADMIN_EMAILS`, the public address and the app sign-in issuer |
+| **Machines and turns** | The machine template, the last idle pause before a machine sleeps (`FORGE_IDLE_PAUSE_MS`), whether sleeping machines are saved as copies, the longest a turn may run, the default model, which provider keys are set, the Claude Code version, the credential proxy's rate and spend cap, and when prices were last fetched |
+| **Deploys** | Whether publishing is on (`FORGE_DEPLOYS`), the project, region and domain, and the publishing limits per account, per session and builds at once |
+| **Setups** | Every setup, its build status, how many sessions use it, and who built and created it |
+| **Paths** | The server replica, its databases, the API port, and the server and web app versions |
+
+Some values marked "(default)" on [Limits](/reference/limits), such as the turn cap and the publishing limits, appear here as your Alpha actually has them.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Share a session" icon="share-nodes" href="/sharing">
+    What a viewer sees, which is exactly what you see when you watch a session.
+  </Card>
+  <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
+    What a reset keeps and loses from the owner's side, and why machines sleep.
+  </Card>
+  <Card title="MCP servers" icon="server" href="/integrations/mcp-servers">
+    How people connect to the hosted servers you switch on here.
+  </Card>
+  <Card title="Limits" icon="gauge" href="/reference/limits">
+    Every number your Alpha enforces. The Server tab shows your Alpha's own value for several of them.
+  </Card>
+</CardGroup>

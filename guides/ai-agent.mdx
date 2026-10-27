@@ -1,0 +1,118 @@
+---
+title: "Build, try and test a support-triage agent"
+sidebarTitle: "An AI agent with evals"
+description: "Describe an agent that triages Harbor's inbox, try it on a real message, and prove it with an eval before you rely on it."
+---
+
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+<Badge>About 20 minutes</Badge>
+
+This guide builds an AI agent end to end: you describe it in one message, read it on the **Agent** tab, run it on a real customer email, then test it against a set of written test cases and fix what fails. If you want a feature inside an app that calls a model, rather than a standalone agent, describe the app instead; [Build an AI agent](/agents/build-an-agent) explains where the line falls.
+
+By the end of this guide you will have `harbor-triage`, an agent that reads a message sent to Harbor Sailing School, sorts it, and drafts a reply, with an eval run that shows it passing every test case.
+
+{/* screenshot to capture: /images/guides/agent-00-result.png — The finished agent on the Agent tab, carrying its latest eval result on the answer step. */}
+
+## Before you start
+
+- A session you own. Start one from the [home screen](/sessions/home-screen), or use an existing one such as "Harbor bookings".
+- An OpenAI key saved as a [secret](/secrets) named `OPENAI_API_KEY`. Add it under **Account menu → Global secrets** so every session gets it, or in the session's **Secrets** tab. The agent's live runs and the eval's AI reviewer both read it.
+- The **Agent builder** skill switched on. It is on by default; see [Skills that ship with Alpha](/skills/built-in-skills).
+
+<Warning>
+Every live run spends money on your key. That covers the agent's own proof while it is built, each message you send in **Try it**, and every test case in an eval run. Writing test cases and working out the cost of a run are free. Nothing in an eval runs until you press **Run evaluation**.
+</Warning>
+
+## Build and test the agent
+
+<Steps>
+  <Step title="Ask for the agent">
+    Paste this into the composer and press <kbd>Enter</kbd>. Say "agent" in words: "sort our inbox every morning" is built as app code instead.
+
+    <PromptCard label="Try this">
+
+    ```text
+    Build an AI agent called harbor-triage for Harbor Sailing School.
+    It reads one customer message as text and returns:
+    the category (booking change, cancellation or weather, refund, question),
+    how urgent it is, a two-line note for staff, and a draft reply in a
+    friendly, plain voice. It must never promise a refund; staff decide those.
+    ```
+
+    </PromptCard>
+
+    Alpha will:
+
+    1. Ask one [question card](/chat/plan-mode): the agent's shape first, then its inputs or framework if your message leaves them open.
+    2. Write the agent as a folder in `/workspace/harbor-triage` and draw it on the **Agent** tab before it is finished.
+    3. Prove it: check the code, run it on a stand-in model, then run it once live on your key.
+    4. Ask once whether you want a page around it. This guide declines.
+
+    Each question lists its recommended option first. This guide typed its own shape into **Something else…**: "Classify first, then write the staff note and the reply side by side, then one step that combines them." Click **Send answers**. **Skip — let the agent decide** leaves the choices to the agent.
+
+    {/* screenshot to capture: /images/guides/agent-01-question.png — The agent asks for the shape before it writes anything. */}
+  </Step>
+  <Step title="Read the agent on the canvas">
+    The **Agent** tab opens by itself each time the agent publishes. Read it top to bottom: the **Inputs** card is what the agent is given, each step card below it is one step with its model, instructions and **Returns**, and the **Answer** card lists the fields it hands back. Steps that run together sit in one outline with a `parallel · 2` chip.
+
+    Click any card to open its details beside the canvas, including **Defined in**, which opens `definition.yaml` and names the field the card comes from. To change the agent, ask in the composer, for example `Add a critic step that checks the reply`. See [The Agent tab](/agents/agent-tab).
+
+    {/* screenshot to capture: /images/guides/agent-02-canvas.png — Two steps run side by side once the message is classified. */}
+  </Step>
+  <Step title="Try it on a real message">
+    Click **Try it** in the canvas toolbar. A chat opens beside the canvas, with one field for each input and a few **Start from a sample** cards the agent wrote. Pick one, or paste a real message such as `Hi, the forecast says 30 knots on Saturday. Is my 9am dinghy class still on? I can't do Sunday.` Then click **Run**.
+
+    Each message runs the whole agent once, live, with no memory of earlier messages. The dots on the canvas turn from blue to green as each step finishes. The answer card shows each field, with **JSON** and **Copy**; hover your message for **Edit and run again**. If a run fails, **Ask the builder to look into it** sends the failure to the agent. See [Try your agent](/agents/try-it).
+
+    {/* screenshot to capture: /images/guides/agent-03-try.png — One live run: the answer card fills in field by field. */}
+  </Step>
+  <Step title="Set up evals and review the test cases">
+    Once the agent is proved live and published, the transcript shows a **Test this agent with evals?** card. Click **Set up evals**, read the **How evals work** dialog, and confirm with **Set up evals**. The canvas's flask button, **Not tested yet: set up evals**, does the same.
+
+    The agent writes test cases for free and posts an **Eval proposal** card with a cost range. Click **Open eval setup**. On the **Test cases** step, each test case is a persona asking something in a scenario, such as an upset customer asking for a refund. Click a row to edit **What the user asks** or **What it checks**, and star the ones that **Must pass**. Then click **Next: set up the run**. [Set up evals](/evals/set-up) explains the coverage grid.
+
+    {/* screenshot to capture: /images/guides/agent-04-test-cases.png — Scenarios on the left, personas on the right, one test case for each pair. */}
+  </Step>
+  <Step title="Run the evaluation with a spending limit">
+    The **Set up the run** step shows how each answer is graded: an AI reviewer scores it on the **Quality metrics** and explains each score, and **Format checks** check its shape in code, instantly and for free. Leave **AI reviewer model** as it is unless you have a reason to change it.
+
+    The **Estimated cost** card works out the price before anything runs. Type a cap into **Spending limit**: no new test case starts once the next one would pass it. Then click **Run evaluation**. The tab moves to **Results** and shows each test case as it runs. It keeps going if you close the tab; **Pause** and **Stop** are there if you need them. See [Run an evaluation](/evals/run).
+
+    {/* screenshot to capture: /images/guides/agent-05-run.png — The price is worked out first, and the limit caps what the run can spend. */}
+  </Step>
+  <Step title="Fix a failure with Alpha and run again">
+    If the run fails, for example because a must-pass test case failed, the verdict reads **Not ready yet**. Its heading usually quotes what the first failed case expects, such as "Never promise a refund before staff review it." Click the case to read the agent's answer and the reviewer's reasoning.
+
+    Click **Fix with Alpha**. The agent reads the failed cases together and proposes one change, to the agent or to a test case that checks the wrong thing. It edits nothing until you say yes, and re-proves the agent after changing it. Then click **Run again**. When every test case passes, the verdict reads **Ready**, and **Approve as baseline** makes later runs compare against this one. See [Read results and fix failures](/evals/results).
+
+    {/* screenshot to capture: /images/guides/agent-06-results.png — After the fix, the same test cases all pass. */}
+
+    <Check>
+    Your agent is built, tried on a real message and passing its eval. The canvas now carries the latest result on the answer step.
+    </Check>
+  </Step>
+</Steps>
+
+You described an agent, read it, ran it once by hand, then proved it against a written set of test cases and fixed what failed. Run the eval again after each change to the agent, so you can tell whether the change made it better or worse.
+
+<Note>
+If Alpha builds app code instead of an agent and no **Agent** tab appears, the **Agent builder** skill may be off for your sessions. Open it on the [Skills page](/skills/overview) and switch on **Installed in your sessions**.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Build an AI agent" icon="robot" href="/agents/build-an-agent">
+    The shapes an agent can take, the ten frameworks, and what each proof stage checks.
+  </Card>
+  <Card title="Read results and fix failures" icon="square-poll-vertical" href="/evals/results">
+    Split grades, inconsistent cases, the detailed report and the shareable results page.
+  </Card>
+  <Card title="Try your agent" icon="message" href="/agents/try-it">
+    Typed fields, file inputs, choosing a framework per message, and earlier chats.
+  </Card>
+  <Card title="Post a weekly summary to Slack" icon="calendar-week" href="/guides/weekly-summary">
+    Put work on a timetable with a routine that runs while you're away.
+  </Card>
+</CardGroup>

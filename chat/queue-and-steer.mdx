@@ -1,0 +1,131 @@
+---
+title: "Queue, steer or stop"
+sidebarTitle: "Queue, steer and stop"
+description: "Send a message while the agent works: queue it for later, steer it into the running turn, or stop the turn."
+---
+
+import { queueMax, promptMax } from '/snippets/limits.mdx';
+
+You never have to wait for the agent to finish before you type. A message you send mid-turn is either **queued**, to run as its own turn once the agent is done, or **steered** into the turn that is already running. **Stop** ends the turn instead. To write the message itself, with files, mentions and commands, see [the composer](/chat/composer).
+
+<Info>
+**Steer when** the message changes the work in progress: a correction, a missing detail, "not that file, the other one". The agent takes it in without starting over.
+</Info>
+
+<Info>
+**Queue when** the message is a separate next task. It waits until the current turn ends, then runs on its own, so the work in progress isn't disturbed.
+</Info>
+
+<Tip>
+Not sure? Queue. A queued message never interrupts anything, and you can still edit it, delete it or send it now.
+</Tip>
+
+{/* screenshot to capture: /images/chat/steer-loop.mp4 — A correction steered in mid-turn lands where the agent took it, marked as steered. */}
+
+## Steer, queue or stop?
+
+All three work only while a turn is running. When the agent is idle, every message you send starts a normal turn.
+
+| | Steer | Queue | Stop |
+| --- | --- | --- | --- |
+| What happens | The message joins the running turn. The agent keeps going and takes it into account. | The message waits above the composer, then runs as its own turn after the current one ends. Queued messages run strictly in order. | The turn ends. The session stays intact, so your next message carries on from where the agent stopped. |
+| When the agent sees it | Codex at its next model call; Claude Code at its next step between tool calls | When its turn starts | Right away, though the turn can take a few seconds to wind down |
+| What you see | The message, dimmed, with "Steering — joining the running turn…", then the **Steered into the running turn** badge | A row in the queue panel, under a count such as "2 queued messages" | The Stop button dims and its square pulses, and the working indicator reads "Stopping…" |
+| Use it for | Corrections and extra detail for the current task | The next task | Work going the wrong way |
+
+Steer and Queue are the only two modes. A message sent while files are still uploading waits for them and says so: "Steering — waiting for the upload to finish…" or "Queuing — waiting for the upload to finish…".
+
+## Choose what Enter does
+
+While the agent works, <kbd>Enter</kbd> and the **↑** button send your message your default way, and <kbd>⌘</kbd><kbd>Enter</kbd> sends it the other way. Use Ctrl instead of ⌘ on Windows and Linux. Hover **↑** to check: its tooltip reads "Queue · ⌘⏎ to steer" or "Steer · ⌘⏎ to queue".
+
+Until you choose, the default is Queue. The first time a message lands in the queue, a card appears above it asking **Queue or steer new messages?** ("Queue waits for the agent to finish; Steer joins the running turn.").
+
+{/* screenshot to capture: /images/chat/chat-queue-or-steer-card.png — One answer sets your default for good. Steer also sends what's already waiting into the turn. */}
+
+| You pick | Your default becomes | And |
+| --- | --- | --- |
+| **Queue** | Queue | Nothing else changes. |
+| **Steer** | Steer | The messages already waiting are steered into the running turn, in order. |
+
+Either answer hides the card for good, on every device. To change your mind later, open **Account menu → Settings** and set **New messages**, or use **More actions → New message settings** on any queued row. [Change your settings](/account/your-account#change-your-settings) covers the page. Buttons and forms inside the agent's [interactive answers](/chat/interactive-answers) don't follow this default: a click while the agent works is always sent as a steer.
+
+## Manage the queue
+
+The queue panel sits on top of the composer. Its toggle, a count such as "3 queued messages", folds the list away. Each row shows one message, with any context chips inline. Hover a row to see its actions.
+
+<Frame caption="A queued message waits on top of the composer until the agent finishes.">
+  <img src="/images/chat/chat-queue-panel.png" alt="The queue panel attached to the top of the composer while the agent works. Its toggle reads '1 queued message' after a down chevron, and its one row reads 'Use 24-hour times on the class cards.' after an empty circle. Below the panel, the composer is empty with the placeholder 'Add a follow-up' and the text caret at its start. Its bottom row shows the + button, the model chip reading 'gpt-6.1-sol · high', the plan chip and the microphone, and the square Stop button shows in place of send." />
+</Frame>
+
+| Action | What it does |
+| --- | --- |
+| **Send now** | Steers the message into the running turn, or sends it as a new turn if the agent is idle. If the agent can't take it, it stays queued with "The agent can't take a message right now — it stays queued". |
+| Pencil (**Edit queued message**) | Opens the text in the composer under "Editing queued message". Press <kbd>Enter</kbd> or **↑** (**Save queued message**) to save. <kbd>Esc</kbd> or **Cancel** drops the edit. Your draft comes back either way. |
+| Trash (**Delete queued message**) | Removes the message. |
+| **More actions → New message settings** | Opens the Settings page. |
+
+A newly queued message shows dimmed, without actions, until the server has it. The queue holds at most [{queueMax}](/reference/limits), each up to [{promptMax}](/reference/limits). There is no reordering: a message keeps the place it was added in. Editing changes only the text, and context chips come back as plain text while you edit. Images attached to the message stay with it.
+
+Queued messages run in whatever mode the session is in, [plan mode](/chat/plan-mode) included. They belong to the session, so they keep waiting if you close the tab, and deleting the session deletes them.
+
+## Why did the queue pause?
+
+A queue never runs on blindly after something went wrong. It pauses, and a strip at the top of the panel reads "Paused — " followed by the reason. Click **Resume** to start the next message.
+
+{/* screenshot to capture: /images/chat/chat-queue-paused.png — After a Stop, waiting messages hold until you say so. */}
+
+| Reason on the strip | What happened | What to do |
+| --- | --- | --- |
+| "you stopped the agent" | You pressed Stop while messages were waiting. | **Resume** when you're ready, or delete the messages that no longer apply. |
+| "the turn failed — fix things up" | A turn started from the queue ended with an error. | Read the error in the transcript, send a fix, then **Resume**. |
+| "the server restarted — resume to continue" | The turn was cut short by a server restart, not by you. | **Resume**. |
+| "couldn't send the queued message: …" | The next message couldn't start. The rest of the line says why. | Fix the cause, then **Resume**. The message is still first in line. |
+
+While paused, **Send now** sends only that one message, and the rest stay paused. Deleting the last waiting message clears the pause.
+
+## Steer the running turn
+
+A steer is part of the turn, not a new one. It shows dimmed with "Steering — joining the running turn…" until the agent takes it. In the transcript it then sits at the point it joined, with a corner-arrow badge underneath. [Follow the agent's work](/chat/transcript) explains the rest of the transcript.
+
+{/* screenshot to capture: /images/chat/chat-steer-badge.png — The badge marks where your message entered the agent's work. */}
+
+Some activity can't take a steer. Alpha then queues the message instead, and it appears in the queue panel. This happens during `/compact` and `/review` ([slash commands](/reference/slash-commands)), while a turn is still starting, while a stopped turn is still winding down, and for a message longer than about 45 KB.
+
+## Stop the agent
+
+While the agent works and the composer is empty, the send button becomes a square **Stop** button. Click it, or press <kbd>Esc</kbd> in the composer. <kbd>Esc</kbd> stops the turn even when you have text typed, and your text stays in the composer.
+
+<Frame caption="An empty composer mid-turn shows Stop in place of Send.">
+  <img src="/images/chat/chat-stop-button.png" alt="The composer of the Harbor bookings session while the agent is working. Above it, the working indicator shows a pixel loader, the word 'Shaping…' and an 18s counter. The composer is empty with the placeholder 'Add a follow-up', the + button, the model chip reading 'gpt-6.1-sol · high' and the plan chip. On the right, next to the microphone, a white round button with a dark square stands in for send: Stop." />
+</Frame>
+
+The button dims and its square pulses, and the working indicator reads "Stopping…". Pressing again does nothing. If the agent hasn't stopped within 10 seconds, Alpha ends the agent's process outright. Nothing in your workspace is undone either way.
+
+| After Stop | |
+| --- | --- |
+| The session | Intact. Your next message carries on from it, with the full history. |
+| Files the agent already changed | Stay changed. Ask the agent to revert anything you don't want. |
+| Steers the agent hadn't taken in | In a Claude Code session, cancelled. They don't run later. |
+| The queue | If messages are waiting, paused with "you stopped the agent" until you click **Resume**. |
+| A message sent while it's stopping | Queued, and held by the same pause. |
+| Claude Code workflows | Stopped with the turn. To stop one workflow and keep the turn, use **Stop** on its card in the transcript. |
+
+Closing the tab is not a Stop. Turns run on the server, so the agent keeps working, and your queue keeps moving, until the turn ends or you stop it.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Follow the agent's work" icon="list-check" href="/chat/transcript">
+    Read commands, edits and plans as they stream, and find where a steer landed.
+  </Card>
+  <Card title="Plan mode and the agent's questions" icon="map" href="/chat/plan-mode">
+    Have the agent ask and plan first, so fewer turns need steering at all.
+  </Card>
+  <Card title="Choose the agent and model" icon="microchip" href="/chat/agents-and-models">
+    Codex and Claude Code take steers at different moments. See what else differs.
+  </Card>
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/reference/keyboard-shortcuts">
+    Enter, ⌘Enter and Esc alongside every other key in the workbench.
+  </Card>
+</CardGroup>

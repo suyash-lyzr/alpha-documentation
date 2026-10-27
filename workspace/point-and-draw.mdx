@@ -1,0 +1,153 @@
+---
+title: "Point at and draw on your app"
+sidebarTitle: "Point and draw"
+description: "Click an element, draw on the page or select text in any file, and the agent gets exactly what you mean."
+---
+
+import { imageMax } from '/snippets/limits.mdx';
+
+Pointing attaches the exact thing you mean to your next message: an element in your running app, a marked-up picture of the page, or lines from a file. For the Preview's other controls, see [Preview your app](/workspace/preview). To upload a file of your own, use [the composer](/chat/composer#attach-files).
+
+{/* screenshot to capture: /images/workspace/select-loop.mp4 — One click on the page puts that exact element into your next message. */}
+
+## Choose how to point
+
+Each way to point stages something in the composer. Nothing reaches the agent until you send.
+
+| Way | Where it works | What the agent gets | Shortcut |
+| --- | --- | --- | --- |
+| **Select** (dashed pointer) | The Preview, HTML files, decks and PDFs. In Office files and BPMN diagrams, a plain click picks. | A chip describing the element: where it is in the code, what it says and how it is styled | None. <kbd>Esc</kbd> cancels. |
+| **Draw** (pencil) | The Preview, HTML files, decks, PDFs, Office files, Excalidraw drawings, BPMN diagrams | A picture of the view with your marks, attached like an uploaded image | <kbd>⌘</kbd><kbd>Z</kbd> undoes a mark |
+| **Add to prompt** | Selected text in the code, Markdown, PDF and Office viewers; selected cells in spreadsheets; a clicked BPMN element; selected shapes in Excalidraw | A chip holding the exact text or cells, with the file and lines, page or range | <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> |
+| **Edit** (paintbrush) | The Preview, HTML files, decks | A list of text and style changes for the agent to put in the source | <kbd>⌘</kbd><kbd>Z</kbd> undoes a change |
+
+Use Ctrl instead of ⌘ on Windows and Linux. **Select**, **Draw** and **Edit** switch each other off, so only one is active over a page at a time.
+
+<Note>
+Only the session's owner sees these tools. People you [share the session](/sharing) with can look at the Preview and the files, but they have no composer, so there is nothing to attach to.
+</Note>
+
+## Pick an element in the Preview
+
+Use **Select** when words like "the second button in the card" would be ambiguous. The agent receives the element itself, not your description of it.
+
+<Steps>
+  <Step title="Arm the picker">
+    In the [Preview](/workspace/preview) toolbar, click **Select**. Its tooltip changes to "Click an element in the preview — Esc cancels". Until the app's page has loaded, the button is greyed out with "Element picker loads with the app's page".
+
+    <Frame caption="The outline and label show exactly what a click will pick.">
+      <img src="/images/workspace/preview-select-hover.png" alt="The Preview of the Harbor Sailing School app at desktop width with Select on. At the top of the workspace, the Preview tab and the + button sit at the left of the strip, with GitHub, Share, a Publish pill and the files button at the right. In the toolbar, the Desktop icon is highlighted and the port pill reads node · 3000; at the right end, the dashed-pointer button is highlighted blue and shows its name, Select, beside the pen icon for Draw. In the page, the pointer rests on the description under the Beginner Dinghy card's title, Find your balance, catch the breeze, and learn the sailing essentials. The paragraph is outlined and tinted, and a small dark label just below it gives the tag, p, and the quoted start of its text, cut off at the end. Above the cards are the headline Good days start on the water., a sailboat photo, This week's classes with its count of 3 and the filters All classes, Beginner, Intermediate and All levels. The Intermediate Keelboat and Sunset Sail cards sit beside it, dated Friday, Oct 30 and Saturday, Oct 31." />
+    </Frame>
+  </Step>
+  <Step title="Click the element">
+    A ring and a label follow the pointer from element to element. Click the one you mean. It becomes a chip in the composer, and the picker switches off. <kbd>Esc</kbd> leaves without picking.
+  </Step>
+  <Step title="Say what to change, and send">
+    Type the change, such as "Make this text larger on mobile", and send. For more elements, click **Select** again for each. Picking the same element twice adds nothing.
+
+    <Frame caption="The picked paragraph waits as a chip above your text.">
+      <img src="/images/workspace/preview-select-chip.png" alt="The composer of the Harbor bookings session with one chip above the typed text Make this text larger on mobile. The chip has a dashed-pointer icon, reads p and the quoted start of the paragraph it holds, Find your balance, catch t…, and has a small X on its right. Below the text sit the + button, the model gpt-6.1-s… · high, the plan chip, a microphone and the Send button." />
+    </Frame>
+  </Step>
+</Steps>
+
+The chip describes the element: a unique CSS selector, the page, its size and position, its text, the styles that differ from the defaults, nearby text and its HTML. In a React app it also names the components around the element, and in a development build the source file and line that rendered it. IDs, class names and source paths that look like secrets, such as anything containing `secret`, `password` or `api_key`, are left out or become `[redacted]` before they leave the page. The element's text and HTML go as they are.
+
+### Attach the Preview's logs
+
+Open **Logs** in the Preview toolbar and click the paperclip, "Attach the last lines to your next message". The last 50 lines of the open tab become a chip: **Preview console**, or the server's name followed by **log**. [Read the logs](/workspace/preview#read-the-logs) covers the panel.
+
+## Draw on the Preview
+
+Use **Draw** when the problem is visual, or when you want several fixes at once. Click **Draw** in the Preview toolbar and a dock appears along the bottom of the page.
+
+| Control | What it does |
+| --- | --- |
+| **Draw** | Freehand pen |
+| **Arrow** | An arrow from where you press to where you let go |
+| **Box** | A rectangle around an area |
+| **Numbered pin** | A numbered marker, so your message can say "pin 2 should be bigger" |
+| Undo (**Undo · ⌘Z**) | Removes the last mark |
+| Trash (**Clear all marks**) | Removes every mark and keeps you drawing |
+| X (**Cancel · Esc**) | Leaves drawing and drops the marks |
+| **Add to chat** | Captures the whole page with your marks and attaches it to your next message |
+
+The page keeps scrolling while you draw, and each mark stays pinned to what it was drawn over. **Add to chat** captures the whole page, not only the visible part, so you can mark the header and the footer in one go. The picture lands in the composer as an image attachment, and the agent is told your marks point at what you mean.
+
+<Frame caption="A box and an arrow mark the heading, and Add to chat waits at the end of the dock.">
+  <img src="/images/workspace/preview-draw-dock.png" alt="The Preview of the Harbor Sailing School app in drawing mode, with the pen button highlighted at the right of the toolbar, beside the dashed-pointer Select icon, and the port pill reading node · 3000. A red box surrounds the MAKE ROOM FOR THE SEA label and the This week's classes heading with its count, 3, and a red arrow points at the box from the lower right. Along the bottom of the page, a rounded dark dock shows the tools Draw, Arrow, which is selected, Box and Numbered pin, then the undo and trash buttons, an X, and a white Add to chat button with an image icon at the right end. The headline Good days start on the water., the sailboat photo and the Beginner Dinghy, Intermediate Keelboat and Sunset Sail class cards show around the marks." />
+</Frame>
+
+Capture gives up after 30 seconds with "The page did not answer the screenshot request in time." Marks live in the page, so a reload, such as the one at the end of each turn, clears them. Pictures up to [{imageMax}](/reference/limits) reach the model as images.
+
+## Change a style and send it
+
+Use **Edit** when you know the exact value you want. Click **Edit** in the Preview toolbar and a panel opens over the right edge of the page. Click an element, and the panel shows **Text**, **Text colour**, **Background**, **Font size**, **Weight**, **Padding**, **Margin** and **Radius** for it. The page shows each change as you make it. **Text** appears only for an element that holds text and no other elements.
+
+{/* screenshot to capture: /images/workspace/preview-edit-panel.png — The page updates as you type. The source changes only when the agent applies the list. */}
+
+**Apply changes** sends the list as a message, which starts a turn, or [steers or queues](/chat/queue-and-steer) if the agent is busy. Until the agent's turn ends, your changes are only a layer on the page, so a reload drops them. <kbd>Esc</kbd> or the panel's X discards every change. **Edit** waits while the Preview shows the saved copy of a sleeping app: "Editing waits for the live page".
+
+## Add a selection from a file
+
+Select text in a file and **Add to prompt** floats under the selection. Click it, or press <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd>. In the code editor it is also in the right-click menu as **Add selection to prompt**.
+
+| Viewer | What the chip holds |
+| --- | --- |
+| Code | The selected lines with the file path and line range. The chip reads like `server.js:6-13`. |
+| Markdown | The selected text, with the file path and the source lines it came from |
+| PDF | The selected text, with the file and page |
+| Word and PowerPoint | The selected text, quoted with its page or slide numbers |
+| Excel, CSV and TSV | Cells, a range, a row, a column or the whole sheet, as a Markdown table plus the formulas behind it |
+| Excalidraw | Each selected shape: what it is and says, an arrow's ends and its frame |
+
+Excalidraw has no shortcut, because <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> is the editor's own lock key there. Use the floating button.
+
+<Frame caption="Add to prompt follows the selection.">
+  <img src="/images/workspace/viewer-code-add-to-prompt.png" alt="The read-only code viewer with server.js open. The header reads server.js on the left, and 2.0 KB, a read-only chip and a Refresh icon on the right. Lines 6 to 13 are selected, from const app = express(); to the line that sets req.sessionId, with the caret in line 13. Just below the end of the selection floats a small dark chip with an icon, reading Add to prompt ⌘⇧L. Line numbers 1 to 34 run down the left edge, and a minimap sits at the top right." />
+</Frame>
+
+## Pick and draw in documents
+
+Each viewer keeps its pointing tools at the right end of the file's header: a pencil to draw and, in PDFs, HTML files and decks, a dashed pointer to pick. In Office files and BPMN diagrams, a plain click picks. [File viewers](/workspace/file-viewers) covers what each viewer shows.
+
+| File | Pick | Draw and **Add to chat** |
+| --- | --- | --- |
+| PDF | Click a paragraph, image, chart, table or link. Hold <kbd>⇧</kbd> to narrow to one line, or <kbd>⌥</kbd> to widen to the region around it, such as the whole table around a cell. | Marks stay on their page through zoom and reload. The marked pages go as one picture labelled by page. |
+| Word, Excel, PowerPoint | Click a chart, picture or shape. Word paragraphs and tables and Excel cells can't be clicked, so select them instead. | The page holds still while the pen is on |
+| HTML file | Click an element, as in the Preview. **Edit** works here too. | The page with your marks |
+| Deck | Click an element on the slide. **Edit** works here too. | The slides with your marks. See [Slides, drawings and diagrams](/workspace/decks-and-drawings). |
+| BPMN diagram | Click a task, gateway or event, then **Add to prompt**. The chip holds its kind, name, lane, flows and documentation. | The whole diagram with your marks |
+| Excalidraw drawing | Select shapes, then **Add to prompt** | The view with your marks, or **Add to chat** in the bar for the whole canvas |
+| Image | — | **Add to chat** in the bar attaches the picture itself |
+
+## What the agent receives
+
+Chips wait above your text until you send. Click a chip's X to remove it, or hover it to read the start of what it holds. On send, each chip's context goes ahead of your text, in the order you added them. A code selection, for example, arrives as `Selected context — server.js (lines 6-13):` followed by the lines.
+
+<Frame caption="A chip waits above your text until you send.">
+  <img src="/images/workspace/pointing-chips-composer.png" alt="The composer of the Harbor bookings session with one chip above the typed text Make this text larger on mobile. The chip has a dashed-pointer icon, reads p and the quoted start of the paragraph it holds, Find your balance, catch t…, and has a small X on its right. Below the text sit the + button, the model gpt-6.1-s… · high, the plan chip, a microphone and the Send button." />
+</Frame>
+
+The transcript shows the same chips above your sent text. If a send fails, the chips come back. Opening another session drops chips you haven't sent, and editing a [queued message](/chat/queue-and-steer) turns its chips into plain text.
+
+<Tip>
+Pair a pointer with one short sentence of intent. "Make this match the header" with an element chip beats a paragraph describing where the button is.
+</Tip>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Preview your app" icon="window-maximize" href="/workspace/preview">
+    Switch ports, test phone and tablet widths, and read the app's console.
+  </Card>
+  <Card title="File viewers" icon="folder-open" href="/workspace/file-viewers">
+    Which viewer opens each file type, and what it can't do.
+  </Card>
+  <Card title="Slides, drawings and diagrams" icon="presentation-screen" href="/workspace/decks-and-drawings">
+    Fix a slide by pointing at it, then export to PowerPoint or PDF.
+  </Card>
+  <Card title="Queue, steer or stop" icon="layer-group" href="/chat/queue-and-steer">
+    Send a pick while the agent works, and decide whether it joins the turn.
+  </Card>
+</CardGroup>

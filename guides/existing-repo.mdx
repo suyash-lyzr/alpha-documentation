@@ -1,0 +1,134 @@
+---
+title: "Work on an existing repository"
+sidebarTitle: "Your existing repo"
+description: "For engineers: bring a GitHub repo into a session, plan a change, review it and open a pull request."
+---
+
+import { appUrl, reposMax, setupsMax } from '/snippets/limits.mdx';
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+This guide takes one of your GitHub repositories from the home screen to an open pull request: the agent plans the change with you, builds it on a branch, runs your tests and reviews its own diff before you push. It ends by saving the machine as a setup, so the next session on that repository starts with everything installed. To start from an idea rather than a codebase, follow the [Quickstart](/quickstart) instead.
+
+<Badge>About 20 minutes</Badge>
+
+By the end of this guide you will have a pull request on `harbor-api`, Harbor Sailing School's booking API, that adds a waitlist to full classes. You will also have a setup that boots new `harbor-api` sessions with the repository cloned and its dependencies installed.
+
+{/* screenshot to capture: /images/guides/repo-00-result.png — The finished state: the branch is pushed and its pull request is pinned at the top of the GitHub tab. */}
+
+## Before you start
+
+- An Alpha account. Sign in at <a href={appUrl}>{appUrl}</a>.
+- A GitHub repository you can push to. This guide uses `harbor-sailing/harbor-api`; use any repository of your own.
+- A test command that runs from the terminal, such as `npm test` or `pytest`. The agent uses it to check its work.
+
+<Note>
+If the GitHub card says "GitHub isn't set up on this server yet — ask whoever runs it.", GitHub isn't turned on for your Alpha. Public repositories can still be added by name, but nothing can be pushed.
+</Note>
+
+## Take a repository to a pull request
+
+<Steps>
+  <Step title="Connect GitHub">
+    On the home screen, click the **repos** chip in the composer, then **Connect GitHub**. GitHub opens in a new browser tab. Pick your account or an organization, choose which repositories Alpha may work in, and authorize. When you come back, Alpha's tab has already picked up the connection. You do this once per account: every session you own gets an authenticated `git` and `gh`, and the token is redacted if it ever reaches the transcript. To add an organization later, use **add account** in the same popover. [Connect GitHub and add repositories](/github/connect) covers organizations and access requests.
+
+    {/* screenshot to capture: /images/github/github-connect-card.png — The GitHub tab's connect card lists what connecting unlocks. In the repos popover the same button appears without the list. */}
+  </Step>
+
+  <Step title="Stage the repository and its branch">
+    Open the **repos** chip again and type `harbor` in **Search your repos or owner/repo**. Click `harbor-sailing/harbor-api`. It is added to the staged list with a branch field that reads **default branch**. Leave it empty to start from the repository's default branch, `main` here, or type an existing branch such as `develop`. The branch must already exist on GitHub. New work goes on a new branch, which the agent creates in the next step. You can stage up to {reposMax}, and a setup's repositories count toward it; see [Limits](/reference/limits). The repository is cloned into `/workspace/harbor-api` before the agent's first turn.
+
+    {/* screenshot to capture: /images/guides/repo-02-staged.png — Staged repositories ride along with your first prompt and are cloned before the agent starts. */}
+  </Step>
+
+  <Step title="Ask for a plan">
+    Type the task after `/plan` and send it. On the home screen, `/plan <task>` creates the session in [plan mode](/chat/plan-mode) and sends the task as its first message. In plan mode the agent reads the code and changes no files. When it needs a decision, it asks in a question card titled "The agent has questions". Pick an option or type into **Something else…**, then press **Send answers**. To leave the choice to the agent, press **Skip — let the agent decide** instead. You can also switch plan mode on and off with <kbd>⇧</kbd><kbd>Tab</kbd> in the composer.
+
+    <PromptCard label="Try this">
+
+    ```text
+    /plan Add a waitlist to class bookings in harbor-api. When a class is full, POST /bookings should put the member on a waitlist instead of returning 409, and cancelling a booking should promote the first member waiting. Work on a new branch called feature/waitlist and commit there. Keep the existing tests passing and add tests for the new behaviour.
+    ```
+
+    </PromptCard>
+
+    Alpha will:
+
+    1. Create the session and clone `harbor-api` into its machine.
+    2. Read the routes, models and tests without changing a file.
+    3. Ask you about anything the code doesn't settle, such as whether a waitlist has a maximum length.
+    4. Write a proposed plan into the **Plan** tab, which opens by itself.
+
+    {/* screenshot to capture: /images/guides/repo-03-plan.png — Reply in the chat to change the plan; press Implement this plan when it is right. */}
+  </Step>
+
+  <Step title="Implement the plan and run the tests">
+    Press **Implement this plan** in the Plan tab. It switches plan mode off and sends "Implement the plan." for you. As the task asked, the agent creates `feature/waitlist`, writes the code, runs your test suite and commits on the branch. The turn runs on Alpha's servers, so you can close the tab and come back to a complete transcript.
+
+    To check the work yourself, open the workspace's **+** menu and choose **Shell**. The [Shell](/workspace/shell) is a terminal in the same machine, as the same account the agent uses, with `sudo`. Run `cd harbor-api && npm test`. Files you change there are files the agent sees on its next turn.
+
+    <Frame caption="The Shell opens in /workspace, beside the agent's files.">
+      <img src="/images/workspace/shell-tab.png" alt="The Shell tab in the workspace, with the Clear and Restart shell buttons at the top right. At the forge:/workspace$ prompt, ls lists the project's files and node --version prints v22.23.4." />
+    </Frame>
+  </Step>
+
+  <Step title="Review the branch against main">
+    When the turn ends, type `/review` and press <kbd>Enter</kbd>. In **Start a review**, choose **Review against a base branch**. The branch field is already filled with `main`, the repository's default branch. Press **Start review**. In a Codex session, Codex runs its review mode on the workspace and posts a "Review started" card, then a "Review findings" card. In a Claude Code session, Claude Code gets a review prompt and answers in the transcript instead. To act on what it found, reply with the findings you want fixed. While a turn is running, the review is refused with "'/review' is disabled while a task is in progress."; see [Slash commands](/reference/slash-commands).
+
+    {/* screenshot to capture: /images/guides/repo-05-review.png — The findings arrive in one card; reply with the ones you want fixed. */}
+  </Step>
+
+  <Step title="Push and open the pull request">
+    Click **GitHub** in the workspace header, beside **Share**. The branch row shows `feature/waitlist` marked **unpublished**. If the review fixes left uncommitted changes, type a message in the commit message box under **Changes** and press **Commit**, or **Commit & push** (<kbd>⌘</kbd><kbd>Enter</kbd>, Ctrl on Windows and Linux) to push at once. Then press **Push & create PR** in the footer. The **New pull request** view shows the branch, a base selector set to `main`, a **Title** taken from the last commit and an optional description. Tick **Create as draft** if you want, then press **Push & create pull request**. See [Branches, commits and pull requests](/github/branches-and-prs) for why a button can be disabled.
+
+    {/* screenshot to capture: /images/guides/repo-06-pr.png — Alpha pushes the branch first, then opens the pull request on GitHub. */}
+
+    <Check>
+    The footer now reads **View PR #12**, and the pull request is pinned at the top of **Pull requests**. Commits carry your GitHub account as their author.
+    </Check>
+  </Step>
+
+  <Step title="Save a setup for next time">
+    Every new session on `harbor-api` would clone and install from scratch. A [setup](/sessions/setups) saves that work once: the repository cloned, a setup script run and the machine saved, so the next session boots in about a second. Ask the agent to save one from what worked in this session.
+
+    <PromptCard label="Try this">
+
+    ```text
+    Save this environment as a setup called "harbor-api dev". Clone harbor-sailing/harbor-api, install its dependencies and run the migrations. On each new machine, pull the latest main. In the notes, say how to run the tests and the dev server.
+    ```
+
+    </PromptCard>
+
+    Alpha will:
+
+    1. Write the setup from the commands that worked here: the install, the migrations, and a boot script that pulls the latest `main`.
+    2. Start the build on a fresh machine, which usually takes a few minutes. Your session's machine is not touched.
+    3. Tell you when it is ready, or that it is still building and will appear in the home screen's machine chip.
+
+    Next time, click the machine chip on the home screen, which reads **blank machine**, and pick **harbor-api dev**. You can keep {setupsMax} ([Limits](/reference/limits)). To see a build's progress, open **Account menu → Setups**.
+
+    {/* screenshot to capture: /images/guides/repo-07-setup-chip.png — A ready setup is one click away on the home screen. */}
+  </Step>
+</Steps>
+
+<Warning>
+A setup build runs with your GitHub token and secrets in its environment. Alpha removes them before saving the machine, but files are kept. A token written into `.npmrc` or `.env` during the build ends up in every machine started from the setup, including those of anyone you share it with.
+</Warning>
+
+You connected GitHub, planned a change before any code moved, built and reviewed it on a branch, opened a pull request, and saved the machine as a setup for your next session.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Branches, commits and pull requests" icon="code-branch" href="/github/branches-and-prs">
+    Create branches from the GitHub tab, pull when you fall behind, and see why the PR button is disabled.
+  </Card>
+  <Card title="Setups" icon="server" href="/sessions/setups">
+    Edit the setup script and boot script by hand, share a setup with your team, or rebuild it.
+  </Card>
+  <Card title="Plan mode and the agent's questions" icon="compass-drafting" href="/chat/plan-mode">
+    Refine a plan over several replies and follow the agent's to-do list while it builds.
+  </Card>
+  <Card title="Fork or delete a session" icon="code-fork" href="/sessions/fork-and-delete">
+    Try a second approach to the same change in a copy of this session, without disturbing the first.
+  </Card>
+</CardGroup>

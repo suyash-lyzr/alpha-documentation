@@ -1,0 +1,150 @@
+{/* One source for every number the docs quote. Paths are relative to alpha-monorepo/. Values marked "(default)" come from a FORGE_* setting the operator can change. */}
+
+{/* TODO confirm: the product's public address. */}
+
+export const appUrl = "https://alpha.new";
+
+{/* Sessions and chat */}
+
+{/* services/backend/internal/presence.go: presenceAwayMs = 30 min with no visible Alpha tab, then FORGE_IDLE_PAUSE_MS (default 60 s, config.go:833) before the park. */}
+
+export const idlePark = "about 30 minutes";
+
+{/* services/backend/internal/config.go:832, FORGE_TURN_TIMEOUT_MS = 48h; enforced in codex.go (activityLaunchFollow, the deadline backstop). */}
+
+export const turnMax = "48 hours (default)";
+
+{/* scripts/build-template.sh:153, DISK_MB = 10240, set when the operator builds the machine template; README.md "Disk". */}
+
+export const disk = "10 GB (default)";
+
+{/* services/backend/internal/routes_core.go:3533 and :3795, JsLen(text) > 100_000 → "prompt too large". */}
+
+export const promptMax = "100,000 characters";
+
+{/* services/backend/internal/routes_core.go:2029 routesMaxReposPerThread = 5; apps/frontend/src/components/forge/repo-picker.tsx:250. */}
+
+export const reposMax = "5 per session";
+
+{/* services/backend/internal/config.go:840, FORGE_MAX_UPLOAD_BYTES = 256 MiB; httpx.go BodyFile answers 413 over it. */}
+
+export const uploadMax = "256 MB per file (default)";
+
+{/* services/backend/internal/files.go:659, filesMaxImageBytes = 15 MiB. */}
+
+export const imageMax = "15 MB";
+
+{/* services/backend/internal/files.go:129 MaxServeBytes = 32 MiB; routes_more.go:1243 "file is over 32 MB". */}
+
+export const fileDownloadMax = "32 MB";
+
+{/* services/backend/internal/files.go:154 filesArchiveMaxBytes = 500 MiB, counted before compression, dependency folders skipped. */}
+
+export const folderDownloadMax = "500 MB";
+
+{/* apps/frontend/src/components/forge/voice-input.tsx:14 MAX_SECONDS = 120; services/backend/internal/voice.go:31 cuts the stream at 2 min 15 s. */}
+
+export const dictationMax = "2 minutes";
+
+{/* services/backend/internal/queue.go:176 MaxQueueItems = 20 → "at most 20 queued messages". */}
+
+export const queueMax = "20 messages";
+
+{/* Publishing */}
+
+{/* services/backend/internal/config.go:703, FORGE_DEPLOY_MAX_SOURCE_MB = 48; deploy.go:1466 message. */}
+
+export const sourceMax = "48 MB compressed (default)";
+
+{/* services/backend/internal/config.go:702, FORGE_DEPLOY_BUILD_TIMEOUT_MS = 20 min; deploy_rollout.go hint "The build exceeded 20 minutes." */}
+
+export const buildMax = "20 minutes (default)";
+
+{/* services/backend/internal/deploy_rollout.go:776 hint "never listened … within 4 minutes". Alpha sets no startup probe, so this is Cloud Run's own startup window. */}
+
+export const listenMax = "4 minutes";
+
+{/* services/backend/internal/config.go:697, FORGE_DEPLOY_MAX_PER_THREAD = 3; deploy_records.go:557. */}
+
+export const publishPerSession = "3 per session (default)";
+
+{/* services/backend/internal/config.go:696, FORGE_DEPLOY_MAX_PER_USER = 20; deploy_records.go:560. */}
+
+export const publishPerAccount = "20 per account (default)";
+
+{/* services/backend/internal/config.go:700, FORGE_DEPLOY_MEMORY = "512Mi"; deploy_rollout.go hint "Out of memory at 512Mi." */}
+
+export const memory = "512 MiB (default)";
+
+{/* services/backend/internal/config.go:699, FORGE_DEPLOY_MAX_INSTANCES = 2. */}
+
+export const instances = "2 (default)";
+
+{/* services/backend/internal/deploy.go:834 deployMaxRollouts = 30; the version serving traffic is never removed. */}
+
+export const versionsKept = "30 per app";
+
+{/* Routines, setups and secrets */}
+
+{/* services/backend/internal/routines.go:58 routineMaxPerUser = 20, paused routines included. */}
+
+export const routinesMax = "20 per account";
+
+{/* services/backend/internal/config.go:927, FORGE_ROUTINE_MIN_MINUTES = 15; routines.go:236 message. */}
+
+export const routineMinInterval = "15 minutes (default)";
+
+{/* services/backend/internal/setups.go:226 MaxSetups = 5, an account's own; setups shared with it don't count. */}
+
+export const setupsMax = "5 per account";
+
+{/* services/backend/internal/secrets.go:280 MaxSecrets = 256 per vault (the account's, and each session's own); routes_more.go:882. */}
+
+export const secretsMax = "256 secrets";
+
+{/* services/backend/internal/config.go:843, FORGE_SECRETS_MAX_TOTAL_BYTES = 32 KiB per vault; routes_more.go:890. */}
+
+export const secretsTotal = "32 KB in total (default)";
+
+Some limits are set by whoever runs your Alpha. Those are marked "(default)", and your Alpha may use a different value.
+
+## Sessions and chat
+
+{/* TODO confirm: the disk row; there is no product message for a full disk, so it describes ordinary system behaviour. */}
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Idle time before a machine sleeps | {idlePark} | Once no Alpha tab of yours has been open for this long, each session with nothing running goes to sleep. Nothing is lost, and the machine wakes the next time you open the session or work arrives for it. |
+| Length of one turn | {turnMax} | The turn is stopped. Your next message carries on from the conversation so far. |
+| Disk per session's machine | {disk} | Writes inside the machine fail once the disk is full. Delete large files or build outputs to free space. |
+| Length of one message | {promptMax} | The message is refused with "prompt too large". Attach long text as a file instead. |
+| Repositories in a session | {reposMax} | You can't add another. A setup's repositories count toward this. |
+| Size of one uploaded file | {uploadMax} | The upload is refused. |
+| Image the agent can see | {imageMax} | Larger images are still uploaded to the session, but the agent gets them only as files, not as pictures it can look at. |
+| Size of one file you download or view | {fileDownloadMax} | The download fails, and the file viewers say the file is more than they can fetch. |
+| Size of a folder you download | {folderDownloadMax} | The download is refused. Dependency folders such as `node_modules` are always left out and don't count. |
+| Length of one dictation | {dictationMax} | Recording stops by itself. Start the mic again to keep talking. |
+| Queued messages | {queueMax} | You can't queue another until one has run. |
+
+## Publishing
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Published apps per session | {publishPerSession} | You can't publish another from this session. Republish an existing one instead. |
+| Published apps per account | {publishPerAccount} | You can't publish another until you delete one. |
+| Size of the source | {sourceMax} | Publishing stops with "workspace too large to deploy". Dependencies and build outputs are already left out, so look for large assets. |
+| Build time | {buildMax} | The build is stopped and the version fails. Slim down the build. |
+| Time for the app to start listening | {listenMax} | The version fails. Make sure the app binds `0.0.0.0` on the `PORT` it's given, and that its database is ready when it starts. |
+| Memory per instance | {memory} | The app is stopped and the version fails with an out-of-memory message. |
+| Instances at once | {instances} | Your app never runs more copies than this at the same time, however busy it gets. |
+| Versions kept | {versionsKept} | The oldest versions and their logs are removed as new ones arrive. The version serving traffic is never removed. |
+
+## Routines, setups and secrets
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Routines | {routinesMax} | You can't create another until you remove one. Paused routines count. |
+| Shortest gap between runs | {routineMinInterval} | A timetable that runs more often is refused, because each run wakes the session's machine. |
+| Setups | {setupsMax} | You can't save another until you delete one. Setups shared with you don't count. |
+| Number of secrets | {secretsMax} | You can't add another until you delete one. Your account's secrets and each session's own secrets are counted separately. |
+| Total size of secrets | {secretsTotal} | The new value is refused because the total would be too large. |

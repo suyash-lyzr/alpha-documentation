@@ -1,0 +1,224 @@
+---
+title: "MCP servers"
+sidebarTitle: "MCP servers"
+description: "Give the agent more tools with hosted MCP servers, or local ones that run inside every session."
+---
+
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+An MCP server is a plug-in that hands the agent a set of tools, such as "search Linear issues" or "fetch the current docs for this library". Alpha runs two kinds. A **remote** server is hosted on the web and reached through Alpha. A **local** server is a command that starts inside every session's machine. Both live in **Integrations**, on the **MCPs** tab, and whatever you add there works in every session you own. To sign in to an app such as Gmail or Slack instead, see [Connect an app](/integrations/connect-apps). To call your remote servers from the app the agent builds, see [Use integrations in your app](/integrations/in-your-app).
+
+<Frame caption="MCPs → Remote lists the hosted servers your Alpha offers, and Add server at the right adds your own.">
+  <img src="/images/integrations/integrations-page-mcps-remote.png" alt="The Integrations dialog with the MCPs tab selected. Under the title and its lede are the tabs Connectors, MCPs (selected) and Connected, a search box with the placeholder Search — Gmail, Stripe, Notion, maps…, and the dropdowns All auth and All categories. Under them are the sub-tabs Remote 17 (selected), Local 3 and Connected 0, then a Refresh button and an outlined Add server button with a plus icon at the right. A three-column grid of cards follows, sorted A to Z: Apollo, Calendly, Clay, ElevenLabs, Exa, Firecrawl, HubSpot, Linear, Miro, Notion, PostHog, Sentry, Stripe, Supabase and Tally, with Tavily and Wispr Flow cut off at the bottom. Each card shows its logo, a blue Verified check, a violet Remote MCP badge, an auth badge and a one-line tagline, such as Issues, projects, cycles and comments on Linear. Exa carries No auth and a Connect button; every other card carries OAuth and a Sign in button." />
+</Frame>
+
+## Remote or local?
+
+The two kinds differ in where the server runs and who holds its credentials. That decides what can reach it.
+
+| | Remote | Local |
+| --- | --- | --- |
+| Where it runs | On its maker's servers. Alpha calls it for you. | As a command inside each session's machine, started by the agent. |
+| How it signs in | OAuth, an API key or nothing. The credential stays on Alpha's server, and machines never see it or the server's address. | It reads your [secrets](/secrets) and integration variables from the session's environment. |
+| How the agent sees its tools | With your connected apps, under the built-in `alpha_tools` server ("Alpha connected tools"). | Under the server key you choose, such as `context7`. Claude Code names them `mcp__context7__…`. |
+| Can your app use it? | Yes, through the [session's key](/integrations/in-your-app), in the Preview and in published apps. | No. Only the agent in the session can call it. |
+| Add your own | Any public Streamable HTTP address | Any command, such as `npx`, `uvx`, `node` or `python` |
+
+<Tip>
+Not sure? If the vendor gives you an address ending in `/mcp`, add it as a remote server. If its README tells you to run `npx …` or `uvx …`, add it as a local one.
+</Tip>
+
+## Connect a server from the catalog
+
+Open **Integrations** in the sidebar, then the **MCPs** tab. Every catalog server carries a blue Verified check, because Alpha curated it. What you click depends on the sub-tab.
+
+| Sub-tab | Click | What happens |
+| --- | --- | --- |
+| **Remote**, OAuth server | **Sign in** | The server's consent page opens in a popup, as for [connecting an app](/integrations/connect-apps#sign-in-to-an-app). There is no client ID to paste: "One consent on your account; the gateway registers its own client, nothing to paste." Once you approve, Alpha lists the server's tools and the card turns **Active**. |
+| **Remote**, no-auth server such as Exa | **Connect** | Alpha adds the server and lists its tools at once. |
+| **Local** | **Install** | Alpha adds the server to every session you own: "Installing puts it in every session on this Alpha; its tools join the agent's list from the next message." |
+
+The **Local** catalog has three servers. None needs a key.
+
+| Server | What it gives the agent |
+| --- | --- |
+| **Context7** | "Current, version-specific docs for any library", fetched for the libraries the project uses, so the agent works from current APIs. A `CONTEXT7_API_KEY` secret raises its rate limit. |
+| **Memory** | "A knowledge graph the agent keeps between turns", stored in a file inside the session's machine, so facts about the project survive compaction. Each session keeps its own graph. |
+| **Sequential thinking** | "A scratchpad for step-by-step problem solving", for working through a hard problem in revisable steps before acting. |
+
+New tools reach a session with its next message. If the agent is in the middle of a turn, they arrive when that turn ends, and a session that's asleep picks up local servers when it [wakes](/sessions/machines).
+
+<Note>
+If you don't see a hosted server you expected under **Remote**, or the tab is empty, it isn't turned on for your Alpha. An [admin](/admin) chooses which hosted servers the catalog offers.
+</Note>
+
+## Add your own remote server
+
+Use this for a hosted server that isn't in the catalog, such as your company's internal tools. Alpha's server calls it, so the address must be reachable from the public internet.
+
+<Steps>
+  <Step title="Open the form">
+    On **MCPs**, click **Add server**. The panel "Add an MCP server" opens. Under **Where it runs**, pick **Remote · hosted**.
+  </Step>
+  <Step title="Name it and give its address">
+    Type a **Server name**, such as "Harbor tools". In **Streamable HTTP URL**, paste the server's MCP endpoint in full, such as `https://tools.example.com/mcp`. It is "usually …/mcp — not the site's root".
+  </Step>
+  <Step title="Choose how it signs in">
+    Pick one option under **Authentication**.
+
+    | Option | What you fill in |
+    | --- | --- |
+    | **None** | Nothing. |
+    | **API key** | The **API key**, which is "Not returned after save". **Header** defaults to `Authorization` and **Prefix** to `Bearer `. Change them if the server expects something else, such as `X-API-Key` with no prefix. |
+    | **OAuth 2.0** | Usually nothing: with **Custom OAuth client** off, Alpha uses "the server's own sign-in, from its URL alone (Linear, Notion…)". Switch it on only if the vendor gave you a registered client. Then fill in **Client ID**, **Client secret**, **Authorization URL**, **Token URL** and space-separated **Scopes**. |
+
+    <Frame caption="Authentication starts on None; pick API key or OAuth 2.0 when the server needs a sign-in.">
+      <img src="/images/integrations/add-server-remote-form.png" alt="The Add an MCP server panel open at the right of the Integrations dialog, which stays on MCPs → Remote 17 behind it. The panel reads: An MCP server of your own: a command started inside every session's sandbox, or a hosted one reached through Alpha's Tools Gateway. Under Where it runs, Remote · hosted is selected, beside Local · in the sandbox. A card headed Remote MCP · gateway-managed holds a focused Server name field with the placeholder Company tools and a Streamable HTTP URL field with the placeholder https://, with the hint The server's MCP endpoint, usually …/mcp — not the site's root. The gateway calls it; sandboxes never see it. The Authentication toggle shows None (selected), API key and OAuth 2.0. Below the card, a grey note reads Once added (and signed in, for OAuth) the agent may call its tools. Credentials stay on the server; sandboxes only ever hold the session key. An Add remote server button sits under the note." />
+    </Frame>
+  </Step>
+  <Step title="Add it, then sign in">
+    Click **Add remote server**. With **None** or **API key**, Alpha lists the server's tools straight away. With **OAuth 2.0**, the server's panel opens on "Sign in": click **Connect OAuth** and approve in the popup.
+  </Step>
+</Steps>
+
+Addresses on `localhost` or a private network are refused, so an app running in a session's Preview can't be added this way.
+
+## Add your own local server
+
+Use this for a server that its README starts with a command. Node, `npx`, Python and `uvx` are already in every session's machine.
+
+<Steps>
+  <Step title="Open the form">
+    On **MCPs**, click **Add server**. **Where it runs** opens on **Local · in the sandbox**.
+  </Step>
+  <Step title="Name the server">
+    Type a **Server key**, such as `context7`: up to 40 lowercase letters, digits, `-` and `_`, starting with a letter. "The agent's tools are named after it." **Title** and **Description** are optional, but the description is "Named to the agent, so keep it about what the tools do."
+  </Step>
+  <Step title="Enter the command">
+    Split the README's command into **Command**, the first word, and **Arguments**, one per line. For example, this command:
+
+    ```text
+    npx -y @upstash/context7-mcp
+    ```
+
+    becomes **Command** `npx`, with `-y` and `@upstash/context7-mcp` on two lines under **Arguments**.
+
+    <Frame caption="A local server is a command and its arguments; a key goes in by its secret's name, never its value.">
+      <img src="/images/integrations/add-server-local-form.png" alt="The Add an MCP server panel open at the right of the Integrations dialog, with Local · in the sandbox selected under Where it runs and Remote · hosted beside it. A card headed Local MCP · runs in every session's sandbox holds empty fields showing their placeholders: Server key my-server, focused, with the hint The agent's tools are named after it; Title My server; Description Searches our internal wiki, with the hint Named to the agent, so keep it about what the tools do; Command npx, with the hint Node, Python and npx are in the sandbox; Arguments -y, @scope/package and --flag on three lines, with the hint One per line; and Environment settings LOG_LEVEL=info and SERVICE_TOKEN=${MY_SECRET} on two lines, with a hint that begins NAME=VALUE, one per line. The server already gets every. The rest of the form is cut off at the bottom." />
+    </Frame>
+  </Step>
+  <Step title="Add environment settings, if any">
+    The server already gets every secret and integration variable in the session. Use **Environment settings** only to set plain options, or to hand a secret over under the name the server expects, one `NAME=VALUE` per line:
+
+    ```env
+    LOG_LEVEL=info
+    NOTION_TOKEN=${NOTION_API_KEY}
+    ```
+
+    Alpha fills in `${NOTION_API_KEY}` from your secrets when the server starts, so the key itself is never stored with the server.
+  </Step>
+  <Step title="Add it">
+    Leave **Startup timeout (s)** at 180 unless the server is slow to start. The first start on a new machine downloads the package. Click **Add local server**. Its tools reach every session you own from that session's next message.
+  </Step>
+</Steps>
+
+<Warning>
+A local server runs inside every session you own, with the same rights as the agent. It can read your project, run commands and see every secret in the environment. Install only servers you trust, from their publisher's own package name.
+</Warning>
+
+## Let the agent add one
+
+You can also ask the agent. It installs a local server for your account, never only for its own machine, so every session you own gets it.
+
+<PromptCard label="Try this">
+
+```text
+Add the MCP time server (uvx mcp-server-time) so you can convert Harbor class times between time zones.
+```
+
+</PromptCard>
+
+Alpha will:
+
+1. Install the server under your account. It appears under **MCPs → Local**, owned by you, with a startup timeout of 180 seconds.
+2. Tell you its tools arrive with your next message, in this session and every other, with nothing to restart.
+3. If a server needs a key, hand it over by the name of a [secret](/secrets) rather than its value, and ask you to add that secret. It never asks you to paste the key into a message.
+
+A remote server needs your sign-in, so the agent posts a card instead: "The agent wants to use Harbor tools". **Connect Harbor tools** opens the remote form filled with the name and address. Choose the sign-in, add it, then click **Tell the agent to continue**. See [When the agent asks you to connect](/integrations/connect-apps#when-the-agent-asks-you-to-connect).
+
+The agent can add servers, but only you can edit or remove them.
+
+## Manage your servers
+
+Click any server's card to open its panel. Changes reach every session with its next message.
+
+### A remote server
+
+{/* screenshot to capture: /images/integrations/remote-mcp-active-tools.png — An active server lists every tool the agent can call. Test connection checks it and refreshes the list. */}
+
+The panel's first card shows the server's status, and its buttons change with it.
+
+| Status | Meaning | What to do |
+| --- | --- | --- |
+| **Active** | Signed in. The agent can call its tools. | **Test connection** reports how many tools it found and refreshes the **Tools** list, so use it after the vendor adds tools. |
+| **Sign in** | Added but not signed in yet. | Click **Connect OAuth**. |
+| **Sign in again** | "Its sign-in expired and could not be refreshed." | Click **Sign in again** and approve in the popup. |
+| **Disconnected** | You revoked it. "The agent can no longer call it." | Click **Delete**, then add it again to reconnect. |
+
+**Revoke** cuts the agent off at once and leaves the server listed as **Disconnected**. There is no way to switch it back on. **Delete** removes it after you confirm "Delete Linear? The agent loses its tools on its next message."
+
+### A local server
+
+{/* screenshot to capture: /images/integrations/local-mcp-panel-missing-key.png — Amber chips name the variables a server still needs. Click one to find where to get it. */}
+
+| Control | What it does |
+| --- | --- |
+| **On in every session** switch | Turn it off to keep the server but give it to no session: "Kept here, handed to no sandbox until it is switched on." The panel then reads **Installed, switched off**, and its card shows **Off**. |
+| **How it runs** | Shows the command the agent starts. Catalog servers add a **Documentation** link. |
+| Variable chips {/* TODO confirm: no catalog server and no form declares requirements today (mcp_store.go McpCatalog Requires: [], LocalServerForm passes requires through), so chips only show on records created with `requires` through the API. Keep or drop this row and its screenshot. */} | Appear when a server declares variables it needs. Green is set and amber isn't. Click an amber chip to connect the integration that provides it, or to open the vendor's page to get a key you then add under [Secrets](/secrets). |
+| **Edit command and environment** | Opens the same form as **Add local server**, with **Save** and **Cancel**. |
+| **Remove from every session** | Deletes the server after you confirm "Remove Context7? Every session loses its tools on its next message." |
+
+A server whose key is missing still starts; its tools fail to authenticate. The agent says so and carries on without them.
+
+### Check what every session gets
+
+Type `/mcp` on the [home screen](/sessions/home-screen) to see the servers every new session starts with, without starting one.
+
+{/* screenshot to capture: /images/integrations/home-mcp-card.png — The home screen's /mcp card: the two built-in servers, then your local servers that are on. */}
+
+`browser` and `alpha_tools` are built in and can't be removed. Remote servers have no rows of their own, because their tools reach the agent through `alpha_tools`. **Manage servers** opens the catalog.
+
+Inside a session, `/mcp` posts a card listing each server the agent has loaded, with its number of tools and the first few by name. With Claude Code, `/mcp reconnect`, `/mcp enable` and `/mcp disable` manage a server for that session. See [Slash commands](/reference/slash-commands).
+
+## Limits and errors
+
+These limits are fixed in Alpha. For every other limit, see [Limits](/reference/limits).
+
+| Limit or message | What it means | What to do |
+| --- | --- | --- |
+| "at most 32 MCP servers" | Your account already has 32 local servers, counting the ones you installed from the catalog and the ones the agent added. | Remove one you no longer use. |
+| "a server named context7 already exists" | You already have a server with that key. `browser` and `alpha_tools` are taken too. | Pick another key, or edit the existing server. |
+| "workspace is a server name Claude Code keeps for itself — pick another name" | `workspace`, `claude-in-chrome` and `computer-use` are reserved. | Pick another key. |
+| "MCP URL must be a public http or https URL" or "remote MCP address is not allowed" | The address isn't a full `http(s)://` URL, or points at `localhost` or a private network. | Use the server's public endpoint. |
+| "the MCP server publishes no OAuth authorization server metadata — register a custom OAuth client" | The server's own sign-in can't be found from its address. | Switch on **Custom OAuth client** and enter the vendor's client and endpoints. The same fix applies when the message says the server "does not register clients". |
+| "MCP sign-in expired and the server issued no refresh token — sign in again under Integrations" | The agent hit an expired sign-in mid-turn. | Click **Sign in again** on the server's panel. |
+| "MCP server returned too many tools" | The server listed more than 500 tools. | Use a narrower endpoint from the vendor, if it offers one. |
+| More than 100 connected tools | Past 100 tools from your apps and remote servers, they no longer appear in the agent's own tool list. | Nothing. The agent looks up the tool it needs and runs it through Alpha instead. See [How the agent calls your tools](/integrations/in-your-app#how-the-agent-calls-your-tools). |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Use integrations in your app" icon="code" href="/integrations/in-your-app">
+    Remote servers reach your app through two variables. Local ones stay with the agent.
+  </Card>
+  <Card title="Secrets" icon="key" href="/secrets">
+    Store the keys your local servers read, once for every session or for one only.
+  </Card>
+  <Card title="Connect an app" icon="right-to-bracket" href="/integrations/connect-apps">
+    Gmail, Slack and other apps without an MCP server connect as ready-made connectors.
+  </Card>
+  <Card title="Skills" icon="wand-magic-sparkles" href="/skills/overview">
+    Tools give the agent new abilities. A skill teaches it how your team uses them.
+  </Card>
+</CardGroup>
