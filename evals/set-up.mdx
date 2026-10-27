@@ -9,7 +9,6 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 An eval runs your agent on a written set of test cases and grades every answer. Alpha writes the test cases and prices the run; you review them on the **Evals** tab, and nothing runs until you start it. To try a single input by hand while you build, use [Try it](/agents/try-it) instead.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 flowchart LR
   offer[Offer in the chat] --> proposal[Proposal with cost range]
   proposal --> cases[Test cases you edit]

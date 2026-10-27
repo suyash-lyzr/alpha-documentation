@@ -17,7 +17,6 @@ The **Preview** is your app, live, running on the session's machine and framed i
 Alpha watches the session's machine for anything listening on a port. Once something listens, a **Preview** tab joins the workspace. When a port's `/` answers with a web page, the tab opens on it. You never switch the Preview on yourself, because it follows what is actually running.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 flowchart LR
   A[Agent starts a server] --> B[Listens on 0.0.0.0]
   B --> C[Alpha finds the port]

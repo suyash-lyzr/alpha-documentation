@@ -27,7 +27,6 @@ The database has a session copy and a production copy, and the two never share d
 | Sign-in | The session's sign-in, on its preview addresses | The same sign-in and accounts, on the app's own https addresses |
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 flowchart LR
   classDef focus stroke:#1A54F0,stroke-width:1.5px;
   sapp["App in the Preview"] --> sdb["Session database"]

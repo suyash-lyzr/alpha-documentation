@@ -90,7 +90,6 @@ The machine has no microphone, so you are the one who holds the first conversati
 A real phone number needs a published app. The Preview's address works only while the session's machine is awake, and a machine [goes to sleep](/sessions/machines#when-does-a-machine-go-to-sleep) once no Alpha page of yours has been on screen for {idlePark}. A call to a sleeping machine doesn't wake it, so the Preview's address is good only for a test call while you're there. Publish first, then the agent points the number's voice webhook at the published address through Twilio, or gives you the address to paste into the Twilio console. The webhook's address includes a random secret, which is what keeps strangers off it, so don't share it.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 sequenceDiagram
   participant C as Caller
   participant T as Twilio

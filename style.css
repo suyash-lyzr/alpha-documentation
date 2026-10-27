@@ -104,7 +104,8 @@ kbd {
   font-size: 0.8125rem;
 }
 
-/* ---------- Cards: quiet icon tile, ring lights on hover ---------- */
+/* ---------- Cards: compact rows, the icon tile beside the title, ring
+   lights on hover ---------- */
 
 .card {
   border-radius: var(--a-radius) !important;
@@ -114,36 +115,56 @@ kbd {
   transition: box-shadow 150ms ease;
 }
 
-a.card:hover {
+a.card:hover,
+.card[role="link"]:hover {
   box-shadow: 0 0 0 1px color-mix(in oklab, var(--a-signal) 55%, transparent), 0 2px 10px rgb(22 22 20 / 6%);
 }
 
-[data-component-part="card-icon"] {
-  width: 2rem !important;
-  height: 2rem !important;
+.card [data-component-part="card-content-container"] {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem !important;
+}
+
+.card [data-component-part="card-icon"] {
+  flex: none;
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  margin: 0 !important;
   display: grid;
   place-items: center;
-  border-radius: 0.5rem;
+  border-radius: 0.45rem;
   background: var(--a-fill);
   box-shadow: 0 0 0 1px var(--a-border);
 }
 
-[data-component-part="card-icon"] svg {
-  width: 1rem !important;
-  height: 1rem !important;
+.card [data-component-part="card-icon"] svg {
+  width: 0.875rem !important;
+  height: 0.875rem !important;
   background-color: var(--a-soft) !important;
 }
 
-[data-component-part="card-title"] {
-  font-size: 0.9375rem;
+.card [data-component-part="card-title"],
+.card [data-component-part="card-title"] * {
+  margin-top: 0 !important;
+  padding-top: 0.25rem;
+  font-size: 0.875rem !important;
+  line-height: 1.3 !important;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
-[data-component-part="card-content"] {
-  font-size: 0.875rem;
-  line-height: 1.6;
+.card [data-component-part="card-content"] {
+  margin-top: 0 !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.5 !important;
   color: var(--a-muted);
+}
+
+.card [data-component-part="card-content"] * {
+  font-size: inherit !important;
+  line-height: inherit !important;
 }
 
 /* ---------- Callouts: neutral, with a thin signal of their kind ---------- */
@@ -265,22 +286,6 @@ kbd {
   }
 }
 
-/* Cards: keep the icon tile close to its title. */
-.card [data-component-part="card-icon"] {
-  margin-bottom: 0 !important;
-}
-
-.card [data-component-part="card-title"] {
-  margin-top: 0.875rem !important;
-}
-
-/* Card titles at body scale, so three-across cards don't wrap. */
-.card [data-component-part="card-title"],
-.card [data-component-part="card-title"] * {
-  font-size: 0.9375rem !important;
-  line-height: 1.35 !important;
-}
-
 /* Wide tables fit the column and wrap their cells. */
 #content-area .prose table {
   width: 100%;
@@ -291,4 +296,195 @@ kbd {
 #content-area .prose td {
   overflow-wrap: anywhere;
   vertical-align: top;
+}
+
+/* ---------- Ask AI (ask-ai.js): a clear way into the assistant ---------- */
+
+#alpha-ask-ai {
+  position: fixed;
+  top: 0.5rem;
+  right: 1.5rem;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 2rem;
+  padding: 0 0.5rem 0 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 560;
+  color: var(--a-signal);
+  background: var(--a-signal-soft);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--a-signal) 35%, transparent);
+  cursor: pointer;
+  transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+#alpha-ask-ai:hover {
+  background: color-mix(in oklab, var(--a-signal) 18%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--a-signal) 60%, transparent);
+}
+
+#alpha-ask-ai[hidden] {
+  display: none;
+}
+
+#alpha-ask-ai kbd {
+  padding: 0 0.35em;
+  font-size: 0.6875rem;
+  color: inherit;
+  background: transparent;
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--a-signal) 30%, transparent);
+}
+
+@media (max-width: 1023px) {
+  #alpha-ask-ai {
+    display: none;
+  }
+}
+
+/* Three or four across, a card is too narrow for the icon beside the text:
+   stack the icon tile above the title and give the text the full width. */
+.card-group:is([style*="--cols:3"], [style*="--cols: 3"], [style*="--cols:4"], [style*="--cols: 4"]) .card [data-component-part="card-content-container"] {
+  display: block;
+  padding: 1rem !important;
+}
+
+.card-group:is([style*="--cols:3"], [style*="--cols: 3"], [style*="--cols:4"], [style*="--cols: 4"]) .card [data-component-part="card-icon"] {
+  margin-bottom: 0.75rem !important;
+}
+
+.card-group:is([style*="--cols:3"], [style*="--cols: 3"], [style*="--cols:4"], [style*="--cols: 4"]) .card [data-component-part="card-title"] {
+  padding-top: 0;
+}
+
+.card-group:is([style*="--cols:3"], [style*="--cols: 3"], [style*="--cols:4"], [style*="--cols: 4"]) .card [data-component-part="card-content"] {
+  margin-top: 0.25rem !important;
+}
+
+/* ---------- Width: a wider reading column (the theme's default is 36rem) ---------- */
+
+:root {
+  --content-width: 46rem;
+}
+
+/* ---------- Collapsible sidebar (sidebar-toggle.js) ---------- */
+
+html.alpha-sidebar-collapsed {
+  --sidebar-width: 0px;
+  --content-width: 54rem;
+}
+
+html.alpha-sidebar-collapsed #sidebar {
+  display: none !important;
+}
+
+#alpha-sidebar-toggle {
+  position: fixed;
+  top: 0.6875rem;
+  left: calc(var(--sidebar-width, 19rem) + 0.5rem);
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 0.45rem;
+  color: var(--a-muted);
+  cursor: pointer;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+#alpha-sidebar-toggle:hover {
+  color: var(--a-fg);
+  background: var(--a-fill);
+}
+
+html.alpha-sidebar-collapsed #alpha-sidebar-toggle {
+  color: var(--a-signal);
+}
+
+@media (max-width: 1023px) {
+  #alpha-sidebar-toggle {
+    display: none;
+  }
+}
+
+/* ---------- Changelog: each release opens with its name as the heading,
+   then one quiet line with the date and small tag pills; the notes get the
+   full width under it ---------- */
+
+.update-container {
+  flex-direction: column !important;
+  gap: 1rem !important;
+}
+
+.update-container > div:first-child {
+  position: static !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  align-items: center !important;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--a-border);
+}
+
+.update-container [data-component-part="update-description"] {
+  order: -1;
+  flex-basis: 100%;
+  max-width: none !important;
+  margin: 0 0 0.125rem !important;
+  font-size: 1.25rem !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em;
+  color: var(--a-fg) !important;
+}
+
+.update-container [data-component-part="update-label"] {
+  padding: 0 !important;
+  background: none !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  color: var(--a-muted) !important;
+}
+
+.update-container [data-component-part="update-label"]::after {
+  content: "·";
+  margin-left: 0.5rem;
+  color: var(--a-muted);
+}
+
+.update-container [data-component-part="update-tag-list"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0 !important;
+}
+
+.update-container [data-component-part="update-tag"] {
+  margin: 0 !important;
+  padding: 0.0625rem 0.5rem !important;
+  border-radius: 999px;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  color: var(--a-soft) !important;
+  background: var(--a-fill) !important;
+  box-shadow: 0 0 0 1px var(--a-border);
+}
+
+.update-container [data-component-part="update-content"] {
+  width: 100%;
+}
+
+.update-container [data-component-part="update-description"],
+.update-container [data-component-part="update-content"] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.update-container [data-component-part="update-content"] > :first-child {
+  margin-left: 0 !important;
 }

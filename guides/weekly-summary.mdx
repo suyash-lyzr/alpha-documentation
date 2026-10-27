@@ -106,7 +106,6 @@ If Slack isn't listed under **Integrations**, or the **Routines** page says "Rou
 Alpha's server keeps the routine's clock, and nothing inside the machine does. At 09:00 the server wakes the session's machine, which takes about half a minute when it's asleep. It runs the script with the session's environment, records the run and its log, and lets the machine go back to sleep.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 flowchart LR
   A[Monday 09:00 arrives] --> B[Session's machine wakes]
   B --> C[Script reads last week's bookings]

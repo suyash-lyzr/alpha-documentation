@@ -9,7 +9,6 @@ import { idlePark, turnMax, disk } from '/snippets/limits.mdx';
 Every session runs on its own machine, and that machine sleeps when you're away and wakes when it's needed, with every file, package and running process as you left it. A turn never depends on your browser, so you can close the tab mid-task and come back to finished work. To copy a session's machine into a new session instead, [fork it](/sessions/fork-and-delete). To start sessions from a ready-made machine, use a [setup](/sessions/setups).
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 stateDiagram-v2
   state "No machine" as None
   state "Running" as Running

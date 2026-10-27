@@ -27,7 +27,6 @@ If you see only one of the two buttons, the other isn't turned on for your Alpha
 Your Alpha can be limited to a list of approved email addresses. If you sign in with an address that isn't on the list yet, Alpha still creates your account, then holds it on the waitlist screen until an admin approves it. Nothing else opens in the meantime.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 flowchart LR
   signin["Continue with Google or Microsoft"] --> listed{"Email on the list?"}
   listed -- yes --> home["Home screen"]

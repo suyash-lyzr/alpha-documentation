@@ -43,7 +43,6 @@ Ask for sign-in only in apps that need accounts. Once it's on, sign-in has no of
 Your app never stores passwords. It asks Alpha's sign-in service who someone is, and gets back standard tokens with their id, email and name. Because this is ordinary OpenID Connect, the agent uses well-known libraries such as `openid-client`, Auth.js or Passport.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 sequenceDiagram
   participant U as Person using your app
   participant A as Your app

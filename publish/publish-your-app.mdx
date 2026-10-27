@@ -20,7 +20,6 @@ Only the session's owner sees **Publish**. If you don't see it beside **Share** 
 Alpha copies one directory out of the session's machine, works out how to build it, builds an image on Google Cloud Build and runs it on Google Cloud Run. Each publish is a new version. Traffic moves to it only once it serves, so a failed build never takes down what is already live.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 flowchart LR
   A[Export the source] --> B[Plan the build]
   B --> C[Build the image]

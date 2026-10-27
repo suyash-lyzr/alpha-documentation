@@ -21,7 +21,6 @@ If the card shows "tools gateway is disabled" instead of the key, the tools gate
 Your app reads two variables, `FORGE_TOOLS_URL` and `FORGE_TOOLS_API_KEY`, and sends every call to Alpha's tools gateway. The gateway holds your sign-ins, attaches the right one and calls the app. Your app never sees the app's own token, so there is nothing to leak beyond the key itself.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 flowchart LR
   P[App in the Preview] --> G
   D[Published app] --> G

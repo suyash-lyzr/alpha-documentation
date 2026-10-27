@@ -9,7 +9,6 @@ import { idlePark, turnMax, disk } from '/snippets/limits.mdx';
 Alpha is an agent workbench: every session pairs a coding agent with a private cloud machine of its own. These few ideas explain most of what you'll see. To build something now, follow the [quickstart](/quickstart). To write better requests, see [Prompt Alpha well](/get-started/prompting).
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 flowchart LR
   you([You]) --> session["Session at /s/code"]
   session --> machine["Machine: files, database, servers"]
@@ -65,7 +64,6 @@ A message you send while a turn runs is queued for the end of the turn, or steer
 A machine sleeps when nobody needs it. Once no Alpha tab of yours has been visible for {idlePark}, each of your sessions with nothing running goes to sleep: Alpha saves its memory and disk, then lets the machine go. Opening the session wakes it in a few seconds, with every file, package and running server as you left it.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 stateDiagram-v2
   state "No machine" as none
   state "Running" as running

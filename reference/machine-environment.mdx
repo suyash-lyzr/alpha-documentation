@@ -65,7 +65,6 @@ Nothing is set speculatively. A session without a database has no `DATABASE_URL`
 The values are layered in a fixed order, and the last one wins. Your secrets come last, so a secret named `DATABASE_URL` or `GITHUB_TOKEN` overrides the built-in value. Between secrets, a session secret beats a global one, and either beats the token from a GitHub connection. Names starting with `FORGE_` are reserved and can't be set as secrets, so the built-in sign-in and tools variables can't be overridden by accident.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'fontFamily':'Geist, Inter, sans-serif','fontSize':'14px','primaryColor':'#FFFFFF','primaryTextColor':'#1F2022','primaryBorderColor':'#E3E1DE','lineColor':'#8A857C','secondaryColor':'#F1F0EE','tertiaryColor':'#FAFAF9'}}}%%
 flowchart LR
   db["Database settings"] --> app["App sign-in settings"]
   app --> conn["Tools gateway settings"]
