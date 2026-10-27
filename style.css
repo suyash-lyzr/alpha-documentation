@@ -1,0 +1,17 @@
+/* Alpha's look on top of docs.json's theme: Geist Mono for code and the
+   app's 0.7rem corners. Colours and the sans font live in docs.json. */
+
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap");
+
+code,
+pre,
+kbd,
+.font-mono {
+  font-family: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace !important;
+}
+
+.prose img,
+.prose pre,
+table {
+  border-radius: 0.7rem;
+}

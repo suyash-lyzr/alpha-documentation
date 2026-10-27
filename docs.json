@@ -1,0 +1,49 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Alpha",
+  "colors": {
+    "primary": "#1a54f0",
+    "light": "#749ff9",
+    "dark": "#1a54f0"
+  },
+  "background": {
+    "color": {
+      "light": "#fafaf9",
+      "dark": "#0e0e0d"
+    }
+  },
+  "fonts": {
+    "family": "Geist"
+  },
+  "favicon": "/images/favicon.png",
+  "logo": {
+    "light": "/images/logo/light.png",
+    "dark": "/images/logo/dark.png",
+    "href": "https://alpha.new"
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Open Alpha",
+      "href": "https://alpha.new"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Docs",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": ["index", "quickstart"]
+          }
+        ]
+      },
+      {
+        "tab": "Changelog",
+        "pages": ["changelog"]
+      }
+    ]
+  }
+}
