@@ -38,12 +38,6 @@
     "href": "https://alpha.new"
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Changelog",
-        "href": "/changelog"
-      }
-    ],
     "primary": {
       "type": "button",
       "label": "Open Alpha",

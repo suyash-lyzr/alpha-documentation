@@ -298,13 +298,35 @@ kbd {
   vertical-align: top;
 }
 
-/* ---------- Ask AI (ask-ai.js): a clear way into the assistant ---------- */
+/* ---------- Top-right actions (ask-ai.js): Changelog and Ask AI ---------- */
 
-#alpha-ask-ai {
+#alpha-top-actions {
   position: fixed;
   top: 0.5rem;
   right: 1.5rem;
   z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#alpha-top-actions[hidden] {
+  display: none;
+}
+
+#alpha-changelog-link {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--a-muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+#alpha-changelog-link:hover {
+  color: var(--a-fg);
+}
+
+#alpha-ask-ai {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -338,7 +360,7 @@ kbd {
 }
 
 @media (max-width: 1023px) {
-  #alpha-ask-ai {
+  #alpha-top-actions {
     display: none;
   }
 }

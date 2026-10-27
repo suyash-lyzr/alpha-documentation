@@ -1,8 +1,9 @@
-// An "Ask AI" pill in the top-right corner that opens Mintlify's assistant:
-// it clicks the theme's own assistant button (#assistant-entry, the sparkle
-// beside search), so the panel and its state stay Mintlify's. The pill hides
-// while the panel is open, so it never covers the panel's close button.
-// Mintlify loads every .js file in the repo on every page; style.css styles it.
+// The top-right corner: a Changelog link and an "Ask AI" pill that opens
+// Mintlify's assistant by clicking the theme's own assistant button
+// (#assistant-entry, the sparkle beside search), so the panel and its state
+// stay Mintlify's. Both hide while the panel is open, so they never cover its
+// close button. Mintlify loads every .js file in the repo on every page;
+// style.css styles them.
 (function () {
   var SPARKLE =
     '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">' +
@@ -12,22 +13,32 @@
 
   var watched = null;
 
-  function sync(button) {
+  function sync(bar) {
     var sheet = document.getElementById("chat-assistant-sheet");
     var open = !!sheet && sheet.getBoundingClientRect().width > 0;
-    button.hidden = open || !document.getElementById("assistant-entry");
+    bar.hidden = open;
+    var ask = document.getElementById("alpha-ask-ai");
+    if (ask) ask.hidden = !document.getElementById("assistant-entry");
     if (sheet && sheet !== watched && window.ResizeObserver) {
       watched = sheet;
       new ResizeObserver(function () {
-        sync(button);
+        sync(bar);
       }).observe(sheet);
     }
   }
 
   function mount() {
-    var button = document.getElementById("alpha-ask-ai");
-    if (!button) {
-      button = document.createElement("button");
+    var bar = document.getElementById("alpha-top-actions");
+    if (!bar) {
+      bar = document.createElement("div");
+      bar.id = "alpha-top-actions";
+
+      var changelog = document.createElement("a");
+      changelog.id = "alpha-changelog-link";
+      changelog.href = "/changelog";
+      changelog.textContent = "Changelog";
+
+      var button = document.createElement("button");
       button.id = "alpha-ask-ai";
       button.type = "button";
       button.setAttribute("aria-label", "Ask AI about the Alpha docs");
@@ -36,15 +47,18 @@
         var entry = document.getElementById("assistant-entry");
         if (entry) entry.click();
       });
-      document.body.appendChild(button);
+
+      bar.appendChild(changelog);
+      bar.appendChild(button);
+      document.body.appendChild(bar);
     }
-    sync(button);
+    sync(bar);
   }
 
   function start() {
     mount();
     new MutationObserver(function () {
-      if (!document.getElementById("alpha-ask-ai") || !watched) mount();
+      if (!document.getElementById("alpha-top-actions") || !watched) mount();
     }).observe(document.body, { childList: true, subtree: true });
   }
 

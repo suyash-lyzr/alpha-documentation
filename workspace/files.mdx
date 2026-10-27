@@ -9,7 +9,7 @@ import { uploadMax, imageMax, fileDownloadMax, folderDownloadMax } from '/snippe
 The files panel lists everything in your session's workspace, the `/workspace` folder on the session's machine: the code the agent writes, the files you upload and the documents it makes for you. Click any file to open it as a tab. How each kind of file looks once it's open is on [File viewers](/workspace/file-viewers), and attaching files to a message is on [The composer](/chat/composer#attach-files).
 
 <Frame caption="The files panel opens along the right edge. Sizes sit at the end of each file's row.">
-  <img src="/images/workspace/files-panel-tree.png" alt="The Harbor bookings session with README.md open in the workspace and the files panel open along the right edge of the window. The panel's header reads /workspace, with a circular-arrow Refresh files button and a Hide files button beside it. Below is the Search files box with a magnifying-glass icon. The tree lists the public folder, collapsed, then the files .gitignore, booking-store.js, booking-store.test.js, package-lock.json, package.json, README.md, server.js and styleguide.md. Each file row ends in a small grey size, such as 3.3 KB for booking-store.js." />
+  <img src="/images/workspace/files-panel-tree.png" alt="The Harbor bookings session with README.md open in a file tab and the files panel open along the right edge. The tab strip reads Preview, Shell, Database, then README.md in front with its ×, with scroll arrows at both ends, then the + button, the GitHub, Share and Publish buttons and the lit files button. The file's header reads README.md on the left, and a Preview and Source switch with Preview selected, the size 3.7 KB, a read-only chip and a Refresh icon on the right. Below it the README is rendered: the heading Harbor Sailing School, the line A responsive class booking app with an Express server, PostgreSQL, and a plain JavaScript frontend., a Run section with forge db up, npm install, npm run db:seed and npm start in a code block, the line The server binds to 0.0.0.0, using PORT or port 3000. For an Alpha preview: above forge serve start web --port 3000 -- npm start, and a Behavior section of bullet points. The files panel's header reads /workspace, with the Refresh files and Hide files buttons, above the Search files box. Its tree lists the db and public folders, collapsed, then .env.example 126 B, .gitignore 29 B, booking-store.js 4.4 KB, booking-store.test.js 5.6 KB, package-lock.json 35.2 KB, package.json 471 B, README.md 3.7 KB, server.js 2.2 KB and styleguide.md 1.7 KB. The chat on the left shows the answered The agent has questions card and the Proposed plan card." />
 </Frame>
 
 ## Open the files panel
@@ -32,7 +32,7 @@ Opening the panel on a sleeping session [wakes its machine](/sessions/machines).
 Type part of a name or path into **Search files**, and the tree turns into a list of matching files by full path, best match first.
 
 <Frame caption="Typing in Search files swaps the tree for a list of matching files.">
-  <img src="/images/workspace/files-search.png" alt="The files panel headed /workspace, with Refresh and a panel button at its right. The query booking is typed into the Search files box, with a small X Clear search button at its right end. Instead of the tree, the panel lists the two matching files, booking-store.js at 3.3 KB and booking-store.test.js at 2.3 KB, each with its file icon." />
+  <img src="/images/workspace/files-search.png" alt="The files panel headed /workspace, with Refresh and a panel button at its right. The query booking is typed into the Search files box, with a small X Clear search button at its right end. Instead of the tree, the panel lists the two matching files, booking-store.js at 4.4 KB and booking-store.test.js at 5.6 KB, each with its file icon." />
 </Frame>
 
 | You do | What happens |
@@ -88,7 +88,7 @@ Each file can be up to [{uploadMax}](/reference/limits), and images up to {image
 Right-click a row: a file offers **Download**, a folder **Download folder (.tar.gz)**. The item reads "Downloading…" until the file arrives. If the download is refused, the menu stays open with the reason.
 
 <Frame caption="Right-click a folder to download it as one .tar.gz archive.">
-  <img src="/images/workspace/files-download-menu.png" alt="The files panel headed /workspace, with an empty Search files box. The pointer rests on the public folder row, covering part of its name, and a small context menu open beside it holds one item: a download icon and the label Download folder (.tar.gz). Below the menu, the rest of the tree lists .gitignore, booking-store.js, booking-store.test.js, package-lock.json, package.json, README.md, server.js and styleguide.md with their sizes." />
+  <img src="/images/workspace/files-download-menu.png" alt="The files panel headed /workspace, with Refresh and Hide buttons and an empty Search files box, beside the file tab's read-only chip and the Publish pill. The tree starts with the db folder. Below it, a small context menu covers the public folder's row and holds one item: a download icon and the label Download folder (.tar.gz). Under the menu, the tree goes on with a 126 B file, .gitignore at 29 B, booking-store.js at 4.4 KB, booking-store.test.js at 5.6 KB and package-lock.json at 35.2 KB." />
 </Frame>
 
 | What you download | Limit | Notes |

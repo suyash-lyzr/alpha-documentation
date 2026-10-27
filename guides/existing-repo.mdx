@@ -66,8 +66,8 @@ If the GitHub card says "GitHub isn't set up on this server yet — ask whoever 
 
     To check the work yourself, open the workspace's **+** menu and choose **Shell**. The [Shell](/workspace/shell) is a terminal in the same machine, as the same account the agent uses, with `sudo`. Run `cd harbor-api && npm test`. Files you change there are files the agent sees on its next turn.
 
-    <Frame caption="The Shell opens in /workspace, beside the agent's files.">
-      <img src="/images/workspace/shell-tab.png" alt="The Shell tab in the workspace, with the Clear and Restart shell buttons at the top right. At the forge:/workspace$ prompt, ls lists the project's files and node --version prints v22.23.4." />
+    <Frame caption="The Shell opens in /workspace, the same folder the agent works in.">
+      <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Plan, Preview, then Shell with a terminal icon and its ×, then Database, Secrets, README.md and a tab cut off behind a scroll arrow. To its right sit the round + button, a trash can for Clear and a circular arrow for Restart shell, then the GitHub button, Share, Publish and the files button. The terminal fills the panel. At the prompt forge:/workspace$, ls lists README.md, booking-store.js, booking-store.test.js, db, node_modules, package-lock.json, package.json, public, server.js and styleguide.md. Then node --version prints v22.23.4, and a fresh prompt waits below. The chat on the left shows the answered The agent has questions card and the Proposed plan card for Automatic class waitlist." />
     </Frame>
   </Step>
 
