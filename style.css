@@ -510,3 +510,27 @@ html.alpha-sidebar-collapsed #alpha-sidebar-toggle {
 .update-container [data-component-part="update-content"] > :first-child {
   margin-left: 0 !important;
 }
+
+/* ---------- Previous / next: the title and description read from the left
+   and use the card's full width; "Next ›" stays on the right ---------- */
+
+#pagination [data-component-part="pagination-next"] > div {
+  justify-content: space-between !important;
+}
+
+#pagination [data-component-part="pagination-next"] > div > div:first-child {
+  flex: 1;
+  align-items: flex-start !important;
+  gap: 0.125rem;
+}
+
+#pagination [data-component-part="pagination-title"],
+#pagination [data-component-part="pagination-description"] {
+  width: 100% !important;
+  max-width: none !important;
+  text-align: left !important;
+}
+
+#pagination [data-component-part="pagination-description"] {
+  font-size: 0.8125rem;
+}

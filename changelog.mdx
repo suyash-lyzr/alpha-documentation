@@ -6,13 +6,33 @@ description: "New features, improvements and fixes in Alpha."
 
 import { appUrl, turnMax, uploadMax, imageMax, fileDownloadMax, folderDownloadMax, queueMax, routineMinInterval } from '/snippets/limits.mdx';
 
-The changelog lists what changed in Alpha, newest release first. Each entry describes something you can see or do, and links to the section that explains it. For what Alpha does today, start with [How Alpha works](/get-started/how-alpha-works).
+<Update label="October 26, 2026" description="v0.1.0: Alpha's first production release" tags={["New", "Improved", "Fixed"]}>
 
-<Update label="October 26, 2026" description="v0.1.0: Alpha's first production release" tags={["New", "Improved", "Fixed", "Security"]}>
+Alpha's first production release, live at {appUrl}.
 
-Alpha's first production release runs at {appUrl}. New lists what Alpha does. If you used Alpha before this release, Improved, Fixed and Security list what changed for you.
+<CardGroup cols={2}>
+  <Card title="An agent on its own machine" icon="microchip" href="/get-started/how-alpha-works">
+    Codex or Claude Code per session, with a live Preview. Turns keep running after you close the tab.
+  </Card>
+  <Card title="Build and test AI agents" icon="robot" href="/agents/build-an-agent">
+    The Agent tab, **Try it**, evals with **Fix with Alpha**, and voice agents.
+  </Card>
+  <Card title="Publish in one step" icon="rocket" href="/publish/publish-your-app">
+    Your name becomes the address, with production logs and metrics once it's live.
+  </Card>
+  <Card title="Routines" icon="clock" href="/routines">
+    Run a command or an agent turn on a timetable, even with nobody watching.
+  </Card>
+  <Card title="Integrations and secrets" icon="plug" href="/integrations/overview">
+    One catalog for connectors, MCP servers and GitHub. Keys arrive by card, never in chat.
+  </Card>
+  <Card title="Richer answers and files" icon="chart-simple" href="/chat/interactive-answers">
+    Charts, maps and sliders in replies, typeset math, and viewers for every common file.
+  </Card>
+</CardGroup>
 
-### New
+<AccordionGroup>
+<Accordion title="New (23)" icon="sparkles">
 
 - Every session runs its own agent, [Codex or Claude Code](/chat/agents-and-models#codex-or-claude-code), on [its own machine](/get-started/how-alpha-works#every-session-has-its-own-machine), with the agent's commands, plans and edits streaming beside a live [Preview](/workspace/preview).
 - A turn can run for up to [{turnMax}](/reference/limits), and it keeps running after you [close the tab](/sessions/machines#what-happens-when-i-close-the-tab).
@@ -38,7 +58,8 @@ Alpha's first production release runs at {appUrl}. New lists what Alpha does. If
 - Seven chips under the home composer, from **Apps** to **Research**, [suggest concrete prompts](/sessions/home-screen#start-from-a-suggestion) to start from.
 - Text you type in a composer [stays in this browser until you send it](/chat/composer#what-happens-to-my-unsent-text), so a reload or a switch of session no longer loses it.
 
-### Improved
+</Accordion>
+<Accordion title="Improved (15)" icon="arrow-up">
 
 - "Deploy" is now **Publish** in the workbench, and a live app shows a green tick with [**Republish**](/publish/manage#republish-your-changes) as the main button.
 - A message you send while the agent works is [queued or steered](/chat/queue-and-steer), and the [**Settings** page](/account/your-account#change-your-settings) sets which one <kbd>Enter</kbd> does.
@@ -56,7 +77,8 @@ Alpha's first production release runs at {appUrl}. New lists what Alpha does. If
 - If a secret your app uses has been deleted, [Republish](/publish/manage#republish-your-changes) now stops before anything goes live and names the missing secret.
 - The [admin dashboard](/admin)'s **Users** and **Sessions** tabs load 50 at a time, with search and filters run on the server.
 
-### Fixed
+</Accordion>
+<Accordion title="Fixed (10)" icon="wrench">
 
 - A session no longer loses its machine, and the work done since it [last slept](/sessions/machines#when-does-a-machine-go-to-sleep), when Alpha briefly loses track of the machine during maintenance.
 - A new version of Alpha no longer interrupts your work: a running turn carries on on another server, and an interrupted publish or setup build starts over.
@@ -69,15 +91,8 @@ Alpha's first production release runs at {appUrl}. New lists what Alpha does. If
 - Decks already in a session's files no longer [open by themselves](/workspace/files#which-files-open-by-themselves) the first time you load the session.
 - Codex's own retry notices while a model stream reconnects, such as "Reconnecting... 1/5", no longer show as red error cards of raw JSON.
 
-### Security
-
-<Warning>
-If you used **Production Logs** before this release, the tab may have shown your published apps' environment values, secrets included, to anyone who could open the session. If that matters for your app, rotate the keys it uses and republish.
-</Warning>
-
-- [Production Logs](/publish/monitor#read-your-apps-logs) no longer shows a service's environment values, which it used to print from Cloud Run's audit entries.
-- A [published agent](/agents/build-an-agent) now answers `POST` requests only when they carry the session secret `AGENT_API_KEY` as a bearer token, while its health check stays open. An agent published before this release gets the key only when the agent publishes it again; **Republish** alone makes it public with no key.
-- Alpha's servers and newly built machines, Bun 1.4.4 on them included, reject certificates from the compromised eMudhra intermediate authorities, while machines and [setups](/sessions/setups) made before the rebuild keep Bun 1.4.3, which still accepts them, until they are rebuilt.
+</Accordion>
+</AccordionGroup>
 
 </Update>
 
