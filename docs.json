@@ -211,12 +211,6 @@
             ]
           },
           {
-            "group": "Administration",
-            "pages": [
-              "admin"
-            ]
-          },
-          {
             "group": "Updates",
             "pages": [
               "changelog"
@@ -246,5 +240,11 @@
     "socials": {
       "github": "https://github.com/suyash-lyzr/alpha-documentation"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "/"
+    }
+  ]
 }

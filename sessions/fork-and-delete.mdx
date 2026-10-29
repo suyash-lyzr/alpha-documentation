@@ -12,7 +12,7 @@ All four actions start from a session you own. They differ in what survives.
 
 | | Fork | New session | Reset the machine | Delete |
 | --- | --- | --- | --- | --- |
-| How | `/fork`, then **Fork session** | **New session** in the sidebar, then a prompt | Ask an admin: **Admin → Sessions → Reset the machine** | **⋯ → Delete** in the sidebar, or `/delete` |
+| How | `/fork`, then **Fork session** | **New session** in the sidebar, then a prompt | Ask an admin to [reset the machine](/sessions/machines#reset-the-sessions-machine) | **⋯ → Delete** in the sidebar, or `/delete` |
 | Conversation | Copied into the fork | Starts empty | The transcript stays, but the agent starts with no memory of it | Gone |
 | Machine and files | Copied into the fork | A blank machine or a [setup](/sessions/setups) | Replaced with a fresh machine, from the session's setup if it has one | Gone |
 | The original | Untouched | Untouched | Same session, new machine | Gone |
@@ -102,10 +102,6 @@ A refusal shows as a red banner at the top of the chat, and nothing changes. If 
 | "Fork failed: the server restarted" | Alpha restarted while copying and couldn't copy again, for example because the original changed or the fork was used in the meantime. | Delete the fork, then fork the original again. |
 | "Nothing to fork yet — this session begins with your first prompt." | You typed `/fork` on the home screen. | Open the session you want to fork first. |
 | "Nothing to delete — no session has been started yet." | You typed `/delete` on the home screen. | Use **⋯ → Delete** on the session's row instead. |
-
-<Note>
-Admins can also delete other people's sessions from the [Admin dashboard](/admin). It refuses in the same situations: while a turn is running, while an app is publishing, or while the session is still being forked.
-</Note>
 
 ## Limits and caveats
 

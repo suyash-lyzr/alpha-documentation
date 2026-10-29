@@ -97,16 +97,13 @@ More fixes are in [Troubleshooting and FAQ](/reference/troubleshooting#the-machi
 
 A reset throws the session's machine away, along with its saved copy, and gives the session a fresh one on its next message. It's the fix for a machine that is broken beyond repair, or won't wake after several tries. A session that has slept and woken dozens of times can also start to wake more slowly, and a reset clears that too.
 
-Only an admin can reset a machine. Ask your Alpha's admin, and tell them which session it is.
+Only an admin can reset a machine, and not while a turn is running or the session is publishing.
 
 <Steps>
-  <Step title="The admin finds the session">
-    In **Admin → Sessions**, the admin searches for the session by its title or its owner's email. The reset is greyed out while a turn is running or the session is publishing.
+  <Step title="Ask an admin">
+    Tell your Alpha's admin which session it is: its title is enough.
   </Step>
-  <Step title="The admin resets it">
-    They click **Reset the machine (fresh VM, history forgotten)** on the session's row and confirm. See [Step in on a session](/admin#step-in-on-a-session).
-  </Step>
-  <Step title="Send a message">
+  <Step title="Send a message once it's reset">
     Alpha starts a fresh machine and clones the session's repositories again. The working line says "Creating sandbox…", or, for a session started from a setup, "Starting a machine from the "…" setup…".
   </Step>
 </Steps>

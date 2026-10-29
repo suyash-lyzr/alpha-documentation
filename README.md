@@ -33,7 +33,7 @@ The site has six tabs:
 | Ship | Publish · GitHub · Share and automate | `publish/*`, `github/*`, `sharing`, `routines` |
 | Connect | Integrations · Secrets · Skills | `integrations/*`, `secrets`, `skills/*` |
 | Agents | Build agents · Evals | `agents/*`, `evals/*` |
-| Reference | Reference · Administration · Updates | `reference/*`, `admin`, `changelog` |
+| Reference | Reference · Updates | `reference/*`, `changelog` |
 
 To add a page, create the `.mdx` file and add its slug to the right group in `docs.json`.
 

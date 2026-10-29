@@ -104,9 +104,9 @@
     "pages": [
       "account/your-account"
     ],
-    "alt": "The sidebar's footer with the account menu open above it, listing in order: 'Admin' with a shield icon, 'Usage' with a bar-chart icon, 'Settings' with a gear icon, 'Global secrets' with a key icon and a count, 'Setups', 'Sign in with ChatGPT/Claude' with a link icon, a divider, 'Send feedback' with a bug icon, and 'Sign out'. The trigger below shows the account's avatar, name and email.",
+    "alt": "The sidebar's footer with the account menu open above it, listing in order: 'Usage' with a bar-chart icon, 'Settings' with a gear icon, 'Global secrets' with a key icon and a count, 'Setups', 'Sign in with ChatGPT/Claude' with a link icon, a divider, 'Send feedback' with a bug icon, and 'Sign out'. The trigger below shows the account's avatar, name and email.",
     "caption": "One menu for everything that belongs to your account rather than to a session.",
-    "state": "The sidebar's footer with the account menu open above it, listing in order: 'Admin' with a shield icon, 'Usage' with a bar-chart icon, 'Settings' with a gear icon, 'Global secrets' with a key icon and a count, 'Setups', 'Sign in with ChatGPT/Claude' with a link icon, a divider, 'Send feedback' with a bug icon, and 'Sign out'. The trigger below shows the account's avatar, name and email.",
+    "state": "The sidebar's footer with the account menu open above it, listing in order: 'Usage' with a bar-chart icon, 'Settings' with a gear icon, 'Global secrets' with a key icon and a count, 'Setups', 'Sign in with ChatGPT/Claude' with a link icon, a divider, 'Send feedback' with a bug icon, and 'Sign out'. The trigger below shows the account's avatar, name and email.",
     "viewport": "element"
   },
   {
@@ -118,86 +118,6 @@
     "caption": "Settings holds two rows: New messages and your answer to the work question.",
     "state": "The Settings page at /settings with the heading 'Settings'. The 'New messages' row, described 'What a message you send while the agent is working does.', has its select open showing 'Queue' with 'Send after the agent finishes' and 'Steer' with 'Send into the running turn without stopping it'. Below it, the hint 'Enter sends this way; ⌘⏎ sends the other way.' and the row 'What best describes your work?' with its select.",
     "viewport": "1600x1000"
-  },
-  {
-    "path": "/images/admin/admin-overview.png",
-    "pages": [
-      "admin"
-    ],
-    "alt": "The Admin dashboard on its Overview tab. The header reads Admin with a shield icon and, at the right, as of a few seconds ago. Under it, a row of pill tabs: Overview (selected), Users, Sessions, Machines, Usage, Deploys, Integrations and Server. Six tiles run across the page: Accounts with the hint 2 admins, Sessions with the hint 1 working now, Machines on with the hint paused and checkpointed counts, Spent today with a dollar amount and the 30-day total under it, All time with the hint every account, and Deploys with the hint live of the total and the number of setups. Below the tiles, one notice with a warning triangle reads 1 machine belongs to no session, review them. The Working now section, marked click to watch, lists the Harbor bookings session with its owner, a spinning working state and its spend. The Recent sessions section below lists Harbor bookings and Harbor landing page by last activity.",
-    "caption": "Six totals, any warnings, then the sessions working right now. Illustrative values.",
-    "state": "The Admin dashboard on its Overview tab. The header reads Admin with a shield icon and, at the right, as of a few seconds ago. Under it, a row of pill tabs: Overview (selected), Users, Sessions, Machines, Usage, Deploys, Integrations and Server. Six tiles run across the page: Accounts with the hint 2 admins, Sessions with the hint 1 working now, Machines on with the hint paused and checkpointed counts, Spent today with a dollar amount and the 30-day total under it, All time with the hint every account, and Deploys with the hint live of the total and the number of setups. Below the tiles, one notice with a warning triangle reads 1 machine belongs to no session, review them. The Working now section, marked click to watch, lists the Harbor bookings session with its owner, a spinning working state and its spend. The Recent sessions section below lists Harbor bookings and Harbor landing page by last activity.",
-    "viewport": "1600x1000"
-  },
-  {
-    "path": "/images/admin/admin-users.png",
-    "pages": [
-      "admin"
-    ],
-    "alt": "The Admin dashboard on the Users tab. A search box reads Search accounts by name, email or id. Under the Accounts heading, a pager reads 1–3 of 3, by spend, with previous and next arrows. The table has the columns Account, Role, Sessions, 30 days, All time, Signed in, Connected and Joined. The first row is a new account, sam@example.com, with an amber waiting chip in the Role column and a small Approve button at the right end of the row. The second row is maya@example.com with a blue admin · pinned chip and a green you chip, 2 sessions with a running dot, and Connected reading GitHub · maya-harbor · 3 integrations · 4 secrets. The third row is lee@example.com with no role chip and, at the right, the shield-plus Make admin, Sign out everywhere and Delete account icons. A footnote under the table reads Pinned admins come from FORGE_ADMIN_EMAILS on the server; the role can only be taken from them there.",
-    "caption": "A waiting account sits at the top with its Approve button. Illustrative values.",
-    "state": "The Admin dashboard on the Users tab. A search box reads Search accounts by name, email or id. Under the Accounts heading, a pager reads 1–3 of 3, by spend, with previous and next arrows. The table has the columns Account, Role, Sessions, 30 days, All time, Signed in, Connected and Joined. The first row is a new account, sam@example.com, with an amber waiting chip in the Role column and a small Approve button at the right end of the row. The second row is maya@example.com with a blue admin · pinned chip and a green you chip, 2 sessions with a running dot, and Connected reading GitHub · maya-harbor · 3 integrations · 4 secrets. The third row is lee@example.com with no role chip and, at the right, the shield-plus Make admin, Sign out everywhere and Delete account icons. A footnote under the table reads Pinned admins come from FORGE_ADMIN_EMAILS on the server; the role can only be taken from them there.",
-    "viewport": "1600x1000"
-  },
-  {
-    "path": "/images/admin/admin-approve-dialog.png",
-    "pages": [
-      "admin"
-    ],
-    "alt": "A dialog titled Approve Sam Rivera? with the description They can open Alpha right away: start sessions, use machines and spend on models. You can sign them out or delete the account later. A grey panel lists Name Sam Rivera, Email sam@example.com in monospace, and Requested with a date and time. At the bottom right are Cancel and Approve buttons.",
-    "caption": "Check the email before approving: approval lets them spend on models straight away.",
-    "state": "A dialog titled Approve Sam Rivera? with the description They can open Alpha right away: start sessions, use machines and spend on models. You can sign them out or delete the account later. A grey panel lists Name Sam Rivera, Email sam@example.com in monospace, and Requested with a date and time. At the bottom right are Cancel and Approve buttons.",
-    "viewport": "element"
-  },
-  {
-    "path": "/images/admin/admin-session-controls.png",
-    "pages": [
-      "admin"
-    ],
-    "alt": "The Admin dashboard on the Sessions tab with the Shared filter chip selected beside the search box. The Harbor bookings row is hovered and highlighted. Its subline reads maya@example.com · harbor-api. The State column shows a blue dot and running, the Model column shows the model id and effort, the Spend column a dollar amount, and the Sharing column an amber chip reading anyone with the link. At the right end of the row are five icon buttons: an eye for Watch (read-only) in a new tab, a pause icon for Park the machine (checkpoint or pause), an eye with a slash for Turn sharing off, a circular arrow for Reset the machine (fresh VM, history forgotten), and a trash can for Delete session. A tooltip above the eye-with-slash icon reads Turn sharing off.",
-    "caption": "Hover a row for its controls. Only the ones that apply right now appear.",
-    "state": "The Admin dashboard on the Sessions tab with the Shared filter chip selected beside the search box. The Harbor bookings row is hovered and highlighted. Its subline reads maya@example.com · harbor-api. The State column shows a blue dot and running, the Model column shows the model id and effort, the Spend column a dollar amount, and the Sharing column an amber chip reading anyone with the link. At the right end of the row are five icon buttons: an eye for Watch (read-only) in a new tab, a pause icon for Park the machine (checkpoint or pause), an eye with a slash for Turn sharing off, a circular arrow for Reset the machine (fresh VM, history forgotten), and a trash can for Delete session. A tooltip above the eye-with-slash icon reads Turn sharing off.",
-    "viewport": "1600x1000"
-  },
-  {
-    "path": "/images/admin/admin-machines.png",
-    "pages": [
-      "admin"
-    ],
-    "alt": "The Admin dashboard on the Machines tab. Four tiles read Running, Paused, Checkpointed with the hint sessions parked as snapshots, no VM, and Orphans with the value 1 and the hint claimed by nothing — delete below. A search box reads Search machines by id, template, session, owner or kind. The Machines table, marked with how many of the listed machines are shown, has the columns Machine, State, Kind, Belongs to, Template, Started and TTL ends. The first rows are session machines belonging to Harbor bookings and Harbor landing page, each with a blue session chip. The last row has an amber orphan chip, Belongs to reading nobody, and a trash-can icon at the right end. A footnote reads A session's machine is reset or deleted through its session, a setup build through its setup; only an orphan can be deleted here.",
-    "caption": "Only an orphan has a delete button.",
-    "state": "The Admin dashboard on the Machines tab. Four tiles read Running, Paused, Checkpointed with the hint sessions parked as snapshots, no VM, and Orphans with the value 1 and the hint claimed by nothing — delete below. A search box reads Search machines by id, template, session, owner or kind. The Machines table, marked with how many of the listed machines are shown, has the columns Machine, State, Kind, Belongs to, Template, Started and TTL ends. The first rows are session machines belonging to Harbor bookings and Harbor landing page, each with a blue session chip. The last row has an amber orphan chip, Belongs to reading nobody, and a trash-can icon at the right end. A footnote reads A session's machine is reset or deleted through its session, a setup build through its setup; only an orphan can be deleted here.",
-    "viewport": "1600x1000"
-  },
-  {
-    "path": "/images/admin/admin-deploys-tab.png",
-    "pages": [
-      "admin"
-    ],
-    "alt": "The Admin dashboard on the Deploys tab. A search box reads Search deployments by name, address, session, owner or status. The Deployments section header shows 2 of 2 and the Cloud Run project and region. The table has the columns Service, Status, Session, Rollouts and Last deploy. The first row is harbor-bookings with its run.app address underneath, a green live chip, the session Harbor bookings with maya@example.com under it, 4 rollouts and a date. The second row is harbor-landing with a red failed chip and the session Harbor landing page. Each row ends with an external-link icon for Open the deployed app and an eye icon for Watch the session. A footnote reads A deployment is managed from its session's Publish tab — watch the session to see its rollouts and logs.",
-    "caption": "Every published app, whoever owns it. Illustrative values.",
-    "state": "The Admin dashboard on the Deploys tab. A search box reads Search deployments by name, address, session, owner or status. The Deployments section header shows 2 of 2 and the Cloud Run project and region. The table has the columns Service, Status, Session, Rollouts and Last deploy. The first row is harbor-bookings with its run.app address underneath, a green live chip, the session Harbor bookings with maya@example.com under it, 4 rollouts and a date. The second row is harbor-landing with a red failed chip and the session Harbor landing page. Each row ends with an external-link icon for Open the deployed app and an eye icon for Watch the session. A footnote reads A deployment is managed from its session's Publish tab — watch the session to see its rollouts and logs. Capture notes: Capture on an Alpha with publishing on (FORGE_DEPLOYS=1) and a deploy domain in ready state; the local stack runs with publishing off.",
-    "viewport": "1600x1000"
-  },
-  {
-    "path": "/images/admin/admin-integrations-mcp.png",
-    "pages": [
-      "admin"
-    ],
-    "alt": "The Admin dashboard on the Integrations tab with the MCP pill selected, beside Composio and a greyed ACI Coming soon pill. An Add server button with a plus icon sits at the right. The Hosted MCP servers section reads 9 of 10 on for everyone. Below it is a grid of cards, each with a coloured logo, the server's name, a one-line tagline and a switch at the right; the Context7, Notion and Linear cards have their switches on, and one card has its switch off.",
-    "caption": "One switch per hosted server decides whether every account is offered it.",
-    "state": "The Admin dashboard on the Integrations tab with the MCP pill selected, beside Composio and a greyed ACI Coming soon pill. An Add server button with a plus icon sits at the right. The Hosted MCP servers section reads 9 of 10 on for everyone. Below it is a grid of cards, each with a coloured logo, the server's name, a one-line tagline and a switch at the right; the Context7, Notion and Linear cards have their switches on, and one card has its switch off.",
-    "viewport": "1600x1000"
-  },
-  {
-    "path": "/images/admin/admin-add-hosted-mcp.png",
-    "pages": [
-      "admin"
-    ],
-    "alt": "A dialog titled Add a hosted MCP server to the catalog. Fields from top to bottom: Id with the placeholder acme and the hint Lowercase letters, digits and -. Fixed once added., beside Name. Category as a segmented control with Docs, search and the web, Development, Data and backends, and Business tools, the last selected. Tagline. Description as a three-line box. MCP URL and Docs URL side by side, in monospace. Sign-in as a segmented control with OAuth selected, API key and None. Under it, OAuth authorize URL with a hint about leaving both blank for dynamic client registration, beside OAuth token URL. Brand colour and Keywords side by side, Keywords with the hint Comma separated. Logo as a box with the hint SVG code or an https image URL. At the bottom right, Cancel and Add to catalog.",
-    "caption": "Id, MCP URL and Logo are needed before you can add it.",
-    "state": "A dialog titled Add a hosted MCP server to the catalog. Fields from top to bottom: Id with the placeholder acme and the hint Lowercase letters, digits and -. Fixed once added., beside Name. Category as a segmented control with Docs, search and the web, Development, Data and backends, and Business tools, the last selected. Tagline. Description as a three-line box. MCP URL and Docs URL side by side, in monospace. Sign-in as a segmented control with OAuth selected, API key and None. Under it, OAuth authorize URL with a hint about leaving both blank for dynamic client registration, beside OAuth token URL. Brand colour and Keywords side by side, Keywords with the hint Comma separated. Logo as a box with the hint SVG code or an https image URL. At the bottom right, Cancel and Add to catalog.",
-    "viewport": "element"
   },
   {
     "path": "/images/agents/agent-tab-canvas-overview.png",
