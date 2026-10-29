@@ -9,14 +9,12 @@ import { idlePark, turnMax, disk, promptMax, reposMax, uploadMax, imageMax, file
 This page lists every size, count and time limit in Alpha, and what you see when you reach one. Every feature page quotes these same values, so the numbers never disagree. If something fails without reaching a limit, go to [Troubleshooting](/reference/troubleshooting).
 
 <Note>
-Some limits are set by whoever runs your Alpha. Those are marked "(default)", and your Alpha may use a different value. If you don't see **Publish**, **Routines** or the mic in the composer, that feature isn't turned on for your Alpha, and its limits don't apply to you.
+Some limits can differ for your Alpha. Those are marked "(default)", and your Alpha may use a different value. If you don't see **Publish**, **Routines** or the mic in the composer, that feature isn't turned on for your Alpha, and its limits don't apply to you.
 </Note>
 
 ## Sessions, sharing and search
 
 Each session runs on its own machine. These limits apply to each session, and to how you find and share sessions. [Sleep, wake and reset](/sessions/machines) explains what a sleeping machine keeps.
-
-{/* TODO confirm: the disk row. There is no product message for a full disk, so it describes ordinary system behaviour. */}
 
 | Limit | Value | What happens when you hit it |
 | --- | --- | --- |
@@ -114,8 +112,6 @@ These limits count across your whole account, not per session.
 ### Setups
 
 [Setups](/sessions/setups) covers building and sharing them.
-
-{/* Setup build and boot-script times, and the 8 KB secret value cap below, are operator settings with no snippet constant yet (config.go: FORGE_SETUP_BUILD_TIMEOUT_MS, FORGE_SETUP_BOOT_TIMEOUT_MS, FORGE_SECRET_MAX_BYTES). */}
 
 | Limit | Value | What happens when you hit it |
 | --- | --- | --- |

@@ -7,7 +7,7 @@ description: "Sign in to an app or paste its key once, and its tools work in eve
 Connecting an app links your account on an outside service, such as Gmail, Slack or Notion, to Alpha. You do it once, in [**Integrations**](/integrations/overview), and the app's functions become tools for the agent in every session you own, and for the apps and agents it builds. For a hosted server such as Linear or Stripe, see [MCP servers](/integrations/mcp-servers). A service with no connector works as a plain key under [Secrets](/secrets).
 
 <Note>
-Nothing is pasted into a message. You sign in or type a key in Alpha's own forms, and the connection is kept by Alpha and its connector service, never on your session's machine. If you don't see an app in the list, it isn't turned on for your Alpha. Ask your administrator.
+Nothing is pasted into a message. You sign in or type a key in Alpha's own forms, and the connection is kept by Alpha, never on your session's machine. If you don't see an app in the list, it isn't turned on for your Alpha. Ask your administrator.
 </Note>
 
 {/* screenshot to capture: /images/integrations/connector-detail-signin.png — An app's panel shows how you connect it and every function the agent gets once you do. */}
@@ -44,9 +44,9 @@ Some apps ask for a key, account credentials or a few details instead of a conse
 
 <Tabs>
   <Tab title="API key">
-    The panel shows **Connect with an API key**. Paste the key into **API key**, then click **Connect**. As the form says, the key is "Stored by the connector service, never in a session."
+    The panel shows **Connect with an API key**. Paste the key into **API key**, then click **Connect**. The key is kept by Alpha, never in a session.
 
-    {/* screenshot to capture: /images/integrations/connector-apikey-form.png — The key goes to the connector service, not to your session's machine. */}
+    {/* screenshot to capture: /images/integrations/connector-apikey-form.png — The key is kept by Alpha, not on your session's machine. */}
 
     Other apps ask for their key as a labelled field instead. Those use the **Extra fields** form.
   </Tab>
@@ -73,7 +73,7 @@ Once an app is connected, its card shows **Active** and its panel reads **Connec
 | **Test connection** | Checks that your account is still linked and active, and prints a green or red line. |
 | **Connector scopes** | Lists every function the agent gets, with a readable name above its raw name. You can't switch single functions off. |
 | **Refresh** (the icon beside **Connector scopes**, on some apps) | Picks up functions the app has added since. |
-| **Disconnect** | Removes the connection at once, with no confirmation, and unlinks your account from the connector service too. Every session, preview and published app loses the app until you connect it again. |
+| **Disconnect** | Removes the connection at once, with no confirmation, and unlinks your account. Every session, preview and published app loses the app until you connect it again. |
 
 ### When do changes reach my sessions?
 
@@ -83,7 +83,7 @@ A connection belongs to your account, so Alpha updates the agent's tool list eve
 | --- | --- |
 | A running session with no turn in progress | Right away. |
 | A running session in the middle of a turn | When that turn ends, so the agent has it from its next turn. |
-| A session that is [asleep](/sessions/machines) | When it wakes. {/* TODO confirm: refreshToolsInRunningSandboxes (tools_routes.go) only reaches running machines; no code found that refreshes the agent's tool list when a sleeping machine wakes. */} |
+| A session that is [asleep](/sessions/machines) | When it wakes. |
 | Your previews and [published apps](/integrations/in-your-app) | On their next call, because they reach the app through Alpha with the session's key. |
 
 ## When the agent asks you to connect
@@ -110,8 +110,8 @@ In one session, the agent can't post a card for the same app twice within 2 minu
 | --- | --- |
 | "The sign-in didn't complete" in the window, or "The connector's authorization did not complete. Try connecting again." in the panel | The sign-in didn't finish. Click **Sign in** again, and approve within 10 minutes. |
 | "sign-in is unavailable right now — try again in a moment" | Alpha couldn't start the sign-in. Wait a moment and click **Sign in** again. |
-| A red **Test connection** line ending "connect it again" | The connector service no longer holds an active link to your account. Click **Disconnect**, then connect again. |
-| "could not reach the tool service — try again in a moment" or "could not reach Composio" | The connector service didn't answer. Try again shortly. |
+| A red **Test connection** line ending "connect it again" | Your account is no longer linked. Click **Disconnect**, then connect again. |
+| "could not reach the tool service — try again in a moment" | Alpha couldn't reach the app's connection just then. Try again shortly. |
 | "Connectors could not be loaded" | Click **Refresh** at the right of the row under the tabs. |
 | The agent can't find the app's tools right after you connected | Its turn was already running. Click **Tell the agent to continue**, or send your next message. |
 

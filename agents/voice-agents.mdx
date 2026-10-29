@@ -59,7 +59,7 @@ The provider's key stays on your app's server. The browser gets a token from it 
 | Card | What to do |
 | --- | --- |
 | **The agent needs `OPENAI_API_KEY`** | Click **Add OPENAI_API_KEY**, paste the key into **Value** and click **Add secret**. The name is locked because the agent's code reads that exact name, and the secret goes to this session only. Then click **Tell the agent to continue**. See [Secrets](/secrets#what-happens-when-the-agent-needs-a-key). |
-| **The agent wants to use Twilio** | Click **Connect Twilio**. Under **Connect with your account credentials**, enter **Account SID : Auth Token** in the form `ACxxxxxxxx:your-auth-token` and click **Connect**. It's stored by the connector service, never in the session. See [Connect an app](/integrations/connect-apps#when-the-agent-asks-you-to-connect). |
+| **The agent wants to use Twilio** | Click **Connect Twilio**. Under **Connect with your account credentials**, enter **Account SID : Auth Token** in the form `ACxxxxxxxx:your-auth-token` and click **Connect**. Alpha keeps it with your connections, never in the session. See [Connect an app](/integrations/connect-apps#when-the-agent-asks-you-to-connect). |
 
 The agent doesn't wait for Twilio. It builds and tests the browser version, says what it asked for, and ends its turn. Click **Tell the agent to continue** once you're connected, and it adds the phone side. Your app reaches Twilio through your [connections](/integrations/in-your-app), so it holds no Twilio credentials of its own.
 
@@ -77,7 +77,7 @@ The machine has no microphone, so you are the one who holds the first conversati
 
 <Steps>
   <Step title="Open the app in its own tab">
-    The app appears in the [Preview](/workspace/preview). Click the **Open in new tab** icon at the right end of the Preview toolbar, so the browser can ask for your microphone. {/* TODO confirm: the Preview frame's allow list (apps/frontend/src/lib/preview-escape.ts FRAME_ALLOW) has no microphone, so the framed copy should be refused the mic; check in a real session. */}
+    The app appears in the [Preview](/workspace/preview). Click the **Open in new tab** icon at the right end of the Preview toolbar, so the browser can ask for your microphone.
   </Step>
   <Step title="Start and allow the microphone">
     Click the app's start button and allow the microphone when the browser asks. The state moves between listening, thinking and speaking, and the transcript fills in as you talk.

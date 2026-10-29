@@ -97,7 +97,7 @@ The setup chip sits in the home composer's bottom row, beside the repos chip. It
     Click the setup chip and choose a setup. Setups marked **building** or **not built** can't be picked yet. Once you've picked one, the repos chip lists the setup's repositories marked "from the setup", so you don't add them twice.
 
     <Frame caption="With no setups yet, Blank machine is the only choice.">
-      <img src="/images/sessions/home-setup-picker.png" alt="The Setup popover open above the home composer, whose setup chip reading blank machine is highlighted. The header reads SETUP, with Manage setups → on the right. The only row is Blank machine, with a default badge and a check mark, described as Ubuntu with the agent, Node, Python, a parked PostgreSQL and a headless browser. Nothing cloned. Under it, beside two dashed squares, an empty state reads No setups yet. Add one — your team's repository, cloned and installed once, ready every time. The footer reads A setup boots with its repositories already cloned and its setup script already run — nothing to install at session start. Behind the popover, the Alpha lockup, the greeting Still up, Alex? Same. Wha… and the composer's placeholder Describe what to build — / for commands, @ for f… show at the left." />
+      <img src="/images/sessions/home-setup-picker.png" alt="The Setup popover open above the home composer, whose setup chip reading blank machine is highlighted. The header reads SETUP, with Manage setups → on the right. The only row is Blank machine, with a default badge and a check mark, described as Ubuntu with the agent, Node, Python, PostgreSQL and a headless browser. Nothing cloned. Under it, beside two dashed squares, an empty state reads No setups yet. Add one — your team's repository, cloned and installed once, ready every time. The footer reads A setup boots with its repositories already cloned and its setup script already run — nothing to install at session start. Behind the popover, the Alpha lockup, the greeting Still up, Alex? Same. Wha… and the composer's placeholder Describe what to build — / for commands, @ for f… show at the left." />
     </Frame>
   </Step>
   <Step title="Send your first prompt">
@@ -123,9 +123,9 @@ A setup's repositories are frozen at the moment it was built. There are two ways
 
 A rebuild never touches existing sessions; they keep their machines. If a rebuild fails, the previous build stays in use. [Resetting a session](/sessions/machines) started from the setup gives it the latest build.
 
-The boot script runs on a fresh machine only, never when a sleeping session wakes. Your first message waits for it, so keep it to seconds. If it fails, Alpha notes it in the transcript, continues on the machine as built, and leaves the output in `/var/log/forge-boot.log`.
+The boot script runs on a fresh machine only, never when a sleeping session wakes. Your first message waits for it, so keep it to seconds. If it fails, Alpha notes it in the transcript, continues on the machine as built, and keeps the script's output in a log on the machine for the agent to read.
 
-To stop a build, click **Cancel** on its row or **Cancel build** in its log. Deleting a setup asks "Delete the "harbor dev" setup and its snapshot? Sessions started from it keep their machines."
+To stop a build, click **Cancel** on its row or **Cancel build** in its log. Deleting a setup asks first. Sessions started from it keep their machines.
 
 ## Share a setup
 
@@ -188,7 +188,7 @@ Builds are limited to 30 minutes (default), and two run at a time across your Al
 | "a setup with this name already exists" | Names are unique across your Alpha, even for setups you can't see. Choose another. |
 | "at most 5 setups per account" | Delete one of your own first |
 | "This session's setup no longer exists — starting a blank machine (its repositories are cloned fresh)." | The setup was deleted or unshared. The session carries on without its installs. |
-| "The setup's boot script failed (exit 1) — continuing; its output is in /var/log/forge-boot.log on the machine." | Ask the agent to read that file, then fix the boot script |
+| A line saying the setup's boot script failed and Alpha is continuing | Ask the agent to read the boot script's output on the machine, then fix the boot script |
 
 Other start-up errors are in [Troubleshooting](/reference/troubleshooting).
 

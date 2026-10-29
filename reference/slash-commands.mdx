@@ -7,7 +7,7 @@ description: "Every command you can type after /, what it does, and where it wor
 A slash command is a message that starts with `/` and acts on the session instead of going to the agent as a message. This page lists every command for Codex and Claude Code sessions and for the home screen, with what each one does and when it's refused. For `@` file mentions and `$` skill mentions, see [The composer](/chat/composer#mention-files-sessions-and-skills). The keys that move through the list are in [Keyboard shortcuts](/reference/keyboard-shortcuts).
 
 <Frame caption="A slash at the start of a message opens the command list above the composer.">
-  <img src="/images/chat/chat-slash-palette-codex.png" alt="A Codex session's composer with a single slash typed and the command palette open above it, over the answered question card in the transcript. Each row shows an icon, the command and its description, cut short at the right edge: /model, choose what model and reasoning effor…; /skills, list skills the agent can use ($name m…; /review, review my current changes and find is…; /rename, rename this session; /new, start a new session; /delete, permanently delete this session; /fork, fork this session — clones the VM, files a…; /init, create an AGENTS.md file with instructio…; /compact, summarize conversation to prevent hi…. The /model row is highlighted. The footer reads ↑↓ navigate, ↵ select, esc dismiss and, at the right, commands. The composer's bottom row shows the + button, the model chip gpt-6.… · high, the plan chip p… · on, the microphone and the send button." />
+  <img src="/images/chat/chat-slash-palette-codex.png" alt="A Codex session's composer with a single slash typed and the command palette open above it, over the answered question card in the transcript. Each row shows an icon, the command and its description, cut short at the right edge: /model, choose what model and reasoning effor…; /skills, list skills the agent can use ($name m…; /review, review my current changes and find is…; /rename, rename this session; /new, start a new session; /delete, permanently delete this session; /fork, fork this session, with its description cut short; /init, create an AGENTS.md file with instructio…; /compact, summarize conversation to prevent hi…. The /model row is highlighted. The footer reads ↑↓ navigate, ↵ select, esc dismiss and, at the right, commands. The composer's bottom row shows the + button, the model chip gpt-6.… · high, the plan chip p… · on, the microphone and the send button." />
 </Frame>
 
 ## How commands work
@@ -86,7 +86,7 @@ The session's own commands join the list when you open it, so a skill the agent 
 
 Some commands are listed but can't be used yet, and some are refused outright.
 
-**In Codex sessions**, commands that Codex offers but Alpha hasn't wired up are greyed out and marked **not in Alpha yet**. Picking one says "/resume isn't available in Alpha yet." The list follows the Codex version Alpha runs. Currently it holds `/experimental`, `/approve`, `/memories`, `/hooks`, `/archive`, `/resume`, `/recap`, `/goal`, `/agents`, `/side`, `/btw`, `/export`, `/warnings`, `/apps`, `/plugins` and `/subagents`. Commands that only make sense in a terminal, such as `/quit`, `/clear`, `/copy`, `/theme` and `/logout`, aren't listed at all. Typed anyway, they get "Unknown command: /quit".
+**In Codex sessions**, commands that Codex offers but Alpha hasn't wired up are greyed out and marked **not in Alpha yet**. Picking one says "/resume isn't available in Alpha yet." Currently the list holds `/experimental`, `/approve`, `/memories`, `/hooks`, `/archive`, `/resume`, `/recap`, `/goal`, `/agents`, `/side`, `/btw`, `/export`, `/warnings`, `/apps`, `/plugins` and `/subagents`. Commands that only make sense in a terminal, such as `/quit`, `/clear`, `/copy`, `/theme` and `/logout`, aren't listed at all. Typed anyway, they get "Unknown command: /quit".
 
 **In Claude Code sessions**, these commands are left out of the list. Typed anyway, each is refused with "/name isn't available in Alpha —" followed by the reason in the table.
 
@@ -127,7 +127,7 @@ Some commands are listed but can't be used yet, and some are refused outright.
 | **Mode** | "plan · the agent proposes a plan before building" with plan mode on, otherwise "build" |
 | **Directory** | The working folder, `/workspace` |
 | **Sandbox** | The machine's id and whether it is running or asleep |
-| **Account** | How the agent's model calls are paid for. A Codex session shows "API key" or "Alpha credential proxy". A Claude Code session shows "Claude subscription" when you signed in with your Claude plan, otherwise the key Alpha uses or "not signed in". |
+| **Account** | How the agent's model calls are paid for. A Codex session shows "API key", or that it runs on Alpha's own key. A Claude Code session shows "Claude subscription" when you signed in with your Claude plan, otherwise the key Alpha uses or "not signed in". |
 | **Session** | The agent's own id for the session |
 | **Forked from**, **Setup**, **Repos** | Shown only when the session was forked, started from a [setup](/sessions/setups), or has repositories |
 | **GitHub**, **Integrations**, **Secrets** | Your GitHub login or "not connected", the connected integrations or "none connected", and how many [global secrets](/secrets) your account holds |

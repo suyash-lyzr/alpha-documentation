@@ -6,7 +6,7 @@ description: "Where every session begins: one composer, the settings for the nex
 
 import { reposMax } from '/snippets/limits.mdx';
 
-The home screen is where you set up a session before it exists. Nothing runs behind it and no machine is booted. Your first prompt creates the session and starts its machine, and [What happens when you start a session](/sessions/start-a-session) follows it from there. To go back to work you already started, find it in the [sidebar](/sessions/organize).
+The home screen is where you set up a session before it exists. Nothing runs behind it yet, and no machine has started. Your first prompt creates the session and starts its machine, and [What happens when you start a session](/sessions/start-a-session) follows it from there. To go back to work you already started, find it in the [sidebar](/sessions/organize).
 
 <Frame caption="The home screen: a greeting, one composer, and seven ways to start.">
   <img src="/images/sessions/home-screen.png" alt="The Alpha home screen with the sidebar collapsed to a menu button at the top left. In the centre, the Alpha by Lyzr lockup sits above the one-line greeting Still up, Alex? Same. What are we building?, its second half in a blue-to-pink gradient, with a glowing horizon curving behind the composer. Below it is the empty composer with the placeholder Describe what to build — / for commands, @ for files…. Its bottom row shows the paperclip, the agent chip reading codex, the model chip reading gpt-6.1-sol · high, the plan chip, the setup chip reading blank machine, the repos chip, the microphone and a dimmed round send button. Under the composer is a row of seven chips: Apps, Agents, Decks & docs, Images & video, Data, Automations and Research." />
@@ -71,7 +71,7 @@ A suggestion is a first draft. Edit it to match your project before you send it,
 Type `/` in the home composer to open the same command palette you get inside a session. Here it acts on the session about to start. Most commands change a chip. A few start the session at once, with the command as its first message.
 
 <Frame caption="The palette on the home screen acts on the next session.">
-  <img src="/images/sessions/home-slash-palette.png" alt="The home composer with a single slash typed and the command palette open above it, over the greeting, whose last letters, …ding?, show at the right. Each row shows an icon, the command and a description: /model, choose what model and reasoning effort to use; /skills, list skills the agent can use ($name mentions them); /review, review my current changes and find issues; /rename, rename this session; /new, start a new session; /delete, permanently delete this session; /fork, fork this session — clones the VM, files and conversation; /init, create an AGENTS.md file with instructions for the agent; /compact, summarize conversation to prevent hitting the context limit. The /init row is highlighted. The footer reads ↑↓ navigate, ↵ select, esc dismiss and, at the right, commands. The composer's bottom row shows the paperclip, codex, gpt-6.1-sol · high, plan, blank machine, repos, the microphone and the white send button." />
+  <img src="/images/sessions/home-slash-palette.png" alt="The home composer with a single slash typed and the command palette open above it, over the greeting, whose last letters, …ding?, show at the right. Each row shows an icon, the command and a description: /model, choose what model and reasoning effort to use; /skills, list skills the agent can use ($name mentions them); /review, review my current changes and find issues; /rename, rename this session; /new, start a new session; /delete, permanently delete this session; /fork, fork this session — clones files and conversation; /init, create an AGENTS.md file with instructions for the agent; /compact, summarize conversation to prevent hitting the context limit. The /init row is highlighted. The footer reads ↑↓ navigate, ↵ select, esc dismiss and, at the right, commands. The composer's bottom row shows the paperclip, codex, gpt-6.1-sol · high, plan, blank machine, repos, the microphone and the white send button." />
 </Frame>
 
 | Command | On the home screen | Starts the session? |
@@ -107,7 +107,7 @@ Not sure what the next session will start with? Type `/status` before you send.
 
 The **Next session** card lists **Name**, **Agent**, **Model**, **Permissions**, **Mode**, **Setup**, **Repos**, **Files**, **GitHub**, **Integrations** and **Secrets**. The **Agent** row appears only when your Alpha offers both agents. Its footer reads "The session your next prompt starts. Nothing is running yet; token usage appears once it is." Each card closes with the **×** in its corner. Every command is listed in [Slash commands](/reference/slash-commands).
 
-{/* screenshot to capture: /images/sessions/home-status-card.png — /status shows what your next prompt will start, before anything boots. */}
+{/* screenshot to capture: /images/sessions/home-status-card.png — /status shows what your next prompt will start, before anything runs. */}
 
 ## Mention files and skills before the session exists
 
@@ -141,7 +141,7 @@ Anything you send from the composer lands in the session's transcript, keys incl
 
 <CardGroup cols={2}>
   <Card title="What happens when you start a session" icon="play" href="/sessions/start-a-session">
-    The boot status lines, how the session gets its name, and what to do if the first send fails.
+    The status lines while it starts, how the session gets its name, and what to do if the first send fails.
   </Card>
   <Card title="Setups: ready-made machines" icon="server" href="/sessions/setups">
     Save a machine with your repositories cloned and installed, then pick it from the setup chip.

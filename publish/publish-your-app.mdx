@@ -17,19 +17,19 @@ Only the session's owner sees **Publish**. If you don't see it beside **Share** 
 
 ## How does publishing work?
 
-Alpha copies one directory out of the session's machine, works out how to build it, builds an image on Google Cloud Build and runs it on Google Cloud Run. Each publish is a new version. Traffic moves to it only once it serves, so a failed build never takes down what is already live.
+Alpha takes one directory from the session's machine, works out how to build it, builds it from scratch and runs it on Alpha's hosting. Each publish is a new version. Visitors move to it only once it serves, so a failed build never takes down what is already live.
 
 ```mermaid
 flowchart LR
-  A[Export the source] --> B[Plan the build]
-  B --> C[Build the image]
-  C --> D[Publish on Cloud Run]
+  A[Copy the source] --> B[Plan the build]
+  B --> C[Build the app]
+  C --> D[Publish]
   D -->|Serving| E[Live at your address]
   classDef focus stroke:#1A54F0,stroke-width:1.5px;
   class E focus
 ```
 
-A `Dockerfile` in the directory wins and is built as it is; it must listen on `$PORT`. Otherwise Alpha detects the stack from the project's manifest and picks the install, build and start commands.
+Alpha recognises the stack from the project's files and picks the install, build and start commands. A project with its own `Dockerfile` is built from it as it is, and must listen on `$PORT`.
 
 | Stack | Frameworks Alpha recognises |
 | --- | --- |
@@ -38,7 +38,7 @@ A `Dockerfile` in the directory wins and is built as it is; it must listen on `$
 | Go, Rust, Java, Elixir, .NET, Gleam, C/C++ | Detected from `go.mod`, `Cargo.toml` and the other usual manifests |
 | Static site | A plain `index.html`, or a built Vite, Astro or Create React App site |
 
-If the app needs a system package the builder doesn't add by itself, such as `ffmpeg`, the agent names it in a `railpack.json` beside the app, as `"deploy": {"aptPackages": ["ffmpeg"]}` with Debian package names, or writes a `Dockerfile` instead.
+If the app needs a system package, such as `ffmpeg`, the agent adds it to the build for you.
 
 | What ships | What it means |
 | --- | --- |
@@ -73,7 +73,7 @@ Publishing is done by the agent, in the session, so you can see and answer every
     Click **Publish** beside **Share**. While the agent is working, the pill is held and its tooltip reads "The agent is busy — ask once it is done", because a message then would [steer](/chat/queue-and-steer) the turn. The **Publish to production** box shows what ships: **Serves** is the process and port serving a page in the Preview, or "detected from the code". **Database** reads "its own, in production" or "none", **Sign-in** reads "on" or "off", and **Access** is always "Public · anyone with the URL".
 
     <Frame caption="Check what goes with the app before the agent starts.">
-      <img src="/images/publish/publish-confirm-popover.png" alt="The Publish to production popover open below the Publish pill at the top right of the workspace, which follows the server.js tab, the + button and the GitHub and Share icons. A grey line under the title reads Google Cloud Run · us-east1. Four rows follow: Serves, node · 3000 in monospace; Database, its own, in production; Sign-in, off; Access, Public · anyone with the URL. A grey note reads The agent names it (the name is its address), builds it from source and publishes it; the Publish tab follows the rollout. Cancel and a white Publish button with a rocket icon sit at the bottom right. Behind the popover, code from server.js shows at the left and the files panel, with the public folder open, at the right." />
+      <img src="/images/publish/publish-confirm-popover.png" alt="The Publish to production popover open below the Publish pill at the top right of the workspace, which follows the server.js tab, the + button and the GitHub and Share icons. Four rows follow: Serves, node · 3000 in monospace; Database, its own, in production; Sign-in, off; Access, Public · anyone with the URL. A grey note reads The agent names it (the name is its address), builds it from source and publishes it; the Publish tab follows the rollout. Cancel and a white Publish button with a rocket icon sit at the bottom right. Behind the popover, code from server.js shows at the left and the files panel, with the public folder open, at the right." />
     </Frame>
   </Step>
   <Step title="Send the request">
@@ -122,7 +122,7 @@ A taken name is refused with "the name harbor is taken — pick another". When t
 
 ## Where does my app live?
 
-Every app answers at `https://<name>-<project number>.<region>.run.app`. Access is public and https is included, so anyone with the address can open it once it is live. On some Alphas a short prefix sits in front of the name.
+Every app answers at an address of the form `https://<name>-<number>.<region>.run.app`. Access is public and https is included, so anyone with the address can open it once it is live. On some Alphas a short prefix sits in front of the name.
 
 Where your Alpha has its own domain, the app is also at `https://<name>.<domain>`, mapped after the first successful publish:
 
@@ -134,7 +134,7 @@ Where your Alpha has its own domain, the app is also at `https://<name>.<domain>
 
 {/* screenshot to capture: /images/publish/publish-domain-ready.png — Once the certificate is ready, the domain is the address you share. */}
 
-You can't attach a domain you own. Where there is a domain, it is the same for every app on your Alpha. {/* TODO confirm: no bring-your-own-domain exists in the UI as of 2026-10-27; check before launch whether one is planned. */}
+You can't attach a domain you own. Where there is a domain, it is the same for every app on your Alpha.
 
 ## Watch the rollout
 
@@ -146,8 +146,8 @@ The transcript gets a card when the publish starts and one when it ends, visible
 
 | Card | It reads |
 | --- | --- |
-| Started | "Publishing harbor to Cloud Run — the build runs on Google Cloud Build; follow it in the Publish tab." |
-| Live | "Published harbor to Cloud Run in …s", what went with it, and the address. The pill becomes **Republish**, with a link icon that copies the address. |
+| Started | That harbor is being published, with a pointer to the **Publish** tab to follow the build. |
+| Live | That harbor is published and how long it took, what went with it, and the address. The pill becomes **Republish**, with a link icon that copies the address. |
 | Live, in yellow | The same, plus a hint starting "The service is up, but …": the app refuses its own hostname. The agent fixes the config and republishes. |
 | Failed | "Publishing harbor failed while building the image: …", a hint and a foldable log tail. Fixes for each hint are in [Troubleshooting and FAQ](/reference/troubleshooting#a-publish-fails). |
 
@@ -168,10 +168,10 @@ A session publishes one app at a time; meanwhile the buttons are held with "A ro
 | Copies running at once | {instances} |
 | Versions kept | {versionsKept} |
 
-An idle app scales to zero, so the first request after a quiet spell is a little slower. What happens at each limit is on [Limits](/reference/limits#publishing).
+An app with no visitors goes idle, so the first request after a quiet spell is a little slower. What happens at each limit is on [Limits](/reference/limits#publishing).
 
 <Note>
-Values marked "(default)" are set by whoever runs your Alpha, and yours may differ.
+Values marked "(default)" can be different on your Alpha. Ask your admin if one gets in your way.
 </Note>
 
 ## Next steps

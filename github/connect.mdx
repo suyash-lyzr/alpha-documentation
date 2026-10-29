@@ -79,7 +79,7 @@ The **GitHub** tab is the session's view of its repositories, with a count of th
 | The button above the footer | Once the changes are committed: **Push & create PR** or **Create pull request**, or **View PR** with its number when the branch already has one open |
 | Footer | The login your commits are authored as, and **manage** |
 
-[Branches, commits and pull requests](/github/branches-and-prs) covers each part in use. While the tab is visible it reads the repositories again every 12 seconds, every 3 while a clone runs, and shortly after the agent changes files. Opening the tab fetches from GitHub when the last fetch is more than a minute old. **Refresh from GitHub** fetches at once.
+[Branches, commits and pull requests](/github/branches-and-prs) covers each part in use. The tab keeps itself up to date while it's open, including shortly after the agent changes files. Opening the tab fetches from GitHub when the last fetch is more than a minute old. **Refresh from GitHub** fetches at once.
 
 <Warning>
 **Remove** in the switcher deletes the repository's folder from the machine. Unpushed commits and uncommitted changes go with it and can't be recovered. Push first.

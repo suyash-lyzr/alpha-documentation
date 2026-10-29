@@ -12,7 +12,7 @@ Every session can run its own PostgreSQL 16 server inside the session's machine.
 <Badge>Owner only</Badge> People you [share the session](/sharing) with don't see the **Database** tab.
 
 <Frame caption="The toolbar holds the server summary, the database picker and Connect; the open table's rows fill the grid below.">
-  <img src="/images/workspace/database-grid.png" alt="The Harbor bookings session with the Database tab in front. The tab strip reads Plan, Preview, Shell, Database with its ×, then the file tabs README.md and server.js and the round + button, with the GitHub, Share, Publish and files buttons at the right. The toolbar reads PostgreSQL 16.15 · 2 databases · up 3 h in small grey type on the left, shows the database picker pill with a blue dot, a database icon, the name forge and a chevron in the middle, and ends with Connect with a plug icon and the ⋯ Database actions button on the right. The left column has a Tables filter box above the list bookings 8, classes 3, instructors 3, members 6 and schema_migrations 1, with instructors selected and 5 tables · 1 ext at the bottom. Above the grid sits the view switch reading Data, Structure and SQL, with Data active and the table name instructors beside it. The grid toolbar shows Filter and a Search rows box on the left, and Refresh, Delete and Add row on the right. The column headers read id with a key icon, name, email and created_at, with their types uuid, varchar, varchar and timestamptz in small grey text. Three rows follow: Maya Chen, maya.chen@harbor.example; Oliver Brooks, oliver.brooks@harbor.example; and Sophie Laurent, sophie.laurent@harbor.example, each with a uuid and a created_at of 2026-10-27T20:30:21 cut off at the right edge. The footer reads 1–3 of 3 · 0 ms beside the Previous page and Next page arrows, with the page-size picker reading 100 rows on the right. The chat on the left shows the answered The agent has questions card and a Proposed plan card for Automatic class waitlist." />
+  <img src="/images/workspace/database-grid.png" alt="The Harbor bookings session with the Database tab in front. The tab strip reads Plan, Preview, Shell, Database with its ×, then the file tabs README.md and server.js and the round + button, with the GitHub, Share, Publish and files buttons at the right. The toolbar reads PostgreSQL 16.15 · 2 databases · up 3 h in small grey type on the left, shows the database picker pill with a blue dot, a database icon, the default database's name and a chevron in the middle, and ends with Connect with a plug icon and the ⋯ Database actions button on the right. The left column has a Tables filter box above the list bookings 8, classes 3, instructors 3, members 6 and schema_migrations 1, with instructors selected and 5 tables · 1 ext at the bottom. Above the grid sits the view switch reading Data, Structure and SQL, with Data active and the table name instructors beside it. The grid toolbar shows Filter and a Search rows box on the left, and Refresh, Delete and Add row on the right. The column headers read id with a key icon, name, email and created_at, with their types uuid, varchar, varchar and timestamptz in small grey text. Three rows follow: Maya Chen, maya.chen@harbor.example; Oliver Brooks, oliver.brooks@harbor.example; and Sophie Laurent, sophie.laurent@harbor.example, each with a uuid and a created_at of 2026-10-27T20:30:21 cut off at the right edge. The footer reads 1–3 of 3 · 0 ms beside the Previous page and Next page arrows, with the page-size picker reading 100 rows on the right. The chat on the left shows the answered The agent has questions card and a Proposed plan card for Automatic class waitlist." />
 </Frame>
 
 ## Turn the database on
@@ -43,23 +43,22 @@ Alpha will:
 
 ## Connect from your app
 
-Once the database is on, every command the agent runs and every app it starts has these values in its environment. `psql` connects with no arguments, and your app should read `DATABASE_URL`.
+Once the database is on, every command the agent runs and every app it starts has these standard PostgreSQL variables in its environment. `psql` connects with no arguments, and your app should read `DATABASE_URL`.
 
-```env
-DATABASE_URL=postgresql://forge:forge@localhost:5432/forge
-PGHOST=localhost
-PGPORT=5432
-PGUSER=forge
-PGPASSWORD=forge
-PGDATABASE=forge
-```
+| Variable | What it holds |
+| --- | --- |
+| `DATABASE_URL` | The full connection string for the default database |
+| `PGHOST` | `localhost` |
+| `PGPORT` | `5432` |
+| `PGUSER`, `PGPASSWORD` | The database role and its password |
+| `PGDATABASE` | The default database's name |
 
-The server listens on `localhost` inside the machine, so only the agent's commands, the apps it starts and the [Shell](/workspace/shell) can reach it. Your own computer can't connect to it. The role is a superuser, so `CREATE EXTENSION` and `CREATE DATABASE` work.
+The database listens on `localhost` inside the machine, so only the agent's commands, the apps it starts and the [Shell](/workspace/shell) can reach it. Your own computer can't connect to it. The role is a superuser, so `CREATE EXTENSION` and `CREATE DATABASE` work.
 
 To see the values for the database you're looking at, click **Connect** in the toolbar. On a narrow workspace it shows as a plug icon only. Each row has a copy button.
 
 <Frame caption="Connect shows the values the agent's commands already have.">
-  <img src="/images/workspace/database-connect.png" alt="The Connect to forge dialog, with an X to close it. Its text reads: PostgreSQL runs inside this session's sandbox and listens on localhost there — reachable from the agent's commands and anything it starts, not from your machine. Every shell command already has these exported, so psql just works and apps should read DATABASE_URL. A secret named DATABASE_URL overrides it with your own server. Below are six rows, each with a copy button: DATABASE_URL, its value postgresql://forge:forge@localhost:5432/f… cut off at the column's edge, PGHOST localhost, PGPORT 5432, PGUSER forge, PGPASSWORD forge and PGDATABASE forge. The bottom line reads PostgreSQL 16.15 (Ubuntu 16.15-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu · up 3 h." />
+  <img src="/images/workspace/database-connect.png" alt="The Connect dialog, titled with the database's name, with an X to close it. Its text says PostgreSQL runs inside this session's machine and listens on localhost there, so the agent's commands and anything it starts can reach it but your own computer can't; that every shell command already has these values, so psql just works and apps should read DATABASE_URL; and that a secret named DATABASE_URL overrides it with your own server. Below are six rows, each with a copy button: DATABASE_URL with its connection string, PGHOST localhost, PGPORT 5432, then PGUSER, PGPASSWORD and PGDATABASE with their values. The bottom line gives the PostgreSQL version and reads up 3 h." />
 </Frame>
 
 To use a hosted PostgreSQL instead, add a [secret](/secrets) named `DATABASE_URL`. Your value wins over the built-in one, and the agent uses it for the app.
@@ -69,7 +68,7 @@ To use a hosted PostgreSQL instead, add a [secret](/secrets) named `DATABASE_URL
 The server can hold more than one database. The picker in the middle of the toolbar lists the session's databases with their sizes, and a check marks the one in view. The default database is the one `DATABASE_URL` points at.
 
 <Frame caption="The picker lists the server's databases with their sizes and checks the one in view.">
-  <img src="/images/workspace/database-picker.png" alt="The database picker open below its pill in the middle of the Database tab's toolbar. The pill reads forge, with a blue dot, a database icon and an up chevron. The menu lists forge at 7.8 MB with a check mark, then postgres at 7.3 MB, then New database… with a plus icon." />
+  <img src="/images/workspace/database-picker.png" alt="The database picker open below its pill in the middle of the Database tab's toolbar. The pill shows the default database's name, with a blue dot, a database icon and an up chevron. The menu lists the default database at 7.8 MB with a check mark, then postgres at 7.3 MB, then New database… with a plus icon." />
 </Frame>
 
 <Steps>
@@ -86,7 +85,7 @@ The server can hold more than one database. The picker in the middle of the tool
 
 The exported `DATABASE_URL` keeps pointing at the default database. To have an app use another one, copy its URL from **Connect**, or tell the agent which database to use.
 
-Below the session's databases, a **Production** section lists the databases of apps you published from this session. Picking one shows that app's production data, tagged **prod**. Alpha reads it from its own server, so the session's machine isn't woken for it. When a published app has a production database, the **Database** tab shows even while the session's own database is off, and opens on production. [Production database and sign-in](/publish/production-data) covers that view.
+Below the session's databases, a **Production** section lists the databases of apps you published from this session. Picking one shows that app's production data, tagged **prod**. Viewing it doesn't wake the session's machine. When a published app has a production database, the **Database** tab shows even while the session's own database is off, and opens on production. [Production database and sign-in](/publish/production-data) covers that view.
 
 <Note>
 If you don't see a **Production** section, either nothing you published from this session has a database, or publishing isn't turned on for your Alpha.

@@ -9,7 +9,7 @@ import { idlePark } from '/snippets/limits.mdx';
 The **Shell** is a terminal on your session's machine, open in the workspace beside the chat. You type as the same Linux account the agent works as, with `sudo`, in the same `/workspace` the agent edits. To look at files without typing commands, use [Files and uploads](/workspace/files). To browse or edit tables, use [the Database tab](/workspace/database-data).
 
 <Frame caption="The Shell opens in /workspace, the same folder the agent works in.">
-  <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Plan, Preview, then Shell with a terminal icon and its ×, then Database, Secrets, README.md and a tab cut off behind a scroll arrow. To its right sit the round + button, a trash can for Clear and a circular arrow for Restart shell, then the GitHub button, Share, Publish and the files button. The terminal fills the panel. At the prompt forge:/workspace$, ls lists README.md, booking-store.js, booking-store.test.js, db, node_modules, package-lock.json, package.json, public, server.js and styleguide.md. Then node --version prints v22.23.4, and a fresh prompt waits below. The chat on the left shows the answered The agent has questions card and the Proposed plan card for Automatic class waitlist." />
+  <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Plan, Preview, then Shell with a terminal icon and its ×, then Database, Secrets, README.md and a tab cut off behind a scroll arrow. To its right sit the round + button, a trash can for Clear and a circular arrow for Restart shell, then the GitHub button, Share, Publish and the files button. The terminal fills the panel. At the prompt in /workspace, ls lists README.md, booking-store.js, booking-store.test.js, db, node_modules, package-lock.json, package.json, public, server.js and styleguide.md. Then node --version prints v22.23.4, and a fresh prompt waits below. The chat on the left shows the answered The agent has questions card and the Proposed plan card for Automatic class waitlist." />
 </Frame>
 
 The Shell and the agent reach the same machine. Pick the one that fits the job:
@@ -80,12 +80,12 @@ If `psql` can't connect, the database isn't on yet. Ask the agent for it, or cho
 
 ## What can't the Shell do?
 
-The Shell sees the machine as the agent does, with a few deliberate exceptions. Alpha keeps its own machinery out of the terminal's view, and that rules out a handful of commands.
+The Shell sees the machine as the agent does, with a few deliberate exceptions.
 
 | You try | What happens | Do this instead |
 | --- | --- | --- |
-| `forge db up`, or any other `forge` command | It prints "forge: the services commands (db up, auth up, deploy, setup, skill, deck) run from the agent — ask for them in the chat." | Ask the agent, or use the **+** menu for **Database**, **Sign-in** and **Publish**. |
-| Look inside Alpha's own folders | They are refused, and look empty under `sudo` | Nothing there is yours to change. Your secrets are already in the environment. |
+| Alpha's service commands, the ones the agent uses to switch on the database or sign-in, publish, save a setup or open a deck | They are refused, with a line saying they run from the agent and to ask for them in the chat | Ask the agent, or use the **+** menu for **Database**, **Sign-in** and **Publish**. |
+| Look inside Alpha's own system folders | They look empty, even under `sudo` | Nothing there is yours to change. Your secrets are already in the environment. |
 | `ls /root`, or `cd ~` | Both homes show `/workspace` | Work in `/workspace` as usual. |
 | `mount`, or a FUSE file system such as `sshfs` or `rclone mount` | It fails, even with `sudo` | Copy the files into `/workspace` instead. |
 | `lsof -p`, `ss -p` or `strace -p` on the agent's processes | They can't inspect processes the Shell didn't start | Start the program from the Shell to inspect it, or ask the agent. |
@@ -99,7 +99,7 @@ For the full layout of the machine, including what is installed and where, see [
 The Shell has no walls of its own inside the machine. A command you run here can break what the agent is doing, and the agent won't know why.
 
 <Warning>
-You share an account with the agent, so a broad `killall node` or `pkill python` also stops the agent's own processes and the app's servers. Under `sudo` it reaches Alpha's processes in the machine too. A turn that is running when you do this can fail. The agent comes back at your next message, but the servers you stopped stay stopped until something starts them again. Kill processes by their exact ID instead.
+You share an account with the agent, so a broad `killall node` or `pkill python` also stops the agent's own processes and the app's servers. Under `sudo` it can also stop the parts of Alpha that run in the machine. A turn that is running when you do this can fail. The agent comes back at your next message, but the servers you stopped stay stopped until something starts them again. Kill processes by their exact ID instead.
 </Warning>
 
 Deleting files works the same way. `rm -rf` in `/workspace` removes the agent's work as well as yours, with no undo. Commit and push first if you're unsure. See [Branches, commits and pull requests](/github/branches-and-prs).
@@ -117,7 +117,7 @@ Two buttons show to the right of the tab strip while the **Shell** is in front.
 | Type `exit`, or press <kbd>Ctrl</kbd> <kbd>D</kbd> (Control on a Mac too) | The shell ends and the tab folds away. |
 | Click the tab's **×** ("Close the shell") | The same: the terminal, its scrollback and anything running in it are discarded. The next **+** → **Shell** starts fresh. |
 
-If the connection drops while the **Shell** tab is in front, the Shell reconnects by itself. It retries at once after a shell that was working, and backs off up to 15 seconds while a shell can't get going, for example while the machine wakes. A spinner shows over the scrollback meanwhile. A reconnect opens a new shell beneath the old scrollback, so a command that was running when the connection dropped has ended.
+If the connection drops while the **Shell** tab is in front, the Shell reconnects by itself. It tries again at once, then less often, up to every 15 seconds, while the shell can't get going, for example while the machine wakes. A spinner shows over the scrollback meanwhile. A reconnect opens a new shell beneath the old scrollback, so a command that was running when the connection dropped has ended.
 
 An open Shell doesn't keep the machine awake. Once you've been away for {idlePark} with no turn running, the machine sleeps like any other, and the shell ends with it. A command running in the Shell doesn't count as work.
 
@@ -129,10 +129,10 @@ Most of the time the Shell prints nothing of its own. These lines come from Alph
 | --- | --- | --- |
 | "Lost contact with the machine." | The connection to the machine broke. | Wait. The Shell reconnects on its own. |
 | "Could not reach the machine." | Alpha couldn't find the way to the machine. | Wait. The Shell tries again by itself. |
-| "Could not prepare the shell in this machine." | Alpha couldn't install what the Shell needs on this machine. | Wait. The Shell tries again by itself. |
+| "Could not prepare the shell in this machine." | Alpha couldn't get the Shell ready on this machine. | Wait. The Shell tries again by itself. |
 | "The paused machine could not be resumed." | The machine is asleep and wouldn't wake. | Send a message to see the reason. See [What if a machine won't wake?](/sessions/machines#what-if-a-machine-wont-wake) |
 | "The shell could not be set up in this machine — close the tab and open it again." | The terminal couldn't start on this machine, and the tab closes by itself. | Choose **+** → **Shell** again. |
-| "forge: the services commands … ask for them in the chat." | You ran one of Alpha's service commands. | Ask the agent. |
+| A line saying the service commands run from the agent, and to ask for them in the chat | You ran one of Alpha's service commands. | Ask the agent. |
 
 More fixes are in [Troubleshooting and FAQ](/reference/troubleshooting).
 

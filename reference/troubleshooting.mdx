@@ -74,13 +74,13 @@ A session's machine sleeps once you've been away for {idlePark} and nothing is r
 
     **Fix:** Wait a few seconds. The tabs fill in by themselves, with nothing to retry. The **Shell** can take a few seconds longer than the rest.
   </Accordion>
-  <Accordion title="“The session's machine is paused and could not be resumed (…)” or “… could not be restored from its checkpoint (…)”">
+  <Accordion title="“The session's machine is paused and could not be resumed (…)”, or a message that it could not be restored">
     **Causes:** The saved machine didn't start. The reason is in the brackets. The saved copy is kept.
 
     **Fix:** Send your message again in a minute. If it keeps failing after several tries, ask an admin to reset the machine, which gives the session a fresh one. Read [Reset the session's machine](/sessions/machines#reset-the-sessions-machine) first, because a reset deletes every file on the machine.
   </Accordion>
   <Accordion title="“The session's machine cannot be reached right now.”">
-    **Causes:** The server that holds the machine is briefly out of reach.
+    **Causes:** Alpha briefly can't reach the machine.
 
     **Fix:** Your text goes back into the composer. Send it again in a moment. Don't reset for this one. The machine is fine, only out of reach for now.
   </Accordion>
@@ -106,7 +106,7 @@ A session's machine sleeps once you've been away for {idlePark} and nothing is r
 The frame, or a preview address opened in its own tab, says why there's no app. The full list is on [Preview your app](/workspace/preview#why-does-the-preview-show-a-message).
 
 <AccordionGroup>
-  <Accordion title="“… is bound to 127.0.0.1 — unreachable from the preview proxy.”">
+  <Accordion title="“… is bound to 127.0.0.1 — unreachable …”">
     **Causes:** The app's server only listens inside the machine. The **Preview** reaches it from outside, so the server must listen on `0.0.0.0`.
 
     **Fix:** Ask the agent to rebind it.
@@ -184,7 +184,7 @@ A failed turn keeps the workspace and the transcript up to the failure, and your
     | "the server has no … key configured." | Sign in with Claude, or ask your admin to add a key. |
     | "the server's Anthropic key was rejected (…)" | Ask your admin to fix the key. |
     | "the server did not let this session use its key, because it does not see the session's machine as running." | Resend in a moment. |
-    | "Alpha's credential proxy did not accept this session's token (…)" | Resend. Ask your admin if it keeps happening. |
+    | A line saying Alpha didn't accept this session's token | Resend. Ask your admin if it keeps happening. |
 
     How to sign in is on [Usage, costs and your own plan](/account/usage-and-costs#run-claude-code-sessions-on-your-claude-plan).
   </Accordion>
@@ -366,7 +366,6 @@ If you don't see the microphone, **Publish**, the Claude sign-in or **Continue w
     Yes. Deleting a session also deletes every app published from it, along with its address and its production database. What you pushed to GitHub stays. To keep an app online, keep its session, and move the session into a group if you want it out of the way. See [Fork or delete a session](/sessions/fork-and-delete#delete-a-session).
   </Accordion>
   <Accordion title="Can I use my own domain?">
-    {/* TODO confirm: no bring-your-own-domain exists in the UI as of 2026-10-27; check before launch whether one is planned. */}
     Not yet. Every published app gets a `run.app` address. Where your Alpha has a domain of its own, the app also gets an address on it, the same for every app. You can't attach a domain you own. See [Where does my app live?](/publish/publish-your-app#where-does-my-app-live)
   </Accordion>
   <Accordion title="Can I undo a delete?">
@@ -377,7 +376,7 @@ If you don't see the microphone, **Publish**, the Claude sign-in or **Continue w
     </Warning>
   </Accordion>
   <Accordion title="Does Alpha store my keys?">
-    Yes, as [secrets](/secrets), encrypted at rest and tied to your account. The machine gets them as environment variables, so anything the agent runs can read them, including the app it builds. Values of 8 or more characters are replaced with `[redacted]` wherever they appear word for word in the transcript. Email addresses, plain web addresses and everyday words such as `production` are left as they are, because they name things rather than grant access. A published app only gets the secrets you pick for it. A key typed into the composer lands in the transcript, so add keys under **Secrets** instead.
+    Yes, as [secrets](/secrets), encrypted and tied to your account. The machine gets them as environment variables, so anything the agent runs can read them, including the app it builds. Their values show as `[redacted]` wherever they appear in the transcript. See [How are values hidden in the transcript?](/secrets#how-are-values-hidden-in-the-transcript) A published app only gets the secrets you pick for it. A key typed into the composer lands in the transcript, so add keys under **Secrets** instead.
   </Accordion>
   <Accordion title="Which models can I use?">
     The ones in the **Model** popover, opened from the model chip in the composer. The list comes from the agent itself, so it differs between Alphas and changes when your Alpha updates. The row marked **default** is what a session runs when you haven't picked one. With Claude Code, the list follows the Claude account the session runs on. See [Choose the agent and model](/chat/agents-and-models#choose-a-model).

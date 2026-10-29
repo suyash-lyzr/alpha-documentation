@@ -28,7 +28,7 @@ The canvas reads top to bottom, in the order the agent runs. Each kind of card k
 | Step | Blue, with the framework's logo | One card per step, titled by its worker. Then the step id and framework, the model chip (hover for provider, temperature, token limit and reasoning effort), two lines of instructions and one chip per tool. |
 | **Answer** | Amber, file-output icon | The fields the agent returns, with types. An amber dot marks a required field. With no fields it reads "Any JSON value". |
 
-The step whose result is the answer carries an `answer` tag. Steps that don't depend on each other share a row inside an outline labelled `parallel · 2` (or however many). Nothing runs between them, so they can run at the same time; whether they do is up to the framework. Lines have no arrows, because top-down order gives the direction, and a dashed line is one the compiler inferred. An **Inputs** or **Answer** card with seven or more rows shows five and a **Show all** button, such as **Show all 9**.
+The step whose result is the answer carries an `answer` tag. Steps that don't depend on each other share a row inside an outline labelled `parallel · 2` (or however many). Nothing runs between them, so they can run at the same time; whether they do is up to the framework. Lines have no arrows, because top-down order gives the direction, and a dashed line is one Alpha inferred. An **Inputs** or **Answer** card with seven or more rows shows five and a **Show all** button, such as **Show all 9**.
 
 The small dot that travels the lines is decoration. It shows how the agent is wired, never that it's running. Real run state comes from [Try it](/agents/try-it), which marks each card as its step runs.
 
@@ -128,7 +128,7 @@ Instead of a wrong picture, the canvas says what's wrong and the one thing to do
 | A banner such as "1 unresolved mapping: …" | A name in the definition points at nothing | Ask the agent to fix the name. The graph is still drawn. |
 | "The agent documents could not be drawn" | Reading failed; the red banner gives the reason | Click **Read again**. A machine that was asleep usually reads on the second try. |
 
-The not-ready states also show the command that fixes them. You don't need to run it yourself. Send this:
+The not-ready states also show a command that fixes them. You don't need to run it yourself. Send this to the agent:
 
 ```text
 The Agent tab says the agent isn't ready to draw. Refresh its documents and publish it again.

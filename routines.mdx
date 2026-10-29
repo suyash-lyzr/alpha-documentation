@@ -7,7 +7,7 @@ description: "Have Alpha run something on a timetable, such as a digest, an upti
 import { routinesMax, routineMinInterval } from '/snippets/limits.mdx';
 import { PromptCard } from '/snippets/prompt-card.jsx';
 
-A routine is work Alpha runs on a timetable, even while its session is closed and the session's machine is asleep. Alpha's server keeps the clock: for each run it wakes the session, runs the work there with that session's files, secrets and database, then lets the machine sleep again. For a worked example, follow [Post a weekly summary to Slack](/guides/weekly-summary). A [published app](/publish/publish-your-app) has no scheduler of its own, so its periodic jobs belong in a routine too.
+A routine is work Alpha runs on a timetable, even while its session is closed and the session's machine is asleep. For each run, Alpha wakes the session, runs the work there with that session's files, secrets and database, then lets the machine sleep again. For a worked example, follow [Post a weekly summary to Slack](/guides/weekly-summary). A [published app](/publish/publish-your-app) has no scheduler of its own, so its periodic jobs belong in a routine too.
 
 <Frame caption="Each routine row shows its state, its timetable and when it runs next.">
   <img src="/images/routines/routines-page-list.png" alt="The Routines page. Beside a circular-arrows icon, the header reads Routines, with the subtitle Work that runs on its own schedule, even while your sessions are closed, and a New routine button with a plus icon on the right. The summary line reads 1 routine · next run in 5 hr. One row follows: a bot icon, a green dot, the name Ai morning brief and the timetable Every day at 09:00 · Kolkata · next in 5 hr. The row ends with six icon buttons: View session, Run now, Pause, Edit, Remove and Expand." />
@@ -16,18 +16,6 @@ A routine is work Alpha runs on a timetable, even while its session is closed an
 <Note>
 If the Routines page says "Routines are not enabled on this Alpha", routines aren't turned on for your Alpha. Ask your administrator.
 </Note>
-
-```mermaid
-sequenceDiagram
-  participant S as Alpha's server
-  participant M as Session's machine
-  Note over S: Timetable fires
-  S->>M: Wake the machine
-  M->>M: Run command or agent turn
-  M-->>S: Save the run and log
-  S->>M: Let the machine sleep
-  Note over S: Skipped if over 10 minutes late
-```
 
 ## Which kind of routine do you need?
 
@@ -93,7 +81,7 @@ To give a routine an existing session's files, secrets or database, ask for it i
 
 ## Set the timetable
 
-The timetable lives under **How often** in the edit form. The line under it spells the timetable out in words and lists the next three runs, or shows in red why the server refused it. Every choice except **Once, at a set time** and **Custom (cron expression)** also shows its `cron:` expression.
+The timetable lives under **How often** in the edit form. The line under it spells the timetable out in words and lists the next three runs, or shows in red why it can't be used. Every choice except **Once, at a set time** and **Custom (cron expression)** also shows its `cron:` expression.
 
 | **How often** | You set |
 | --- | --- |
@@ -158,7 +146,7 @@ Open the run to read its reason. A failed or skipped run is never retried; the r
 | "the previous run was still going" | The run before it hadn't finished, so this one was skipped. | Nothing, if it's rare. If it keeps happening, make the work faster or the timetable less frequent. |
 | "the fire came more than 10m0s late (Alpha was not running) — skipped, not caught up" | Alpha was down or restarting when the run was due. | Nothing. Click **Run now** if you need this run. |
 | "the run waited more than 10m0s for a worker — skipped, not caught up" | Alpha was too busy to start it in time. | Click **Run now** if you need this run. |
-| "the session has no machine (and no checkpoint to restore it from)" | The routine's session has no machine to run on. | Open the session and send a message, so it gets a machine, then **Run now**. |
+| "the session has no machine" | The routine's session has no machine to run on. | Open the session and send a message, so it gets a machine, then **Run now**. |
 | "the session's machine could not be woken: …" | The session's machine wouldn't wake. Nothing was discarded. | See [What if a machine won't wake?](/sessions/machines#what-if-a-machine-wont-wake). |
 | "the command could not be run: …" | The command never started, for example because its folder is missing. | Ask the agent in the routine's session to fix the command or its folder. |
 | "stopped after 600 s" (or another number) | The command ran past its time limit. | Make it faster, or raise **Stop after (seconds)** under **Edit → More options**, up to 3600. |

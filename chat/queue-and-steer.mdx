@@ -65,7 +65,7 @@ The queue panel sits on top of the composer. Its toggle, a count such as "3 queu
 | Trash (**Delete queued message**) | Removes the message. |
 | **More actions → New message settings** | Opens the Settings page. |
 
-A newly queued message shows dimmed, without actions, until the server has it. The queue holds at most [{queueMax}](/reference/limits), each up to [{promptMax}](/reference/limits). There is no reordering: a message keeps the place it was added in. Editing changes only the text, and context chips come back as plain text while you edit. Images attached to the message stay with it.
+A newly queued message shows dimmed, without actions, until Alpha has saved it. The queue holds at most [{queueMax}](/reference/limits), each up to [{promptMax}](/reference/limits). There is no reordering: a message keeps the place it was added in. Editing changes only the text, and context chips come back as plain text while you edit. Images attached to the message stay with it.
 
 Queued messages run in whatever mode the session is in, [plan mode](/chat/plan-mode) included. They belong to the session, so they keep waiting if you close the tab, and deleting the session deletes them.
 
@@ -79,7 +79,7 @@ A queue never runs on blindly after something went wrong. It pauses, and a strip
 | --- | --- | --- |
 | "you stopped the agent" | You pressed Stop while messages were waiting. | **Resume** when you're ready, or delete the messages that no longer apply. |
 | "the turn failed — fix things up" | A turn started from the queue ended with an error. | Read the error in the transcript, send a fix, then **Resume**. |
-| "the server restarted — resume to continue" | The turn was cut short by a server restart, not by you. | **Resume**. |
+| "the server restarted — resume to continue" | The turn was cut short on Alpha's side, not by you. | **Resume**. |
 | "couldn't send the queued message: …" | The next message couldn't start. The rest of the line says why. | Fix the cause, then **Resume**. The message is still first in line. |
 
 While paused, **Send now** sends only that one message, and the rest stay paused. Deleting the last waiting message clears the pause.
@@ -100,7 +100,7 @@ While the agent works and the composer is empty, the send button becomes a squar
   <img src="/images/chat/chat-stop-button.png" alt="The composer of a session while the agent is working. Above it are the end of the agent's message, …and mobile., a folded row reading 1 command beside a document icon, and the working indicator: a pixel loader, the word Thinking… and a 28s counter. The composer is empty, with the caret before the placeholder Add a follow-up. Its bottom row shows the + button, the model chip gpt-6.1-s… · high, the plan chip pl… and the microphone, and at the right a white round button with a dark square stands in for send: Stop." />
 </Frame>
 
-The button dims and its square pulses, and the working indicator reads "Stopping…". Pressing again does nothing. If the agent hasn't stopped within 10 seconds, Alpha ends the agent's process outright. Nothing in your workspace is undone either way.
+The button dims and its square pulses, and the working indicator reads "Stopping…". Pressing again does nothing. If the agent hasn't stopped within 10 seconds, Alpha stops it outright. Nothing in your workspace is undone either way.
 
 | After Stop | |
 | --- | --- |
@@ -111,7 +111,7 @@ The button dims and its square pulses, and the working indicator reads "Stopping
 | A message sent while it's stopping | Queued, and held by the same pause. |
 | Claude Code workflows | Stopped with the turn. To stop one workflow and keep the turn, use **Stop** on its card in the transcript. |
 
-Closing the tab is not a Stop. Turns run on the server, so the agent keeps working, and your queue keeps moving, until the turn ends or you stop it.
+Closing the tab is not a Stop. Turns run in Alpha, not in your browser, so the agent keeps working, and your queue keeps moving, until the turn ends or you stop it.
 
 ## Next steps
 

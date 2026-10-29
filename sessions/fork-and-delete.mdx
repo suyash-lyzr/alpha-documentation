@@ -25,15 +25,15 @@ Fork when the next step could go wrong, or when you want two versions side by si
 
 <Steps>
   <Step title="Type /fork in the composer">
-    Open the session and type `/fork`. The palette describes it as "fork this session — clones the VM, files and conversation". If a turn is running, wait for it to end or [stop it](/chat/queue-and-steer) first. Forking mid-turn is refused.
+    Open the session and type `/fork`, then pick it from the palette. If a turn is running, wait for it to end or [stop it](/chat/queue-and-steer) first. Forking mid-turn is refused.
   </Step>
   <Step title="Confirm with Fork session">
-    The **Fork this session?** dialog explains what happens: "Alpha clones the whole session — micro-VM, workspace files and the conversation — into a new session you can take in a different direction. Takes ~15 seconds." Click **Fork session**, or **Cancel** to back out. If the original is asleep, Alpha wakes it to take the copy.
+    The **Fork this session?** dialog explains what happens: Alpha copies the whole session, with its machine, workspace files and conversation, into a new session you can take in a different direction. It takes about 15 seconds. Click **Fork session**, or **Cancel** to back out. If the original is asleep, Alpha wakes it to take the copy.
 
     {/* screenshot to capture: /images/sessions/fork-confirm-dialog.png — Forking copies the whole session. The original isn't changed. */}
   </Step>
   <Step title="Work in the fork">
-    The fork opens at once at the top of the sidebar, named after the original with "(fork)" added, for example "Harbor bookings (fork)". It shows the copied transcript while its machine is starting. When the copy is ready, a card appears at the end of the transcript: "Forked from **Harbor bookings** — VM, files and conversation were cloned. This session now evolves on its own." Send your next message from there.
+    The fork opens at once at the top of the sidebar, named after the original with "(fork)" added, for example "Harbor bookings (fork)". It shows the copied transcript while its machine is starting. When the copy is ready, a **Forked from Harbor bookings** card appears at the end of the transcript. It confirms that the machine, files and conversation were copied, and that the fork now evolves on its own. Send your next message from there.
 
     {/* screenshot to capture: /images/sessions/fork-card.png — The card marks where the fork begins. Everything above it is shared history. */}
   </Step>
@@ -99,13 +99,13 @@ A refusal shows as a red banner at the top of the chat, and nothing changes. If 
 | "a deployment is in progress" | The session is publishing an app. | Wait for the version to finish ([Publish your app](/publish/publish-your-app)). |
 | "this session is still being forked — try again in a moment" | You acted on a fork's machine, or deleted the fork, before its card appeared. | Wait for the "Forked from" card, then try again. |
 | "Fork failed: …" in the fork's transcript | The copy couldn't be made. The reason follows the colon. | Delete the fork, then fork the original again. |
-| "Fork failed: the server restarted" | Alpha restarted while copying and couldn't copy again, for example because the original changed or the fork was used in the meantime. | Delete the fork, then fork the original again. |
+| "Fork failed: the server restarted" | The copy was interrupted and couldn't be finished. | Delete the fork, then fork the original again. |
 | "Nothing to fork yet — this session begins with your first prompt." | You typed `/fork` on the home screen. | Open the session you want to fork first. |
 | "Nothing to delete — no session has been started yet." | You typed `/delete` on the home screen. | Use **⋯ → Delete** on the session's row instead. |
 
 ## Limits and caveats
 
-A fork's copy is taken from the original's machine at the moment you confirm. If Alpha restarts while copying, it copies again, but only while the original has logged nothing new. In that case, changes made in the original's **Shell** since the fork, which leave no trace in the transcript, can come along. Session search shows the shared messages in both sessions, because both transcripts hold them. A fork starts with none of the original's published apps, so it can publish its own up to the per-session limit in [Limits](/reference/limits).
+A fork's copy is taken from the original's machine at the moment you confirm, so later changes in the original don't reach it. Session search shows the shared messages in both sessions, because both transcripts hold them. A fork starts with none of the original's published apps, so it can publish its own up to the per-session limit in [Limits](/reference/limits).
 
 ## Next steps
 
@@ -114,7 +114,7 @@ A fork's copy is taken from the original's machine at the moment you confirm. If
     Keep the transcript and swap only the machine, when it won't wake or is past repair.
   </Card>
   <Card title="Setups: ready-made machines" icon="server" href="/sessions/setups">
-    Starting the same way every time? Save a machine once and boot every new session from it.
+    Starting the same way every time? Save a machine once and start every new session from it.
   </Card>
   <Card title="Share a session" icon="share-nodes" href="/sharing">
     A fork starts private. Give it its own link or invite list once it's worth showing.

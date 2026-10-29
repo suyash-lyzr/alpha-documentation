@@ -39,7 +39,7 @@ The session's machine is a small Linux computer that belongs to that session alo
 | Operating system | Ubuntu 24.04 |
 | Languages | Node.js 22 and Python 3.12 |
 | Database | PostgreSQL 16, switched off until your app needs it |
-| Browser | A headless Chromium the agent uses to check its own pages |
+| Browser | A built-in browser the agent uses to check its own pages |
 | Disk | {disk} |
 | Your project | `/workspace`, the folder the agent works in |
 
@@ -51,7 +51,7 @@ A [setup](/sessions/setups) starts the machine with your repositories already cl
 
 ## A turn runs on Alpha's servers, not in your tab
 
-A turn is one run of the agent on your message. Alpha runs it on its own servers and streams it to your tab, so closing the tab, or the laptop, never stops the work. Reopen the session and the transcript catches up. One turn can run for up to [{turnMax}](/reference/limits).
+A turn is one run of the agent on your message. Alpha runs it for you and shows it in your tab as it happens, so closing the tab, or the laptop, never stops the work. Reopen the session and the transcript catches up. One turn can run for up to [{turnMax}](/reference/limits).
 
 A message you send while a turn runs is queued for the end of the turn, or steered into the running turn. **Account menu → Settings → New messages** picks which; the default is **Queue**.
 
@@ -61,7 +61,7 @@ A message you send while a turn runs is queued for the end of the turn, or steer
 
 ## Machines sleep and wake
 
-A machine sleeps when nobody needs it. Once no Alpha tab of yours has been visible for {idlePark}, each of your sessions with nothing running goes to sleep: Alpha saves its memory and disk, then lets the machine go. Opening the session wakes it in a few seconds, with every file, package and running server as you left it.
+A machine sleeps when nobody needs it. Once no Alpha tab of yours has been visible for {idlePark}, each of your sessions with nothing running goes to sleep. Opening the session wakes it in a few seconds, with every file, package and running server as you left it.
 
 ```mermaid
 stateDiagram-v2
@@ -97,11 +97,11 @@ The machine is private to its session. Work leaves it in these ways:
 
 | Way out | Where it goes | Covered in |
 | --- | --- | --- |
-| Publish | A public `https://` address on Google Cloud Run, built fresh from your source. It never uses the session's own database. | [Publish your app](/publish/publish-your-app) |
+| Publish | A public `https://` address, built fresh from your source. It never uses the session's own database. | [Publish your app](/publish/publish-your-app) |
 | Push to GitHub | Branches, commits and pull requests in your repositories | [Branches, commits and pull requests](/github/branches-and-prs) |
 | Share | A live, read-only view of the session for the people you choose | [Share a session](/sharing) |
 | Skills | A skill the agent saves becomes yours, and every session of yours has it by its next message | [Skills](/skills/overview) |
-| Routines | The timetable lives on Alpha's servers. Each run wakes the session's machine and works there. | [Routines](/routines) |
+| Routines | Alpha keeps the timetable for you. Each run wakes the session's machine and works there. | [Routines](/routines) |
 
 ## Who can see what
 

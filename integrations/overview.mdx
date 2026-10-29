@@ -50,7 +50,7 @@ The dialog has three tabs, and each sub-tab shows a count.
 | Search | Searches the open tab. |
 | **All auth** | Narrows the cards to **OAuth**, **API key** or **No auth**. |
 | **All categories** | Narrows the cards to one category on the open tab, such as "Business tools". |
-| **Refresh** | Loads apps and MCP servers afresh, past the copy Alpha keeps for a few minutes. |
+| **Refresh** | Loads the latest list of apps and MCP servers. |
 
 Cards are sorted A to Z. Click one to open its detail: what it gives the agent and how to connect it.
 
@@ -88,10 +88,10 @@ When a remote server's sign-in has expired and can't be refreshed, its detail re
 | Service | What the agent gets | How it's switched on |
 | --- | --- | --- |
 | [**PostgreSQL**](/workspace/database) | The session's own database: `DATABASE_URL` and the `PG*` variables. | The agent starts it when your app stores data; the **Database** tab opens. |
-| [**User sign-in**](/workspace/app-sign-in) | Google or email accounts for your app's users: `FORGE_OIDC_ISSUER`, `FORGE_OIDC_CLIENT_ID`, `FORGE_OIDC_CLIENT_SECRET`. | The agent turns it on when your app needs accounts; the **Auth** tab opens. |
+| [**User sign-in**](/workspace/app-sign-in) | Google or email accounts for your app's users, with the sign-in settings already in the app's environment. | The agent turns it on when your app needs accounts; the **Auth** tab opens. |
 | **Image generation** | Hero images, icons and illustrations from a prompt, saved into the project. | The agent runs Alpha's image generator. No variables. |
 | **Headless browser** | Its own Chromium, to check its pages and read the web. | Always on, as browser tools. |
-| [**Alpha tools**](/integrations/in-your-app) | Everything you connected, callable from the agent, your app and its agents: `FORGE_TOOLS_URL`, `FORGE_TOOLS_API_KEY`. | Always set, in every shell and published app. |
+| [**Alpha tools**](/integrations/in-your-app) | Everything you connected, callable from the agent, your app and its agents, through the session's key. | Always set, in every shell and published app. |
 | [**GitHub**](/github/connect) | An authenticated `git` and `gh`: `GITHUB_TOKEN`, `GH_TOKEN`. | You connect it in a session's **GitHub** tab (**+** → **GitHub**), not here. |
 
 Click a built-in to see what the agent works from: a **Built into Alpha** box, a **What the agent gets** list of its variables for those that set any, and a collapsed **What the agent will follow** section. Expand it to read, word for word, the recipe the agent follows for that service.
@@ -105,8 +105,8 @@ A connection belongs to your account, not to one session. Sign in to Gmail once 
 | Where | How it reaches your connections |
 | --- | --- |
 | The agent, in every session you own | As tools in its tool list. |
-| Your app in the [Preview](/workspace/preview) | Through the session's key, in `FORGE_TOOLS_URL` and `FORGE_TOOLS_API_KEY`. |
-| Apps you [publish](/publish/publish-your-app) | The same two variables, set on the published app. |
+| Your app in the [Preview](/workspace/preview) | Through the session's key, already in its environment. |
+| Apps you [publish](/publish/publish-your-app) | The same key, set on the published app. |
 | An app you export and run elsewhere | Paste the two lines from the session's key into its `.env`. |
 
 Connections belong to your account alone. Other people's sessions never get them, even when you [share a session](/sharing) with them.
@@ -114,8 +114,6 @@ Connections belong to your account alone. Other people's sessions never get them
 ### When do changes take effect?
 
 Connecting, disconnecting or revoking something updates every running session of yours. If the agent is mid-turn, the change waits for that turn to end, so the new tools arrive with your next message.
-
-{/* TODO confirm: whether a session that is asleep picks up a connection change when it wakes. docs/backend/tools-gateway.md lists "A paused sandbox doesn't get the refresh" as a known gap. */}
 
 ### Check what's on
 

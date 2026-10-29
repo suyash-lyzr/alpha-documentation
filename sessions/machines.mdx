@@ -25,15 +25,15 @@ stateDiagram-v2
 
 ## What happens when I close the tab?
 
-The turn keeps going. The agent runs on Alpha's servers, not in your browser, so closing the tab, the window or the laptop doesn't stop it. A turn can run for up to {turnMax}, and a server restart on Alpha's side doesn't end it either.
+The turn keeps going. The agent works on the session's machine, not in your browser, so closing the tab, the window or the laptop doesn't stop it. A turn can run for up to {turnMax}.
 
-When you open the session again, Alpha replays the transcript and attaches you to the live stream, so you land on whatever the agent is doing now. If the agent stopped to ask you something, the session's row in the sidebar shows a question-mark icon (labelled "Needs your input"), and the machine stays awake until you [answer the question card](/chat/plan-mode).
+When you open the session again, Alpha shows the transcript so far and carries on live from there, so you land on whatever the agent is doing now. If the agent stopped to ask you something, the session's row in the sidebar shows a question-mark icon (labelled "Needs your input"), and the machine stays awake until you [answer the question card](/chat/plan-mode).
 
 ## When does a machine go to sleep?
 
 Once no Alpha page of yours has been visible for {idlePark}, each of your sessions with nothing running goes to sleep. Visible means the selected tab of a window that isn't minimised (on macOS and Windows, not fully covered by other windows either). It doesn't need focus, and any Alpha page counts: a session, the home screen, Usage or Skills. While one is on screen, none of your machines sleep.
 
-Going to sleep saves a full copy of the machine's memory and disk, then shuts the machine down. Nothing is discarded.
+Going to sleep discards nothing. When the machine wakes, its files, installed packages and running processes are as you left them.
 
 | While you're away | Keeps the machine awake? |
 | --- | --- |
@@ -46,9 +46,9 @@ Going to sleep saves a full copy of the machine's memory and disk, then shuts th
 | Someone opening one of your preview links | No. They see a "Sandbox asleep" page that reloads itself once you're back. |
 | People you [shared the session](/sharing) with | No. Their sidebar says "Machine asleep · wakes when its owner is back". |
 
-Only work wakes a machine while you're away. Background tabs, the Shell, preview links and viewers never do. A background tab reconnects often, and would otherwise undo every sleep.
+Only work wakes a machine while you're away. Background tabs, the Shell, preview links and viewers never do.
 
-A visible window counts even with nobody at it, such as Alpha left open on a second monitor. Alpha can also put an idle session to sleep sooner while it moves machines between its servers, but never one that's open in a visible tab.
+A visible window counts even with nobody at it, such as Alpha left open on a second monitor. Alpha can occasionally put an idle session to sleep sooner, but never one that's open in a visible tab.
 
 ## Wake a sleeping machine
 
@@ -58,11 +58,10 @@ If you send a message to a sleeping session, the working line under it says what
 
 | Working line | What's happening |
 | --- | --- |
-| "Restoring the session's machine from its checkpoint…" | The usual wake: the saved machine is starting again. |
-| "Resuming sandbox…" | The machine slept on the server it ran on and is starting again there. |
+| "Resuming sandbox…", or a line saying the session's machine is being restored | The usual wake: the machine is starting again, as you left it. |
 | "Creating sandbox…" | The session has no machine, for example after a reset, and no setup. A fresh, blank one is starting. |
 | "Starting a machine from the "…" setup…" | The session has no machine and was started from a [setup](/sessions/setups). A fresh one is starting from that setup. |
-| "Couldn't start from the setup's snapshot — starting a blank machine (its repositories are cloned fresh)." | The setup's saved machine couldn't be started, so Alpha starts a blank machine and clones the session's repositories again. A similar line appears when the setup was deleted or has never been built. |
+| A line saying Alpha couldn't start from the setup and is starting a blank machine, with its repositories cloned fresh | The setup couldn't be used, so Alpha starts a blank machine and clones the session's repositories again. A similar line appears when the setup was deleted or has never been built. |
 
 {/* screenshot to capture: /images/sessions/session-waking-status.png — A message sent to a sleeping session: the working line says the machine is being restored. */}
 
@@ -85,8 +84,8 @@ Alpha never swaps a sleeping machine for a blank one behind your back. If it can
 | Message | What to do |
 | --- | --- |
 | "The session's machine is paused and could not be resumed (…). Nothing was discarded — try again in a moment, or reset the machine to start over." | Send your message again in a minute. If it keeps failing, ask an admin to [reset the machine](#reset-the-sessions-machine). |
-| "The session's machine could not be restored from its checkpoint (…). Nothing was discarded — try again in a moment." | Try again in a moment. The saved machine is kept. |
-| "The session's machine cannot be reached right now." | The server holding it is briefly out of reach. Try again in a moment. |
+| A message that the session's machine could not be restored, ending "Nothing was discarded — try again in a moment." | Try again in a moment. Nothing is lost. |
+| "The session's machine cannot be reached right now." | Alpha can't reach the machine for a moment. Try again shortly. |
 | "The session's machine changed while this request was starting it — try again in a moment." | Something else woke or put the machine to sleep at the same instant. Send again. |
 | "Sandbox didn't wake" (in a preview link) | Open the session in Alpha and send a message. The transcript says what went wrong. |
 | "The paused machine could not be resumed." (in the **Shell**) | Send a message in the session to see the reason, then follow the rows above. |

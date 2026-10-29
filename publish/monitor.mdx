@@ -8,7 +8,7 @@ import { memory, listenMax, buildMax } from '/snippets/limits.mdx';
 
 Once an app is live, two workspace tabs show how it behaves in production: **Production Logs** for every line it writes and every request it answers, and **Production Metrics** for its traffic, errors, speed and resource use. This page also covers the **Published** page and what to do when a version fails. To republish, roll back or change settings, see [Manage a published app](/publish/manage).
 
-Both tabs read from Google Cloud, where the app runs, not from the session's machine. Only the session's owner sees them.
+Both tabs read from the live app, not from the session's machine, so they work while the machine sleeps. Only the session's owner sees them.
 
 <Note>
 The production tabs appear in the **+** menu once one of the session's apps has gone live and has an address. If you don't see **Publish** at all, publishing isn't turned on for your Alpha.
@@ -16,7 +16,7 @@ The production tabs appear in the **+** menu once one of the session's apps has 
 
 ## Read your app's logs
 
-Open **+** → **Production Logs**. Newest lines sit at the bottom, like a terminal. The tab reads Cloud Logging again every minute, or right away from the refresh button ("Read Cloud Logging again now"). It opens on the app you published most recently; if the session has more than one, switch with the app menu at the left of the filter row.
+Open **+** → **Production Logs**. Newest lines sit at the bottom, like a terminal. The tab loads new lines every minute, or right away from the refresh button. It opens on the app you published most recently; if the session has more than one, switch with the app menu at the left of the filter row.
 
 {/* screenshot to capture: /images/publish/prod-logs-tab.png — Errors stand out with a red bar and an ERR tag. The strip above the lines counts them for you. */}
 
@@ -25,7 +25,7 @@ Open **+** → **Production Logs**. Newest lines sit at the bottom, like a termi
 | **Search the lines…** | Up to 200 characters | Keeps lines that contain the text. Press <kbd>Enter</kbd> or click away to apply it. |
 | Time range | **Last hour**, **Last 24 hours**, **Last 7 days** | Starts on **Last hour**. Longer ranges add the date to each line. |
 | Level | **All levels**, **Errors**, **Warnings+**, **Info+** | Shows lines at that level and above. **Errors** includes critical lines. |
-| Kind | **All lines**, **Requests**, **App output**, **System** | **App output** is what your app prints. **Requests** has one line per request, with method, path, status and time in ms. **System** is Cloud Run's own lines, such as a crash or a memory limit. |
+| Kind | **All lines**, **Requests**, **App output**, **System** | **App output** is what your app prints. **Requests** has one line per request, with method, path, status and time in ms. **System** is what Alpha's hosting reports about the app, such as a crash or a memory limit. |
 | **↑ Older lines…** | 200 lines a page | Loads earlier lines. The tab keeps the newest 2,000. **Latest** jumps back to the bottom. |
 
 Log times are in UTC; hover one for the full timestamp. A new time range, level or search reads the log again from the start, while the kind only filters lines already loaded.
@@ -67,7 +67,7 @@ Open **+** → **Production Metrics**. The tab, titled **Monitoring**, has two c
 Hover a chart to see each line's value at that moment, in your time zone. Each chart title has an ⓘ that explains the chart in plain words. Request counts draw a flat line at zero when the app is quiet. A duration, CPU or memory chart with nothing to plot says "No Data Available".
 
 <Note>
-Cloud Monitoring reports one to three minutes behind, so the last few minutes of traffic may not show yet. The tab reads again every minute.
+Metrics arrive one to three minutes behind, so the last few minutes of traffic may not show yet. The tab reads again every minute.
 </Note>
 
 ## See everything you've published
@@ -87,9 +87,7 @@ The page is read-only and lists only your own sessions. Until you publish someth
 
 ## When a publish fails
 
-A failed version never takes traffic. If an earlier version was serving, it keeps serving, so your live app doesn't go down. The **Publish** tab marks the step that failed and shows the first lines of the error, a hint and a **Cloud Build log** link. The version's **Log** opens by itself, and the session's transcript gets a failure card with the same hint and the end of the log.
-
-The **Log** in Alpha carries the build's own output. The **Cloud Build log** link opens the same build in the Google Cloud console, so it works only for people with access to the Google Cloud project your Alpha publishes to.
+A failed version never takes traffic. If an earlier version was serving, it keeps serving, so your live app doesn't go down. The **Publish** tab marks the step that failed and shows the first lines of the error and a hint. The version's **Log** opens by itself, with the build's own output, and the session's transcript gets a failure card with the same hint and the end of the log.
 
 {/* screenshot to capture: /images/publish/publish-failed-version.png — The failed step is marked in red. The hint under the error says what usually causes it. */}
 
@@ -139,13 +137,13 @@ The agent reads the same log, so asking it is usually the fastest fix. The hints
     **Fix:** Hold less in memory, such as large files read whole or big in-process caches. The limit is set for your whole Alpha; ask your administrator if the app needs more.
   </Accordion>
   <Accordion title="“Your organization policy forbids public services”">
-    **Causes:** Your Google Cloud organization doesn't allow services that anyone can open, and published apps are public.
+    **Causes:** Your organization's settings don't allow apps that anyone can open, and published apps are public.
 
-    **Fix:** A Google Cloud admin must allow public access (`allUsers`) on Cloud Run. Pass the message to your administrator.
+    **Fix:** This is a setting on your Alpha's side, not in your code. Pass the message to your administrator.
   </Accordion>
 </AccordionGroup>
 
-A hint about GCP permissions, credentials or a service account is a setup problem on your Alpha's side that your code can't fix. Pass it to your administrator. For limits such as source size, see [Limits](/reference/limits).
+A hint about permissions or credentials is a setup problem on your Alpha's side that your code can't fix. Pass it to your administrator. For limits such as source size, see [Limits](/reference/limits).
 
 ## The service is up, but refuses its own address
 
@@ -173,7 +171,7 @@ ALLOWED_HOSTS = ["localhost", ".run.app"]
 
 ```ruby Rails (config/environments/production.rb)
 # config.hosts is empty in production by default, which allows every host.
-# If you set it, include Cloud Run's hostnames:
+# If you set it, include the .run.app hostnames:
 config.hosts << /.*\.run\.app/
 ```
 
@@ -191,13 +189,13 @@ For a static Vite site, the simpler fix is to remove the start script. The build
 
 <CardGroup cols={2}>
   <Card title="Manage a published app" icon="sliders" href="/publish/manage">
-    Roll back to the last good version with a traffic switch, no rebuild, while the agent fixes what broke.
+    Roll back to the last good version in seconds, with no rebuild, while the agent fixes what broke.
   </Card>
   <Card title="Production database and sign-in" icon="server" href="/publish/production-data">
     Give an empty production database its tables, and browse its rows as the app sees them.
   </Card>
   <Card title="Routines" icon="calendar-clock" href="/routines">
-    Run periodic work for your app, since Cloud Run stops idle apps and in-app timers don't fire reliably.
+    Run periodic work for your app, since idle published apps stop and in-app timers don't fire reliably.
   </Card>
   <Card title="Troubleshooting and FAQ" icon="life-ring" href="/reference/troubleshooting">
     Fixes for machines, the Preview, turns and publishing in one place.

@@ -7,8 +7,6 @@ description: "For founders and marketers: a distinctive landing page for Harbor 
 import { appUrl, idlePark } from '/snippets/limits.mdx';
 import { PromptCard } from '/snippets/prompt-card.jsx';
 
-{/* TODO confirm: the time badge is an estimate (the publish step alone takes 2–6 minutes, per sandbox/AGENTS.md); time a real run end to end. */}
-
 <Badge>About 30 minutes</Badge>
 
 This guide takes a landing page from one message to a public address, and you never open a code file. You describe the school, pick a look from three questions, fix details by drawing on the page, add a signup form that keeps every email, and publish. To learn the basic loop first, start with the [quickstart](/quickstart).
@@ -114,7 +112,7 @@ If you don't see **Publish** at the right of the workspace tabs, publishing isn'
   <Step title="Publish and share the address">
     Choose **Publish** at the right of the workspace tabs. The **Publish to production** box shows **Database** as "its own, in production" and **Access** as "Public · anyone with the URL". Choose **Publish**. It sends "Deploy this." to the agent, exactly as if you had typed it.
 
-    The agent asks for the app's name. The name is the address, `https://harbor-sailing-<project number>.<region>.run.app`, so it can't be changed later. Take the suggestion or type your own: lowercase letters, digits and dashes, starting with a letter, at most 40 characters. The **Publish** tab follows the build through **Export**, **Plan**, **Build**, **Publish** and **Live**, usually in 2–6 minutes.
+    The agent asks for the app's name. The name is the start of the app's address, so it can't be changed later. Take the suggestion or type your own: lowercase letters, digits and dashes, starting with a letter, at most 40 characters. The **Publish** tab follows the build through **Export**, **Plan**, **Build**, **Publish** and **Live**, usually in 2–6 minutes.
 
     At **Live**, the agent posts the address in the transcript. Copy it with the link icon beside **Republish** ("Copy the app's link"). The full walkthrough is in [publish your app](/publish/publish-your-app).
 

@@ -20,7 +20,7 @@ By the end of this guide you will have a routine called `harbor-weekly-summary`.
 - The Harbor bookings session, with bookings in its database. Step 1 of [Add a database and sign-in](/guides/data-app) moves Harbor's bookings into the session's own PostgreSQL, and the routine reads that database. A published app has a separate [production database](/publish/production-data), which this routine doesn't read.
 - A Slack workspace you can post in, and a channel for the summary. This guide uses `#harbor-staff`.
 
-You don't need a Slack app, a bot token or a server of your own. Alpha's server keeps the clock, and your Slack sign-in stays with Alpha.
+You don't need a Slack app, a bot token or a server of your own. Alpha keeps the clock, and your Slack sign-in stays with Alpha.
 
 <Note>
 If Slack isn't listed under **Integrations**, or the **Routines** page says "Routines are not enabled on this Alpha", that feature isn't turned on for your Alpha. Ask your administrator.
@@ -103,7 +103,7 @@ If Slack isn't listed under **Integrations**, or the **Routines** page says "Rou
 
 ## What happens every Monday
 
-Alpha's server keeps the routine's clock, and nothing inside the machine does. At 09:00 the server wakes the session's machine, which takes about half a minute when it's asleep. It runs the script with the session's environment, records the run and its log, and lets the machine go back to sleep.
+Alpha keeps the routine's clock, so nothing has to stay running in the machine. At 09:00 Alpha wakes the session's machine, which takes about half a minute when it's asleep. It runs the script with the session's files, secrets and database, records the run and its log, and lets the machine go back to sleep.
 
 ```mermaid
 flowchart LR

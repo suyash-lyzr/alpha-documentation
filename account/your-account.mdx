@@ -20,8 +20,6 @@ A sign-in lasts 30 days from the moment you sign in. After that, Alpha shows the
 If you see only one of the two buttons, the other isn't turned on for your Alpha. If you see "Sign-in isn't available at this address." instead of any button, you've opened Alpha at an address its sign-in providers don't accept. Open it at its usual address, such as {appUrl}.
 </Note>
 
-{/* TODO confirm: the public address in snippets/limits.mdx (appUrl). */}
-
 ## If you're on the waitlist
 
 Your Alpha can be limited to a list of approved email addresses. If you sign in with an address that isn't on the list yet, Alpha still creates your account, then holds it on the waitlist screen until an admin approves it. Nothing else opens in the meantime.
@@ -78,7 +76,7 @@ The connected-accounts row reads **Sign in with ChatGPT** when your Alpha doesn'
 
 ### Sign out
 
-Open the account menu and choose **Sign out**. The page reloads to the sign-in screen, and your other tabs sign out with it. Your sessions keep running on the server, so a turn in progress carries on and you can pick it up after signing in again.
+Open the account menu and choose **Sign out**. The page reloads to the sign-in screen, and your other tabs sign out with it. Your sessions keep running without you, so a turn in progress carries on and you can pick it up after signing in again.
 
 <Warning>
 Signing out clears every unsent draft in the composers of this browser, on the home screen and in each session. Send or copy anything you want to keep first.
@@ -101,11 +99,9 @@ To choose between queueing and steering for a particular message, see [Queue, st
 
 ## Using Alpha without an account
 
-Some Alphas, usually local or test installs, run in guest mode. There is no sign-in screen: each browser gets its own guest identity, the account badge reads **Guest**, and there is no **Sign out** row. Sharing a session with specific people isn't available, because there are no account emails to share with.
+Some Alphas run in guest mode. There is no sign-in screen: each browser gets its own guest identity, the account badge reads **Guest**, and there is no **Sign out** row. Sharing a session with specific people isn't available, because there are no account emails to share with.
 
 If that Alpha later switches to accounts, the first time you sign in from the same browser your guest work moves to your account in one step. That covers your sessions and their published apps, your global secrets (including keys you pasted for integrations), your GitHub connection and your Claude sign-in. Your ChatGPT sign-in doesn't move, so sign in to it again from **Sign in with ChatGPT/Claude**. Setups you saved as a guest don't move either, and stop showing in your list.
-
-{/* TODO confirm: integrations connected by signing in to the app (tool_connections) have no guest adopter on develop (adopt.go lists "connections 40" but nothing registers it), so they appear not to move. Add them to the "doesn't move" list once confirmed. */}
 
 ## Sign-in messages
 

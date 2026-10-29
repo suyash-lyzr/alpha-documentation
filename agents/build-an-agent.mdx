@@ -10,7 +10,7 @@ An AI agent in Alpha is a set of model-driven steps you describe in words. Alpha
 
 ## What does Alpha build?
 
-Every agent is one folder, `/workspace/<name>`, called the agent tree. At its root, `definition.yaml` names the workers, their steps and order, the inputs and the fields of the answer, and `tools/` holds the Python functions the steps call. Alpha's agent compiler, Stormlight, turns that description into a project for a framework, in its own folder inside the tree. It's plain framework code you own and can run anywhere. Open any of it from [Files](/workspace/files).
+Every agent is one folder, `/workspace/<name>`, called the agent tree. At its root, `definition.yaml` names the workers, their steps and order, the inputs and the fields of the answer, and `tools/` holds the Python functions the steps call. Alpha's agent builder turns that description into a project for a framework, in its own folder inside the tree. It's plain framework code you own and can run anywhere. Open any of it from [Files](/workspace/files).
 
 | Framework | Alpha uses it when | Worth knowing |
 | --- | --- | --- |
@@ -118,8 +118,6 @@ The live run reads the key the description names, usually `OPENAI_API_KEY`. The 
 | **Add a key now** | A card reads "The agent needs OPENAI_API_KEY". Click **Add OPENAI_API_KEY**, paste the value, then **Tell the agent to continue**. The agent checks the key and proves. |
 | **Skip the live run** | Every other stage runs and the agent is published unproved live. In **Try it**, its framework reads "not proved live". Ask for a live proof once a key is added. |
 
-{/* TODO confirm: SKILL.md's "Add a key now" path says "ask the user to add it under Secrets" without naming `forge secrets request`; the request card assumes the agent follows AGENTS.md's plain-secret rule. */}
-
 {/* screenshot to capture: /images/agents/agent-connect-card.png — The agent names the exact variable its code reads. The value goes into Secrets, never the chat. */}
 
 <Warning>
@@ -153,7 +151,7 @@ Building agents is a [skill](/skills/overview), **Agent builder**, that ships wi
 
 {/* screenshot to capture: /images/agents/skills-agent-builder-row.png — The row's switch is yours alone. */}
 
-With it off, an attempt to build stops with "stormlight is off for this session (switch on the agent-builder skill in Skills)". An agent already on the **Agent** tab still draws and runs. [Skills that ship with Alpha](/skills/built-in-skills) covers the admin switches.
+With it off, an attempt to build stops, and the agent tells you to switch the agent-builder skill back on in **Skills**. An agent already on the **Agent** tab still draws and runs. [Skills that ship with Alpha](/skills/built-in-skills) covers the admin switches.
 
 <Note>
 If **Agent builder** isn't on your **Installed** tab, find it on the **Explore** tab and click **Install**. If it isn't there either, agent building isn't turned on for your Alpha.

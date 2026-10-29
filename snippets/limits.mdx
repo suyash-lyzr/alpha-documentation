@@ -1,116 +1,74 @@
-{/* One source for every number the docs quote. Paths are relative to alpha-monorepo/. Values marked "(default)" come from a FORGE_* setting the operator can change. */}
-
-{/* TODO confirm: the product's public address. */}
+{/* One source for every number the docs quote. Values marked "(default)" may differ for each Alpha. */}
 
 export const appUrl = "https://alpha.new";
 
 {/* Sessions and chat */}
 
-{/* services/backend/internal/presence.go: presenceAwayMs = 30 min with no visible Alpha tab, then FORGE_IDLE_PAUSE_MS (default 60 s, config.go:833) before the park. */}
-
 export const idlePark = "about 30 minutes";
-
-{/* services/backend/internal/config.go:832, FORGE_TURN_TIMEOUT_MS = 48h; enforced in codex.go (activityLaunchFollow, the deadline backstop). */}
 
 export const turnMax = "48 hours (default)";
 
-{/* scripts/build-template.sh:153, DISK_MB = 10240, set when the operator builds the machine template; README.md "Disk". */}
-
 export const disk = "10 GB (default)";
-
-{/* services/backend/internal/routes_core.go:3533 and :3795, JsLen(text) > 100_000 → "prompt too large". */}
 
 export const promptMax = "100,000 characters";
 
-{/* services/backend/internal/routes_core.go:2029 routesMaxReposPerThread = 5; apps/frontend/src/components/forge/repo-picker.tsx:250. */}
-
 export const reposMax = "5 per session";
-
-{/* services/backend/internal/config.go:840, FORGE_MAX_UPLOAD_BYTES = 256 MiB; httpx.go BodyFile answers 413 over it. */}
 
 export const uploadMax = "256 MB per file (default)";
 
-{/* services/backend/internal/files.go:659, filesMaxImageBytes = 15 MiB. */}
-
 export const imageMax = "15 MB";
-
-{/* services/backend/internal/files.go:129 MaxServeBytes = 32 MiB; routes_more.go:1243 "file is over 32 MB". */}
 
 export const fileDownloadMax = "32 MB";
 
-{/* services/backend/internal/files.go:154 filesArchiveMaxBytes = 500 MiB, counted before compression, dependency folders skipped. */}
+{/* Counted before compression. Dependency folders are left out. */}
 
 export const folderDownloadMax = "500 MB";
 
-{/* apps/frontend/src/components/forge/voice-input.tsx:14 MAX_SECONDS = 120; services/backend/internal/voice.go:31 cuts the stream at 2 min 15 s. */}
-
 export const dictationMax = "2 minutes";
-
-{/* services/backend/internal/queue.go:176 MaxQueueItems = 20 → "at most 20 queued messages". */}
 
 export const queueMax = "20 messages";
 
 {/* Publishing */}
 
-{/* services/backend/internal/config.go:703, FORGE_DEPLOY_MAX_SOURCE_MB = 48; deploy.go:1466 message. */}
-
 export const sourceMax = "48 MB compressed (default)";
-
-{/* services/backend/internal/config.go:702, FORGE_DEPLOY_BUILD_TIMEOUT_MS = 20 min; deploy_rollout.go hint "The build exceeded 20 minutes." */}
 
 export const buildMax = "20 minutes (default)";
 
-{/* services/backend/internal/deploy_rollout.go:776 hint "never listened … within 4 minutes". Alpha sets no startup probe, so this is Cloud Run's own startup window. */}
-
 export const listenMax = "4 minutes";
-
-{/* services/backend/internal/config.go:697, FORGE_DEPLOY_MAX_PER_THREAD = 3; deploy_records.go:557. */}
 
 export const publishPerSession = "3 per session (default)";
 
-{/* services/backend/internal/config.go:696, FORGE_DEPLOY_MAX_PER_USER = 20; deploy_records.go:560. */}
-
 export const publishPerAccount = "20 per account (default)";
-
-{/* services/backend/internal/config.go:700, FORGE_DEPLOY_MEMORY = "512Mi"; deploy_rollout.go hint "Out of memory at 512Mi." */}
 
 export const memory = "512 MiB (default)";
 
-{/* services/backend/internal/config.go:699, FORGE_DEPLOY_MAX_INSTANCES = 2. */}
-
 export const instances = "2 (default)";
 
-{/* services/backend/internal/deploy.go:834 deployMaxRollouts = 30; the version serving traffic is never removed. */}
+{/* The version serving traffic is never removed. */}
 
 export const versionsKept = "30 per app";
 
 {/* Routines, setups and secrets */}
 
-{/* services/backend/internal/routines.go:58 routineMaxPerUser = 20, paused routines included. */}
+{/* Paused routines count. */}
 
 export const routinesMax = "20 per account";
 
-{/* services/backend/internal/config.go:927, FORGE_ROUTINE_MIN_MINUTES = 15; routines.go:236 message. */}
-
 export const routineMinInterval = "15 minutes (default)";
 
-{/* services/backend/internal/setups.go:226 MaxSetups = 5, an account's own; setups shared with it don't count. */}
+{/* An account's own setups. Setups shared with it don't count. */}
 
 export const setupsMax = "5 per account";
 
-{/* services/backend/internal/secrets.go:280 MaxSecrets = 256 per vault (the account's, and each session's own); routes_more.go:882. */}
+{/* Counted separately for the account's secrets and for each session's own. */}
 
 export const secretsMax = "256 secrets";
 
-{/* services/backend/internal/config.go:843, FORGE_SECRETS_MAX_TOTAL_BYTES = 32 KiB per vault; routes_more.go:890. */}
-
 export const secretsTotal = "32 KB in total (default)";
 
-Some limits are set by whoever runs your Alpha. Those are marked "(default)", and your Alpha may use a different value.
+Some limits can differ for your Alpha. Those are marked "(default)", and your Alpha may use a different value.
 
 ## Sessions and chat
-
-{/* TODO confirm: the disk row; there is no product message for a full disk, so it describes ordinary system behaviour. */}
 
 | Limit | Value | What happens when you hit it |
 | --- | --- | --- |

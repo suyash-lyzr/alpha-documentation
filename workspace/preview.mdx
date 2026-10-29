@@ -14,28 +14,17 @@ The **Preview** is your app, live, running on the session's machine and framed i
 
 ## How does my app get here?
 
-Alpha watches the session's machine for anything listening on a port. Once something listens, a **Preview** tab joins the workspace. When a port's `/` answers with a web page, the tab opens on it. You never switch the Preview on yourself, because it follows what is actually running.
-
-```mermaid
-flowchart LR
-  A[Agent starts a server] --> B[Listens on 0.0.0.0]
-  B --> C[Alpha finds the port]
-  C --> D{Does / serve a page?}
-  D -->|Yes| E[Framed in the Preview]
-  D -->|No| F[Listed in the port menu]
-  classDef focus stroke:#1A54F0,stroke-width:1.5px;
-  class E focus
-```
+When the agent starts your app, a **Preview** tab joins the workspace. Once the app's home page answers with a web page, the tab opens on it. You never switch the Preview on yourself, because it follows what is actually running.
 
 Three rules decide what you see:
 
 | Rule | Why it matters |
 | --- | --- |
-| The server must listen on `0.0.0.0` | A server bound to `127.0.0.1` only answers inside the machine, so the Preview can't reach it. The agent knows this. |
-| `/` must serve a page | An API, a file listing or a slide deck is listed in the port menu but not framed. |
+| The app must be reachable from the Preview | An app that only answers inside its own machine can't be shown. The agent sets this up for you. |
+| The home page must be a web page | An API, a file listing or a slide deck is listed in the port menu but not framed. |
 | The frame reloads when a turn ends | Less than a second after the agent finishes, the Preview reloads on the app's home page, so the latest version is on screen. |
 
-If nothing listens for a few seconds, the tab goes away until something does. A restart doesn't make it blink. Closing the tab with its × only hides it, and the app keeps running. While the app runs, the **+** menu brings the tab back.
+If the app stops for more than a few seconds, the tab goes away until it runs again. A restart doesn't make it blink. Closing the tab with its × only hides it, and the app keeps running. While the app runs, the **+** menu brings the tab back.
 
 ## Use the toolbar
 
@@ -110,14 +99,14 @@ Drag the panel's top edge to resize it, up to 70% of the Preview's height. With 
 
 A machine sleeps once you've been away for {idlePark}, and opening the session wakes it. See [Sleep, wake and reset](/sessions/machines). Grey placeholder bars cover the frame until the app is back, usually within seconds.
 
-Where your Alpha keeps saved copies, the Preview doesn't wait. It shows the app at once from a copy taken as the machine went to sleep, with a note along the bottom. When the live app is ready, it fades in at the same address and scroll position, without a reload. **Edit** waits for the live page.
+The Preview may not wait at all. It can show the last version of your app at once, with a note along the bottom, while the machine wakes. When the live app is ready, it fades in at the same address and scroll position, without a reload. **Edit** waits for the live page.
 
-{/* screenshot to capture: /images/workspace/preview-cached-copy.png — The saved copy is on screen at once. The live app replaces it by itself. */}
+{/* screenshot to capture: /images/workspace/preview-cached-copy.png — The last version is on screen at once. The live app replaces it by itself. */}
 
-The copy holds only what your app shows a visitor who isn't signed in. A signed-in page is never saved, so it can't reach anyone else. If you're signed in to your app, you see the signed-out copy until the live app takes over.
+Only pages a signed-out visitor would see are shown this way, so a signed-in page never reaches anyone else. If you're signed in to your app, you see the signed-out version until the live app takes over.
 
 <Note>
-If you don't see a saved copy while a machine wakes, it isn't turned on for your Alpha. The Preview waits for the live app instead.
+If the Preview always waits for the live app, showing the last version isn't turned on for your Alpha. Ask your admin.
 </Note>
 
 ## Why does the Preview show a message?
@@ -128,19 +117,19 @@ The frame, or a preview address opened in its own tab, says why there's no app. 
 
 | Message | What it means | What to do |
 | --- | --- | --- |
-| "… is bound to 127.0.0.1 — unreachable from the preview proxy." | The server only listens inside the machine. | Ask the agent: "Rebind the dev server to 0.0.0.0." |
+| "… is bound to 127.0.0.1 …" | The app only answers inside the machine, so the Preview can't reach it. | Ask the agent: "Make the dev server reachable from the Preview." |
 | "Nothing is listening right now — the app's server stopped." | The server crashed or was stopped. | Check **Logs**, then ask the agent to run it again. |
 | "… listening, but nothing to frame at /." | Every port is an API, a file listing or a deck. | Pick a port from the port menu, or ask the agent to start the web front end. |
 | "Blocked request. This host is not allowed" | The dev server (Vite, for example) refused the preview address. | Ask the agent to allow the preview host in its config. |
 | "Sandbox asleep" | You opened a preview address while the owner is away from Alpha. | Open the session in Alpha. The page reloads itself once the machine is back. |
 | "Sandbox didn't wake" | The machine couldn't be brought back. Nothing was discarded. | Open the session. The transcript says what went wrong. See [Sleep, wake and reset](/sessions/machines#what-if-a-machine-wont-wake). |
-| "Nothing on this port" | The machine is up, but nothing answered on that port. | Ask the agent to start the server, bound to `0.0.0.0`. |
+| "Nothing on this port" | The machine is up, but nothing answered on that port. | Ask the agent to start the app. |
 | "No live sandbox" | The session has no machine yet. | Open the session and ask the agent to run the app. |
-| "Port not previewable" | The port belongs to the machine's own runtime. | Ask the agent to use another port. |
+| "Port not previewable" | Alpha keeps that port for itself. | Ask the agent to use another port. |
 | "Unknown session" | No session matches the address. It may have been deleted. | Open the Preview from the session itself. |
 
 <Tip>
-The agent starts servers through Alpha, which reports success only once the Preview can reach the port. Those servers keep running between turns and through sleep. See [Inside a session's machine](/reference/machine-environment).
+The agent tells you an app is running only once the Preview can reach it. Apps it starts keep running between turns, and are still running when the machine wakes from sleep. See [Inside a session's machine](/reference/machine-environment).
 </Tip>
 
 ## Next steps

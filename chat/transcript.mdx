@@ -4,7 +4,7 @@ sidebarTitle: "Reading the transcript"
 description: "Read what the agent did in plain English, open any command or edit, follow helpers and workflows, and see what went wrong when a turn fails."
 ---
 
-The transcript is the running record of a session: your messages, the agent's replies, and every command, edit and thought in between, folded into short lines you can open. Turns run on Alpha's servers, not in your tab, so the transcript is complete when you come back. To change what the agent is doing mid-turn, see [Queue, steer or stop](/chat/queue-and-steer); for plans and the agent's questions, see [Plan mode](/chat/plan-mode).
+The transcript is the running record of a session: your messages, the agent's replies, and every command, edit and thought in between, folded into short lines you can open. Turns keep running in Alpha, not in your tab, so the transcript is complete when you come back. To change what the agent is doing mid-turn, see [Queue, steer or stop](/chat/queue-and-steer); for plans and the agent's questions, see [Plan mode](/chat/plan-mode).
 
 ## What does a turn look like?
 
@@ -41,7 +41,7 @@ A line that reads a [skill](/skills/overview), such as "Read the slides skill", 
 
 ## What does the agent do while I wait?
 
-Between outputs, a pixel loader shows a verb that changes every 3 seconds ("Forging…", "Thinking…", "Reading the workspace…") and a timer. The timer appears after 3 seconds and restarts with each pause, so it measures this gap, not the whole turn. The verb gets specific when there is something specific to say:
+Between outputs, a pixel loader shows a verb that changes every 3 seconds ("Hammering…", "Thinking…", "Reading the workspace…") and a timer. The timer appears after 3 seconds and restarts with each pause, so it measures this gap, not the whole turn. The verb gets specific when there is something specific to say:
 
 | It reads | Meaning |
 | --- | --- |
@@ -91,7 +91,7 @@ A roster above the composer lists the turn's sub-agents: a dot each, up to three
 
 {/* screenshot to capture: /images/chat/chat-subagent-card.png — A sub-agent at work in its card, with the roster above the composer. */}
 
-Sub-agents never stop to ask you anything. Alpha tells them no one is there to answer, and they carry on with their own judgement, so every question card you see comes from the main agent. In Claude Code, the turn keeps running until its last sub-agent finishes.
+Sub-agents never stop to ask you anything. They carry on with their own judgement, so every question card you see comes from the main agent. In Claude Code, the turn keeps running until its last sub-agent finishes.
 
 ### Workflow cards
 
@@ -115,8 +115,6 @@ A long session opens with its newest 2 turns, so it appears at once. Older turns
 
 To export the transcript, scroll to the top of the session, hover the first message and click **More** (⋯) → **Export as Markdown**.
 
-{/* TODO confirm: whether Export as Markdown includes older turns that have not been loaded into the page yet. It exports assistant-ui's loaded messages, and More shows under whichever message is first among them (parentId === null), so scrolling to the top first is the safe instruction. */}
-
 {/* screenshot to capture: /images/chat/chat-export-markdown.png — Export sits in the More menu under your first message. */}
 
 The transcript is append-only: you can't edit a sent message or regenerate a reply. To try another direction and keep this one, [fork the session](/sessions/fork-and-delete). Values of your [secrets](/secrets) that are 8 or more characters long show as `[redacted]`, in the transcript and in exports. An email address or a plain web address is left as it is.
@@ -129,10 +127,10 @@ A failed turn shows one red card saying what failed, sometimes with a **details*
 | --- | --- |
 | The model provider's own message, or "model provider error" when it gave none | Send again. If it repeats, try [another model](/chat/agents-and-models#choose-a-model). |
 | "The agent exited with code N" | Open **details** to read why, then send again. |
-| "Couldn't pick the turn back up: …" | Alpha's server restarted during the turn and couldn't reconnect to it. Ask the agent to carry on. |
+| "Couldn't pick the turn back up: …" | Something on Alpha's side interrupted the turn, and it couldn't be resumed. Ask the agent to carry on. |
 | "Claude sign-in: this session has no Claude credentials. …" | Open **Account menu → Sign in with ChatGPT/Claude** and sign in on the **Claude** row ([how](/account/usage-and-costs#run-claude-code-sessions-on-your-claude-plan)), then resend. |
 | "Claude sign-in: your Claude subscription token was rejected (…)" | Sign in with Claude again, then resend. |
-| "Claude sign-in: the server's Anthropic key was rejected (…)" | Ask whoever runs your Alpha to fix the key. |
+| "Claude sign-in: the server's Anthropic key was rejected (…)" | Ask your admin to fix the key. |
 | "The session's machine cannot be reached right now. Nothing was discarded — …" | Send again in a moment. If your message was refused, its text goes back into the composer. Resetting is a [last resort](/sessions/machines#reset-the-sessions-machine). |
 
 A turn you stop isn't a failure. For other messages, see [Troubleshooting and FAQ](/reference/troubleshooting).

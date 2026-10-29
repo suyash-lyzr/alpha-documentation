@@ -39,23 +39,15 @@ Some columns appear only in a wide window. Until your first turn, the page reads
 
 ## How is cost worked out?
 
-Alpha records tokens, not dollars, for every turn, `/compact` and `/review`, and prices them when you open the dashboard. A model priced later is priced for its past turns too.
-
-Each model's price comes from the first source that knows it:
-
-| Order | Source | Label in the **Models** table |
-| --- | --- | --- |
-| 1 | A price list set by whoever runs your Alpha | **your price list** |
-| 2 | OpenRouter's public model catalog, refreshed daily | **price catalog** |
-| 3 | OpenAI and Anthropic list prices built into Alpha | **list price** |
+Alpha prices every turn, `/compact` and `/review` by the model's token price. The **Models** table shows the price it used for each model.
 
 **Price per 1M tokens** reads "\$x in · \$y out". Claude rows add a "cache write" price, because Claude charges more to write the prompt cache.
 
-Alpha never guesses a price. A model no source knows counts as \$0 and shows **unpriced** with a warning icon. A notice under the totals names it.
+Alpha never guesses a price. A model it has no price for counts as \$0 and shows **unpriced** with a warning icon. A notice under the totals names it. Once the model has a price, its past turns are priced too.
 
 A spend marked **≈** is estimated: "billed from the session's log before exact per-turn accounting existed."
 
-{/* screenshot to capture: /images/account/usage-models-prices.png — Each model's rate and where it came from. Illustrative values. */}
+{/* screenshot to capture: /images/account/usage-models-prices.png — Each model's rate per 1M tokens. Illustrative values. */}
 
 ## Who pays for the agent's work?
 
@@ -137,7 +129,7 @@ Open **Account menu → Sign in with ChatGPT/Claude** and click **Sign in** on t
   </Tab>
 </Tabs>
 
-Alpha stores the token sealed, for your account only, and uses it only for your Claude Code sessions. Once signed in, the dialog shows **Claude subscription** and the date the token is valid until, and warns two weeks before it expires. **Sign in again** renews it. **Sign out and use the server key** switches back; where your Alpha has no Claude key of its own, the button reads **Sign out**.
+Alpha stores the token encrypted, for your account only, and uses it only for your Claude Code sessions. Once signed in, the dialog shows **Claude subscription** and the date the token is valid until, and warns two weeks before it expires. **Sign in again** renews it. **Sign out and use the server key** switches back; where your Alpha has no Claude key of its own, the button reads **Sign out**.
 
 <Note>
 If the menu row reads **Sign in with ChatGPT** with no **Claude** in the list, or the dialog says "Claude subscription sign-in isn't enabled on this server", Claude sign-in isn't turned on for your Alpha.
@@ -147,9 +139,9 @@ If the menu row reads **Sign in with ChatGPT** with no **Claude** in the list, o
 
 <AccordionGroup>
   <Accordion title="Why is a model's spend $0?">
-    **Causes:** no price source knows the model, so Alpha counts it as \$0 rather than guess.
+    **Causes:** Alpha has no price for the model, so it counts it as \$0 rather than guess.
 
-    **Fix:** ask whoever runs your Alpha to add the model to its price list. Past turns are priced as soon as it's there.
+    **Fix:** ask your admin to add a price for the model. Past turns are priced as soon as it has one.
   </Accordion>
   <Accordion title="Do deleted sessions still count?">
     Yes. [Deleting a session](/sessions/fork-and-delete) keeps its usage. It shows in the **Sessions** table as "Deleted session", in italics, and can't be opened.

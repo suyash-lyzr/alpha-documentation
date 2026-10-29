@@ -6,7 +6,7 @@ description: "Give the apps you build user accounts, with Google or email and pa
 
 import { PromptCard } from '/snippets/prompt-card.jsx';
 
-App sign-in gives the app you're building real user accounts, with Google or email and password, sign-up and password reset. Alpha runs the sign-in service, so you don't register an OAuth app, create a Google Cloud project or paste any keys. The **+** menu calls it **Sign-in** and the tab is called **Auth**. To sign in to Alpha itself, see [Your account and settings](/account/your-account).
+App sign-in gives the app you're building real user accounts, with Google or email and password, sign-up and password reset. Alpha runs the sign-in service, so you don't register an app with Google or paste any keys. The **+** menu calls it **Sign-in** and the tab is called **Auth**. To sign in to Alpha itself, see [Your account and settings](/account/your-account).
 
 {/* screenshot to capture: /images/workspace/auth-setup-hero.png — Before anyone has signed in, the Auth tab offers one thing to do: have the agent add the login. */}
 
@@ -24,7 +24,7 @@ Add user sign-in to my app.
 
 Alpha will:
 
-1. Register your app for sign-in and give the session's machine its connection details. The **Auth** tab slides into the workspace and opens.
+1. Register your app for sign-in and put its sign-in settings in the session's environment. The **Auth** tab slides into the workspace and opens.
 2. Build sign-in, sign-up and forgot-password pages in your app's own design, with email and password and a Google button.
 3. Key each user's data on the stable account id that sign-in returns, not on their email.
 4. Start the app so you can try the flow in the [Preview](/workspace/preview).
@@ -40,51 +40,31 @@ Ask for sign-in only in apps that need accounts. Once it's on, sign-in has no of
 
 ## How does sign-in work?
 
-Your app never stores passwords. It asks Alpha's sign-in service who someone is, and gets back standard tokens with their id, email and name. Because this is ordinary OpenID Connect, the agent uses well-known libraries such as `openid-client`, Auth.js or Passport.
-
-```mermaid
-sequenceDiagram
-  participant U as Person using your app
-  participant A as Your app
-  participant S as Alpha sign-in
-  participant G as Google
-  alt Email and password
-    U->>A: Submits email and password
-    A->>S: Server checks them
-    S-->>A: Tokens with email and name
-  else Continue with Google
-    U->>A: Clicks the Google button
-    A->>S: Redirects with Google hint
-    S->>G: Hands off to Google
-    G-->>S: Person approves
-    S-->>A: Returns to your callback
-    A->>S: Swaps code for tokens
-  end
-  A-->>U: Signed in
-```
+Your app never stores passwords. Alpha keeps the accounts and tells your app who someone is: their account id, email and name. People sign in with email and password or with Google, and Alpha handles the Google side, so there's nothing to set up with Google. Sign-in follows the standard OpenID Connect protocol, so the agent builds it with well-known sign-in libraries.
 
 Where people sign in depends on what you're building:
 
 | Your app | Where people sign in |
 | --- | --- |
-| Has its own screens, such as a website | On your app's own pages, in its own design. The one sign-in service page they can still meet is the set-new-password page a reset email links to. |
-| Has no screens, such as an API or a bot's back end | On the sign-in service's hosted pages, with Google or email and password, plus sign-up and password reset. |
+| Has its own screens, such as a website | On your app's own pages, in its own design. The one Alpha sign-in page they can still meet is the set-new-password page a reset email links to. |
+| Has no screens, such as an API or a bot's back end | On Alpha's hosted sign-in pages, with Google or email and password, plus sign-up and password reset. |
 
-The agent reads the connection details from the session's machine. You rarely need them, but they're in the **Auth** tab under **Connection details**.
+Your app's own sign-up and forgot-password forms also go through Alpha, which creates the accounts and sends the reset emails.
+
+Alpha puts your app's sign-in settings in the session's environment, and the agent wires them up. You rarely need them, but they're in the **Auth** tab under **Connection details**.
 
 {/* screenshot to capture: /images/workspace/auth-connection-details.png — The secret stays masked until you click Reveal. The agent already has all three values. */}
 
-| In the tab | What your app reads | What it is |
-| --- | --- | --- |
-| **Issuer** | `FORGE_OIDC_ISSUER` | The sign-in service's address. Libraries discover everything else from it. |
-| **Client ID** | `FORGE_OIDC_CLIENT_ID` | Your app's id with the sign-in service. One per session. |
-| **Client secret** | `FORGE_OIDC_CLIENT_SECRET` | Proves the request comes from your app's server. A front end that can't keep a secret uses PKCE without it. |
-| Not shown | `FORGE_AUTH_URL`, `FORGE_SANDBOX_TOKEN` | What your app's own sign-up and forgot-password forms call to create accounts and send reset emails. |
+| In the tab | What it is |
+| --- | --- |
+| **Issuer** | The sign-in service's address. |
+| **Client ID** | Your app's id with the sign-in service. One per session. |
+| **Client secret** | Proves a request comes from your app's server. |
 
-Every command on the session's machine sees these values, your running app included. Sign-in returns are accepted on the app's preview addresses, on `localhost` and, once published, on its own https addresses. The agent builds the return address from each request rather than hard-coding it, because the same app is reached at all of them.
+Your running app reads these settings like any other command on the session's machine. Sign-in returns are accepted on the app's preview addresses, on `localhost` and, once published, on its own https addresses. The agent builds the return address from each request rather than hard-coding it, because the same app is reached at all of them.
 
 <Warning>
-The client secret works like a password for your app. Don't paste it into a message, a repository or a front end. Your app's server reads it from the machine, so nobody has to copy it.
+The client secret works like a password for your app. Don't paste it into a message, a repository or a front end. Your app's server already has it, so nobody has to copy it.
 </Warning>
 
 ## Test sign-in in the Preview
@@ -99,14 +79,14 @@ Each person appears in the **Auth** tab after their first sign-in. The list refr
 
 ## Manage your app's users
 
-The **Users** list shows everyone who has signed in to this app, most recent sign-in first. The **Auth** tab reads it from Alpha's server, so opening it never wakes a sleeping machine.
+The **Users** list shows everyone who has signed in to this app, most recent sign-in first. Opening the **Auth** tab never wakes a sleeping machine.
 
 {/* screenshot to capture: /images/workspace/auth-users.png — A Google user and an email user. The amber chip marks an address nobody has confirmed. */}
 
 | In a row | What it means |
 | --- | --- |
 | **google**, **password** or **google · password** chip | How the person signs in. The last means they have used both. |
-| **unverified** chip | "Signed up with email + password — the address is unverified". Whether new accounts must confirm their email first is set by whoever runs your Alpha. |
+| **unverified** chip | "Signed up with email + password — the address is unverified". Whether new accounts must confirm their email first is up to your admin. |
 | "first … · last …" | Their first and most recent sign-in to this app. |
 
 To find someone, type in **Filter by name or email**. The filter searches the rows the list holds. To take someone out of your app:
@@ -122,8 +102,6 @@ To find someone, type in **Filter by name or email**. The filter searches the ro
 
 Removing isn't a ban. The person's account survives, and if they sign in again they reappear. To keep someone out for good, ask the agent to add a rule to your app, such as an allow-list of emails.
 
-{/* TODO confirm: whether an app's own session cookie keeps a removed user signed in until it expires, or the app notices at its next token refresh. */}
-
 ## Are app users Alpha accounts?
 
 No. The people who use your apps are a separate pool from the people who build with Alpha.
@@ -138,10 +116,10 @@ One app account works in every app built on the same Alpha, so someone who signe
 
 ## Take sign-in to production
 
-When you [publish](/publish/publish-your-app) an app with sign-in on, the published app gets the same sign-in: the same three values, the same user accounts and the same **Auth** tab. Its own https addresses are accepted for sign-in returns. In the **Publish** tab's **Edit settings**, the **Production services** group has a **Sign-in** switch for this, described as "The same accounts and Auth tab — FORGE_OIDC_* set, callbacks on this address accepted." See [Production database and sign-in](/publish/production-data).
+When you [publish](/publish/publish-your-app) an app with sign-in on, the published app gets the same sign-in: the same settings, the same user accounts and the same **Auth** tab. Its own https addresses are accepted for sign-in returns. In the **Publish** tab's **Edit settings**, the **Production services** group has a **Sign-in** switch for this. See [Production database and sign-in](/publish/production-data).
 
 <Note>
-If the **Auth** tab says "Sign-in isn't set up on this forge", or the publish **Sign-in** switch says "not offered on this Alpha — Alpha's sign-in issuer is not public", that part isn't turned on for your Alpha. Ask whoever runs it.
+If the **Auth** tab says sign-in isn't set up, or the publish **Sign-in** switch says it's not offered on this Alpha, that part isn't turned on for your Alpha. Ask your admin.
 </Note>
 
 ## Limits and fixes
@@ -149,7 +127,7 @@ If the **Auth** tab says "Sign-in isn't set up on this forge", or the publish **
 | What | Detail |
 | --- | --- |
 | Users listed | The 100 most recent. A line below the list, "Showing the 100 most recent — … total.", gives the full count. |
-| History | The list comes from the sign-in service's record of sign-ins, which it keeps for a period set by whoever runs your Alpha (90 days in Alpha's standard setup). Someone whose last sign-in is older drops off the list. |
+| History | The list comes from Alpha's record of sign-ins, which is kept for a limited time (90 days by default). Someone whose last sign-in is older drops off the list. |
 | Passwords | 8 to 256 characters, for accounts your app's own sign-up form creates. |
 | Sign-ups and reset emails | 20 calls a minute per session, shared by the preview and the published app. Past that, calls are refused with "too many sign-up or reset calls from this app — retry shortly" until the allowance refills, one call every few seconds. |
 | Turning it off | Not possible. [Deleting the session](/sessions/fork-and-delete#delete-a-session) removes its sign-in registration, together with its published apps. |

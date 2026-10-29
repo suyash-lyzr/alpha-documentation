@@ -115,8 +115,6 @@ The card shows the reason under the button, in red.
 | "the dump failed on the production database: … — a statement in the dump needs a privilege the app role … does not have — …" | Usually a PostgreSQL extension, which the app's role can't create. | Ask whoever runs your Alpha to create it in production, or drop it from the session's database. |
 | "the dump failed on the production database: … — applying the dump did not finish within 10 minutes — …" | The copy was too large to apply in time. | Push **Schema only**. Load the rows from the app. |
 
-{/* TODO confirm: the 64 MB dump cap (deploy_db.go ddbMaxDumpBytes) and the 10-minute apply timeout (ddbApplyTimeoutMs) are not in snippets/limits.mdx or on /reference/limits; consider adding them there. */}
-
 More fixes for a published app are in [Troubleshooting](/reference/troubleshooting).
 
 ## Browse production data
@@ -162,15 +160,15 @@ If the **Database** switch under **Production services** reads "not offered on t
 Every version sets these on the published app. Read them from the environment, and never hard-code a connection string:
 
 ```env
-DATABASE_URL=postgresql://harbor_3f2a9c1e:…@localhost/harbor_3f2a9c1e?host=/cloudsql/…
-PGHOST=/cloudsql/…
+DATABASE_URL=postgresql://harbor_3f2a9c1e:…@localhost/harbor_3f2a9c1e?host=…
+PGHOST=…
 PGPORT=5432
 PGUSER=harbor_3f2a9c1e
 PGPASSWORD=…
 PGDATABASE=harbor_3f2a9c1e
 ```
 
-The connection goes through a Unix socket under `/cloudsql/`, not the network. `pg` (and Drizzle or Knex over it), Prisma, psycopg and libpq take `DATABASE_URL` as it is. postgres.js reads only the URL's host name, so pass it the socket. This works in the session and in production:
+The connection goes through a local socket, not the network, so `PGHOST` is a folder path rather than a host name. `pg` (and Drizzle or Knex over it), Prisma, psycopg and libpq take `DATABASE_URL` as it is. postgres.js reads only the URL's host name, so pass it `PGHOST` as the host. This works in the session and in production:
 
 ```js
 import postgres from "postgres";
@@ -185,7 +183,7 @@ To see these values for a production database, click **Connect** in the **Databa
 
 {/* screenshot to capture: /images/publish/database-production-connect.png — Connect shows where the database lives. The password stays sealed. */}
 
-To bring your own database or sign-in service, add `DATABASE_URL` or `FORGE_OIDC_ISSUER` to the app's environment in **Edit settings**, from a [secret](/secrets) or a typed value. Your value wins and Alpha provisions nothing. An existing production database is kept but not attached to the next version.
+To bring your own database, add `DATABASE_URL` to the app's environment in **Edit settings**, from a [secret](/secrets) or a typed value. Your value wins and Alpha provisions nothing. An existing production database is kept but not attached to the next version. To use a sign-in service of your own instead of Alpha's, ask the agent to point the app at it.
 
 ## Next steps
 

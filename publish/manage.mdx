@@ -6,7 +6,7 @@ description: "Republish changes, edit how the app runs, move between versions, a
 
 import { versionsKept, publishPerSession, publishPerAccount } from '/snippets/limits.mdx';
 
-A published app is a service with its own page in the session's **Publish** tab, where you republish it, change how it runs, move traffic between its versions and delete it. To put an app online the first time, see [Publish your app](/publish/publish-your-app). For its logs and metrics, see [Monitor and troubleshoot production](/publish/monitor).
+A published app is a service with its own page in the session's **Publish** tab, where you republish it, change how it runs, switch between its versions and delete it. To put an app online the first time, see [Publish your app](/publish/publish-your-app). For its logs and metrics, see [Monitor and troubleshoot production](/publish/monitor).
 
 {/* screenshot to capture: /images/publish/publish-service-live.png — A live service's page. The address card at the top is the one thing most people need. */}
 
@@ -16,7 +16,7 @@ Pick the action by what you want to change:
 | --- | --- | --- |
 | Ship the latest code | **Republish** | Yes, a new version |
 | Change the port, run command, environment variables, database or sign-in | **Edit settings** | Yes, a new version |
-| Undo a bad release, or serve a newer version again | **Roll back** / **Roll forward** | No. It only switches traffic. |
+| Undo a bad release, or serve a newer version again | **Roll back** / **Roll forward** | No. It only switches which version is live. |
 | Take the app offline for good | The trash icon → **Delete service** | No, and it can't be undone. |
 
 <Note>
@@ -34,7 +34,7 @@ The page runs from the address people open down to the rollout's raw log. The fo
 | **Version N** | The open version: when it ran, who started it ("by the agent" or "from the dialog") and how long it took. **Published** when it serves, else the steps **Export → Plan → Build → Publish → Live**. |
 | **Production database** | Only when the service has one. See [Production database and sign-in](/publish/production-data). |
 | **Versions** | Every rollout, newest first. Shown once there's more than one. |
-| **Details** | **Source**, **Stack**, **Port**, **Starts with**, **Toolchain**, **Image**, **Revision**, **Database**, **Sign-in** and **Environment**, which lists variable names, never their values. |
+| **Details** | How the version was built and runs: its source folder, stack, port, start command, database and sign-in, and **Environment**, which lists variable names, never their values. |
 | **Log** | The open version's rollout log, live while it runs. Secret values appear as `[redacted]`. |
 
 ### Switch between a session's apps
@@ -85,9 +85,9 @@ The button is held while a turn runs ("The agent is busy — ask once it is done
 | Setting | What it does | Rules |
 | --- | --- | --- |
 | **Address** | The public address. | Read-only: the name is the address. For a new one, publish under a new name and delete this service. |
-| **Port** | Where the app listens. Cloud Run sends traffic there and sets `PORT`. | 1 to 65535. Chips offer ports seen listening, **page** on one serving a web page. |
-| **Run command** | Starts the server in production, in `/app`. Empty uses the detected command. | One line of at most 500 characters, checked before you republish. Hidden for a `Dockerfile` project. |
-| **Environment** | "Only what you pick here reaches production, at build time and at runtime." | Letters, digits and `_`, not starting with a digit, at most 64 characters, each name once. Names Cloud Run sets, such as `PORT`, and names reserved for the machine's shell, such as `PATH`, are refused. |
+| **Port** | Where the app listens. Alpha sends requests there and sets `PORT`. | 1 to 65535. Chips offer ports seen listening, **page** on one serving a web page. |
+| **Run command** | Starts the server in production. Empty uses the detected command. | One line of at most 500 characters, checked before you republish. Hidden when the project has its own `Dockerfile`. |
+| **Environment** | "Only what you pick here reaches production, at build time and at runtime." | Letters, digits and `_`, not starting with a digit, at most 64 characters, each name once. Names Alpha sets for the app, such as `PORT`, and names reserved for the machine's shell, such as `PATH`, are refused. |
 | **Database** | Gives production a PostgreSQL of its own. | Starts empty. Your own `DATABASE_URL` wins. See [Production database and sign-in](/publish/production-data). |
 | **Sign-in** | Gives production the session's [app sign-in](/workspace/app-sign-in): the same accounts and **Auth** tab. | Sign-in callbacks on the service's address are accepted. |
 
@@ -95,9 +95,9 @@ Nothing is inherited from the session's machine, so build-time variables such as
 
 ## Roll back or forward
 
-Rolling back points all traffic at a version that already exists. Cloud Run keeps every version it built, so nothing is rebuilt and the session's machine isn't needed.
+Rolling back puts a version that already exists back in front of visitors. Alpha keeps the versions it built, so nothing is rebuilt and the session's machine isn't needed.
 
-| From | Click | Moves traffic to |
+| From | Click | Makes live |
 | --- | --- | --- |
 | The service's header | **Roll back #n** | The version that served before the latest change. Shown only when there is one, and not during a rollout. |
 | A version that isn't serving, under **Versions** | **Roll back to #N** or **Roll forward to #N** | That version. Back when it's older than the live one, forward when it's newer. |
@@ -107,21 +107,21 @@ Open **Versions** to see every rollout Alpha keeps. Click one to open its page, 
 
 | State | Meaning | What you can do |
 | --- | --- | --- |
-| **live** | Serving all traffic. | Nothing to do. |
+| **live** | Serving every visitor. | Nothing to do. |
 | **rolling out** | Being built or switched to now. | Watch it, or open **Log**. |
-| **ready** | "Built and kept by Cloud Run, not serving". | Roll back or forward to it. |
-| **failed** | Never served. Shows the error, and on the newest version a hint and a **Cloud Build log** link. | Fix the cause and republish. See [When a publish fails](/publish/monitor#when-a-publish-fails). |
-| **gone** (struck through) | Removed from Cloud Run outside Alpha. | Nothing. It can't be served again. |
+| **ready** | Built and kept, but not serving. | Roll back or forward to it. |
+| **failed** | Never served. Shows the error, and on the newest version a hint. | Fix the cause and republish. See [When a publish fails](/publish/monitor#when-a-publish-fails). |
+| **gone** (struck through) | No longer exists, because it was removed outside Alpha. | Nothing. It can't be served again. |
 
 {/* screenshot to capture: /images/publish/publish-versions-fold.png — Versions, newest first. A ready version is one click from serving again. */}
 
-Each switch also posts a card in the transcript, such as "Rolled harbor back to version #3". Your next republish moves traffic to the new version again, so a rollback never pins the service. Alpha keeps the last [{versionsKept}](/reference/limits), never removing the serving one.
+Each switch also posts a card in the transcript, such as "Rolled harbor back to version #3". Your next republish makes the new version live again, so a rollback never holds the app on an old version. Alpha keeps the last [{versionsKept}](/reference/limits), never removing the serving one.
 
-An agent's API gets one more safeguard: a new version must pass a health check to go live, and if it fails on a republish, Alpha moves traffic back by itself.
+An agent's API gets one more safeguard: a new version must pass a health check to go live, and if it fails on a republish, Alpha puts the previous version back by itself.
 
 ## Delete a service
 
-Deleting removes the service from Cloud Run, along with its production database and, if your Alpha gives services an address on its own domain, that address too. The name becomes free for anyone.
+Deleting takes the app offline for good, along with its production database and, if your Alpha gives services an address on its own domain, that address too. The name becomes free for anyone.
 
 Click the trash icon in the service's header. It turns into **Delete service** and **Keep**, and there's no other confirmation. The icon is off while the service is busy.
 
