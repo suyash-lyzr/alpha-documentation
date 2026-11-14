@@ -21,7 +21,7 @@ Every agent is one folder, `/workspace/<name>`, called the agent tree. At its ro
 | Vercel AI SDK | Your project is TypeScript | Can't be evaluated. |
 | GitAgent | You want the agent as a git repository | Nothing runs it, so its proof checks the repository only. Can't be evaluated. |
 
-Ask for more than one ("also write it for LangGraph") and each framework gets its own folder in the same tree. [Try it](/agents/try-it) lets you pick which one a message runs on.
+Ask for more than one ("also write it for LangGraph") and each framework gets its own folder in the same tree. The [Agent tab](/agents/agent-tab#pick-the-framework) then gets a framework picker on its canvas bar, which switches both the drawing and the framework [Try it](/agents/try-it) runs.
 
 ## Ask for an agent
 
@@ -48,14 +48,14 @@ It must never promise a refund; staff decide those.
 
 Alpha will:
 
-1. Ask about the agent's shape and inputs, unless your message already says.
+1. Ask about the agent's shape and inputs, one question at a time above the composer, unless your message already says.
 2. Say the plan back in one sentence: the framework, the steps and their order.
 3. Draw the agent on the **Agent** tab while it is still being proved.
 4. Prove it, including one live run on your key, and publish it.
 
-### Answer the question card
+### Answer the agent's questions
 
-When the shape is open, the agent shows one [question card](/chat/plan-mode) before writing anything: two or three questions, recommended option first.
+When the shape is open, the agent [asks two or three questions](/chat/plan-mode#answer-the-agent’s-questions) before writing anything. They open in a dock right above the composer, one at a time, such as "1 of 3", with the recommended option first.
 
 | Question | What it decides |
 | --- | --- |
@@ -63,9 +63,9 @@ When the shape is open, the agent shows one [question card](/chat/plan-mode) bef
 | The inputs | What the agent reads: a file in the workspace, or a value you type each run. |
 | The framework, or one extra | Google ADK first. If your message raises an approval step, a schedule or who reads the result, that question takes this slot. |
 
-Pick an option or type into **Something else…**, then click **Send answers**. **Skip — let the agent decide** takes every recommendation, and "just build it" in your message skips the card. The plan sentence names every default it assumed.
+Pick an option, or type your own words in the **Something else** row. A pick on a question that takes one answer moves straight to the next. **Skip** leaves one question to the agent, and **→** moves on; on the last question it reads "Send answers" and sends them all. **×** ("Skip all — let the agent decide") takes every recommendation. "Just build it" in your first message skips the questions, and so does a message you steer in while they wait. The plan sentence names every default it assumed.
 
-{/* screenshot to capture: /images/agents/agent-question-card.png — The shape question comes first, because it decides everything after it. */}
+{/* screenshot to capture: /images/agents/agent-question-card.png — The question dock above the composer on 1 of 3: the shape question comes first, because it decides everything after it. */}
 
 Once the agent is published, it may ask once whether you want a small page around it. Declining ends the matter.
 
@@ -75,7 +75,7 @@ Every agent goes through five stages before it's published. A failing stage name
 
 ```mermaid
 flowchart LR
-  A[Your prompt] --> B[Question card]
+  A[Your prompt] --> B[Questions]
   B --> C[Agent tree]
   C --> D[Framework code]
   D --> E[Structural check]

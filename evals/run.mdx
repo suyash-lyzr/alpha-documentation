@@ -6,7 +6,7 @@ description: "Choose how answers are graded, check the estimated cost, set a spe
 
 import { PromptCard } from '/snippets/prompt-card.jsx';
 
-Running an evaluation sends every test case through your agent on its real model, grades each answer, and spends money on your model keys. This page covers **Run**, the second step of the **Evals** tab, and the live run that follows it. To write or change test cases first, see [Set up evals](/evals/set-up). To read what a finished run found, see [Read results and fix failures](/evals/results).
+Running an evaluation sends every test case through your agent on its real model, grades each answer, and spends money on your model keys. This page covers **Run**, the second step of each [eval's tab](/evals/set-up#one-tab-per-eval), and the live run that follows it. To write or change test cases first, see [Set up evals](/evals/set-up). To read what a finished run found, see [Read results and fix failures](/evals/results).
 
 {/* screenshot to capture: /images/evals/evals-run-setup.png — The Run step: how each answer is graded on the left, and what the run costs on the right. */}
 
@@ -33,7 +33,7 @@ A model can answer the same question differently each time. One run per test cas
 
 {/* screenshot to capture: /images/evals/evals-run-advanced.png — More runs catch answers that are right only some of the time, and cost more. */}
 
-The evals Alpha writes run each test case once. Raise the count when a case passes one run and fails the next. **Edit suite.yaml** opens the setup file itself.
+The evals Alpha writes run each test case once. Raise the count when a case passes one run and fails the next. Under **Setup file**, **Edit** and the eval's file name, such as **Edit suite.yaml** for the agent's first eval or **Edit refunds.yaml** for an eval named `refunds`, opens that eval's setup file itself.
 
 ## Check the cost and set a spending limit
 
@@ -48,17 +48,19 @@ The **Estimated cost** card prices the run as soon as the saved test cases are r
 
 Type a dollar amount into **Spending limit**, or leave it empty for none. No new test case starts once the next one would pass it. The limit is soft: cases already running finish, so the total can end slightly over. If the estimate is already above it, the card warns "Over your spending limit: some test cases will not run." Alpha suggests one when the estimate is over a dollar.
 
+If working out the cost fails, the card shows why and **Work out the cost again**. Under the card, "On your model keys. Working out the cost spends nothing."
+
 ## Start the run
 
 <Steps>
   <Step title="Read the cost card">
-    Wait for a total. The footer confirms the plan, for example "12 test cases, each run once". If **Run evaluation** stays off, see [Why a run can't start](#why-a-run-cant-start).
+    Wait for a total. The footer confirms the plan, for example "12 test cases, each run once". If **Run evaluation** stays off, see [What stops a run from starting?](#what-stops-a-run-from-starting).
   </Step>
   <Step title="Set a spending limit">
     Type an amount into **Spending limit**, or leave it empty.
   </Step>
   <Step title="Click Run evaluation">
-    The button reads "Starting…". Alpha first sends one tiny paid request to each model the run calls, a fraction of a cent, to confirm the model exists and the account has credit. Then the tab moves to **Results** and shows the run live.
+    The button reads "Starting…". Alpha first sends one tiny paid request to each model the run calls, a fraction of a cent, to confirm the model exists and the account has credit. Then the tab moves to **Results** and shows the run live, and the eval's tab shows a spinner until the run ends.
   </Step>
 </Steps>
 
@@ -75,31 +77,53 @@ Run the harbor-triage eval.
 Alpha will:
 
 1. Say in one line what runs and about what it costs.
-2. Start the run, which appears in the **Evals** tab like any other.
-3. Post an **Eval run started by Alpha** card with **Watch it in Evals**.
+2. Start the run, which opens the eval's tab and shows there like any other.
+3. Post an **Eval run started by Alpha** card that names the eval and the run, such as `harbor-triage / suite · r-20261114-091500`, with **Watch it in Evals**.
 4. Post a result card in the session when the run ends.
 
 "Run again" and "resume it" work too. A resumed run posts **Eval run resumed by Alpha**.
 
 ## Watch, pause or stop a run
 
-**Results** shows **Running** and a line on what's happening now: "Starting the run…", then "Running test case 3 of 8", or "Running 4 test cases at once · 2 of 8 done". Test cases usually run four at a time; the agent sets one at a time when your agent's tools touch something runs would clash over, such as a real inbox. Below are a progress bar, one tile per test case, and **Passed so far**, **Spent so far**, **Time so far** and **Time left**.
+**Results** shows **Running** and, under it, how the run goes, such as "Up to 4 test cases run at once, each running your whole agent on its real model. It keeps running if you close this tab." Test cases usually run four at a time. The agent sets one at a time when your agent's tools touch something runs would clash over, such as a real inbox, a shared database or a rate-limited service; the line then reads "Test cases run one at a time", with about how long each takes.
 
-{/* screenshot to capture: /images/evals/evals-running.png — A live run: what's running now, the progress bar, and the numbers so far. */}
+{/* screenshot to capture: /images/evals/evals-running.png — A live run: the headline, one row per test case in flight, the progress bar, the tiles and the numbers so far. */}
+
+A card below says what's happening now, in one headline:
+
+| Headline | When |
+| --- | --- |
+| "Starting the run…" | Before the first test case starts. |
+| "Running test case 3 of 8" | One test case is in flight. |
+| "Running 4 test cases at once · 2 of 8 done" | Several test cases are running and none is being graded. |
+| "Running 3, grading 1 · 4 of 10 done" | Some test cases are running while finished answers are graded. |
+| "Grading 2 answers · 6 of 10 done" | Every test case in flight has its answer and is being graded. |
+| "Grading the last answers…" | Nothing is left to start, and the last answers are being graded. |
+| "Paused after 4 test cases" | You paused the run. |
+
+Under the headline, one row per test case in flight names the case and what it's doing: the step your agent is on and how long it's been on it, such as "Harbor refund 04 · Classify · 12s on it", or "grading · judge call 2" while its answer is graded. When each test case runs several times, the row says which run it is, such as "· run 2". The card also shows how long the run has taken so far, and a progress bar along its foot.
+
+Below the card are one tile per test case, which turns green or red as its answer is graded, and **Passed so far**, **Spent so far**, **Time so far** and **Time left**. **Passed so far** counts only graded test cases, such as "5 of 6 graded".
 
 | Control | What it does |
 | --- | --- |
-| **Pause** | Keeps finished test cases; the rest wait. The page reads "Paused after … test cases". |
+| **Pause** | Keeps finished test cases; the rest wait. The headline reads "Paused after … test cases". |
 | **Resume** | Runs the rest, with real model calls. |
 | **Stop** | Asks **Stop now** or **Keep going**. **Stop now** cancels the run, and unfinished test cases count as not run. |
 
 These buttons are the session owner's <Badge>Owner only</Badge>. A [viewer of a shared session](/sharing) can watch the run but not control it. If the page says "Nothing new for a while; the runner may have stopped.", click **Resume**.
 
+### Run evals side by side
+
+Several evals can run at once, and so can several runs of one eval. Start a run on one eval's tab, then switch to another and start that one too. Each running eval's tab shows a spinner, and a line above the eval's page adds up what's going, such as "2 running, \$0.04 so far". Hover the line to see which eval and run each one is.
+
+If a run of this eval is still going when you open its **Run** step, the footer reads "A run of this eval is going now; a new one runs beside it." Click **Show it** to watch the run that's going, or **Run evaluation** to start another next to it. Each run is billed on its own.
+
 <Note>
 A run keeps going when you close the tab. The session's machine stays awake while it runs, so it doesn't [sleep](/sessions/machines) under the run.
 </Note>
 
-## Why a run can't start
+## What stops a run from starting?
 
 **Run evaluation** stays off until the eval is ready, and the cost card says what's missing.
 
@@ -114,10 +138,22 @@ A run keeps going when you close the tab. The session's machine stays awake whil
 | **Before you run**: "1 problem stops the run." | Fix what it names, then click **Check again**. |
 | "The soft budget is a number of dollars above zero, or empty for none." | Correct the **Spending limit**, or clear it. |
 | "The file changed in the sandbox while you edited" | The agent edited the eval's setup file too. Click **Take the file** or **Keep my edits**. |
+| "Two evals of … save their runs under one name" | Two of the agent's evals give the same name, so neither can run. Click **Ask Alpha to rename one**. |
 
 {/* screenshot to capture: /images/evals/evals-run-unpriced.png — An unpriced model blocks the run until Alpha adds its price or you pick another reviewer. */}
 
 Warnings that don't block the run show as one line in the cost card, with **Ask Alpha to fix it**.
+
+### When a model key is missing or refused
+
+Before a run starts, Alpha sends one tiny request to each model it will call. If a key is missing, or the provider turns it down, the run doesn't start, no test case runs, and the message names the key in place of the provider's own error. Each comes with an **Open Secrets** button.
+
+| What you see | Fix |
+| --- | --- |
+| "OpenAI turned down the key in OPENAI_API_KEY, so no eval cases ran. Put a working key in Secrets, then try again." | The key is wrong, expired or revoked. Click **Open Secrets**, replace the value, then click **Run evaluation** again. Other providers are named the same way, such as Anthropic for `ANTHROPIC_API_KEY`. |
+| "This needs OPENAI_API_KEY, which this session doesn't have yet. Add it in Secrets, then try again. No eval cases ran." | Click **Open Secrets** and [add the key](/secrets#add-a-secret) under that exact name, then try again. |
+
+Any other problem in the same check is listed after "Also:". Anything in an error that looks like a key is hidden.
 
 ## How a run ends
 
