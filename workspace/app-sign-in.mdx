@@ -8,7 +8,9 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 
 App sign-in gives the app you're building real user accounts, with Google or email and password, sign-up and password reset. Alpha runs the sign-in service, so you don't register an app with Google or paste any keys. The **+** menu calls it **Sign-in** and the tab is called **Auth**. To sign in to Alpha itself, see [Your account and settings](/account/your-account).
 
-{/* screenshot to capture: /images/workspace/auth-setup-hero.png — Before anyone has signed in, the Auth tab offers one thing to do: have the agent add the login. */}
+{/* screenshot to capture: /images/workspace/auth-setup-hero.png — Before anyone has signed in, the Auth tab, headed Sign-in, offers one thing to do in its header: Set up with agent. The Connection column sits at the right. */}
+
+The **Auth** tab is headed **Sign-in**. Before anyone has signed in, its header offers **Set up with agent**. After that, the tab lists everyone who has signed in, under **Users**, with the **Connection** column beside them, or below them on a narrow workspace. While the tab is in front, the right of the tab strip shows the number of users, such as "3 users", and **Refresh**.
 
 ## Turn on sign-in
 
@@ -34,7 +36,7 @@ You can also start from the workspace:
 | Where | What happens |
 | --- | --- |
 | **+** → **Sign-in** | Alpha registers the app. A starting **Auth** tab, with the tooltip "Registering the app for sign-in…", shows until it's done, then the tab opens. Your app has no login screens yet. |
-| **Set up with agent** in the **Auth** tab | Sends "Add user sign-in to my app." to the agent. The button shows until the first person signs in. While a turn is running, it's greyed out with "The agent is busy — ask once it is done". |
+| **Set up with agent** in the **Auth** tab's header | Sends "Add user sign-in to my app." to the agent. The button shows until the first person signs in. While a turn is running, it's greyed out with "The agent is busy — ask once it is done". |
 
 Ask for sign-in only in apps that need accounts. Once it's on, sign-in has no off switch. Closing the tab ("Close the Auth tab (sign-in stays on)") only hides it, and your users can still sign in.
 
@@ -51,9 +53,9 @@ Where people sign in depends on what you're building:
 
 Your app's own sign-up and forgot-password forms also go through Alpha, which creates the accounts and sends the reset emails.
 
-Alpha puts your app's sign-in settings in the session's environment, and the agent wires them up. You rarely need them, but they're in the **Auth** tab under **Connection details**.
+Alpha puts your app's sign-in settings in the session's environment, and the agent wires them up. You rarely need them, but they're in the **Auth** tab's **Connection** column. Each has a **Copy** button, and the secret stays masked until you click **Reveal**.
 
-{/* screenshot to capture: /images/workspace/auth-connection-details.png — The secret stays masked until you click Reveal. The agent already has all three values. */}
+{/* screenshot to capture: /images/workspace/auth-connection-details.png — The Connection column beside the users: Issuer, Client ID and the masked Client secret, with Reveal and Copy. The agent already has all three values. */}
 
 | In the tab | What it is |
 | --- | --- |
@@ -75,7 +77,7 @@ Sign up in the [Preview](/workspace/preview) the way your users would. Email and
 
 If sign-in loops back to the sign-in page, or you're signed out on every reload, open the app with the Preview's **Open in new tab** button ("Open in new tab (login cookies work there)"). Cookies there behave as in any browser tab.
 
-Each person appears in the **Auth** tab after their first sign-in. The list refreshes by itself while the tab is on screen. Click **Refresh** to read it now.
+Each person appears in the **Auth** tab after their first sign-in. The list refreshes by itself while the tab is on screen. Click **Refresh**, at the right of the tab strip, to read it now.
 
 ## Manage your app's users
 

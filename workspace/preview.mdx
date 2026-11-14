@@ -9,17 +9,18 @@ import { idlePark } from '/snippets/limits.mdx';
 The **Preview** is your app, live, running on the session's machine and framed in the workspace next to the chat. It opens by itself the moment the agent starts a server that serves a page, and it reloads at the end of every turn so you always see the finished work. To show the agent a part of the page or draw on it, see [Point at and draw on your app](/workspace/point-and-draw). For the other tabs around it, see [The workspace](/workspace/overview).
 
 <Frame caption="The Preview's toolbar: the device switch on the left, the app's own navigation and port in the middle, and the tools on the right.">
-  <img src="/images/workspace/preview-toolbar.png" alt="The Preview tab of the workspace, in a tab strip that reads Plan, Preview, Shell, Database, Secrets, README.md and server.js, with the round + button, the GitHub button, Share, the Publish pill and the files button at its right. The toolbar below shows, from left to right: three device icons for Desktop, Tablet and Mobile, with Desktop highlighted; Back and Forward arrows; Reload preview; a port pill reading node · 3000 with a blue dot and a down chevron; and the Logs button. At the right end sit a pen for Draw, a dashed pointer for Select and the Open in new tab icon. The Harbor Sailing School app fills the frame: its header with the logo, Our classes, Before you sail and a My bookings button; the line A little adventure is on the horizon over the headline Good days start on the water., then Find your first tack or your next adventure. There's a place on board for you.; a sailboat photo with a Meet you at the harbor. label and a round LESS LAND MORE SEA badge at its corner; This week's classes, with a count of 3 and a date pill reading Oct 26 – Nov 1, 2026 and This week, above the filters All classes, Beginner, Intermediate and All levels; and three class cards, Beginner Dinghy, Intermediate Keelboat and Sunset Sail, with their dates, times and instructors Maya Chen, Oliver Brooks and Sophie Laurent." />
+  <img src="/images/workspace/preview-toolbar.png" alt="A close crop of the Preview toolbar in three groups. On the left, the Desktop, Tablet and Mobile buttons. In the middle, Back, Forward and Reload, a status dot and the Node mark with node · 3000 and a chevron, and the Logs button. On the right, Draw, Select and Edit with their names, then the Open in new tab button." />
 </Frame>
 
 ## How does my app get here?
 
-When the agent starts your app, a **Preview** tab joins the workspace. Once the app's home page answers with a web page, the tab opens on it. You never switch the Preview on yourself, because it follows what is actually running.
+When the agent starts your app, a **Preview** tab joins the workspace. Once the app's home page answers with a web page, the tab opens on it. You never switch the Preview on yourself, because it follows what the agent has running.
 
-Three rules decide what you see:
+Four rules decide what you see:
 
 | Rule | Why it matters |
 | --- | --- |
+| The agent must start the server | The Preview lists and reaches only servers the agent started for the Preview. A server you start in the [Shell](/workspace/shell), or one started any other way, isn't listed, and its address answers "Port not previewable". To see an app, ask the agent to start it. |
 | The app must be reachable from the Preview | An app that only answers inside its own machine can't be shown. The agent sets this up for you. |
 | The home page must be a web page | An API, a file listing or a slide deck is listed in the port menu but not framed. |
 | The frame reloads when a turn ends | Less than a second after the agent finishes, the Preview reloads on the app's home page, so the latest version is on screen. |
@@ -28,23 +29,23 @@ If the app stops for more than a few seconds, the tab goes away until it runs ag
 
 ## Use the toolbar
 
-The toolbar works like a small browser for your app. **Back** and **Forward** move through the app's own history, single-page routes included, and never move Alpha's own address bar.
+The toolbar works like a small browser for your app. Its controls sit in three groups: the device switch on the left, the address bar in the middle, and the tools on the right, followed by **Open in new tab**. **Back** and **Forward** move through the app's own history, single-page routes included, and never move Alpha's own address bar.
 
-| Control | What it does |
-| --- | --- |
-| **Desktop**, **Tablet · 834px**, **Mobile · 390px** | Resizes the frame in place. Hidden when the workspace is narrow. |
-| **Back**, **Forward** | Greyed out when there's nowhere to go, or in a browser older than Chrome 102, Firefox 147 or Safari 26.2. |
-| **Reload preview** | Reloads the app's home page. |
-| Port pill, such as **node · 3000** | Shows the process and port on screen. Click it to [switch ports](#switch-ports). Reads "no page yet" or "no ports" when there's nothing to frame. |
-| **Logs** | Opens the [logs panel](#read-the-logs). A red dot and a tooltip such as "Logs · 2 errors" mean the app logged errors. |
-| **Draw**, **Select**, **Edit** | Mark up the page, point at an element, or change text, colours and spacing in place for the agent to apply. See [Point at and draw on your app](/workspace/point-and-draw). |
-| **Open in new tab** | Opens the app at its own address, where its sign-in cookies work normally. |
+| Group | Control | What it does |
+| --- | --- | --- |
+| Device switch | **Desktop**, **Tablet · 834px**, **Mobile · 390px** | Resizes the frame in place. Hidden when the workspace is narrow. |
+| Address bar | **Back**, **Forward** | Greyed out when there's nowhere to go, or in a browser older than Chrome 102, Firefox 147 or Safari 26.2. |
+| Address bar | **Reload preview** | Reloads the app's home page. |
+| Address bar | Port, such as **node · 3000** | Shows the process and port on screen, with a dot that pulses while it serves. Click it to [switch ports](#switch-ports). Reads "no page yet" or "no ports" when there's nothing to frame. |
+| Address bar | **Logs** | Opens the [logs panel](#read-the-logs). A red dot and a tooltip such as "Logs · 2 errors" mean the app logged errors. |
+| Tools | **Draw**, **Select**, **Edit** | Mark up the page, point at an element, or retype text on the page and send the changes to the agent. The one that is on is highlighted. See [Point at and draw on your app](/workspace/point-and-draw). |
+| — | **Open in new tab** | Opens the app at its own address, where its sign-in cookies work normally. |
 
-People you [share the session](/sharing) with see the same Preview, without **Draw**, **Select** or **Edit**.
+When the workspace is narrow, the device switch is hidden first, then the tools show their icons without their names, and a long port name is cut short. People you [share the session](/sharing) with see the same Preview, without **Draw**, **Select** or **Edit**.
 
 ## Switch ports
 
-When your app runs more than one server, such as a web front end and an API, the port pill lists them all. Ports that serve a page come first, with a check on the one on screen. The rest sit under "Also listening · no page to frame", each with its reason.
+When your app runs more than one server, such as a web front end and an API, click the port to list them all. The menu opens under the port. Ports that serve a page come first, under **Serving**, with a check on the one on screen. The rest sit under **Also listening · no page to frame**, each with its reason. Only servers the agent started appear here.
 
 <Frame caption="With one server running, the menu holds one port, checked as the one on screen.">
   <img src="/images/workspace/preview-port-menu.png" alt="The Preview's port menu open under the port pill, which reads node · 3000 with a blue dot and an up chevron, between the Reload button and the Logs button. The menu holds one row, node · 3000, with a check mark at its right. Behind the menu, the app's Our classes and Before you sail links show through." />
@@ -99,7 +100,7 @@ Drag the panel's top edge to resize it, up to 70% of the Preview's height. With 
 
 A machine sleeps once you've been away for {idlePark}, and opening the session wakes it. See [Sleep, wake and reset](/sessions/machines). Grey placeholder bars cover the frame until the app is back, usually within seconds.
 
-The Preview may not wait at all. It can show the last version of your app at once, with a note along the bottom, while the machine wakes. When the live app is ready, it fades in at the same address and scroll position, without a reload. **Edit** waits for the live page.
+The Preview may not wait at all. It can show the last version of your app at once, with a note along the bottom, while the machine wakes. When the live app is ready, it fades in at the same address and scroll position, without a reload. **Edit** waits for the live app, with the tooltip "Editing waits for the live app, a moment away".
 
 {/* screenshot to capture: /images/workspace/preview-cached-copy.png — The last version is on screen at once. The live app replaces it by itself. */}
 
@@ -122,10 +123,10 @@ The frame, or a preview address opened in its own tab, says why there's no app. 
 | "… listening, but nothing to frame at /." | Every port is an API, a file listing or a deck. | Pick a port from the port menu, or ask the agent to start the web front end. |
 | "Blocked request. This host is not allowed" | The dev server (Vite, for example) refused the preview address. | Ask the agent to allow the preview host in its config. |
 | "Sandbox asleep" | You opened a preview address while the owner is away from Alpha. | Open the session in Alpha. The page reloads itself once the machine is back. |
-| "Sandbox didn't wake" | The machine couldn't be brought back. Nothing was discarded. | Open the session. The transcript says what went wrong. See [Sleep, wake and reset](/sessions/machines#what-if-a-machine-wont-wake). |
+| "Sandbox didn't wake" | The machine couldn't be brought back. Nothing was discarded. | Open the session. The transcript says what went wrong. See [Sleep, wake and reset](/sessions/machines#what-if-a-machine-won’t-wake). |
 | "Nothing on this port" | The machine is up, but nothing answered on that port. | Ask the agent to start the app. |
 | "No live sandbox" | The session has no machine yet. | Open the session and ask the agent to run the app. |
-| "Port not previewable" | Alpha keeps that port for itself. | Ask the agent to use another port. |
+| "Port not previewable", with "Alpha has seen no server the agent started with forge serve listening on this port." | Nothing the agent started is listening on that port. A server you started in the Shell, or one started any other way, is never shown. | Ask the agent to start the app: "Run the app so I can see it in the Preview." |
 | "Unknown session" | No session matches the address. It may have been deleted. | Open the Preview from the session itself. |
 
 <Tip>

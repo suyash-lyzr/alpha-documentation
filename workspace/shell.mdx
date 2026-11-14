@@ -9,7 +9,7 @@ import { idlePark } from '/snippets/limits.mdx';
 The **Shell** is a terminal on your session's machine, open in the workspace beside the chat. You type as the same Linux account the agent works as, with `sudo`, in the same `/workspace` the agent edits. To look at files without typing commands, use [Files and uploads](/workspace/files). To browse or edit tables, use [the Database tab](/workspace/database-data).
 
 <Frame caption="The Shell opens in /workspace, the same folder the agent works in.">
-  <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Plan, Preview, then Shell with a terminal icon and its ×, then Database, Secrets, README.md and a tab cut off behind a scroll arrow. To its right sit the round + button, a trash can for Clear and a circular arrow for Restart shell, then the GitHub button, Share, Publish and the files button. The terminal fills the panel. At the prompt in /workspace, ls lists README.md, booking-store.js, booking-store.test.js, db, node_modules, package-lock.json, package.json, public, server.js and styleguide.md. Then node --version prints v22.23.4, and a fresh prompt waits below. The chat on the left shows the answered The agent has questions card and the Proposed plan card for Automatic class waitlist." />
+  <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Preview, Shell with its ×, and styleguide.md, then the + button, and at the right a bash status pill with a green dot, the Clear and Restart shell buttons, and the GitHub, Share and files buttons. The dark terminal shows the command ls and its output: README.md, app.js, data, node_modules, package-lock.json, package.json, public, server.js, styleguide.md and test, then a fresh prompt with a block cursor." />
 </Frame>
 
 The Shell and the agent reach the same machine. Pick the one that fits the job:
@@ -20,7 +20,7 @@ The Shell and the agent reach the same machine. Pick the one that fits the job:
 | Install a tool for yourself, or poke at a running process | The Shell |
 | Build, fix or change the app | Ask the agent. The agent plans, edits and tests, and you can review every step in the [transcript](/chat/transcript). |
 | Switch on the database or sign-in, publish, or save a setup | Ask the agent. The **+** menu also has **Database**, **Sign-in** and **Publish**. Alpha's service commands are refused in the Shell. |
-| Keep a server running after you leave | Ask the agent. A command you start in the Shell normally ends when that shell does. |
+| Run your app and see it in the Preview, or keep a server running after you leave | Ask the agent. A server you start in the Shell runs, but the [Preview](/workspace/preview) never shows it, and it ends when that shell does. |
 
 ## Open the Shell
 
@@ -43,7 +43,7 @@ The Shell is the session owner's alone. People you [share the session](/sharing)
 
 ## Who am I in the Shell?
 
-You are the agent's own account, named `agent`. It has `sudo` with no password, so anything that needs root is one `sudo` away. Your home folder and starting folder are both `/workspace`, and `/workspace/.bashrc` runs when the shell starts, so aliases you keep there apply.
+You are the agent's own account, named `agent`. It has `sudo` with no password, so anything that needs root is one `sudo` away. Your home folder and starting folder are both `/workspace`, and `/workspace/.bashrc` runs when the shell starts, so aliases, functions and variables you keep there apply. Alpha sets up the prompt after it, so a prompt (`PS1`), `set -o vi` or key bindings in `.bashrc` don't take effect at the prompt.
 
 Because you share an account with the agent, files you create without `sudo` belong to it too. The agent can change what you make, and you can change what it makes, with no permission errors either way.
 
@@ -56,6 +56,31 @@ echo $HOME      # /workspace
 The shell starts with the session's environment already loaded: your [secrets](/secrets), the session database's connection variables and your [integrations'](/integrations/overview) variables. Type `printenv STRIPE_SECRET_KEY` and you see the value your app sees.
 
 The environment is read once, when the shell starts. If you add a secret or switch on the database while the Shell is open, click **Restart shell** to pick it up.
+
+## Type at the prompt
+
+At the prompt, what you type shows at once, because your browser edits the line and sends it to the machine only when you press <kbd>Enter</kbd>. While a command runs, every key goes straight to it, so `vim`, `less`, REPLs such as `node` or `python3`, `ssh` and password prompts work as in any terminal. Keys work the same on a Mac: use <kbd>Ctrl</kbd>, not <kbd>⌘</kbd>.
+
+| Keys | What they do at the prompt |
+| --- | --- |
+| <kbd>←</kbd> <kbd>→</kbd>, <kbd>Home</kbd> <kbd>End</kbd>, <kbd>Ctrl</kbd> <kbd>A</kbd> <kbd>Ctrl</kbd> <kbd>E</kbd> | Move along the line, or to its start or end. |
+| <kbd>Alt</kbd> <kbd>B</kbd> <kbd>Alt</kbd> <kbd>F</kbd>, <kbd>Ctrl</kbd> <kbd>←</kbd> <kbd>Ctrl</kbd> <kbd>→</kbd> | Move back or forward one word. |
+| <kbd>Backspace</kbd>, <kbd>Delete</kbd> | Delete one character. |
+| <kbd>Ctrl</kbd> <kbd>U</kbd>, <kbd>Ctrl</kbd> <kbd>K</kbd>, <kbd>Ctrl</kbd> <kbd>W</kbd> | Delete to the start of the line, to its end, or the word before the cursor. |
+| <kbd>↑</kbd> <kbd>↓</kbd> | Step through the lines you typed in this tab. |
+| <kbd>Tab</kbd> | Completes a command, a file or folder name, or a `$variable`. |
+| <kbd>Ctrl</kbd> <kbd>L</kbd> | Clears the screen and keeps the line you're typing. |
+| <kbd>Ctrl</kbd> <kbd>C</kbd> | Drops the line. While a command runs, stops it. |
+| <kbd>Ctrl</kbd> <kbd>D</kbd> | On an empty line, ends the shell. Otherwise deletes the character under the cursor. |
+
+<kbd>Tab</kbd> completes the word when there's one match. With several, it fills in what they have in common, and when that adds nothing it lists them under the line, up to 100, with a count of the rest. It knows commands, files, folders and variables, but not git branches or ssh hosts.
+
+A few things work differently from a terminal on your own computer:
+
+- History holds only the lines typed in this Shell tab, and a fresh shell starts with none.
+- <kbd>Ctrl</kbd> <kbd>R</kbd> history search doesn't work at the prompt.
+- One line can be at most 4,095 bytes. For a longer command, put it in a script file and run that.
+- When you paste several lines, each runs at its own prompt, one after another.
 
 ## Install packages and query the database
 
@@ -88,6 +113,7 @@ The Shell sees the machine as the agent does, with a few deliberate exceptions.
 | Look inside Alpha's own system folders | They look empty, even under `sudo` | Nothing there is yours to change. Your secrets are already in the environment. |
 | `ls /root`, or `cd ~` | Both homes show `/workspace` | Work in `/workspace` as usual. |
 | `mount`, or a FUSE file system such as `sshfs` or `rclone mount` | It fails, even with `sudo` | Copy the files into `/workspace` instead. |
+| Start a web server to see it in the Preview | It runs, but the Preview never lists it, and its preview address answers "Port not previewable" | Ask the agent to run the app. Only servers the agent starts reach the [Preview](/workspace/preview). |
 | `lsof -p`, `ss -p` or `strace -p` on the agent's processes | They can't inspect processes the Shell didn't start | Start the program from the Shell to inspect it, or ask the agent. |
 
 {/* screenshot to capture: /images/workspace/shell-service-refusal.png — Alpha's service commands are refused in the Shell, with a line that tells you where to ask instead. */}
@@ -106,15 +132,15 @@ Deleting files works the same way. `rm -rf` in `/workspace` removes the agent's 
 
 ## Clear, restart or close the Shell
 
-Two buttons show to the right of the tab strip while the **Shell** is in front.
+While the **Shell** is in front, the right of the tab strip shows a **bash** pill and two buttons. The pill's dot is green and its tooltip reads "bash · connected" while the terminal is connected. It reads "bash · connecting…" or "bash · not connected" otherwise.
 
 | Action | What happens |
 | --- | --- |
 | **Clear** | Clears the scrollback on screen. The shell and anything running in it keep going. |
 | **Restart shell** | Ends the shell and anything running in it, clears the screen, then opens a fresh shell with the session's current environment. |
-| Switch to another workspace tab | Nothing stops. A command left running, such as a dev server, carries on behind the other tab. |
+| Switch to another workspace tab | Nothing stops. A command left running carries on behind the other tab. A server started here doesn't appear in the Preview. Ask the agent to start your app instead. |
 | Switch to another session, or reload the page | This shell ends. The **Shell** tab stays, and opens a fresh shell when you come back. |
-| Type `exit`, or press <kbd>Ctrl</kbd> <kbd>D</kbd> (Control on a Mac too) | The shell ends and the tab folds away. |
+| Type `exit`, or press <kbd>Ctrl</kbd> <kbd>D</kbd> on an empty line (Control on a Mac too) | The shell ends and the tab folds away. |
 | Click the tab's **×** ("Close the shell") | The same: the terminal, its scrollback and anything running in it are discarded. The next **+** → **Shell** starts fresh. |
 
 If the connection drops while the **Shell** tab is in front, the Shell reconnects by itself. It tries again at once, then less often, up to every 15 seconds, while the shell can't get going, for example while the machine wakes. A spinner shows over the scrollback meanwhile. A reconnect opens a new shell beneath the old scrollback, so a command that was running when the connection dropped has ended.
@@ -130,7 +156,7 @@ Most of the time the Shell prints nothing of its own. These lines come from Alph
 | "Lost contact with the machine." | The connection to the machine broke. | Wait. The Shell reconnects on its own. |
 | "Could not reach the machine." | Alpha couldn't find the way to the machine. | Wait. The Shell tries again by itself. |
 | "Could not prepare the shell in this machine." | Alpha couldn't get the Shell ready on this machine. | Wait. The Shell tries again by itself. |
-| "The paused machine could not be resumed." | The machine is asleep and wouldn't wake. | Send a message to see the reason. See [What if a machine won't wake?](/sessions/machines#what-if-a-machine-wont-wake) |
+| "The paused machine could not be resumed." | The machine is asleep and wouldn't wake. | Send a message to see the reason. See [What if a machine won't wake?](/sessions/machines#what-if-a-machine-won’t-wake) |
 | "The shell could not be set up in this machine — close the tab and open it again." | The terminal couldn't start on this machine, and the tab closes by itself. | Choose **+** → **Shell** again. |
 | A line saying the service commands run from the agent, and to ask for them in the chat | You ran one of Alpha's service commands. | Ask the agent. |
 
