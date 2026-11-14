@@ -9,7 +9,7 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 An MCP server is a plug-in that hands the agent a set of tools, such as "search Linear issues" or "fetch the current docs for this library". Alpha runs two kinds. A **remote** server is hosted on the web and reached through Alpha. A **local** server is a command that starts inside every session's machine. Both live in **Integrations**, on the **MCPs** tab, and whatever you add there works in every session you own. To sign in to an app such as Gmail or Slack instead, see [Connect an app](/integrations/connect-apps). To call your remote servers from the app the agent builds, see [Use integrations in your app](/integrations/in-your-app).
 
 <Frame caption="MCPs → Remote lists the hosted servers your Alpha offers, and Add server at the right adds your own.">
-  <img src="/images/integrations/integrations-page-mcps-remote.png" alt="The Integrations dialog with the MCPs tab selected. Under the title and its lede are the tabs Connectors, MCPs (selected) and Connected, a search box with the placeholder Search — Gmail, Stripe, Notion, maps…, and the dropdowns All auth and All categories. Under them are the sub-tabs Remote 17 (selected), Local 3 and Connected 0, then a Refresh button and an outlined Add server button with a plus icon at the right. A three-column grid of cards follows, sorted A to Z: Apollo, Calendly, Clay, ElevenLabs, Exa, Firecrawl, HubSpot, Linear, Miro, Notion, PostHog, Sentry, Stripe, Supabase and Tally, with Tavily and Wispr Flow cut off at the bottom. Each card shows its logo, a blue Verified check, a violet Remote MCP badge, an auth badge and a one-line tagline, such as Linear's Issues, projects, cycles and comments. Exa carries No auth and a Connect button; every other card carries OAuth and a Sign in button." />
+  <img src="/images/integrations/integrations-page-mcps-remote.png" alt="The Integrations page with the MCPs tab selected, under the cover and its lede. Beside the tabs Connectors, MCPs (selected) and Connected sit a search box with the placeholder Search — Gmail, Stripe, Notion, maps…, and the dropdowns All auth and All categories. Under them are the sub-tabs Remote (selected) and Local, each with its count, then a Refresh button and an Add server button with a plus icon at the right. A two-column grid of cards follows, sorted A to Z, starting with Apollo, Calendly, Clay and ElevenLabs. Each card shows its logo, its name with a Verified check, a category line under the name, a one-line tagline such as Linear's Issues, projects, cycles and comments, and at its foot a grey Remote MCP badge beside an auth badge. Exa carries No auth and a Connect button; the cards that use OAuth carry a Sign in button." />
 </Frame>
 
 ## Remote or local?
@@ -58,7 +58,7 @@ Use this for a hosted server that isn't in the catalog, such as your company's i
 
 <Steps>
   <Step title="Open the form">
-    On **MCPs**, click **Add server**. The panel "Add an MCP server" opens. Under **Where it runs**, pick **Remote · hosted**.
+    On **MCPs**, click **Add server**. The form "Add an MCP server" opens: as a dialog over the **Integrations** page, or as a panel at the right of the catalog dialog. Under **Where it runs**, pick **Remote · hosted**.
   </Step>
   <Step title="Name it and give its address">
     Type a **Server name**, such as "Harbor tools". In **Streamable HTTP URL**, paste the server's MCP endpoint in full, such as `https://tools.example.com/mcp`. It is "usually …/mcp — not the site's root".
@@ -73,7 +73,7 @@ Use this for a hosted server that isn't in the catalog, such as your company's i
     | **OAuth 2.0** | Usually nothing: with **Custom OAuth client** off, Alpha uses "the server's own sign-in, from its URL alone (Linear, Notion…)". Switch it on only if the vendor gave you a registered client. Then fill in **Client ID**, **Client secret**, **Authorization URL**, **Token URL** and space-separated **Scopes**. |
 
     <Frame caption="Authentication starts on None; pick API key or OAuth 2.0 when the server needs a sign-in.">
-      <img src="/images/integrations/add-server-remote-form.png" alt="The Add an MCP server panel open at the right of the Integrations dialog, which stays on MCPs → Remote 17 behind it, with the cards Apollo, Calendly, Clay, ElevenLabs, Exa, Firecrawl, HubSpot, Linear, Miro, Notion, PostHog and Sentry. The panel's lede says the server can be a command started inside every session or a hosted one. Under Where it runs, Remote · hosted is selected, beside Local · in the sandbox. A card headed REMOTE MCP holds a Server name field with the placeholder Company tools and a Streamable HTTP URL field with the placeholder https://, with the hint The server's MCP endpoint, usually …/mcp — not the site's root. The Authentication toggle shows None (selected), API key and OAuth 2.0. Below the card, a grey note says that once the server is added, and signed in for OAuth, the agent may call its tools, and that its credentials stay with Alpha. An Add remote server button sits under the note." />
+      <img src="/images/integrations/add-server-remote-form.png" alt="The Add an MCP server dialog, open over the Integrations page on MCPs → Remote. The dialog's lede says the server can be a command started inside every session or a hosted one. Under Where it runs, Remote · hosted is selected, beside Local · in the sandbox. A card headed REMOTE MCP holds a Server name field with the placeholder Company tools and a Streamable HTTP URL field with the placeholder https://, with the hint The server's MCP endpoint, usually …/mcp — not the site's root. The Authentication toggle shows None (selected), API key and OAuth 2.0. Below the card, a grey note says that once the server is added, and signed in for OAuth, the agent may call its tools, and that its credentials stay with Alpha. An Add remote server button sits under the note." />
     </Frame>
   </Step>
   <Step title="Add it, then sign in">
@@ -104,7 +104,7 @@ Use this for a server that its README starts with a command. Node, `npx`, Python
     becomes **Command** `npx`, with `-y` and `@upstash/context7-mcp` on two lines under **Arguments**.
 
     <Frame caption="A local server is a command and its arguments; a key goes in by its secret's name, never its value.">
-      <img src="/images/integrations/add-server-local-form.png" alt="The Integrations dialog on MCPs → Remote 17, with the Add an MCP server panel open at its right and a close X at the top. Behind the panel, on the left, sit Refresh, Add server and the Remote cards Apollo, Calendly, Clay, ElevenLabs, Exa, Firecrawl, HubSpot, Linear, Miro and Notion. The panel's lede says the server can be a command started inside every session or a hosted one. Under Where it runs, Local · in the sandbox is selected, beside Remote · hosted. A card headed LOCAL MCP · RUNS IN EVERY SESSION'S SANDBOX holds empty fields showing their placeholders: Server key my-server, with the hint The agent's tools are named after it.; Title My server; Description Searches our internal wiki, with the hint Named to the agent, so keep it about what the tools do.; Command npx, with the hint Node, Python and npx are in the sandbox.; Arguments -y, @scope/package and --flag on three lines, with the hint One per line.; and Environment settings LOG_LEVEL=info and SERVICE_TOKEN=${MY_SECRET} on two lines, with a hint that begins NAME=VALUE, one per line. The server already gets every. The rest of the form is cut off at the bottom." />
+      <img src="/images/integrations/add-server-local-form.png" alt="The Add an MCP server dialog, open over the Integrations page on MCPs, with a close X at the top. The dialog's lede says the server can be a command started inside every session or a hosted one. Under Where it runs, Local · in the sandbox is selected, beside Remote · hosted. A card headed LOCAL MCP · RUNS IN EVERY SESSION'S SANDBOX holds empty fields showing their placeholders: Server key my-server, with the hint The agent's tools are named after it.; Title My server; Description Searches our internal wiki, with the hint Named to the agent, so keep it about what the tools do.; Command npx, with the hint Node, Python and npx are in the sandbox.; Arguments -y, @scope/package and --flag on three lines, with the hint One per line.; and Environment settings LOG_LEVEL=info and SERVICE_TOKEN=${MY_SECRET} on two lines, with a hint that begins NAME=VALUE, one per line. The server already gets every. The rest of the form is cut off at the bottom." />
     </Frame>
   </Step>
   <Step title="Add environment settings, if any">
@@ -144,13 +144,13 @@ Alpha will:
 2. Tell you its tools arrive with your next message, in this session and every other, with nothing to restart.
 3. If a server needs a key, hand it over by the name of a [secret](/secrets) rather than its value, and ask you to add that secret. It never asks you to paste the key into a message.
 
-A remote server needs your sign-in, so the agent posts a card instead: "The agent wants to use Harbor tools". **Connect Harbor tools** opens the remote form filled with the name and address. Choose the sign-in, add it, then click **Tell the agent to continue**. See [When the agent asks you to connect](/integrations/connect-apps#when-the-agent-asks-you-to-connect).
+A remote server needs your sign-in, so the agent posts a card instead: "Harbor tools · the agent wants to use it", with its reason under it. **Connect** opens the remote form filled with the name and address. Choose the sign-in and add it. Once the server is on, the card reads "Harbor tools is connected"; click **Tell the agent**. See [When the agent asks you to connect](/integrations/connect-apps#when-the-agent-asks-you-to-connect).
 
 The agent can add servers, but only you can edit or remove them.
 
 ## Manage your servers
 
-Click any server's card to open its panel. Changes reach every session with its next message.
+Click any server's card to open its detail. Changes reach every session with its next message.
 
 ### A remote server
 

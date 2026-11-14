@@ -9,7 +9,7 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 A skill is a set of instructions the agent loads when a request fits: a release checklist, how your team writes emails, how to handle PDFs. Each skill is a folder with a `SKILL.md` file, and every skill you add reaches all of your sessions from their next message. For the skills Alpha already includes, see [Skills that ship with Alpha](/skills/built-in-skills). To give the agent new tools rather than new know-how, add an [MCP server](/integrations/mcp-servers).
 
 <Frame caption="Explore opens first, on the catalog of skills you can install.">
-  <img src="/images/skills/skills-page-explore.png" alt="The Skills page, with Skills in its top bar. A cover image of a dusk sky over clouds, with a ladder rising to a small round moon, carries the title Skills and the lede Your sessions have 9 skills. Below the cover are the tabs Explore (selected) and Installed, a search box with the placeholder Search skills — PDF, CI, security, design…, an Import from GitHub button and a white Write a skill button with a plus icon. The Catalog shelf follows, with a Most popular order menu on its right. Its cards sit two across, each with a tinted icon of geometric shapes. Design Taste Frontend shows its directory name design-taste-frontend, the line tasteskill v2, the anti-slop frontend skill. Art…, the source written by the agent in a session with 1+ installs, and an Install button. Algorithmic Art reads Generative art with code, then Creating algorithmic and generative art — p5.js sketches, seeded randomness, composition — as code, with the GitHub mark, anthropics/skills and an Install button in its footer. Canvas Design (Posters, covers and visual pieces on a canvas) and Doc Co-authoring (Co-write documents with the user) start the next row." />
+  <img src="/images/skills/skills-page-explore.png" alt="The Skills page on its Explore tab, under a dusk cover reading Skills, Your sessions have 7 skills. Below the cover are the Explore and Installed tabs, a search box, Import from GitHub and Write a skill. The Catalog lists skill cards in two columns, each with an icon, a name, a one-line description, a category label such as DESIGN & VISUALS or DOCUMENTS & FILES, its source and an Install button: Algorithmic Art, Canvas Design, Doc Co-authoring, Excel, Figma and Frontend Design. Most popular is chosen at the right." />
 </Frame>
 
 ## How should you add a skill?
@@ -38,7 +38,18 @@ Click **Skills** in the sidebar. The row's badge counts the skills your sessions
 | **A–Z** | Alphabetical by display name |
 | **By category** | Grouped under **From Alpha** (skills an admin shared that you haven't installed), then **Engineering**, **Workflow & GitHub**, **Documents & files** and **Design & visuals** |
 
-Each skill's icon is a pattern of four shapes that is its own, on a tile tinted by category: sky for Engineering, violet for Workflow & GitHub, emerald for Documents & files and rose for Design & visuals. Skills that ship with Alpha take their category's colour too. Skills an admin shared are orange, and your own skills that didn't come from the catalog are amber. The footer links to the skill's source on GitHub and shows an install count such as "12+ installs".
+Each card shows the skill's category as a small label beside its name, such as **Engineering**, except under **By category**, where the heading already says it. Each skill's icon is a pattern of four shapes that is its own, on a tile tinted by category: sky for Engineering, violet for Workflow & GitHub, emerald for Documents & files and rose for Design & visuals. Skills that ship with Alpha take their category's colour too. Skills an admin shared take Alpha's accent colour, and your own skills that didn't come from the catalog are amber. The footer links to the skill's source on GitHub, with the GitHub mark, and shows an install count such as "12+ installs".
+
+The skills that ship with Alpha sit in these categories:
+
+| Category | Skills |
+| --- | --- |
+| **Engineering** | Agent builder, Evals and Voice agent |
+| **Design & visuals** | Design system and Generative UI |
+| **Documents & files** | Slides |
+| **Workflow & GitHub** | Search |
+
+A skill's dialog names its category above its title: the category of the catalog entry it came from, **From Alpha** for another skill Alpha or an admin shares, or **Yours** for one you added yourself.
 
 Click **Install**. Alpha fetches the skill's folder from GitHub, the button becomes a green check with **Installed**, and a banner confirms: "pdf installed — your sessions have it from their next message." The skill appears under **Your skills**. The **Installed** tab lists those alone, as full-width rows with their size and file count.
 
@@ -90,7 +101,7 @@ Click **Write a skill** or **Import from GitHub**. Both open the **Add a skill**
   <Tab title="Import from GitHub">
     Paste `owner/repo`, `owner/repo/path/to/skill` or a github.com link to the skill's folder into **Repository or URL**. When you give only `owner/repo`, put the folder holding `SKILL.md` in **Path (optional)**. **Branch or tag (optional)** pins a version. Click **Add to your skills**; the button reads "Fetching…" while Alpha downloads the folder, reference files and scripts included.
 
-    Private repositories need [GitHub connected](/github/connect) in a session. Files over 1 MB are skipped, and the banner says how many.
+    Private repositories need [GitHub connected](/github/connect) in a session. There is no limit on the number of files. Files over 1 MB are skipped, and the banner says how many. If the folder adds up to more than 4 MB, the import stops with "the skill is over 4 MB".
 
     <Frame caption="A link to the skill's folder is enough; Path and Branch or tag are optional.">
       <img src="/images/skills/skills-add-import.png" alt="The Add a skill dialog, with a back arrow beside the title and a close button at the right, and Import from GitHub selected in the toggle beside Write it here. The Repository or URL field shows the placeholder https://github.com/anthropics/skills/tree/main/skills/pdf in monospace, with the hint owner/repo, owner/repo/path/to/skill, or a github.com link to the skill's directory. Private repositories need GitHub connected in a session. Below it, Path (optional) shows the placeholder skills/pdf, with the hint The directory holding SKILL.md, when the first field is just owner/repo., and Branch or tag (optional) shows the placeholder main. The box Let the agent use it on its own is ticked, with the hint On: the agent lists the skill and picks it up when the task fits. Off: it only runs when a message mentions it — $name in codex, /name in Claude Code. The footer shows Cancel and a dimmed Add to your skills with a check icon." />
@@ -135,7 +146,15 @@ A row's switch takes the skill in or out of your sessions. Click elsewhere on th
 | **SKILL.md** | Edit in place, then **Save**. **Expand** opens a full-screen editor. |
 | **Remove** | Deletes the skill after you confirm. Your sessions lose it on their next message. |
 
-To use a skill on purpose, mention it in the [composer](/chat/composer). In a Codex session, type `$` and pick from the list. In a Claude Code session, skills appear under `/` with the other commands. Type `/skills` in any session to see what the agent can use there.
+To use a skill on purpose, mention it in the [composer](/chat/composer).
+
+| Agent | How to mention a skill |
+| --- | --- |
+| Codex | Type `$` and pick from the list. The skill goes in as `$booking-emails`. |
+| Claude Code | Type `/`, at the start of the message or in the middle of it, and pick from the list, where skills sit with the other commands. Tab or Enter types `/booking-emails ` into the message rather than running it, so you can add your request after it and send them together. |
+| Either | Click **+** in the composer, on the home screen or in a session, and choose **Skills**. It types `$` or `/` for you and opens the same list. |
+
+Type `/skills` in any session to see what the agent can use there.
 
 {/* screenshot to capture: /images/skills/composer-dollar-skill-picker.png — In a Codex session, $ lists every skill the agent can load. */}
 
@@ -166,8 +185,7 @@ These limits are fixed, so no setting changes them.
 | Limit or message | What it means |
 | --- | --- |
 | 64 skills per account | "at most 64 skills". Remove one before adding another. |
-| 120 files per skill | "a skill may have at most 120 files" |
-| 4 MB per skill, 1 MB per file | "a skill may total at most 4 MB". Larger single files are skipped on import and refresh. |
+| 4 MB per skill, 1 MB per file | "a skill may total at most 4 MB", or "the skill is over 4 MB" when Alpha fetches it from GitHub: a catalog install, an import or a refresh. Larger single files are skipped on import and refresh. There is no limit on the number of files. |
 | 256 KB for `SKILL.md` | "the skill is too long" when you write or edit one, "SKILL.md must be under 256 KB" on import. Move detail into reference files beside it. |
 | Name already taken | "a skill named … already exists". Pick another name. |
 | "no SKILL.md in … — point at the skill's own directory" | The link doesn't point at a skill's own folder. Add the path to the folder that holds `SKILL.md`. |

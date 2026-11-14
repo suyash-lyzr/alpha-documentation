@@ -18,10 +18,10 @@ Most apps connect through the app's own consent page, which Alpha opens in a sma
 
 <Steps>
   <Step title="Find the app">
-    Click **Integrations** in the sidebar. The catalog opens as a dialog on the **Connectors** tab, where the **Connectors** sub-tab lists the apps. Type the app's name in the search box. Inside a session, you can type `/integrations gmail` in the [composer](/chat/composer) instead, which opens the catalog at that app.
+    Click **Integrations** in the sidebar. The **Integrations** page opens on the **Connectors** tab, where the **Apps** sub-tab lists the apps. Type the app's name in the search box, which searches every tab. Inside a session, you can type `/integrations gmail` in the [composer](/chat/composer) instead, which opens the catalog as a dialog at that app, without leaving the session.
   </Step>
   <Step title="Click Sign in">
-    Click **Sign in** on the app's card, or open the card and click **Sign in** in its panel. A window opens on the app's consent page, for example Google's.
+    Click **Sign in** on the app's card, or click the card and then **Sign in** in its detail. A window opens on the app's consent page, for example Google's.
   </Step>
   <Step title="Approve, and let the window close">
     Approve the access. The window's last page reads "Connected" and "You can close this window and go back to your chat.", and then closes itself. In Alpha, the app's card now shows **Active**.
@@ -34,7 +34,7 @@ If a sign-in doesn't go to plan:
 
 | What happens | What Alpha does |
 | --- | --- |
-| Your browser blocks the window | Alpha sends the whole tab to the app's consent page instead. When you approve, you come back to the page you left, with the same app open. |
+| Your browser blocks the window | Alpha sends the whole tab to the app's consent page instead. When you approve, you come back to where you started, with the same app open: the **Integrations** page, or the session whose Connect card you clicked. |
 | The sign-in fails | The window reads "The sign-in didn't complete", and the panel reads "The connector's authorization did not complete. Try connecting again." Click **Sign in** again. |
 | You take longer than 10 minutes | The sign-in expires and the app isn't connected. Close the window and click **Sign in** again. |
 
@@ -90,17 +90,23 @@ A connection belongs to your account, so Alpha updates the agent's tool list eve
 
 When the agent needs an app you haven't connected, it posts a Connect card in the [transcript](/chat/transcript) with its reason. It doesn't wait: it carries on with the parts that don't depend on the app, such as logging emails instead of sending them, and finishes its turn.
 
-{/* screenshot to capture: /images/integrations/chat-connect-card-waiting.png — The card says what the agent wants and why, and connects without leaving the session. */}
+{/* screenshot to capture: /images/integrations/chat-connect-card-waiting.png — One row says what the agent wants and why, and Connect opens that app alone, without leaving the session. */}
 
-1. Click **Connect Gmail**. A small dialog opens for that app alone, with a **Why the agent asked** box above the usual sign-in or key form. **Browse all integrations →** opens the full catalog instead.
-2. Connect. The dialog closes, and the card changes to "Gmail is connected".
-3. Click **Tell the agent to continue**. Alpha sends "I connected Gmail in Alpha — its tools are in your tool list now. Continue." If the agent is still working, the message reads "from your next turn" instead of "now", and [steers](/chat/queue-and-steer) the running turn.
+The card is one row: the app's logo, "Gmail · the agent wants to use it", the agent's reason under it, and a **Connect** button. When the agent asks for several apps in a row, their cards join into one list.
+
+1. Click **Connect**. A small dialog opens for that app alone, with a **Why the agent asked** box above the usual sign-in or key form. **Browse all integrations →** opens the full catalog instead.
+2. Connect. The dialog closes, and the card changes to "Gmail is connected", with "Its tools are in the agent's tool list from its next turn." under it.
+3. Click **Tell the agent**. Alpha sends "I connected Gmail in Alpha — its tools are in your tool list now. Continue." and the button goes away. If the agent is still working, the message reads "from your next turn" instead of "now", and [steers](/chat/queue-and-steer) the running turn.
+
+A sign-in you start from a Connect card always comes back to that session, even when your browser blocked the window and the whole tab went to the app's consent page. The Connect dialog opens again where you left it.
 
 Each open request also sits in a tray above the composer, so it stays in reach after the card scrolls away. A row reads "Connect **Gmail** · the agent asked for it" with a **Connect** button. Once the app is connected, the row reads "**Gmail** is connected · tell the agent to carry on" with **Continue**.
 
-{/* screenshot to capture: /images/integrations/composer-connect-dock.png — The tray keeps open requests in reach after their cards scroll out of view. */}
+{/* screenshot to capture: /images/integrations/composer-connect-dock.png — Two requests fold into one tray row; click it to see each app with its own Connect button. */}
 
-If the tray was showing a request while you connected, Alpha presses **Continue** for you, once. The **×** on a row hides it in this browser.
+When the agent has asked for two or more apps, the tray folds them into one row with their logos, such as "2 connections · the agent asked for them", or "1 of 2 connected" once you have connected some. Click the row to unfold it and see each app with its own button.
+
+If the tray was showing a request while you connected, Alpha presses **Continue** for you, once, including after a sign-in that took the whole tab. The **×** on a row hides it in this browser.
 
 In one session, the agent can't post a card for the same app twice within 2 minutes, and it never posts one for an app you've already connected. People viewing a [shared session](/sharing) see the cards without buttons, and no tray.
 
@@ -112,8 +118,8 @@ In one session, the agent can't post a card for the same app twice within 2 minu
 | "sign-in is unavailable right now — try again in a moment" | Alpha couldn't start the sign-in. Wait a moment and click **Sign in** again. |
 | A red **Test connection** line ending "connect it again" | Your account is no longer linked. Click **Disconnect**, then connect again. |
 | "could not reach the tool service — try again in a moment" | Alpha couldn't reach the app's connection just then. Try again shortly. |
-| "Connectors could not be loaded" | Click **Refresh** at the right of the row under the tabs. |
-| The agent can't find the app's tools right after you connected | Its turn was already running. Click **Tell the agent to continue**, or send your next message. |
+| "Connectors could not be loaded" | Click **Refresh** at the right of the sub-tabs. |
+| The agent can't find the app's tools right after you connected | Its turn was already running. Click **Tell the agent** on its card, or send your next message. |
 
 For problems outside this page, see [Troubleshooting and FAQ](/reference/troubleshooting).
 
