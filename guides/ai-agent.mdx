@@ -12,12 +12,12 @@ This guide builds an AI agent end to end: you describe it in one message, read i
 
 By the end of this guide you will have `harbor-triage`, an agent that reads a message sent to Harbor Sailing School, sorts it, and drafts a reply, with an eval run that shows it passing every test case.
 
-{/* screenshot to capture: /images/guides/agent-00-result.png — The finished agent on the Agent tab, carrying its latest eval result on the answer step. */}
+{/* screenshot to capture: /images/guides/agent-00-result.png — The finished agent on the Agent tab, with the harbor-triage eval tab beside it and a green dot on the canvas's evals button. */}
 
 ## Before you start
 
 - A session you own. Start one from the [home screen](/sessions/home-screen), or use an existing one such as "Harbor bookings".
-- An OpenAI key saved as a [secret](/secrets) named `OPENAI_API_KEY`. Add it under **Account menu → Global secrets** so every session gets it, or in the session's **Secrets** tab. The agent's live runs and the eval's AI reviewer both read it.
+- An OpenAI key saved as a [secret](/secrets) named `OPENAI_API_KEY`. Add it on the **Secrets** page (**Account menu → Secrets**, then **Add secret** under **Global**) so every session gets it, or in the session's **Secrets** tab. The agent's live runs and the eval's AI reviewer both read it.
 - The **Agent builder** skill switched on. It is on by default; see [Skills that ship with Alpha](/skills/built-in-skills).
 
 <Warning>
@@ -44,52 +44,54 @@ Every live run spends money on your key. That covers the agent's own proof while
 
     Alpha will:
 
-    1. Ask one [question card](/chat/plan-mode): the agent's shape first, then its inputs or framework if your message leaves them open.
+    1. Ask you two or three [questions](/chat/plan-mode#answer-the-agent’s-questions): the agent's shape first, then its inputs or framework if your message leaves them open.
     2. Write the agent as a folder in `/workspace/harbor-triage` and draw it on the **Agent** tab before it is finished.
-    3. Prove it: check the code, run it on a stand-in model, then run it once live on your key.
+    3. Prove it: check the code, run it once without calling a model, then run it once live on your key.
     4. Ask once whether you want a page around it. This guide declines.
 
-    Each question lists its recommended option first. This guide typed its own shape into **Something else…**: "Classify first, then write the staff note and the reply side by side, then one step that combines them." Click **Send answers**. **Skip — let the agent decide** leaves the choices to the agent.
+    The questions open one at a time in a dock above the composer, with "1 of 3" at the top, while a card titled **The agent has questions** waits in the transcript. Each question lists its recommended option first. This guide typed its own shape into the **Something else** row: "Classify first, then write the staff note and the reply side by side, then one step that combines them." Press **→** to go on, and on the last question **→** sends your answers ("Send answers"). **Skip** leaves one question to the agent, and **×** ("Skip all — let the agent decide") leaves them all.
 
     {/* screenshot to capture: /images/guides/agent-01-question.png — The agent asks for the shape before it writes anything. */}
   </Step>
   <Step title="Read the agent on the canvas">
-    The **Agent** tab opens by itself each time the agent publishes. Read it top to bottom: the **Inputs** card is what the agent is given, each step card below it is one step with its model, instructions and **Returns**, and the **Answer** card lists the fields it hands back. Steps that run together sit in one outline with a `parallel · 2` chip.
+    The **Agent** tab opens by itself each time the agent publishes. Read it top to bottom: the **Inputs** card is what the agent is given, each step card below it is one step with its model and its task, and the **Answer** card lists the fields it hands back. Steps that run together sit in one outline with a `parallel · 2` chip.
 
-    Click any card to open its details beside the canvas, including **Defined in**, which opens `definition.yaml` and names the field the card comes from. To change the agent, ask in the composer, for example `Add a critic step that checks the reply`. See [The Agent tab](/agents/agent-tab).
+    Click any card to open its details beside the canvas: the step's **Instructions**, **Task**, **Returns** and **Model**, and **Defined in**, which opens `definition.yaml` at the field the card comes from. To change the agent, ask in the composer, for example `Add a critic step that checks the reply`. See [The Agent tab](/agents/agent-tab).
 
     {/* screenshot to capture: /images/guides/agent-02-canvas.png — Two steps run side by side once the message is classified. */}
   </Step>
   <Step title="Try it on a real message">
-    Click **Try it** in the canvas toolbar. A chat opens beside the canvas, with one field for each input and a few **Start from a sample** cards the agent wrote. Pick one, or paste a real message such as `Hi, the forecast says 30 knots on Saturday. Is my 9am dinghy class still on? I can't do Sunday.` Then click **Run**.
+    Click **Try it** in the canvas toolbar ("Run the whole flow on your own input"). A chat titled **Try harbor-triage** opens beside the canvas, with one field for each input and a few **Start from a sample** cards the agent wrote. Hover a sample and click **Use**, or paste a real message such as `Hi, the forecast says 30 knots on Saturday. Is my 9am dinghy class still on? I can't do Sunday.` Then click **Run**.
 
-    Each message runs the whole agent once, live, with no memory of earlier messages. The dots on the canvas turn from blue to green as each step finishes. The answer card shows each field, with **JSON** and **Copy**; hover your message for **Edit and run again**. If a run fails, **Ask the builder to look into it** sends the failure to the agent. See [Try your agent](/agents/try-it).
+    Each message runs the whole agent once, live, with no memory of earlier messages. Each step card on the canvas shows **Running**, then **Done**, as the run reaches it. The answer shows each field, with **Copy**, and **JSON** for fields that aren't plain text; hover your message for **Edit and run again**. If a run fails, the chat says "This run did not finish.", and **Ask the builder to look into it** sends the failure to the agent. See [Try your agent](/agents/try-it).
 
     {/* screenshot to capture: /images/guides/agent-03-try.png — One live run: the answer card fills in field by field. */}
   </Step>
   <Step title="Set up evals and review the test cases">
-    Once the agent is proved live and published, the transcript shows a **Test this agent with evals?** card. Click **Set up evals**, read the **How evals work** dialog, and confirm with **Set up evals**. The canvas's flask button, **Not tested yet: set up evals**, does the same.
+    Once the agent is proved live and published, the transcript shows a **Test this agent with evals?** card with **Set up evals** and **Not now**. Click **Set up evals**, read the **How evals work** dialog, and confirm with **Set up evals**. The flask button in the canvas toolbar ("Not tested yet: set up evals") does the same.
 
-    The agent writes test cases for free and posts an **Eval proposal** card with a cost range. Click **Open eval setup**. On the **Test cases** step, each test case is a persona asking something in a scenario, such as an upset customer asking for a refund. Click a row to edit **What the user asks** or **What it checks**, and star the ones that **Must pass**. Then click **Next: set up the run**. [Set up evals](/evals/set-up) explains the coverage grid.
+    The agent writes test cases for free and posts an **Eval proposal** card, marked "not started", with its cost range: "Costs real money. About \$X to \$Y on your key." Click **Open eval setup**. The eval opens as a tab of its own in the workspace, **harbor-triage eval**, with three steps: **Test cases**, **Run** and **Results**.
+
+    On **Test cases**, each test case is someone (a persona) asking the agent something in a situation (a scenario), such as an upset customer asking for a refund. The grid at the top shows **Scenarios**, **What's being tested** and **Personas**. Click a row to open it and edit **What the user asks** or **What it checks**, and star the ones that **Must pass**: "If this test case fails, the whole evaluation fails." Then click **Next: set up the run**. [Set up evals](/evals/set-up) explains the coverage grid.
 
     {/* screenshot to capture: /images/guides/agent-04-test-cases.png — Scenarios on the left, personas on the right, one test case for each pair. */}
   </Step>
   <Step title="Run the evaluation with a spending limit">
-    The **Set up the run** step shows how each answer is graded: an AI reviewer scores it on the **Quality metrics** and explains each score, and **Format checks** check its shape in code, instantly and for free. Leave **AI reviewer model** as it is unless you have a reason to change it.
+    The **Run** step, headed **Set up the run**, shows how each answer is graded: an AI reviewer scores it on the **Quality metrics** and explains each score, and **Format checks** check its shape in code, instantly and for free. Leave **AI reviewer model** as it is unless you have a reason to change it.
 
-    The **Estimated cost** card works out the price before anything runs. Type a cap into **Spending limit**: no new test case starts once the next one would pass it. Then click **Run evaluation**. The tab moves to **Results** and shows each test case as it runs. It keeps going if you close the tab; **Pause** and **Stop** are there if you need them. See [Run an evaluation](/evals/run).
+    The **Estimated cost** card works out the price before anything runs. Type a cap into **Spending limit**: no new test case starts once the next one would pass it. Then click **Run evaluation**. The eval moves to **Results** and shows each test case as it runs, several at once, with a line such as "Running 3, grading 1 · 4 of 10 done". A line above the eval shows what it has spent so far. The run keeps going if you close the tab; **Pause** and **Stop** are there if you need them, and **Stop** asks first (**Stop now** or **Keep going**). See [Run an evaluation](/evals/run).
 
     {/* screenshot to capture: /images/guides/agent-05-run.png — The price is worked out first, and the limit caps what the run can spend. */}
   </Step>
   <Step title="Fix a failure with Alpha and run again">
-    If the run fails, for example because a must-pass test case failed, the verdict reads **Not ready yet**. Its heading usually quotes what the first failed case expects, such as "Never promise a refund before staff review it." Click the case to read the agent's answer and the reviewer's reasoning.
+    If the run fails, for example because a must-pass test case failed, the verdict reads **Not ready yet**. Its heading quotes what the first failed case checks, such as "Never promise a refund before staff review it.", then says which test case the agent didn't do it in. Click the case to read the agent's answer and the reviewer's reasoning.
 
-    Click **Fix with Alpha**. The agent reads the failed cases together and proposes one change, to the agent or to a test case that checks the wrong thing. It edits nothing until you say yes, and re-proves the agent after changing it. Then click **Run again**. When every test case passes, the verdict reads **Ready**, and **Approve as baseline** makes later runs compare against this one. See [Read results and fix failures](/evals/results).
+    Click **Fix with Alpha**. The agent reads the failed cases together and proposes one change, to the agent or to a test case that checks the wrong thing. It shows you the change and edits nothing until you say yes, and re-proves the agent after changing it. Then click **Run again**. When every test case passes, the verdict reads **Ready**, and **Approve as baseline** makes later runs compare against this one. To test something else later, such as edge cases, click **New eval** and give it a focus. See [Read results and fix failures](/evals/results).
 
     {/* screenshot to capture: /images/guides/agent-06-results.png — After the fix, the same test cases all pass. */}
 
     <Check>
-    Your agent is built, tried on a real message and passing its eval. The canvas now carries the latest result on the answer step.
+    Your agent is built, tried on a real message and passing its eval. The canvas's flask button now reads "Evals: 10 of 10 test cases passed. Open the results", with a green dot.
     </Check>
   </Step>
 </Steps>

@@ -1,7 +1,7 @@
 ---
 title: "How Alpha works"
 sidebarTitle: "How Alpha works"
-description: "Sessions, machines, turns, the workspace and what leaves the machine: the few ideas that explain everything else."
+description: "Sessions, machines, turns, the workspace and what leaves the machine, from published apps to artifacts: the few ideas that explain everything else."
 ---
 
 import { idlePark, turnMax, disk } from '/snippets/limits.mdx';
@@ -16,6 +16,7 @@ flowchart LR
   machine --> preview["Preview"]
   machine --> github["GitHub"]
   machine --> published["Published app"]
+  machine --> artifact["Artifact link"]
   classDef focus stroke:#1A54F0,stroke-width:1.5px;
   class machine focus
 ```
@@ -24,7 +25,7 @@ flowchart LR
 
 A session is a conversation with the agent plus everything it built. Sending your first prompt from the [home screen](/sessions/home-screen) creates it. It lives at a permanent address, `/s/{code}`, which is also its share link.
 
-Each session runs one agent, **Codex** or **Claude Code**, picked when you start it. The session keeps that agent for life, so to use the other one, start a new session. Sessions are isolated, so several can work at once.
+Each session runs one agent, **Codex** or **Claude Code**, picked in the home screen's model chip when you start it. The session keeps that agent for life, so to use the other one, start a new session. Sessions are isolated, so several can work at once.
 
 <Card title="What happens when you start a session" icon="play" href="/sessions/start-a-session">
   Deep dive: the boot, the name, and what to do if the first send fails.
@@ -43,7 +44,7 @@ The session's machine is a small Linux computer that belongs to that session alo
 | Disk | {disk} |
 | Your project | `/workspace`, the folder the agent works in |
 
-A [setup](/sessions/setups) starts the machine with your repositories already cloned and installed.
+A [setup](/sessions/setups) starts the machine with your repositories already cloned and installed. Your keys reach the machine as environment variables: your global [secrets](/secrets), the session's own, and the keys of a [secret set](/secrets#secret-sets) attached to the session or its setup.
 
 <Card title="Inside a session's machine" icon="microchip" href="/reference/machine-environment">
   Deep dive: the tools and folders the agent finds there.
@@ -85,7 +86,7 @@ Work keeps its machine until the work ends: a turn (even one waiting on your ans
 
 The workspace is the panel beside the chat: your window into the machine. Nothing is switched on until it's needed. The **Preview** opens by itself when the agent starts a server, and **Database** and **Auth** arrive when the agent switches them on. To switch a service on yourself, or bring back a tab you closed, use the **+** menu.
 
-The files belong to the agent, so the viewers are read-only. To change something, ask, or [point at it](/workspace/point-and-draw) in the Preview with **Select**.
+The files belong to the agent, so the viewers are read-only. To change something, ask, [point at it](/workspace/point-and-draw) in the Preview with **Select**, or switch on **Edit** to retype text right on the page and send the changes to the agent.
 
 <Card title="The workspace" icon="table-columns" href="/workspace/overview">
   Deep dive: every tab and how tabs are remembered.
@@ -100,6 +101,7 @@ The machine is private to its session. Work leaves it in these ways:
 | Publish | A public `https://` address, built fresh from your source. It never uses the session's own database. | [Publish your app](/publish/publish-your-app) |
 | Push to GitHub | Branches, commits and pull requests in your repositories | [Branches, commits and pull requests](/github/branches-and-prs) |
 | Share | A live, read-only view of the session for the people you choose | [Share a session](/sharing) |
+| Artifact | One file, such as a report, a deck or an image, kept outside the session on a page with its own link. It opens even while the machine sleeps, and it's private until you share it. | [Artifacts](/artifacts) |
 | Skills | A skill the agent saves becomes yours, and every session of yours has it by its next message | [Skills](/skills/overview) |
 | Routines | Alpha keeps the timetable for you. Each run wakes the session's machine and works there. | [Routines](/routines) |
 
@@ -111,9 +113,10 @@ Every session has one owner, who can share it with viewers. Admins can open any 
 | --- | --- | --- | --- |
 | Chat | Read and send | Read only, no composer | Read only |
 | Files | Browse and download | Browse, with the owner's secret values masked | Same as a viewer |
-| Preview | Use it, including **Select** and **Draw** | View only | Same as a viewer |
+| Preview | Use it, including **Draw**, **Select** and **Edit** | View it, without **Draw**, **Select** or **Edit** | Same as a viewer |
 | Shell | Yes | Not shown | Not shown |
 | Database | Yes | Not shown | Not shown |
+| Secrets | Yes | Not shown | Not shown |
 | Publish | Yes | Not shown | Not shown |
 
 <Card title="Share a session" icon="share-nodes" href="/sharing">
@@ -126,16 +129,16 @@ Every session has one owner, who can share it with viewers. Admins can open any 
   <img src="/images/get-started/workbench-annotated.png" alt="The Harbor bookings session, with the sidebar collapsed to a menu button at the top left, then the title Harbor bookings and the Codex mark. The chat takes the left quarter. It ends with the agent's message that three choices will shape the plan, a card titled The agent has questions with a green check, listing three questions each answered Left to the agent — it went with In app only, Until class starts and Current browser, and a Proposed plan card titled Automatic class waitlist with a copy button and a chevron. The composer below shows the placeholder Describe what to plan…, then the + button, the model chip reading gpt-6.… · high and the plan chip reading p… · on on the left, and the microphone and a dimmed round send button on the right. The workspace fills the rest. Its tab strip reads Plan, Preview (in front), Shell, Database, Secrets, README.md and server.js, then the round + button, and at the right end the GitHub button, Share, the Publish pill and the files button. Under it, the Preview toolbar shows the Desktop, Tablet and Mobile icons, Back, Forward, Reload, the port pill reading node · 3000 and Logs, with Draw, Select and Open in new tab at the right. The frame shows the Harbor Sailing School app: the headline Good days start on the water., a sailboat photo with a round LESS LAND MORE SEA badge, This week's classes with a count of 3 and the date pill Oct 26 – Nov 1, 2026 · This week, the filters All classes, Beginner, Intermediate and All levels, and three class cards: Beginner Dinghy, Wednesday, Oct 28, 09:00 – 12:00, with Maya Chen; Intermediate Keelboat, Friday, Oct 30, 13:00 – 16:00, with Oliver Brooks; and Sunset Sail, Saturday, Oct 31, 16:30 – 18:30, with Sophie Laurent." />
 </Frame>
 
-- **Sidebar**: **New session**, **Search**, **Published**, **Skills**, **Routines**, **Integrations**, your sessions, and the account menu at the bottom. When it's collapsed, as in the picture, the menu button at the top left opens it.
-- **Session header**: the session's title, its agent and its cost so far. In a narrow chat column, as here, the agent shows as its mark alone and the cost is hidden.
+- **Sidebar**: **New session**, **Search**, **Published**, **Artifacts**, **Skills**, **Routines**, **Integrations**, your sessions, and the account menu at the bottom. When it's collapsed, as in the picture, the menu button at the top left opens it.
+- **Session header**: the session's title, its agent, the logos of connected services the agent used in this session, and its cost so far. In a narrow chat column, as here, the agent shows as its mark alone and the cost is hidden.
 - **Transcript**: the agent's messages, commands and edits as they happen. See [Follow the agent's work](/chat/transcript).
-- **Composer**: where you write; its chips set the model and plan mode. See [The composer](/chat/composer).
+- **Composer**: where you write. **+** adds files, GitHub repos, a skill or a secret set; the chips set the model, the reasoning effort, and **Build** or **Plan** mode. See [The composer](/chat/composer).
 - **Workspace tabs**: the **Preview**, the services you've switched on, open files and the **+** menu.
 - **Files panel**: the `/workspace` tree, opened with **Show files**.
-- **Share** and **Publish**: at the top right, beside **GitHub**. Let others watch, or have the agent publish the app.
+- **Share** and **Publish**: at the top right, beside **GitHub**. Let others watch, or have the agent publish the app. With a file's tab in front, **Publish** becomes **Publish as artifact**, which keeps that file as an [artifact](/artifacts). The bug icon beside them reports a problem to the team that runs Alpha; see [Report a bug](/account/your-account#report-a-bug-or-suggest-an-improvement).
 
 <Note>
-  If you don't see **Publish**, or a choice between Codex and Claude Code on the home screen, it isn't turned on for your Alpha.
+  If you don't see **Publish**, or a choice between Codex and Claude Code at the top of the home screen's model chip, it isn't turned on for your Alpha.
 </Note>
 
 ## What the key terms mean
@@ -151,9 +154,11 @@ Every session has one owner, who can share it with viewers. Admins can open any 
 | Fork | A copy of a whole session, machine and transcript included, that then goes its own way | [Fork or delete a session](/sessions/fork-and-delete) |
 | Routine | Work that runs on a timetable, even while the session sleeps | [Routines](/routines) |
 | Published app | Your app running at a public address, outside the machine | [Publish your app](/publish/publish-your-app) |
+| Artifact | A file kept outside its session, with its own page, link and sharing | [Artifacts](/artifacts) |
 | Skill | Saved instructions every session's agent can use | [Skills](/skills/overview) |
 | Integration | An outside service, such as Slack or Google, that the agent and your app can use | [Integrations](/integrations/overview) |
 | Secret | A key or password the agent gets as an environment variable, never in a message | [Secrets](/secrets) |
+| Secret set | A named list of secret names attached to a session or a setup, where each person fills in their own values | [Secret sets](/secrets#secret-sets) |
 
 ## Next steps
 

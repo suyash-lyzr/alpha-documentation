@@ -31,6 +31,8 @@ Keep API keys out of your messages. Anything you type in the composer lands in t
   <Step title="Sign in and open the home screen">
     After you sign in, Alpha opens on the [home screen](/sessions/home-screen): a greeting, the composer and a row of suggestion chips. There is no session yet. Your first message creates one.
 
+    Leave the composer's controls as they are. Along its bottom edge, **+** adds files, a machine, GitHub repos, a skill or a secret set, none of which this app needs; the model chip and the effort chip pick the model and how hard it reasons; and the chip at the right reads **Build**, so the agent builds straight away instead of planning first.
+
     <Frame caption="The home screen, with the Harbor prompt typed and ready to send.">
       <img src="/images/get-started/quickstart-01-home.png" alt="The Alpha home screen with the sidebar collapsed to a menu button at the top left. The Alpha by Lyzr lockup sits above the greeting Still up, Alex? Same. What are we building?, its second half in a blue-to-pink gradient, with a glowing horizon curving behind the composer. The composer holds the Harbor prompt, which starts Build a class-booking web app for Harbor Sailing School. Its bottom row shows, from the left, the paperclip, the agent chip reading codex, the model chip reading gpt-6.1-sol · high and the plan chip, then the setup chip reading blank machine, the repos chip, the microphone and the white round send button. Below the composer are seven suggestion chips: Apps, Agents, Decks & docs, Images & video, Data, Automations and Research." />
     </Frame>
@@ -84,7 +86,9 @@ Keep API keys out of your messages. Anything you type in the composer lands in t
     While the agent works, <kbd>Enter</kbd> **queues** your message: it runs as its own turn after the current one. <kbd>⌘ Enter</kbd> (Ctrl on Windows and Linux) **steers** instead: the message joins the running turn without stopping it. Try queueing `Show a "Full" label on classes with no seats left.` To swap which key does which, open **Account menu → Settings → New messages**. [Queue, steer or stop](/chat/queue-and-steer) has the details.
   </Step>
   <Step title="Publish the app">
-    Wait for the agent to finish, then click **Publish** at the right of the workspace tabs. The **Publish to production** popover shows what will go live: **Serves**, **Database**, **Sign-in** and **Access**. Click **Publish**, which sends "Deploy this." to the agent.
+    Wait for the agent to finish, and bring the **Preview** tab to the front. Then click **Publish** at the right of the workspace tabs. While the agent is still working, the pill is greyed out ("The agent is busy — ask once it is done"). With a file's tab in front, the same spot reads **Publish as artifact**, which keeps that one file instead; see [Artifacts](/artifacts).
+
+    The **Publish to production** popover shows what will go live: **Serves**, **Database**, **Sign-in** and **Access**. Click **Publish**, which sends "Deploy this." to the agent.
 
     <Frame caption="The Publish to production popover, before anything is sent.">
       <img src="/images/get-started/quickstart-05-publish.png" alt="The Publish to production popover open below the Publish pill at the top right of the workspace, which follows the server.js tab, the + button and the GitHub and Share icons. Four rows follow: Serves, node · 3000 in monospace; Database, its own, in production; Sign-in, off; Access, Public · anyone with the URL. A grey note reads The agent names it (the name is its address), builds it from source and publishes it; the Publish tab follows the rollout. Cancel and a white Publish button with a rocket icon sit at the bottom right. Behind the popover, code from server.js shows at the left and the files panel, with the public folder open, at the right." />
@@ -95,7 +99,7 @@ Keep API keys out of your messages. Anything you type in the composer lands in t
     </Note>
   </Step>
   <Step title="Name it and open the address">
-    The agent asks for a name in a [question card](/chat/plan-mode). Pick its suggestion or type your own, such as `harbor-bookings`. The name is the start of the app's address, so it can't be changed later. The **Publish** tab opens and follows the rollout through **Export**, **Plan**, **Build**, **Publish** and **Live**. This usually takes 2 to 6 minutes. When the version card shows **Published**, click **Open** on the **Published URL** card.
+    The agent asks for a name in the question dock above the composer (see [Answer the agent's questions](/chat/plan-mode#answer-the-agent’s-questions)). Pick its suggestion, or type your own, such as `harbor-bookings`, in the **Something else** row, then press **→**. The name is the start of the app's address, so it can't be changed later. The **Publish** tab opens and follows the rollout through **Export**, **Plan**, **Build**, **Publish** and **Live**. This usually takes 2 to 6 minutes, and the agent replies with the address when it's done. When the status pill beside the app's name reads **live**, click **Open** beside the address.
 
     {/* screenshot to capture: /images/get-started/quickstart-06-live.png — The rollout finished: the app is live at its own address. */}
 

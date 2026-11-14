@@ -1,7 +1,7 @@
 ---
 title: "Choose the right tool"
 sidebarTitle: "Choose the right tool"
-description: "Quick answers for the choices you make most: plan or build, queue or steer, fork or new session, share or publish."
+description: "Quick answers for the choices you make most: plan or build, queue or steer, fork or new session, share, artifact or publish, and where a secret should live."
 ---
 
 import { idlePark, queueMax, setupsMax } from '/snippets/limits.mdx';
@@ -10,7 +10,7 @@ Alpha often offers two or three ways to reach the same goal. This page compares 
 
 ## Plan first or build straight away?
 
-In plan mode, the agent reads the workspace, asks a few questions and proposes a plan. It changes no files until you press **Implement this plan** in the **Plan** tab. Switch it with the **plan** chip in the composer, `/plan`, or <kbd>⇧ Tab</kbd>.
+In plan mode, the agent reads the workspace, asks a few questions and proposes a plan. It changes no files until you press **Implement this plan** in the **Plan** tab. Switch it with the mode chip at the right of the composer, which reads **Build** ("Makes changes directly") or **Plan** ("Asks, then proposes a plan"), with `/plan`, or with <kbd>⇧ Tab</kbd>.
 
 <Info>
 **Use plan mode when** the task is large or open-ended, or you want to agree on the approach first: "Add online payments to Harbor bookings."
@@ -58,10 +58,10 @@ flowchart LR
 | | New session | Fork | Setup |
 | --- | --- | --- | --- |
 | Starts with | The blank machine and no messages | A copy of this session's messages, files and machine | The blank machine plus your repositories cloned, a setup script run and notes for the agent |
-| How | Send a prompt from the home screen | `/fork`, then **Fork session** | The **blank machine** chip on the home screen |
+| How | Send a prompt from the home screen | `/fork`, then **Fork session** | On the home screen, **+** → **Machine**, then pick the setup |
 | Good for | Unrelated work | A second direction without losing the first | Every session on the same codebase |
 
-A fork takes about 15 seconds, can't start mid-turn and never copies sharing. You can own [{setupsMax}](/reference/limits) setups, managed in **Account menu → Setups**.
+A fork takes about 15 seconds, can't start mid-turn and never copies sharing. You can own [{setupsMax}](/reference/limits) setups, managed on the **Setups** page (**Account menu → Setups**, or **Manage setups →** in the machine list). The home screen doesn't remember a setup you picked: each new session starts on the blank machine unless you pick one again.
 
 <Tip>
 **Not sure?** Start a new session. Pasting the same setup steps every time? Ask the agent to "Save this as a setup." See [Setups](/sessions/setups) and [Fork or delete a session](/sessions/fork-and-delete).
@@ -69,7 +69,7 @@ A fork takes about 15 seconds, can't start mid-turn and never copies sharing. Yo
 
 ## Codex or Claude Code?
 
-You pick the agent with the first chip in the home screen's composer. A session keeps its agent for life, because the two can't read each other's history.
+You pick the agent on the home screen: open the model chip in the composer and use the **Codex** / **Claude Code** switch at the top of its menu. A session keeps its agent for life, because the two can't read each other's history.
 
 | | Codex | Claude Code |
 | --- | --- | --- |
@@ -82,43 +82,45 @@ You pick the agent with the first chip in the home screen's composer. A session 
 The workspace, plan mode, skills, MCP servers and publishing work the same with either.
 
 <Note>
-If you don't see the agent chip, your Alpha offers only one agent.
+If the model chip's menu has no **Codex** / **Claude Code** switch, your Alpha offers only one agent. An agent you can't use yet carries a warning dot; picking it offers to connect your own plan.
 </Note>
 
 <Tip>
-**Not sure?** Keep the agent marked **default**. See [Choose the agent and model](/chat/agents-and-models).
+**Not sure?** Keep the agent the switch already shows. See [Choose the agent and model](/chat/agents-and-models).
 </Tip>
 
-## Preview link, share or publish?
+## Preview link, share, artifact or publish?
 
-| | Preview link | Share | Publish |
-| --- | --- | --- | --- |
-| They see | The app, served from your session's machine | The session, live and read-only: transcript, files, **Preview** | Your app as a production service |
-| How | **Open in new tab** in the **Preview** toolbar | **Share**, at the top right of the workspace | **Publish**, beside **Share** |
-| Who | Anyone with the address | **Private**, **Anyone with the link** or **Specific people** | "Public · anyone with the URL" |
-| Lasts | While your machine is awake. Once it sleeps, the page reads "Sandbox asleep" until you're back in Alpha | While sharing is on | Until you delete it |
-| Changes | With every edit | As the session goes on | Only when you republish |
+| | Preview link | Share | Artifact | Publish |
+| --- | --- | --- | --- | --- |
+| They see | The app, served from your session's machine | The session, live and read-only: transcript, files, **Preview** | One file, such as a report, a deck or an image, in its viewer | Your app as a production service |
+| How | **Open in new tab** in the **Preview** toolbar | **Share**, at the top right of the workspace | **Publish as artifact**, at the top right with the file's tab in front, or ask the agent to "save this as an artifact" | **Publish**, beside **Share**, with the **Preview** or another tab that isn't a file in front |
+| Who | Anyone with the address | **Private**, **Anyone with the link** or **Specific people** | Only you until you share it, then **Only people invited** or **Anyone with the link** | "Public · anyone with the URL" |
+| Lasts | While your machine is awake. Once it sleeps, the page reads "Sandbox asleep" until you're back in Alpha | While sharing is on | Until you delete it, even if the session is deleted | Until you delete it |
+| Changes | With every edit | As the session goes on | Only when you ask the agent to update it | Only when you republish |
 
 A preview address opens on other people's computers only if your Alpha serves previews publicly. Otherwise it works on your computer alone, so share the session instead.
 
 Viewers don't keep your machine awake. It sleeps once you've been away for {idlePark}, unless the agent is working.
 
 <Tip>
-**Not sure?** Share for feedback on work in progress; publish when people need to use the app. See [Share a session](/sharing) and [Publish your app](/publish/publish-your-app).
+**Not sure?** Share for feedback on work in progress, make an artifact to hand over a finished file, and publish when people need to use the app. See [Share a session](/sharing), [Artifacts](/artifacts) and [Publish your app](/publish/publish-your-app).
 </Tip>
 
-## Global or session secret?
+## Global secret, session secret or secret set?
 
-Both arrive as environment variables. New commands see a change at once; a running dev server keeps the old value until it restarts.
+All three arrive as environment variables. New commands see a change at once; a running dev server keeps the old value until it restarts.
 
-| | Global secret | Session secret |
-| --- | --- | --- |
-| Reaches | Every session you own | Only this session |
-| Add it from | **Account menu → Global secrets** | **+** menu → **Secrets** → **Add secret**, with **Available in** set to **This session** |
-| Same name in both | Overridden | Wins |
+| | Global secret | Session secret | Secret set |
+| --- | --- | --- | --- |
+| What it is | A key and its value | A key and its value | A named list of key names. Each person who uses it fills in their own values. |
+| Reaches | Every session you own | Only this session | The session or setup it's attached to. A session and a setup each take one set. |
+| Add it from | **Account menu → Secrets**, then **Add secret** under **Global** | The workspace's **+** menu → **Secrets** → **Add secret**, with **Available in** set to **This session** | **Account menu → Secrets → New set**, or **+** → **Secret set** → **Create a secret set** in the composer. Attach it with **+** → **Secret set**, or in a setup's form. |
+| Same name in more than one | Loses to the other two | Wins over everything | Wins over a global secret. A setup's set wins over the session's set. |
+| Good for | Keys you use everywhere | A key one project needs | A team that shares a setup, where everyone brings their own keys |
 
 <Tip>
-**Not sure?** Start with a session secret and make it global when a second session needs it. See [Secrets](/secrets).
+**Not sure?** Start with a session secret and make it global when a second session needs it. When you share a setup with your team, put the names it needs in a secret set. See [Secrets](/secrets) and [Secret sets](/secrets#secret-sets).
 </Tip>
 
 ## Connector, MCP server or plain secret?
@@ -128,7 +130,7 @@ Connections in **Integrations** act as you, in every session you own.
 | | Connector | MCP server | Secret |
 | --- | --- | --- | --- |
 | What it is | A ready-made link to an app such as Gmail or Slack | A plug-in that gives the agent tools: hosted (**Remote**) or a command in each machine (**Local**) | An API key as an environment variable |
-| Where | **Integrations → Connectors** | **Integrations → MCPs** | The **Secrets** tab, or **Account menu → Global secrets** |
+| Where | **Integrations → Connectors** | **Integrations → MCPs** | The **Secrets** tab, or **Account menu → Secrets** |
 | Good for | Apps the catalog lists | Services with an MCP server, such as Stripe or Linear | Services with neither |
 
 Never paste a key into the composer. Alpha warns you if you try, because keys typed there land in the transcript.

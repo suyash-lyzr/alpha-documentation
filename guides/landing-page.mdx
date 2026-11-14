@@ -52,13 +52,19 @@ If you don't see **Publish** at the right of the workspace tabs, publishing isn'
 
     1. Create the session and start its machine. Your first message is what creates it.
     2. Open its [design-system skill](/skills/built-in-skills), which exists to keep pages from looking like generic AI output.
-    3. Ask you three visual questions in one card and wait for your answers before writing any code. It may ask one practical question first, such as what content the page needs.
+    3. Ask you three visual questions, one at a time in a dock above the composer, and wait for your answers before writing any code. It may ask one practical question first, such as what content the page needs.
 
     {/* screenshot to capture: /images/guides/landing-01-prompt.png — Your first message creates the session; the look is left for the agent to ask about. */}
   </Step>
 
   <Step title="Pick a direction from the three visual questions">
-    A card titled **The agent has questions** appears in the transcript, marked "waiting for you". It asks about palette, typography and layout, with four options each. The palette options show their four colour values, and the agent's recommendation comes first. Pick one option per question, or choose **Something else…** and type your own, for example "sea greens with one warm orange accent". Then press **Send answers (3/3)**. **Skip — let the agent decide** takes its recommendations instead. More on these cards in [plan mode and the agent's questions](/chat/plan-mode).
+    The questions open in a dock just above the composer, and a card titled **The agent has questions** in the transcript reads "Waiting for you". The dock shows one question at a time, with "1 of 3" at the top and arrows to move between them: palette first, then typography, then layout, with four options each. The palette options show their colours as small swatches, and the agent's recommendation comes first.
+
+    1. Click an option. The dock moves on to the next question by itself.
+    2. To describe your own, type into the **Something else** row instead, for example "sea greens with one warm orange accent", and press **→**.
+    3. On the third question, **→** sends your answers ("Send answers"). The line beside it counts them, for example "3 of 3 answered".
+
+    **Skip** leaves one question to the agent, and **×** at the top right ("Skip all — let the agent decide") takes its recommendations for all three. Afterwards the card lists your picks. More in [plan mode and the agent's questions](/chat/plan-mode#answer-the-agent’s-questions).
 
     The agent turns your picks into a short design brief in the transcript and saves it as `styleguide.md` at the project root, so later changes keep the same look. Then it builds the page and starts it. The [**Preview**](/workspace/preview) tab opens by itself as soon as the page answers.
 
@@ -74,7 +80,7 @@ If you don't see **Publish** at the right of the workspace tabs, publishing isn'
   </Step>
 
   <Step title="Fix things by drawing on the page">
-    Showing is faster than describing. Choose **Draw** in the Preview toolbar. A dock appears along the bottom with **Draw**, **Arrow**, **Box** and **Numbered pin**. Box the headline, draw an arrow at the button and drop numbered pins on anything else. The page keeps scrolling while you draw, and each mark stays on what it was drawn over. **Undo** is <kbd>⌘</kbd> <kbd>Z</kbd> (Ctrl on Windows and Linux), and <kbd>Esc</kbd> cancels.
+    Showing is faster than describing. Choose **Draw** in the Preview toolbar. A dock appears along the bottom with **Draw**, **Arrow**, **Box** and **Numbered pin**, then **Undo**, **Clear all marks** and **Cancel**. Box the headline, draw an arrow at the button and drop numbered pins on anything else. The page keeps scrolling while you draw, and each mark stays on what it was drawn over. **Undo** is <kbd>⌘</kbd> <kbd>Z</kbd> (Ctrl on Windows and Linux), and <kbd>Esc</kbd> cancels.
 
     Choose **Add to chat**. Alpha captures the whole page with your marks and attaches it to the composer as an image. Then write what each mark means and send it:
 
@@ -82,7 +88,7 @@ If you don't see **Publish** at the right of the workspace tabs, publishing isn'
     1: make this button the boldest thing on the page. 2: this paragraph is too long on a phone, cut it to two lines. The boxed headline should say "Learn to sail this summer".
     ```
 
-    To change a word or a colour yourself, **Edit** lets you "change text, colours and spacing right on the page, then send the changes to the agent". Both are covered in [point at and draw on your app](/workspace/point-and-draw).
+    To change a word yourself, choose **Edit** (the **T** beside **Draw** and **Select**): "Retype text right on the page, then send the changes to the agent". Click any text and type over it. A bar along the bottom counts your changes, for example "2 text changes", with **Clear** to put the text back and **Send** to send them to the agent, which puts them in the source. Edit changes plain text only. For a colour, a size or spacing, click **Select**, click the element and say what to change. Both are covered in [point at and draw on your app](/workspace/point-and-draw).
 
     {/* screenshot to capture: /images/guides/landing-04-draw.png — Number your pins, then refer to them by number in your message. */}
   </Step>
@@ -110,17 +116,17 @@ If you don't see **Publish** at the right of the workspace tabs, publishing isn'
   </Step>
 
   <Step title="Publish and share the address">
-    Choose **Publish** at the right of the workspace tabs. The **Publish to production** box shows **Database** as "its own, in production" and **Access** as "Public · anyone with the URL". Choose **Publish**. It sends "Deploy this." to the agent, exactly as if you had typed it.
+    Bring the **Preview** tab to the front and choose **Publish** at the right of the workspace tabs. (With a file's tab in front, that spot reads **Publish as artifact** instead.) The **Publish to production** box shows **Database** as "its own, in production" and **Access** as "Public · anyone with the URL". Choose **Publish**. It sends "Deploy this." to the agent, exactly as if you had typed it.
 
-    The agent asks for the app's name. The name is the start of the app's address, so it can't be changed later. Take the suggestion or type your own: lowercase letters, digits and dashes, starting with a letter, at most 40 characters. The **Publish** tab follows the build through **Export**, **Plan**, **Build**, **Publish** and **Live**, usually in 2–6 minutes.
+    The agent asks for the app's name in the question dock. The name is the start of the app's address, so it can't be changed later. Take the suggestion or type your own in **Something else**: lowercase letters, digits and dashes, starting with a letter and ending with a letter or digit, at most 40 characters. The **Publish** tab opens and follows the build through **Export**, **Plan**, **Build**, **Publish** and **Live**, usually in 2–6 minutes.
 
-    At **Live**, the agent posts the address in the transcript. Copy it with the link icon beside **Republish** ("Copy the app's link"). The full walkthrough is in [publish your app](/publish/publish-your-app).
+    Once the version is live, the agent replies with the address, and the **Publish** tab shows it with **Copy address** and **Open**. The pill at the top right now reads **Republish**: the link icon beside it copies the address ("Copy the app's link"). The full walkthrough is in [publish your app](/publish/publish-your-app).
 
     <Warning>
     The published page gets its own production database, and it starts empty. The test emails you sent in the Preview stay in the session's database and don't move across. The agent creates the signups table in production before it reports the address. To see real signups, open the **Database** tab and choose the app under **Production** in the database picker. See [production data](/publish/production-data).
     </Warning>
 
-    {/* screenshot to capture: /images/guides/landing-06-live.png — The stepper has reached Live, and the Published URL is the address to share. */}
+    {/* screenshot to capture: /images/guides/landing-06-live.png — The Publish tab once the version is live: the live pill, and the address with Copy address and Open. */}
   </Step>
 </Steps>
 
@@ -130,7 +136,7 @@ Open the address on your phone and sign up with your own email. The row appears 
 
 ## What happens when I close the tab?
 
-The published page keeps running. It lives outside the session's machine, so it stays up when the machine goes to sleep, {idlePark} after you leave Alpha. The Preview shows your working copy on the session's machine, not the published app, so always share the published address. When you change the page later, ask the agent for the change, then choose **Republish**. Each republish is a new version on the same address, and you can [roll back](/publish/manage) to an earlier version without a new build.
+The published page keeps running. It lives outside the session's machine, so it stays up when the machine goes to sleep, {idlePark} after you leave Alpha. The Preview shows your working copy on the session's machine, not the published app, so always share the published address. When you change the page later, ask the agent for the change, then choose **Republish** at the top right. It opens a popover with the app's **Status** (for example "Live · published 2 h ago"), its **Address** and its **Access**. **Open Publish tab** shows every version, and only the popover's own **Republish** button sends anything: a message to the agent such as "Republish harbor-sailing.". The agent publishes only when you ask, with this button or in a message that tells it to publish, republish or put the app online. Finishing a change doesn't publish it. Each republish is a new version on the same address, and you can [roll back](/publish/manage) to an earlier version without a new build.
 
 ## Make it better
 
@@ -164,7 +170,7 @@ Add a page title, a meta description and a share image so the link previews well
     Republish, roll back to any earlier version, change its settings or delete it.
   </Card>
   <Card title="Point at and draw on your app" icon="pen" href="/workspace/point-and-draw">
-    Select one element as context, or edit text and colours on the page.
+    Select one element as context, or retype text right on the page.
   </Card>
   <Card title="Share a session" icon="share-nodes" href="/sharing">
     Let a co-founder read the whole build and open the Preview, with no way to change it.
