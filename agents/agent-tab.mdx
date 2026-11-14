@@ -6,7 +6,9 @@ description: "See your agent as a team on a canvas: its inputs, each step and to
 
 The **Agent** tab draws the AI agent your session built as a team on a canvas: what it's given, who does each step, which steps run side by side, and what it hands back. It's a map, not an editor: to change the agent, ask the session's agent. To run it on your own input, open [Try it](/agents/try-it). To build an agent in the first place, see [Build an AI agent](/agents/build-an-agent).
 
-{/* screenshot to capture: /images/agents/agent-tab-canvas-overview.png — harbor-triage drawn top to bottom under its header: one input, a classify step, two steps that run together, then the answer. Grey cards, told apart by their icons. */}
+<Frame caption="The Agent tab draws the agent: its inputs, its step and its answer.">
+  <img src="/images/agents/agent-tab-canvas-overview.png" alt="The Harbor triage agent session with the Agent tab in front, headed Harbor Sailing School Inbox Triage, 1 step. The canvas shows three cards joined by lines: Inputs with email and received_at, the step Harbor triage with an answer tag, its model gpt-6-luna and the start of its task, and Answer with category, reply_draft, reply_subject, staff_action and summary, and Show all 7. The canvas bar along the bottom holds the zoom controls and Try it. The chat on the left ends with the agent's summary and a Test this agent with evals? card." />
+</Frame>
 
 ## Open the Agent tab
 
@@ -52,7 +54,9 @@ Click a card and its details dock to the right of the canvas, which keeps the ca
 
 ### Step details
 
-{/* screenshot to capture: /images/agents/agent-tab-inspector-step.png — A step's details: its instructions and task first, then where it sits in the flow. */}
+<Frame caption="Click a card to read everything about it.">
+  <img src="/images/agents/agent-tab-inspector-step.png" alt="The Agent tab with the Harbor triage step selected on the canvas and its details open on the right: the step's name, its INSTRUCTIONS, its TASK with the placeholders for the received time and the email, what it RETURNS, then Model gpt-6-luna, Worker, Answer, Reads received_at and email, TOOLS No tools, and where it's defined." />
+</Frame>
 
 | Field | What it tells you |
 | --- | --- |

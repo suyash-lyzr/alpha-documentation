@@ -30,6 +30,10 @@ A test case is someone asking your agent something in a particular situation. Th
 
 Every eval Alpha writes has at least two personas and two scenarios, and every test case names one of each, however you asked for the eval. That keeps the diagram on **Test cases** and the **By scenario** and **By persona** bars on [Results](/evals/results) filled in.
 
+<Frame caption="Setting up is free; only a run calls the model.">
+  <img src="/images/evals/evals-how-dialog.png" alt="The How evals work dialog. Set up: Alpha writes test cases for this agent, one for every scenario with every persona, and proposes them in the chat like any other message. Free. Run: every test case calls the agent's real model, which costs extra. The Evals tab shows the cost first, and nothing runs until you press Run evaluation. Its buttons read Cancel and Set up evals." />
+</Frame>
+
 Each test case carries an input and the checks that grade the answer, of two kinds:
 
 | Check | Tag on the eval's tab | What decides it | Cost |
@@ -53,7 +57,9 @@ Evals test an agent Alpha has [built and proved](/agents/build-an-agent) in this
 
 The buttons in the first three rows open a **How evals work** dialog first: "Set up: Alpha writes test cases for this agent, one for every scenario with every persona, and proposes them in the chat like any other message. Free." and "Run: every test case calls the agent's real model, which costs extra." Click **Set up evals** to send the request, or **Cancel**. The button reads "Asked the agent" for a moment, and the reply arrives in the transcript. **Set up eval** on the **New eval** form asks at once, with no dialog.
 
-{/* screenshot to capture: /images/evals/evals-offer-card.png — Alpha offers evals as soon as the agent is proved. Nothing is sent until you click. */}
+<Frame caption="Once the agent is built, Alpha offers to test it.">
+  <img src="/images/evals/evals-offer-card.png" alt="A card titled Test this agent with evals?, reading Check all five request categories, urgency boundaries, reply tone, policy claims, and prompt-injection handling., then that the agent drafts test cases and says what a run costs, and that nothing runs until you press Start in the Evals tab. Its buttons read Set up evals and Not now." />
+</Frame>
 
 <PromptCard label="Try this">
 
@@ -160,7 +166,9 @@ Until Alpha has written any test cases, the step shows what evals are and one bu
 
 Click a scenario or persona to filter the table to its test cases; click it again, or **Show all**, to clear the filter. A "draft" tag marks test cases nobody has reviewed yet. When you're happy with them, tell the agent "these cases are right" and it marks them reviewed and locks them. If a locked test case changes later, the next run refuses to start.
 
-{/* screenshot to capture: /images/evals/evals-test-cases-diagram.png — Every scenario meets every persona. Click either side to filter the table. */}
+<Frame caption="Every scenario meets every persona: one test case for each pair.">
+  <img src="/images/evals/evals-test-cases-diagram.png" alt="The harbor-support eval tab on its Test cases step, with the Test cases, Run and Results steps, New eval and All evals at the top. A map fills the page: SCENARIOS on the left lists situations such as Routine booking, Routine cancellation, Routine refund, Imminent weather and General information, each with 2 tests; WHAT'S BEING TESTED in the middle shows Harbor Sailing School Inbox Triage with its inputs, its step and its output; and PERSONAS on the right lists First time student and Group organizer, each with 25 tests. The footer reads 50 test cases. Review them, then set up the run, with Next: set up the run." />
+</Frame>
 
 ## Edit a test case
 

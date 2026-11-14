@@ -53,8 +53,8 @@ At the right end of the tab strip sit the session's own buttons. People you shar
 
 Alpha switches nothing on until the work needs it, so a new session has no workspace panel and the chat takes its place. The **+** button, **GitHub**, **Share**, **Report a bug** and the files button sit in the chat header instead. A pulsing dot on **+** means a service is starting.
 
-<Frame caption="A new session: the chat and the files panel, with + in the header and no workspace yet.">
-  <img src="/images/workspace/workspace-fresh-session.png" alt="A new session a few seconds after its first message, with the sidebar collapsed. The header shows the title Harbor Sailing Classes and a pill with the Codex mark reading codex, and at its right the round +, GitHub and Share buttons and the lit files button. There is no workspace panel. The files panel is open along the right edge, headed /workspace with Refresh and Hide buttons, and reads workspace is empty. At the top of the chat, the prompt asking for a class-booking web app for Harbor Sailing School sits in a bubble. Below it, the agent's first message reads I'll build the weekly class list and booking form, keep availability in server memory, and check that a booking reduces the seat count. I'm using the design-system and landing-page-design skills for the interface. Under it, a folded row with two small round icons reads 3 commands, and a three-by-three pixel loader sits beside Striking while hot… and a 4s counter. The composer at the bottom shows the placeholder Add a follow-up, the + button, the model chip reading gpt-6.1-sol · high, the plan chip, the microphone and a round Stop button with a dark square." />
+<Frame caption="A new session: just the chat, until the agent opens something in the workspace.">
+  <img src="/images/workspace/workspace-fresh-session.png" alt="A new session a few seconds after its first message, with the sidebar collapsed. The header shows the title Harbor Sailing Classes and a pill with the Codex mark reading codex, and at its right the +, GitHub, Share and files buttons. The message reads Make a simple one-page website for Harbor Sailing School that lists this week's classes with times and seats left, and show it in the Preview. Under it, the agent replies that it will build a clean, nautical page with a weekly class schedule, check it on desktop and mobile and open it in the Preview, then a folded row reads 2 commands, and the working line reads Striking while hot… with a 5s counter. The composer at the bottom shows Add a follow-up and a round stop button." />
 </Frame>
 
 The panel slides in the first time there's something to show: usually the Preview, once the agent starts your app.
@@ -65,8 +65,8 @@ The agent switches services on when the work calls for them, such as the databas
 
 To switch one on yourself, click **+** at the end of the tab strip (tooltip "Open a tab, or turn on a service"). The menu has two parts: **Closed tabs** lists the tabs you hid with their **×**, and **Add a tab** lists the services that aren't on yet, plus **GitHub** when its tab isn't open. A part with nothing in it doesn't show.
 
-<Frame caption="With Shell, Database and Secrets already open as tabs, the + menu offers only the services that aren't.">
-  <img src="/images/workspace/workspace-plus-menu.png" alt="A close crop of the workspace's tab strip with the + menu open below the + button, which follows the server.js tab and comes before the GitHub, Share, Publish and files buttons. The menu lists, each with its icon: Sign-in, Publish and GitHub. Behind it, the top of the Preview shows." />
+<Frame caption="The + menu adds a tab or turns on a service.">
+  <img src="/images/workspace/workspace-plus-menu.png" alt="The workspace's + menu, headed ADD A TAB, listing Shell, Database, Sign-in, Secrets and GitHub, each with its icon." />
 </Frame>
 
 | Menu item | What happens |
@@ -75,10 +75,6 @@ To switch one on yourself, click **+** at the end of the tab strip (tooltip "Ope
 | **Database** | PostgreSQL starts inside the machine. Until it's ready, the tab shows dimmed, and hovering it shows "Starting PostgreSQL in this session's machine…". |
 | **Sign-in** | Alpha registers your app for sign-in. Until it's done, an **Auth** tab shows dimmed, and hovering it shows "Registering the app for sign-in…". |
 | **Production Logs**, **Production Metrics** | The tab opens on your live app. Offered only once an app from this session is live. |
-
-<Frame caption="A service the machine has to start shows as a dimmed tab until it's ready.">
-  <img src="/images/workspace/workspace-tab-starting.png" alt="A close crop of the workspace tab strip. It reads Preview, then Shell in front with its ×, then Database, dimmed while it starts, and the round + button at the end." />
-</Frame>
 
 If a service can't start, Alpha shows the error and the starting tab goes away. The Preview is in the menu only after you close it: to get one, ask the agent to run your app.
 

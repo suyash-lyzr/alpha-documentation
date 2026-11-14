@@ -8,10 +8,6 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 
 Every session has a key that lets the app it builds call the apps and remote MCP servers you connected, with no app token anywhere in your code. The agent uses it for you; you only handle it yourself when you run an exported copy somewhere else. To connect something first, see [Connect an app](/integrations/connect-apps) or [MCP servers](/integrations/mcp-servers). For your own API keys, use [Secrets](/secrets).
 
-<Frame caption="The key sits in the column at the right of the session's Secrets tab, masked until you click Reveal.">
-  <img src="/images/integrations/tools-key-card-masked.png" alt="The right-hand column of a session's Secrets tab, beside the list of secrets. Under the small heading This session, the title This session's key is followed by: Set for you in every shell and on every deployment. For an exported copy, put these two in its .env. Rotating invalidates every copy; deployments need a redeploy. Below it are two rows, each a variable name above its value: the address of your Alpha's tools, and the key, shown as a row of dots. Each value has a copy icon at its right. Under the rows are three buttons: Reveal, Copy .env lines and Rotate." />
-</Frame>
-
 <Note>
 If you see an error where the key should be, calling your connections from your app isn't turned on for your Alpha. Ask your administrator.
 </Note>
