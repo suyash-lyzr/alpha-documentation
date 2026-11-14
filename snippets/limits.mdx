@@ -10,8 +10,6 @@ export const turnMax = "48 hours (default)";
 
 export const disk = "10 GB (default)";
 
-export const promptMax = "100,000 characters";
-
 export const reposMax = "5 per session";
 
 export const uploadMax = "256 MB per file (default)";
@@ -27,6 +25,18 @@ export const folderDownloadMax = "500 MB";
 export const dictationMax = "2 minutes";
 
 export const queueMax = "20 messages";
+
+{/* Artifacts. An artifact's size counts the files it references. */}
+
+export const artifactMax = "32 MB";
+
+export const artifactsMax = "200 per account";
+
+export const artifactsTotal = "1 GB per account";
+
+{/* Report a bug */}
+
+export const feedbackFiles = "10 files and 25 MB in total";
 
 {/* Publishing */}
 
@@ -64,6 +74,10 @@ export const setupsMax = "5 per account";
 
 export const secretsMax = "256 secrets";
 
+export const secretSetsMax = "20 per account";
+
+export const secretSetNames = "50 per set";
+
 export const secretsTotal = "32 KB in total (default)";
 
 Some limits can differ for your Alpha. Those are marked "(default)", and your Alpha may use a different value.
@@ -75,7 +89,6 @@ Some limits can differ for your Alpha. Those are marked "(default)", and your Al
 | Idle time before a machine sleeps | {idlePark} | Once no Alpha tab of yours has been open for this long, each session with nothing running goes to sleep. Nothing is lost, and the machine wakes the next time you open the session or work arrives for it. |
 | Length of one turn | {turnMax} | The turn is stopped. Your next message carries on from the conversation so far. |
 | Disk per session's machine | {disk} | Writes inside the machine fail once the disk is full. Delete large files or build outputs to free space. |
-| Length of one message | {promptMax} | The message is refused with "prompt too large". Attach long text as a file instead. |
 | Repositories in a session | {reposMax} | You can't add another. A setup's repositories count toward this. |
 | Size of one uploaded file | {uploadMax} | The upload is refused. |
 | Image the agent can see | {imageMax} | Larger images are still uploaded to the session, but the agent gets them only as files, not as pictures it can look at. |
