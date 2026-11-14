@@ -26,7 +26,7 @@ Add user sign-in to my app.
 
 Alpha will:
 
-1. Register your app for sign-in and put its sign-in settings in the session's environment. The **Auth** tab slides into the workspace and opens.
+1. Turn on sign-in for your app. The **Auth** tab slides into the workspace and opens.
 2. Build sign-in, sign-up and forgot-password pages in your app's own design, with email and password and a Google button.
 3. Key each user's data on the stable account id that sign-in returns, not on their email.
 4. Start the app so you can try the flow in the [Preview](/workspace/preview).
@@ -42,7 +42,7 @@ Ask for sign-in only in apps that need accounts. Once it's on, sign-in has no of
 
 ## How does sign-in work?
 
-Your app never stores passwords. Alpha keeps the accounts and tells your app who someone is: their account id, email and name. People sign in with email and password or with Google, and Alpha handles the Google side, so there's nothing to set up with Google. Sign-in follows the standard OpenID Connect protocol, so the agent builds it with well-known sign-in libraries.
+Your app never stores passwords. Alpha keeps the accounts and tells your app who someone is: their account id, email and name. People sign in with email and password or with Google, and Alpha handles the Google side, so there's nothing to set up with Google. The agent builds it with well-known sign-in libraries.
 
 Where people sign in depends on what you're building:
 
@@ -53,7 +53,7 @@ Where people sign in depends on what you're building:
 
 Your app's own sign-up and forgot-password forms also go through Alpha, which creates the accounts and sends the reset emails.
 
-Alpha puts your app's sign-in settings in the session's environment, and the agent wires them up. You rarely need them, but they're in the **Auth** tab's **Connection** column. Each has a **Copy** button, and the secret stays masked until you click **Reveal**.
+Your app's sign-in settings are already available to the agent, and it wires them into your app. You rarely need them, but they're in the **Auth** tab's **Connection** column. Each has a **Copy** button, and the secret stays masked until you click **Reveal**.
 
 {/* screenshot to capture: /images/workspace/auth-connection-details.png — The Connection column beside the users: Issuer, Client ID and the masked Client secret, with Reveal and Copy. The agent already has all three values. */}
 
@@ -63,7 +63,7 @@ Alpha puts your app's sign-in settings in the session's environment, and the age
 | **Client ID** | Your app's id with the sign-in service. One per session. |
 | **Client secret** | Proves a request comes from your app's server. |
 
-Your running app reads these settings like any other command on the session's machine. Sign-in returns are accepted on the app's preview addresses, on `localhost` and, once published, on its own https addresses. The agent builds the return address from each request rather than hard-coding it, because the same app is reached at all of them.
+Sign-in works on the app's preview addresses and, once published, on its own addresses. The agent sets it up so the same app works at each of them, without hard-coding any one address.
 
 <Warning>
 The client secret works like a password for your app. Don't paste it into a message, a repository or a front end. Your app's server already has it, so nobody has to copy it.
@@ -129,15 +129,15 @@ If the **Auth** tab says sign-in isn't set up, or the publish **Sign-in** switch
 | What | Detail |
 | --- | --- |
 | Users listed | The 100 most recent. A line below the list, "Showing the 100 most recent — … total.", gives the full count. |
-| History | The list comes from Alpha's record of sign-ins, which is kept for a limited time (90 days by default). Someone whose last sign-in is older drops off the list. |
+| History | The list covers sign-ins over a limited time (90 days by default). Someone whose last sign-in is older drops off the list. |
 | Passwords | 8 to 256 characters, for accounts your app's own sign-up form creates. |
-| Sign-ups and reset emails | 20 calls a minute per session, shared by the preview and the published app. Past that, calls are refused with "too many sign-up or reset calls from this app — retry shortly" until the allowance refills, one call every few seconds. |
+| Sign-ups and reset emails | 20 calls a minute per session, shared by the preview and the published app. Past that, calls are refused with "too many sign-up or reset calls from this app — retry shortly". Wait a few seconds and try again. |
 | Turning it off | Not possible. [Deleting the session](/sessions/fork-and-delete#delete-a-session) removes its sign-in registration, together with its published apps. |
 
-If sign-in fails with "Invalid parameter: redirect_uri", the app sent people back to an address Alpha doesn't accept, usually a hard-coded one. Send the agent:
+If sign-in fails with an error about an invalid redirect, the app sent people back to an address Alpha doesn't accept, usually a hard-coded one. Send the agent:
 
 ```text
-Sign-in fails with "Invalid parameter: redirect_uri". Build the callback URL from the incoming request's forwarded host instead of hard-coding it.
+Sign-in fails with an invalid redirect error. Send people back to the address they opened the app on, instead of a hard-coded one.
 ```
 
 ## Next steps

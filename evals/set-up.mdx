@@ -71,7 +71,7 @@ Alpha will:
 
 ## Review the proposal
 
-When the test cases are written, the agent posts an **Eval proposal** card tagged "not started". It names the file Alpha drafted, such as "Alpha drafted harbor-triage/evals/suite.yaml. It will:", lists what the test cases cover, and says how big a run is: "12 cases × 1 trials = 12 agent runs per target." A trial is one run of one test case; each runs once unless you ask for more. A target is one framework your agent was built for.
+When the test cases are written, the agent posts an **Eval proposal** card tagged "not started". It names the eval Alpha drafted, lists what the test cases cover, and says how big a run is: "12 cases × 1 trials = 12 agent runs per target." A trial is one run of one test case; each runs once unless you ask for more. A target is one framework your agent was built for.
 
 <Warning>
 Running the evals costs real money. The card says so in its own words: "Costs real money. About \$L to \$H on your key." The range runs from your agent's share to the total with grading, and is an estimate, not a charge. Before posting the card, Alpha sends one tiny request to each model the run will call, a fraction of a cent on your key, to confirm the model exists and your account has credit.
@@ -119,7 +119,7 @@ While the session's machine wakes, the page reads "Getting your evals ready" and
 
 ## Set up another eval
 
-One eval rarely covers everything. Set up another to test one area on its own, such as refund requests or unusual inputs. Each eval is a test cases file of its own beside the agent's others, with its own runs and its own [baseline](/evals/results#compare-runs-and-set-a-baseline); the agent's other evals stay as they are.
+One eval rarely covers everything. Set up another to test one area on its own, such as refund requests or unusual inputs. Each eval has its own test cases, its own runs and its own [baseline](/evals/results#compare-runs-and-set-a-baseline); the agent's other evals stay as they are.
 
 <Steps>
   <Step title="Open New eval">
@@ -148,7 +148,7 @@ You can also ask in the composer, for example "Set up a separate eval for harbor
 | You see | What to do |
 | --- | --- |
 | "No agent to test yet." | Evals test an agent Alpha has built and published. Click **Ask Alpha to build one**. |
-| "Two evals of harbor-triage save their runs under one name" | Two evals' files give the same name, so their runs would mix, and neither can run. Click **Ask Alpha to rename one**. |
+| "Two evals of harbor-triage save their runs under one name" | Two evals are set to save their runs under the same name, so their runs would mix, and neither can run. Click **Ask Alpha to rename one**. |
 
 ## Shape the test cases
 
@@ -180,7 +180,7 @@ Click any row to open the test case in a side panel. Its tags at the top show th
 
 ## Add more test cases and save
 
-These buttons ask the agent to write test cases into this eval. They appear on the tab once it saves the file. Writing them takes a turn, not an eval run.
+These buttons ask the agent to write test cases into this eval. They appear on the tab once it has saved the test cases. Writing them takes a turn, not an eval run.
 
 | Control | What Alpha writes |
 | --- | --- |
@@ -193,7 +193,7 @@ Deleting a scenario or persona asks first, for example "Delete Refund request an
 
 <Steps>
   <Step title="Save your changes">
-    Once you've edited something, the footer reads "You have unsaved changes." Click **Save** to write the test cases file, or **Undo** to drop every unsaved change.
+    Once you've edited something, the footer reads "You have unsaved changes." Click **Save** to keep them, or **Undo** to drop every unsaved change.
   </Step>
   <Step title="Move on to the run">
     Click **Next: set up the run**. It saves anything still unsaved first, and stays off while there are no test cases. Continue with [Run an evaluation](/evals/run).

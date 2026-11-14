@@ -170,7 +170,7 @@ Click a tick, or open the row, to read a run's whole log, even while the machine
 | **Succeeded** | The command exited 0, or the agent's turn finished with a report. |
 | **Failed** | The command failed, timed out ("stopped after 600 s") or couldn't start, or the agent's turn went wrong. The reason shows in red. |
 | **Skipped** | The run didn't start, for example "the previous run was still going". |
-| **Queued** | Waiting to start. The row reads "Waiting for the routine service". |
+| **Queued** | Waiting to start. The row says it's waiting for Alpha to start it. |
 | **Running** | Under way. The row shows what the run is doing: the agent's current step (or "The agent is working"), or the command's latest line of output ("Waking the session" before there is one). |
 
 An agent run appears in its session's transcript as **Routine run · harbor-inbox-digest**. The agent works without asking questions and ends with a short report, which becomes the run's log. A failed command run posts **Routine harbor-uptime: the run failed** with **Error**, **Took** and the end of the log.
@@ -184,8 +184,8 @@ Open the run to read its reason. A failed or skipped run is never retried; the r
 | Reason | What happened | What to do |
 | --- | --- | --- |
 | "the previous run was still going" | The run before it hadn't finished, so this one was skipped. | Nothing, if it's rare. If it keeps happening, make the work faster or the timetable less frequent. |
-| "the fire came more than 10m0s late (Alpha was not running) — skipped, not caught up" | Alpha was down or restarting when the run was due. | Nothing. Click **Run now** if you need this run. |
-| "the run waited more than 10m0s for a worker — skipped, not caught up" | Alpha was too busy to start it in time. | Click **Run now** if you need this run. |
+| A message that the run came more than 10 minutes late and was skipped, not caught up | Alpha was down or restarting when the run was due. | Nothing. Click **Run now** if you need this run. |
+| A message that the run waited more than 10 minutes to start and was skipped, not caught up | Alpha was too busy to start it in time. | Click **Run now** if you need this run. |
 | "the session has no machine" | The routine's session has no machine to run on. | Open the session and send a message, so it gets a machine, then **Run now**. |
 | "the session's machine could not be woken: …" | The session's machine wouldn't wake. Nothing was discarded. | See [What if a machine won't wake?](/sessions/machines#what-if-a-machine-won’t-wake). |
 | "the command could not be run: …" | The command never started, for example because its folder is missing. | Ask the agent in the routine's session to fix the command or its folder. |
@@ -193,7 +193,7 @@ Open the run to read its reason. A failed or skipped run is never retried; the r
 | "the agent could not be started: …" | An agent routine couldn't begin its turn. | Open the session to see why, then **Run now**. |
 | "the agent's turn failed" or "the agent's turn was stopped" | The agent's turn ended in an error, or was stopped. | Read the turn in the session's transcript. |
 | "the agent's turn ended without reporting back" | The agent finished without its closing report. | Read the turn in the transcript, and make the instruction say what to report. |
-| "the server running it stopped mid-run", "the run's job was lost before a worker took it", "stopped: the run outlived its limit" or "stopped: the routine service ended the run" | Alpha lost track of the run, usually during a restart. | Click **Run now** if you need this run. |
+| "the server running it stopped mid-run", "stopped: the run outlived its limit", or another message that the run was lost or ended by Alpha | Alpha lost track of the run, usually during a restart. | Click **Run now** if you need this run. |
 | "the session is gone" or "the session's owner is gone" | The routine's session, or its owner's account, was deleted. | Remove the routine, or ask the agent in another session to create it again. |
 
 ## What are the limits?

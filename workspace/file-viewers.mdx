@@ -28,7 +28,7 @@ Alpha picks the viewer from the file's extension. A file that reads as binary an
 | `.mmd`, `.mermaid` | Mermaid diagram | Pick, draw | [Mermaid](/workspace/decks-and-drawings#read-mermaid-diagrams) |
 | `.deck.html`, `.slides.html`, `.excalidraw`, `.bpmn` | Deck, Excalidraw, BPMN | See their page | [Decks and drawings](/workspace/decks-and-drawings) |
 
-The pen, the picker and **Edit** sit at the header's right end, in the viewers that have them. While the agent writes files, an open viewer re-reads its file every few seconds; **Refresh** re-reads it at once. If a re-read fails, the header says "refresh failed" and the last good version stays. How picks and marks reach the agent is on [Point at and draw on your app](/workspace/point-and-draw).
+The pen, the picker and **Edit** sit at the header's right end, in the viewers that have them. While the agent writes files, an open viewer keeps up with its file by itself; **Refresh** re-reads it at once. If a re-read fails, the header says "refresh failed" and the last good version stays. How picks and marks reach the agent is on [Point at and draw on your app](/workspace/point-and-draw).
 
 <Note>
 People you [share the session](/sharing) with open the same viewers, read-only, without the pen, the picker, **Edit**, **Add to prompt** or **Add to chat**, and they can't build a LaTeX document. The files they see have your secrets masked.
@@ -128,7 +128,7 @@ Files named `.doc`, `.xls` or `.ppt`, and macro and template files (`.docm`, `.x
 
 ## Build a LaTeX document
 
-A `.tex`, `.latex` or `.ltx` file opens with a **PDF** view beside **Source**. Alpha compiles it in the session's machine with Tectonic, a XeTeX engine, on open and whenever the file changes, writes `<name>.pdf` next to it, and shows it in the PDF viewer with all its tools. **Build** compiles again by hand.
+A `.tex`, `.latex` or `.ltx` file opens with a **PDF** view beside **Source**. Alpha compiles it on open and whenever the file changes, writes `<name>.pdf` next to it, and shows it in the PDF viewer with all its tools. **Build** compiles again by hand.
 
 {/* screenshot to capture: /images/workspace/viewer-latex.png — A LaTeX document built into a PDF, with the Built status above it. */}
 
@@ -140,9 +140,9 @@ A `.tex`, `.latex` or `.ltx` file opens with a **PDF** view beside **Source**. A
 | "The document did not compile — the errors above say where. The Source view shows the file." | No version of the document has built yet. |
 | "a build or export is already running for this session" | One build or deck export runs per session at a time. Wait, then **Build**. |
 | "the LaTeX build timed out" | The build ran past its time limit and was stopped. Try **Build** again. |
-| "this session's machine has no LaTeX engine yet — send any message to re-provision it" | The machine is older than LaTeX support and couldn't fetch the engine. Any message updates it. |
+| A message saying the session's machine has no LaTeX engine yet | The machine is older than LaTeX support. Send any message, and it's brought up to date. |
 
-Only the session's owner can build. LuaTeX-only packages don't work, and a document can't run commands on the machine. A package the machine hasn't cached is downloaded on first use, which needs the machine's network.
+Only the session's owner can build. LuaTeX-only packages don't work, and a document can't run commands on the machine. A package used for the first time is downloaded, which needs the machine's network.
 
 <Note>
 The PDF is an ordinary workspace file: it shows in the files panel, downloads like any file, and the agent can read it.

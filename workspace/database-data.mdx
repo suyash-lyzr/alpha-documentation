@@ -16,7 +16,7 @@ The Database tab's browser shows the tables of the database you pick in your ses
 
 The column on the left lists the database's tables, then its views (eye icon). Tables outside the `public` schema are grouped under their schema's name. A count prefixed with `~` is PostgreSQL's estimate, not an exact count. Type in **Tables** to narrow the list, and click a table to open it. While this browser tab stays open, Alpha remembers which table you had open in each database, and where you left each table: its page, sort, filters and search.
 
-In the **Data** view, the toolbar narrows the rows. Alpha runs each change as a query on the database, so sorting and filtering cover the whole table, not only the page on screen.
+In the **Data** view, the toolbar narrows the rows. Sorting and filtering cover the whole table, not only the page on screen.
 
 | To | Do this |
 | --- | --- |
@@ -62,7 +62,7 @@ Some tables can't be edited, and the footer says why:
 | Footer chip | Meaning |
 | --- | --- |
 | **read-only** | A view, a materialized view or a foreign table. The chip's tooltip reads "Views and foreign tables are read-only here". |
-| **no primary key** | You can edit, but Alpha finds each row by its physical position, which PostgreSQL can change during cleanup (`VACUUM`). Add a primary key for safe editing. |
+| **no primary key** | You can edit, but without a primary key a row can't always be told apart reliably, so an edit could miss. Add a primary key for safe editing. |
 
 Generated columns, and identity columns that PostgreSQL always fills, can't be typed into. A read or save that waits more than 5 seconds for a lock gives up. This usually means the agent is running a migration on that table, so try again once it finishes.
 
@@ -74,7 +74,7 @@ Generated columns, and identity columns that PostgreSQL always fills, can't be t
   <img src="/images/workspace/database-structure.png" alt="The Structure view of the instructors table, with instructors selected in the tables list. The heading reads instructors, then table · 3 rows · 40.0 KB. The COLUMNS section, with the count 4, lists id with a key icon, the type uuid, a pk chip and default gen_random_uuid(); name, varchar(100), not null; email, varchar(254), not null and unique; and created_at, timestamptz, not null, default now(). The INDEXES section, with the count 2, lists instructors_email_key, marked unique, USING btree (email), and instructors_pkey, marked primary, USING btree (id). The CONSTRAINTS section, with the count 3, lists instructors_email_key, unique, (email), and the check constraints instructors_email_check and instructors_name_check with their CHECK expressions. The DEFINITION section, with a copy button, starts create table instructors ( and is cut off at the bottom." />
 </Frame>
 
-**Definition** is rebuilt from PostgreSQL's catalog, not dumped byte for byte. Click **Copy SQL** to copy it.
+**Definition** shows the table as SQL. It's equivalent to the table as it stands, not necessarily the exact text that created it. Click **Copy SQL** to copy it.
 
 <Tip>
 Paste the copied definition into the composer with the change you want, such as "Add a waitlist_position column to this table." The agent then starts from the real schema, not from its memory of it.

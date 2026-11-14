@@ -51,7 +51,7 @@ If Slack isn't listed under **Integrations**, or the **Routines** page says "Rou
     Alpha will:
 
     1. Write the summary as a script in the workspace, reading the session's database.
-    2. Post through your Slack connection. The script never holds a Slack token.
+    2. Post through your Slack connection, so no Slack key goes into the script.
     3. Ask for your time zone in the [question dock](/chat/plan-mode#answer-the-agent’s-questions) above the composer, because 9:00 falls at a different moment in each zone. Pick your zone, or type it in the **Something else** row and press **→**.
 
     <Tip>
@@ -122,7 +122,7 @@ flowchart LR
 | If… | What Alpha does |
 | --- | --- |
 | The script exits with an error | It marks the run failed and posts "Routine harbor-weekly-summary: the run failed" in the session's transcript, with the error and the end of the log. Failed runs aren't retried. |
-| Alpha itself wasn't running at 09:00 | A run that would start more than 10 minutes late is skipped, not caught up. The next Monday runs as usual. |
+| Alpha was unavailable at 09:00 | A run that would start more than 10 minutes late is skipped, not caught up. The next Monday runs as usual. |
 | You pause the routine with the switch on its row | The row reads "Paused", and nothing runs until you turn the switch back on. The transcript gets one line, "You paused the routine harbor-weekly-summary". A paused routine still counts toward your limit. |
 | You delete the Harbor bookings session | The routine and its runs are deleted with it. |
 

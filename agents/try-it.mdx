@@ -46,9 +46,9 @@ The composer has one field for each input your agent declares, named in words, w
   </Step>
 </Steps>
 
-Fields you leave empty take the default values from the agent's `inputs.json`. If an input has no value in either place, the run is refused with a line naming the inputs it needs. Each message is a fresh run: your agent sees nothing from earlier messages in the chat. To keep the context of a conversation, put it in the input.
+Fields you leave empty take the agent's default inputs, where it has them. If an input has no value either way, the run is refused with a line naming the inputs it needs. Each message is a fresh run: your agent sees nothing from earlier messages in the chat. To keep the context of a conversation, put it in the input.
 
-Only one message runs at a time. If you press **Run** while an earlier message is still running, the button reads **Queued**. Your message then runs by itself, with the fields as they are at that point. Click **Queued** to cancel it. The queue lives in the page, so closing the tab drops it.
+Only one message runs at a time. If you press **Run** while an earlier message is still running, the button reads **Queued**. Your message then runs by itself, with the fields as they are at that point. Click **Queued** to cancel it. Closing the tab drops a queued message.
 
 ## Watch the run
 
@@ -116,7 +116,7 @@ Every message is a real run on the real model, and it is billed to the key in yo
 | Limit | Value |
 | --- | --- |
 | Length of one run | 900 seconds. A longer run is stopped and marked **Did not finish**, and **Details** reads "the run took longer than 900 s and was stopped". |
-| Size of one answer | 64 KiB. A longer answer is kept in the run's `stdout.txt`, and the card says where. |
+| Size of one answer | 64 KiB. A longer answer is kept in full with the run's files, and the card says where. |
 | Size of one message | 64 KiB across all text fields, or the start is refused with "Send a shorter message." Attached files don't count toward it. |
 | Attached file | {uploadMax}, the same as any [upload](/workspace/files). |
 | Chats listed under **Earlier chats** | The newest 30. Chats can't be renamed or deleted. |
@@ -124,7 +124,7 @@ Every message is a real run on the real model, and it is billed to the key in yo
 The session-wide limits are on [Limits](/reference/limits).
 
 <Note>
-Every chat and run is saved in your agent's folder, under `eval-runs/.playground/`, and you can open it in [Files](/workspace/files). When a run ends, Alpha replaces any environment value of 8 characters or more whose variable name ends in `KEY`, `TOKEN`, `SECRET` or `PASSWORD` with `[redacted]` in those files. Your secrets are also hidden in everything the chat shows. While a run is going, only step names, statuses and timings leave the machine.
+Every chat and run is saved in your agent's folder, and you can open it in [Files](/workspace/files). Alpha hides your keys, tokens, secrets and passwords in those files, showing `[redacted]` in their place, and in everything the chat shows.
 </Note>
 
 ## Next steps

@@ -9,7 +9,7 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 Every session has a key that lets the app it builds call the apps and remote MCP servers you connected, with no app token anywhere in your code. The agent uses it for you; you only handle it yourself when you run an exported copy somewhere else. To connect something first, see [Connect an app](/integrations/connect-apps) or [MCP servers](/integrations/mcp-servers). For your own API keys, use [Secrets](/secrets).
 
 <Frame caption="The key sits in the column at the right of the session's Secrets tab, masked until you click Reveal.">
-  <img src="/images/integrations/tools-key-card-masked.png" alt="The right-hand column of a session's Secrets tab, beside the list of secrets. Under the small heading This session, the title This session's key is followed by: Set for you in every shell and on every deployment. For an exported copy, put these two in its .env. Rotating invalidates every copy; deployments need a redeploy. Below it, the variable name FORGE_TOOLS_URL sits above the address of your Alpha's tools, and FORGE_TOOLS_API_KEY above the key, shown as a row of dots; each value has a copy icon at its right. Under the rows are three buttons: Reveal, Copy .env lines and Rotate." />
+  <img src="/images/integrations/tools-key-card-masked.png" alt="The right-hand column of a session's Secrets tab, beside the list of secrets. Under the small heading This session, the title This session's key is followed by: Set for you in every shell and on every deployment. For an exported copy, put these two in its .env. Rotating invalidates every copy; deployments need a redeploy. Below it are two rows, each a variable name above its value: the address of your Alpha's tools, and the key, shown as a row of dots. Each value has a copy icon at its right. Under the rows are three buttons: Reveal, Copy .env lines and Rotate." />
 </Frame>
 
 <Note>
@@ -18,20 +18,20 @@ If you see an error where the key should be, calling your connections from your 
 
 ## How does your app reach your connections?
 
-Your app reads two values from its environment, an address and this session's key, and sends every call to Alpha. Alpha holds your sign-ins, attaches the right one and calls the app for you. Your app never sees the app's own token, so there is nothing to leak beyond the key itself.
+Your app uses this session's key, along with your Alpha's address, to call what you connected. Your sign-ins stay with Alpha, so your app never sees an app's own password or token, and there is nothing to leak beyond the key itself.
 
 ```mermaid
 flowchart LR
-  P[App in the Preview] --> G
-  D[Published app] --> G
-  E[Exported copy] --> G
-  G[Alpha] -->|your sign-in| C[Connected apps]
-  G -->|your sign-in| M[Remote MCP servers]
+  P[App in the Preview] --> K
+  D[Published app] --> K
+  E[Exported copy] --> K
+  K[Session key] --> C[Connected apps]
+  K --> M[Remote MCP servers]
   classDef focus stroke:#1A54F0,stroke-width:1.5px;
-  class G focus
+  class K focus
 ```
 
-The same code runs in all three places. Only the way the variables arrive changes:
+The same code runs in all three places. Only the way the app gets the key changes:
 
 | Where the app runs | How it gets the address and key |
 | --- | --- |
@@ -89,7 +89,7 @@ Rotate as soon as the key leaks: pasted into a message, committed to a repositor
 
 | Where the old key was | What happens after **Rotate** |
 | --- | --- |
-| The session's machine | Alpha writes the new key into the machine and refreshes the agent's tools. If the agent is mid-turn, the refresh waits until the turn ends. A server already running in the Preview keeps the old key until it restarts. |
+| The session's machine | The session gets the new key at once, and so does the agent, after its current turn if one is running. An app already running in the Preview keeps the old key until it restarts. |
 | A published app | Its calls fail until you [republish it](/publish/manage#republish-your-changes). Republishing sets the new key. |
 | An exported copy | Its calls fail until you copy the new lines into its `.env`. |
 | Your other sessions | Unaffected. Each session has its own key. |

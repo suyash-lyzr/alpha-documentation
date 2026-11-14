@@ -29,7 +29,7 @@ All three work only while a turn is running. When the agent is idle, every messa
 | | Steer | Queue | Stop |
 | --- | --- | --- | --- |
 | What happens | The message joins the running turn. The agent keeps going and takes it into account. | The message waits above the composer, then runs as its own turn after the current one ends. Queued messages run strictly in order. | The turn ends. The session stays intact, so your next message carries on from where the agent stopped. |
-| When the agent sees it | Codex at its next model call; Claude Code at its next step between tool calls | When its turn starts | Right away, though the turn can take a few seconds to wind down |
+| When the agent sees it | Codex at its next step; Claude Code once the action under way finishes | When its turn starts | Right away, though the turn can take a few seconds to wind down |
 | What you see | The message, dimmed, with "Steering — joining the running turn…", then the **Steered into the running turn** badge | A row in the queue panel, under a count such as "2 queued messages" | The Stop button dims and its square pulses, and the working indicator reads "Stopping…" |
 | Use it for | Corrections and extra detail for the current task | The next task | Work going the wrong way |
 

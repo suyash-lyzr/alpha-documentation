@@ -69,13 +69,13 @@ A fork takes about 15 seconds, can't start mid-turn and never copies sharing. Yo
 
 ## Codex or Claude Code?
 
-You pick the agent on the home screen: open the model chip in the composer and use the **Codex** / **Claude Code** switch at the top of its menu. A session keeps its agent for life, because the two can't read each other's history.
+You pick the agent on the home screen: open the model chip in the composer and use the **Codex** / **Claude Code** switch at the top of its menu. A session keeps its agent for life; to use the other one, start a new session.
 
 | | Codex | Claude Code |
 | --- | --- | --- |
 | Run on your own plan | ChatGPT | Claude |
 | Mention a skill | `$name` | `/name` |
-| A steer joins | At the next model call | At the next tool boundary |
+| A steer joins | At the agent's next step | Once its current command or edit finishes |
 | Suggested next prompts | No | Yes |
 | **ultracode** effort | No | On models that offer xhigh |
 

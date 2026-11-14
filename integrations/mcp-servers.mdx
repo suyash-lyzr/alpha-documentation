@@ -6,7 +6,7 @@ description: "Give the agent more tools with hosted MCP servers, or local ones t
 
 import { PromptCard } from '/snippets/prompt-card.jsx';
 
-An MCP server is a plug-in that hands the agent a set of tools, such as "search Linear issues" or "fetch the current docs for this library". Alpha runs two kinds. A **remote** server is hosted on the web and reached through Alpha. A **local** server is a command that starts inside every session's machine. Both live in **Integrations**, on the **MCPs** tab, and whatever you add there works in every session you own. To sign in to an app such as Gmail or Slack instead, see [Connect an app](/integrations/connect-apps). To call your remote servers from the app the agent builds, see [Use integrations in your app](/integrations/in-your-app).
+An MCP server is a plug-in that hands the agent a set of tools, such as "search Linear issues" or "fetch the current docs for this library". Alpha runs two kinds. A **remote** server is hosted on the web by its maker. A **local** server is a command that starts inside every session's machine. Both live in **Integrations**, on the **MCPs** tab, and whatever you add there works in every session you own. To sign in to an app such as Gmail or Slack instead, see [Connect an app](/integrations/connect-apps). To call your remote servers from the app the agent builds, see [Use integrations in your app](/integrations/in-your-app).
 
 <Frame caption="MCPs → Remote lists the hosted servers your Alpha offers, and Add server at the right adds your own.">
   <img src="/images/integrations/integrations-page-mcps-remote.png" alt="The Integrations page with the MCPs tab selected, under the cover and its lede. Beside the tabs Connectors, MCPs (selected) and Connected sit a search box with the placeholder Search — Gmail, Stripe, Notion, maps…, and the dropdowns All auth and All categories. Under them are the sub-tabs Remote (selected) and Local, each with its count, then a Refresh button and an Add server button with a plus icon at the right. A two-column grid of cards follows, sorted A to Z, starting with Apollo, Calendly, Clay and ElevenLabs. Each card shows its logo, its name with a Verified check, a category line under the name, a one-line tagline such as Linear's Issues, projects, cycles and comments, and at its foot a grey Remote MCP badge beside an auth badge. Exa carries No auth and a Connect button; the cards that use OAuth carry a Sign in button." />
@@ -18,9 +18,9 @@ The two kinds differ in where the server runs and who holds its credentials. Tha
 
 | | Remote | Local |
 | --- | --- | --- |
-| Where it runs | On its maker's servers. Alpha calls it for you. | As a command inside each session's machine, started by the agent. |
-| How it signs in | OAuth, an API key or nothing. Alpha keeps the credential, and the session's machine never sees it or the server's address. | It reads your [secrets](/secrets) and integration variables from the session's environment. |
-| How the agent sees its tools | With your connected apps, under the built-in `alpha_tools` server ("Alpha connected tools"). | Under the server key you choose, such as `context7`. Claude Code names them `mcp__context7__…`. |
+| Where it runs | On its maker's servers. | As a command inside each session's machine, started by the agent. |
+| How it signs in | OAuth, an API key or nothing. Alpha keeps the credential, and sessions never see it. | It reads your [secrets](/secrets) from the session's environment. |
+| How the agent sees its tools | Alongside the tools of your connected apps. | Under the server key you choose, such as `context7`. Claude Code names them `mcp__context7__…`. |
 | Can your app use it? | Yes, through the [session's key](/integrations/in-your-app), in the Preview and in published apps. | No. Only the agent in the session can call it. |
 | Add your own | Any public Streamable HTTP address | Any command, such as `npx`, `uvx`, `node` or `python` |
 
@@ -43,7 +43,7 @@ The **Local** catalog has three servers. None needs a key.
 | Server | What it gives the agent |
 | --- | --- |
 | **Context7** | "Current, version-specific docs for any library", fetched for the libraries the project uses, so the agent works from current APIs. A `CONTEXT7_API_KEY` secret raises its rate limit. |
-| **Memory** | "A knowledge graph the agent keeps between turns", stored in a file inside the session's machine, so facts about the project survive compaction. Each session keeps its own graph. |
+| **Memory** | "A knowledge graph the agent keeps between turns", kept in the session, so facts about the project survive compaction. Each session keeps its own graph. |
 | **Sequential thinking** | "A scratchpad for step-by-step problem solving", for working through a hard problem in revisable steps before acting. |
 
 New tools reach a session with its next message. If the agent is in the middle of a turn, they arrive when that turn ends.
@@ -54,7 +54,7 @@ If you don't see a hosted server you expected under **Remote**, or the tab is em
 
 ## Add your own remote server
 
-Use this for a hosted server that isn't in the catalog, such as your company's internal tools. Alpha calls it over the internet, so the address must be public.
+Use this for a hosted server that isn't in the catalog, such as your company's internal tools. Its address must be public, reachable from the internet.
 
 <Steps>
   <Step title="Open the form">
@@ -108,7 +108,7 @@ Use this for a server that its README starts with a command. Node, `npx`, Python
     </Frame>
   </Step>
   <Step title="Add environment settings, if any">
-    The server already gets every secret and integration variable in the session. Use **Environment settings** only to set plain options, or to hand a secret over under the name the server expects, one `NAME=VALUE` per line:
+    The server already gets every secret in the session. Use **Environment settings** only to set plain options, or to hand a secret over under the name the server expects, one `NAME=VALUE` per line:
 
     ```env
     LOG_LEVEL=info
@@ -187,7 +187,7 @@ Type `/mcp` on the [home screen](/sessions/home-screen) to see the servers every
 
 {/* screenshot to capture: /images/integrations/home-mcp-card.png — The home screen's /mcp card: the two built-in servers, then your local servers that are on. */}
 
-`browser` and `alpha_tools` are built in and can't be removed. Remote servers have no rows of their own, because their tools reach the agent through `alpha_tools`. **Manage servers** opens the catalog.
+`browser` and `alpha_tools` are built in and can't be removed. Remote servers have no rows of their own: their tools come with your connected apps, under `alpha_tools`. **Manage servers** opens the catalog.
 
 Inside a session, `/mcp` posts a card listing each server the agent has loaded, with its number of tools and the first few by name. With Claude Code, `/mcp reconnect`, `/mcp enable` and `/mcp disable` manage a server for that session. See [Slash commands](/reference/slash-commands).
 
@@ -204,13 +204,13 @@ These limits are fixed in Alpha. For every other limit, see [Limits](/reference/
 | "the MCP server publishes no OAuth authorization server metadata — register a custom OAuth client" | The server's own sign-in can't be found from its address. | Switch on **Custom OAuth client** and enter the vendor's client and endpoints. The same fix applies when the message says the server "does not register clients". |
 | "MCP sign-in expired and the server issued no refresh token — sign in again under Integrations" | The agent hit an expired sign-in mid-turn. | Click **Sign in again** on the server's panel. |
 | "MCP server returned too many tools" | The server listed more than 500 tools. | Use a narrower endpoint from the vendor, if it offers one. |
-| More than 100 connected tools | Past 100 tools from your apps and remote servers, they no longer appear in the agent's own tool list. | Nothing. The agent looks up the tool it needs and runs it through Alpha instead. See [How the agent calls your tools](/integrations/in-your-app#how-the-agent-calls-your-tools). |
+| More than 100 connected tools | Past 100 tools from your apps and remote servers, they no longer appear in the agent's own tool list. | Nothing. The agent still finds the tool it needs and uses it. See [How the agent calls your tools](/integrations/in-your-app#how-the-agent-calls-your-tools). |
 
 ## Next steps
 
 <CardGroup cols={2}>
   <Card title="Use integrations in your app" icon="code" href="/integrations/in-your-app">
-    Remote servers reach your app through two variables. Local ones stay with the agent.
+    Your app can call remote servers with the session's key. Local ones stay with the agent.
   </Card>
   <Card title="Secrets" icon="key" href="/secrets">
     Store the keys your local servers read, once for every session or for one only.

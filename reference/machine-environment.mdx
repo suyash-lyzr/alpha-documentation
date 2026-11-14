@@ -19,13 +19,13 @@ A new machine starts with the tools below. A [setup](/sessions/setups) starts wi
 | JavaScript | Node.js 22 with `npm`, and Bun |
 | Python | Python 3.12 with `venv`, `pip` and `uv` |
 | Database | PostgreSQL 16, installed but switched off until your app needs it. See [Your session's database](/workspace/database). |
-| Browser | A headless Chromium the agent uses to open and check its own pages |
+| Browser | A browser the agent uses to open and check its own pages |
 | Command-line tools | `git`, `gh`, `ripgrep`, `jq`, `curl`, `unzip`, `nano`, `less`, `sudo` |
 | Documents | A slide exporter for PowerPoint and PDF, and a LaTeX engine that builds `.tex` files for the PDF viewer. See [File viewers](/workspace/file-viewers). |
 | Images | Image generation the agent can use without asking you for a key |
 | Disk | {disk}. See [Limits](/reference/limits). |
 
-The agent works as an ordinary Linux account named `agent`, with `sudo` and no password. So `sudo apt-get install` and global `npm` installs work, and whatever it installs stays on the machine through sleep and wake. A reset, which an admin does, throws it away and starts a fresh machine, from the session's setup if it has one. See [Reset the session's machine](/sessions/machines#reset-the-session’s-machine).
+The agent can install system packages and global tools, for example with `sudo apt-get install` or a global `npm` install, and whatever it installs stays on the machine through sleep and wake. A reset, which an admin does, throws it away and starts a fresh machine, from the session's setup if it has one. See [Reset the session's machine](/sessions/machines#reset-the-session’s-machine).
 
 ## Where do my files live?
 
@@ -40,7 +40,7 @@ Your project is `/workspace`. It's the folder the agent starts in, the root of t
 
 Screenshots the agent's browser takes are kept outside your project, so they don't end up in your repositories. Ask the agent to copy one into `/workspace` if you want it.
 
-Alpha's own files on the machine stay out of your project and out of the Shell's view. Your secrets reach the environment as variables, so you never need to look for them on disk.
+Your secrets reach your app and the agent's commands as environment variables, so you never need to look for them on disk.
 
 ## Which environment variables are set?
 
@@ -52,9 +52,8 @@ Nothing is set ahead of time. A session without a database has no `DATABASE_URL`
 | `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE` | The session's database is on | The same connection, split up, so `psql` connects with no arguments |
 | Your app's sign-in settings | App sign-in is on | What your app needs to sign users in, already filled in. See [Add sign-in to your app](/workspace/app-sign-in). |
 | Your app's key for connected apps | Integrations are turned on for your Alpha | The address and key your app uses to call your connected apps and MCP servers. See [Use integrations in your app](/integrations/in-your-app). |
-| `GITHUB_TOKEN`, `GH_TOKEN` | You've connected GitHub | A token for `git`, `gh` and anything else that talks to GitHub. See [Connect GitHub and add repositories](/github/connect). |
-| `GIT_COMMITTER_NAME`, `GIT_COMMITTER_EMAIL` | You've connected GitHub | Alpha's GitHub app as the committer. You stay the author of every commit. |
-| `OPENAI_BASE_URL`, `OPENROUTER_BASE_URL` | You've added an `OPENAI_API_KEY` or `OPENROUTER_API_KEY` secret without its base URL | The provider's public address, so code that reads the pair works without you pasting a URL |
+| `GITHUB_TOKEN`, `GH_TOKEN` | You've connected GitHub | A token for `git`, `gh` and anything else that talks to GitHub. You stay the author of every commit. See [Connect GitHub and add repositories](/github/connect). |
+| A model provider's base URL, such as `OPENAI_BASE_URL` | You've added that provider's API key as a secret, such as `OPENAI_API_KEY`, without its base URL | The provider's public address, so code that reads the pair works without you pasting a URL |
 | `PORT` | The agent started a server on a port | The port that server was asked to listen on |
 | Your secrets | You've added them | Every [global and session secret](/secrets), and every secret in a [secret set](/secrets#secret-sets) attached to the session or its setup, under the name you gave it |
 
@@ -74,12 +73,12 @@ A published app doesn't use these copies. It gets its own production database, t
 
 ## Run servers the Preview can reach
 
-The [Preview](/workspace/preview) shows only servers the agent starts. It lists their ports and frames the one that serves a page at `/`. Any other port, such as a server you started yourself in the [Shell](/workspace/shell) or one started with a bare `&`, isn't listed, and its preview address answers "Port not previewable" with "Alpha has seen no server the agent started with forge serve listening on this port." To see an app, ask the agent to run it. Two rules decide whether it shows up, and the agent follows both for you.
+The [Preview](/workspace/preview) shows only servers the agent starts. It lists their ports and frames the one that serves a page at `/`. Any other port, such as a server you started yourself in the [Shell](/workspace/shell), isn't listed, and its preview address answers "Port not previewable", with a line saying Alpha hasn't seen a server the agent started on that port. To see an app, ask the agent to run it. Two rules decide whether it shows up, and the agent follows both for you.
 
 | Rule | Why |
 | --- | --- |
 | Let the agent start it | The Preview reaches only servers the agent started. They also keep running after its turn ends, and through sleep and wake. |
-| Bind `0.0.0.0`, never `127.0.0.1` | The Preview reaches the machine from outside, so a server bound to `127.0.0.1` can't be seen. For example `vite --host 0.0.0.0`, `next dev -H 0.0.0.0` or `uvicorn app:app --host 0.0.0.0`. Any port works. |
+| Bind `0.0.0.0`, never `127.0.0.1` | A server bound to `127.0.0.1` can't be seen in the Preview. For example `vite --host 0.0.0.0`, `next dev -H 0.0.0.0` or `uvicorn app:app --host 0.0.0.0`. Any port works. |
 
 When the agent starts a server, it waits until the server is listening and the Preview can reach it before it tells you it's running. If the server doesn't come up, the agent sees why, for example that it crashed, bound `127.0.0.1`, or found the port already taken, and fixes it.
 
@@ -122,11 +121,11 @@ These are the places to look when something on the machine misbehaves, and the f
 | Topic | What to know |
 | --- | --- |
 | A server's output | The server logs in the [Preview](/workspace/preview#read-the-logs), or ask the agent to read them |
-| PostgreSQL's own log | `/var/log/postgresql/postgresql-16-main.log` |
+| PostgreSQL's own log | Ask the agent to read it when the database misbehaves. See [Your session's database](/workspace/database). |
 | A setup's boot script | If it fails, a note in the transcript says where its output is. Ask the agent to read it. See [Keep a setup current](/sessions/setups#keep-a-setup-current). |
 | Disk | {disk} per machine. Writes fail once it's full, so delete build outputs or large files. See [Limits](/reference/limits). |
-| `mount` and FUSE | Both fail, for the agent and in the Shell, even with `sudo`. Copy files into `/workspace` instead. |
-| `crontab`, timers and `sleep` loops | Not reliable. They don't run while the machine sleeps, its clock jumps when it wakes, they run without your environment, and you can't see their runs. Ask for a [routine](/routines) instead. |
+| Mounting drives or file systems | Not supported, for the agent or in the Shell. Copy files into `/workspace` instead. |
+| `crontab`, timers and `sleep` loops | Not reliable. They don't run while the machine sleeps, and you can't see their runs. Ask for a [routine](/routines) instead. |
 | Decks on a port | Never served. The Preview would show a file listing or one long page instead of slides, so the agent opens decks in the slide viewer. |
 
 <Note>
@@ -137,7 +136,7 @@ If the agent can't publish, or your app can't reach your connected apps, that fe
 
 <CardGroup cols={2}>
   <Card title="The Shell" icon="terminal" href="/workspace/shell">
-    Type into the same machine yourself, as the agent's account with `sudo`.
+    Type into the same machine yourself, with the same tools the agent has.
   </Card>
   <Card title="Secrets" icon="key" href="/secrets">
     Add the keys your app needs. They win over every built-in value.

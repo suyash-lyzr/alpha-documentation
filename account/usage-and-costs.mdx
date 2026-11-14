@@ -22,7 +22,7 @@ You see only your own sessions' spend. People you [share a session](/sharing) wi
 
 ## Read the Usage dashboard
 
-Pick a range at the top right: **Today**, **7 days**, **30 days** or **All time**. The dashboard opens on **30 days** and remembers your choice in this browser. It refreshes every 15 seconds while it's on screen. Under the **Usage** title, a line counts the sessions in the range and says the figures are in USD, for example "11 sessions · in USD".
+Pick a range at the top right: **Today**, **7 days**, **30 days** or **All time**. The dashboard opens on **30 days** and remembers your choice in this browser. It keeps itself up to date while it's on screen. Under the **Usage** title, a line counts the sessions in the range and says the figures are in USD, for example "11 sessions · in USD".
 
 | Part | What it tells you |
 | --- | --- |
@@ -45,7 +45,7 @@ Alpha prices every turn, `/compact` and `/review` by the model's token price. Th
 
 Alpha never guesses a price. A model it has no price for counts as \$0 and shows **unpriced** with a warning icon. A notice under the totals names it. Once the model has a price, its past turns are priced too.
 
-A spend marked **≈** is estimated: "billed from the session's log before exact per-turn accounting existed."
+A spend marked **≈** is an estimate: older work that Alpha couldn't price turn by turn.
 
 {/* screenshot to capture: /images/account/usage-models-prices.png — Each model's rate per 1M tokens. Illustrative values. */}
 
@@ -61,7 +61,7 @@ By default the agent runs on your Alpha's keys, and that is your spend. Sign in 
 | Plan you need | None | A paid ChatGPT plan | Claude Pro or Max |
 | How Usage shows it | Spend | A **+\$x sub** chip, outside every total | A **+\$x sub** chip, outside every total |
 
-Work on your plan still shows on the dashboard at its API-price value, in a notice and as a **+\$x sub** chip on each row, but never in a total. A sign-in or sign-out applies from each session's next message; earlier turns keep the billing they ran under. While you're signed in to ChatGPT, a Codex model picked by a `vendor/model` id still runs on your Alpha's key and counts as spend.
+Work on your plan still shows on the dashboard at its API-price value, in a notice and as a **+\$x sub** chip on each row, but never in a total. A sign-in or sign-out applies from each session's next message; earlier turns keep the billing they ran under. While you're signed in to ChatGPT, a Codex session on a model from another provider still runs on your Alpha's key and counts as spend.
 
 {/* screenshot to capture: /images/account/usage-subscription-notice.png — Work on your own plan sits beside the spend, never inside it. Illustrative values. */}
 
@@ -82,7 +82,7 @@ Work on your plan still shows on the dashboard at its API-price value, in a noti
     Open the link, sign in to ChatGPT and enter the code. The dialog then shows your email and plan.
   </Step>
   <Step title="Send your next message">
-    Each Codex session you own switches on its next message, showing "Applying your ChatGPT sign-in…" while its agent restarts. If the switch fails, it says so and keeps running on your Alpha's key.
+    Each Codex session you own switches on its next message, showing "Applying your ChatGPT sign-in…" first. If the switch fails, it says so and keeps running on your Alpha's key.
   </Step>
 </Steps>
 
@@ -129,7 +129,7 @@ Open **Account menu → Sign in with ChatGPT/Claude** and click **Sign in** on t
   </Tab>
 </Tabs>
 
-Alpha stores the token encrypted, for your account only, and uses it only for your Claude Code sessions. Once signed in, the dialog shows **Claude subscription** and the date the token is valid until, and warns two weeks before it expires. **Sign in again** renews it. **Sign out and use the server key** switches back; where your Alpha has no Claude key of its own, the button reads **Sign out**.
+Alpha keeps the token private to your account and uses it only for your Claude Code sessions. Once signed in, the dialog shows **Claude subscription** and the date the token is valid until, and warns two weeks before it expires. **Sign in again** renews it. **Sign out and use the server key** switches back; where your Alpha has no Claude key of its own, the button reads **Sign out**.
 
 <Note>
 If the menu row reads **Sign in with ChatGPT** with no **Claude** in the list, or the dialog says "Claude subscription sign-in isn't enabled on this server", Claude sign-in isn't turned on for your Alpha.

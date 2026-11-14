@@ -20,7 +20,7 @@ Click **Next: set up the run** on **Test cases**, or **Run** in the step control
 
 | Section | What it does | What you can change |
 | --- | --- | --- |
-| **AI reviewer model** | Reads each answer and scores the quality metrics. Alpha picks a small OpenAI model by default. | Pick another of the session's OpenAI models. It's paid with your OpenAI key, or your OpenRouter key if that's all you have. |
+| **AI reviewer model** | Reads each answer and scores the quality metrics. Alpha picks a small OpenAI model by default. | Pick another of the session's OpenAI models. It's paid with your OpenAI key. |
 | **Quality metrics** | Questions the AI reviewer scores every answer on, with a reason for each score. **Task completion** and **Hallucinations** are **Required**. Others are tagged **for this agent**, or listed under **Test-case questions**. | Remove a **for this agent** question. The required two stay. |
 | **Fast AI checks** | Short yes/no questions a small, cheap model answers. Shown only when the eval has them. | Switch them on or off. |
 | **Format checks** | Code checks the shape of every answer and the tools it used. Instant and free. | Nothing: they're **always on**. Expand the row to list them. |
@@ -33,7 +33,7 @@ A model can answer the same question differently each time. One run per test cas
 
 {/* screenshot to capture: /images/evals/evals-run-advanced.png — More runs catch answers that are right only some of the time, and cost more. */}
 
-The evals Alpha writes run each test case once. Raise the count when a case passes one run and fails the next. Under **Setup file**, **Edit** and the eval's file name, such as **Edit suite.yaml** for the agent's first eval or **Edit refunds.yaml** for an eval named `refunds`, opens that eval's setup file itself.
+The evals Alpha writes run each test case once. Raise the count when a case passes one run and fails the next. Under **Setup file**, the **Edit** button, named after the eval's file, opens that eval's setup file if you'd rather change it by hand.
 
 ## Check the cost and set a spending limit
 
@@ -131,7 +131,7 @@ A run keeps going when you close the tab. The session's machine stays awake whil
 | --- | --- |
 | "Add a test case before running." | Go back to **Test cases** and ask Alpha to write some. See [Set up evals](/evals/set-up). |
 | "Give a test case a check that passes or fails it before running." | Add a check under **How it's graded**, or ask Alpha to. |
-| "Add an OpenAI key under Secrets before running: the AI review needs it." | Add `OPENAI_API_KEY` or `OPENROUTER_API_KEY` as a [secret](/secrets). |
+| "Add an OpenAI key under Secrets before running: the AI review needs it." | Add `OPENAI_API_KEY` as a [secret](/secrets). |
 | "The AI review is being set up." | Wait. Alpha adds the reviewer and required metrics by itself. |
 | "This session's models can't review answers here." | Click **Set up AI review**. |
 | "No price for …, so the run can't start yet." | Click **Ask Alpha to price it**, or pick another model under **AI reviewer model**. |
@@ -195,7 +195,7 @@ stateDiagram-v2
     Fill missing scenario and persona pairs, or mark the test cases that must pass.
   </Card>
   <Card title="Secrets" icon="key" href="/secrets">
-    Add the OpenAI or OpenRouter key that pays for your agent's runs and the AI reviewer.
+    Add the OpenAI key that pays for your agent's runs and the AI reviewer.
   </Card>
   <Card title="Try your agent" icon="comments" href="/agents/try-it">
     Send one input by hand before you spend on a full run.

@@ -31,7 +31,7 @@ If the GitHub card says "GitHub isn't set up on this server yet — ask whoever 
   <Step title="Connect GitHub">
     On the home screen, click **+** at the bottom left of the composer and choose **GitHub repos**. The **Repositories** popover opens over the composer. While GitHub isn't connected, it shows a **Connect GitHub** button: click it. GitHub opens in a new browser tab and signs you in first. Then pick your account or an organization, choose which repositories Alpha may work in, and authorize. When you come back, Alpha's tab has already picked up the connection.
 
-    You do this once per account: every session you own gets an authenticated `git` and `gh`, and the token is redacted if it ever reaches the transcript. To add an organization later, click **add organization** at the top of the same popover, or open the **GitHub** tab in a session and choose **Manage** → **Add organization**. [Connect GitHub and add repositories](/github/connect) covers organizations and access requests.
+    You do this once per account: every session you own can use `git` and `gh` with your GitHub account, and your token never shows in the transcript. To add an organization later, click **add organization** at the top of the same popover, or open the **GitHub** tab in a session and choose **Manage** → **Add organization**. [Connect GitHub and add repositories](/github/connect) covers organizations and access requests.
 
     {/* screenshot to capture: /images/github/github-connect-card.png — The GitHub tab's connect card lists what connecting unlocks. In the home screen's Repositories popover the same button appears without the list. */}
   </Step>
@@ -73,12 +73,12 @@ If the GitHub card says "GitHub isn't set up on this server yet — ask whoever 
     To check the work yourself, open the workspace's **+** menu ("Open a tab, or turn on a service") and choose **Shell** under **Add a tab**. The [Shell](/workspace/shell) is a terminal on the same machine, in the same folder the agent works in. Run `cd harbor-api && npm test`. Files you change there are files the agent sees on its next turn.
 
     <Frame caption="The Shell opens in /workspace, the same folder the agent works in.">
-      <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Preview, Shell with its ×, and styleguide.md, then the + button, and at the right a bash status pill with a green dot, the Clear and Restart shell buttons, and the GitHub, Share and files buttons. The dark terminal shows the command ls and its output: README.md, app.js, data, node_modules, package-lock.json, package.json, public, server.js, styleguide.md and test, then a fresh prompt with a block cursor." />
+      <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Plan, Preview, then Shell with a terminal icon and its ×, then Database, Secrets, README.md and a tab cut off behind a scroll arrow. To its right sit the round + button, a trash can for Clear and a circular arrow for Restart shell, then the GitHub button, Share, Publish and the files button. The terminal fills the panel. At the /workspace prompt, ls lists README.md, booking-store.js, booking-store.test.js, db, node_modules, package-lock.json, package.json, public, server.js and styleguide.md. Then node --version prints v22.23.4, and a fresh prompt waits below. The chat on the left shows the answered The agent has questions card and the Proposed plan card for Automatic class waitlist." />
     </Frame>
   </Step>
 
   <Step title="Review the branch against main">
-    When the turn ends, type `/review` and press <kbd>Enter</kbd>. In **Start a review**, choose **Review against a base branch**. The branch field is already filled with `main`, the repository's default branch. Press **Start review**. In a Codex session, Codex runs its review mode on the workspace and posts a "Review started" card, then a "Review findings" card. In a Claude Code session, Claude Code gets a review prompt and answers in the transcript instead. To act on what it found, reply with the findings you want fixed. While a turn is running, the review is refused with "'/review' is disabled while a task is in progress."; see [Slash commands](/reference/slash-commands).
+    When the turn ends, type `/review` and press <kbd>Enter</kbd>. In **Start a review**, choose **Review against a base branch**. The branch field is already filled with `main`, the repository's default branch. Press **Start review**. In a Codex session, Codex runs its review mode on the workspace and posts a "Review started" card, then a "Review findings" card. In a Claude Code session, Claude Code reviews the branch and answers in the transcript instead. To act on what it found, reply with the findings you want fixed. While a turn is running, the review is refused with "'/review' is disabled while a task is in progress."; see [Slash commands](/reference/slash-commands).
 
     {/* screenshot to capture: /images/guides/repo-05-review.png — The findings arrive in one card; reply with the ones you want fixed. */}
   </Step>
@@ -117,7 +117,7 @@ If the GitHub card says "GitHub isn't set up on this server yet — ask whoever 
 </Steps>
 
 <Warning>
-A setup build runs with your GitHub token and secrets in its environment. Alpha removes them before saving the machine, but files are kept. A token written into `.npmrc` or `.env` during the build ends up in every machine started from the setup, including those of anyone you share it with.
+Your GitHub token and secrets are available while a setup builds, but they aren't saved with it. Files are. A token written into `.npmrc` or `.env` during the build ends up in every machine started from the setup, including those of anyone you share it with.
 </Warning>
 
 You connected GitHub, planned a change before any code moved, built and reviewed it on a branch, opened a pull request, and saved the machine as a setup for your next session.

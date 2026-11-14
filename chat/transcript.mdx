@@ -148,7 +148,7 @@ If you don't see Claude Code on the home screen, it isn't turned on for your Alp
 
 ## Find, copy and export
 
-A long session opens with its newest 2 turns, so it appears at once. Older turns load as you scroll up, or all at once from the "Show N earlier messages" marker at the top. Press <kbd>⌘</kbd><kbd>F</kbd> to find text: Alpha first shows every loaded message so the browser can search them. Turns not loaded yet aren't searched until you scroll to them. Use Ctrl instead of ⌘ on Windows and Linux.
+A long session opens on its latest turns, so it appears at once. Older turns appear as you scroll up, or all at once from the "Show N earlier messages" marker at the top. Press <kbd>⌘</kbd><kbd>F</kbd> to find text in the turns shown so far. Earlier turns aren't searched until you scroll to them or show them. Use Ctrl instead of ⌘ on Windows and Linux.
 
 To export the transcript, scroll to the top of the session, hover the first message and click **More** (⋯) → **Export as Markdown**.
 
@@ -165,9 +165,9 @@ A failed turn shows one red card saying what failed, sometimes with a **details*
 | The model provider's own message, or "model provider error" when it gave none | Send again. If it repeats, try [another model](/chat/agents-and-models#choose-a-model). |
 | "The agent exited with code N" | Open **details** to read why, then send again. |
 | "Couldn't pick the turn back up: …" | Something on Alpha's side interrupted the turn, and it couldn't be resumed. Ask the agent to carry on. |
-| "Claude sign-in: this session has no Claude credentials. …" | Open **Account menu → Sign in with ChatGPT/Claude** and sign in on the **Claude** row ([how](/account/usage-and-costs#run-claude-code-sessions-on-your-claude-plan)), then resend. |
-| "Claude sign-in: your Claude subscription token was rejected (…)" | Sign in with Claude again, then resend. |
-| "Claude sign-in: the server's Anthropic key was rejected (…)" | Ask your admin to fix the key. |
+| A "Claude sign-in" error saying the session isn't signed in to Claude | Open **Account menu → Sign in with ChatGPT/Claude** and sign in on the **Claude** row ([how](/account/usage-and-costs#run-claude-code-sessions-on-your-claude-plan)), then resend. |
+| A "Claude sign-in" error saying your Claude sign-in was rejected | Sign in with Claude again, then resend. |
+| A "Claude sign-in" error saying your Alpha's own Claude access was rejected | Ask your admin to fix your Alpha's Claude access. |
 | "The session's machine cannot be reached right now. Nothing was discarded — …" | Send again in a moment. If your message was refused, its text goes back into the composer. Resetting is a [last resort](/sessions/machines#reset-the-session’s-machine). |
 
 A turn you stop isn't a failure. For other messages, see [Troubleshooting and FAQ](/reference/troubleshooting).

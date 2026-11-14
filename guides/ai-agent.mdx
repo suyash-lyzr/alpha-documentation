@@ -46,7 +46,7 @@ Every live run spends money on your key. That covers the agent's own proof while
 
     1. Ask you two or three [questions](/chat/plan-mode#answer-the-agent’s-questions): the agent's shape first, then its inputs or framework if your message leaves them open.
     2. Write the agent as a folder in `/workspace/harbor-triage` and draw it on the **Agent** tab before it is finished.
-    3. Prove it: check the code, run it once without calling a model, then run it once live on your key.
+    3. Test it, including one live run on your key.
     4. Ask once whether you want a page around it. This guide declines.
 
     The questions open one at a time in a dock above the composer, with "1 of 3" at the top, while a card titled **The agent has questions** waits in the transcript. Each question lists its recommended option first. This guide typed its own shape into the **Something else** row: "Classify first, then write the staff note and the reply side by side, then one step that combines them." Press **→** to go on, and on the last question **→** sends your answers ("Send answers"). **Skip** leaves one question to the agent, and **×** ("Skip all — let the agent decide") leaves them all.
@@ -56,7 +56,7 @@ Every live run spends money on your key. That covers the agent's own proof while
   <Step title="Read the agent on the canvas">
     The **Agent** tab opens by itself each time the agent publishes. Read it top to bottom: the **Inputs** card is what the agent is given, each step card below it is one step with its model and its task, and the **Answer** card lists the fields it hands back. Steps that run together sit in one outline with a `parallel · 2` chip.
 
-    Click any card to open its details beside the canvas: the step's **Instructions**, **Task**, **Returns** and **Model**, and **Defined in**, which opens `definition.yaml` at the field the card comes from. To change the agent, ask in the composer, for example `Add a critic step that checks the reply`. See [The Agent tab](/agents/agent-tab).
+    Click any card to open its details beside the canvas: the step's **Instructions**, **Task**, **Returns** and **Model**, and **Defined in**, which opens the agent's definition at the field the card comes from. To change the agent, ask in the composer, for example `Add a critic step that checks the reply`. See [The Agent tab](/agents/agent-tab).
 
     {/* screenshot to capture: /images/guides/agent-02-canvas.png — Two steps run side by side once the message is classified. */}
   </Step>

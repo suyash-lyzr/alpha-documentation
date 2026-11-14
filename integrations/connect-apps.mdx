@@ -84,7 +84,7 @@ A connection belongs to your account, so Alpha updates the agent's tool list eve
 | A running session with no turn in progress | Right away. |
 | A running session in the middle of a turn | When that turn ends, so the agent has it from its next turn. |
 | A session that is [asleep](/sessions/machines) | When it wakes. |
-| Your previews and [published apps](/integrations/in-your-app) | On their next call, because they reach the app through Alpha with the session's key. |
+| Your previews and [published apps](/integrations/in-your-app) | On their next call, with nothing to restart. |
 
 ## When the agent asks you to connect
 
@@ -127,7 +127,7 @@ For problems outside this page, see [Troubleshooting and FAQ](/reference/trouble
 
 <CardGroup cols={2}>
   <Card title="Use integrations in your app" icon="code" href="/integrations/in-your-app">
-    The two variables your app and its agents use to call what you connected.
+    Ask the agent to use what you connected in your app, and find the session's key.
   </Card>
   <Card title="MCP servers" icon="server" href="/integrations/mcp-servers">
     Hosted servers such as Linear and Stripe, or one that runs in every session.

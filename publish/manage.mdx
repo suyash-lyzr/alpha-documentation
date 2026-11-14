@@ -34,11 +34,11 @@ Open **+** → **Publish** and pick the service. On a wide workspace the page ha
 | Address line | The address, which opens the app, a copy button (tooltip "Copy address") and **Open**. "A new version is rolling out." shows under it during a rollout, and "also …" with the app's second address when it has one. Before a first version is live it reads "Your app's address appears here once it is live." |
 | **Production database** | Only when the service has one: when it was made, whether a schema arrived, and the push from the session. See [Production database and sign-in](/publish/production-data). |
 | **History** | Every version, newest first, on a timeline: "Version N", its state, and when it ran, who started it ("by the agent" or "from the dialog") and how long it took. The open version unfolds with its steps while it rolls out or after it fails, any error or hint, and its **Log**. |
-| **Details** | How the open version was built and runs: **Stack**, **Starts with**, **Port**, **Source**, **Toolchain**, **Revision** and **Image**. Then **Environment**, which lists variable names, never their values, and **Services**, which says what **Database** and **Sign-in** production gets. |
+| **Details** | How the open version runs: its stack, how it starts, its port and where its code came from. Then **Environment**, which lists variable names, never their values, and **Services**, which says what **Database** and **Sign-in** production gets. |
 
 The **Log** under the open version is open from the start, on every version. It shows the build's own output with **follow**, a copy button and **Hide log** / **Show log**; see [Watch the rollout](/publish/publish-your-app#watch-the-rollout). Secret values appear as `[redacted]`.
 
-Under **Environment**, names you picked show first. Names Alpha set for the version from the session's database or sign-in follow, paler, with the tooltip "Set by the rollout from the session's services; a variable of this name you pick would win".
+Under **Environment**, names you picked show first. Names Alpha sets for the app's database or sign-in follow, paler. A variable of the same name that you pick takes their place.
 
 ### Switch between a session's apps
 
@@ -57,7 +57,7 @@ A republish sends "Republish harbor." to the agent, with the service's name, as 
 | **Republish** in the service's header | Sends the message at once. Its tooltip reads "Sends “Republish harbor.” to the agent — it publishes the latest changes as a new version". |
 | The **Republish** pill beside **Share** | Opens a popover first (tooltip "Republish, or copy its address"). The pill shows once a service is live, and stands for the service the **Publish** tab shows, or else the first live one. |
 
-The popover is headed **Republish**, with the region the app runs in, and has three rows: **Status**, such as "Live · published 2 h ago"; **Address**, which opens the app in a new tab, with a copy button; and **Access**, "Public · anyone with the URL". Under them, a line reads "The agent publishes the latest changes as a new version; the Publish tab follows the rollout." **Open Publish tab** opens the tab, and **Republish** sends the message. The link icon beside the pill copies the address without opening anything.
+The popover is headed **Republish** and has three rows: **Status**, such as "Live · published 2 h ago"; **Address**, which opens the app in a new tab, with a copy button; and **Access**, "Public · anyone with the URL". Under them, a line reads "The agent publishes the latest changes as a new version; the Publish tab follows the rollout." **Open Publish tab** opens the tab, and **Republish** sends the message. The link icon beside the pill copies the address without opening anything.
 
 {/* screenshot to capture: /images/publish/publish-pill-republish.png — The Republish popover. The address can be read and copied even while the button is held. */}
 
@@ -69,14 +69,14 @@ Both buttons are held while a turn runs ("The agent is busy — ask once it is d
 
 ## Change how the app runs
 
-**Edit settings** opens **Settings for harbor**, a form holding every setting of the next version. You change them by hand and republish from it, without the agent. The form plans the build from the project's files, so opening it wakes the session's machine if it's asleep.
+**Edit settings** opens **Settings for harbor**, a form holding every setting of the next version. You change them by hand and republish from it, without the agent. The form reads your project, so opening it wakes the session's machine if it's asleep.
 
 <Steps>
   <Step title="Open the form">
     On the service's page, click **Edit settings**. It's off while any of the session's rollouts runs.
   </Step>
   <Step title="Change what you need">
-    The rows sit under **Build and run** and **Production services**. After you change **Run command**, press <kbd>Enter</kbd>, click away or click **Check** so Alpha plans the build again. **Republish** stays off until it has.
+    The rows sit under **Build and run** and **Production services**. After you change **Run command**, press <kbd>Enter</kbd>, click away or click **Check** so Alpha checks it. **Republish** stays off until it has.
 
     {/* screenshot to capture: /images/publish/publish-edit-settings.png — The form keeps the address fixed and shows what production gets before you commit. */}
   </Step>
@@ -96,10 +96,10 @@ Both buttons are held while a turn runs ("The agent is busy — ask once it is d
 | --- | --- | --- |
 | **Address** | The public address. | Read-only: the name is the address. For a new one, publish under a new name and delete this service. |
 | **Port** | Where the app listens. Alpha sends requests there and sets `PORT`. | 1 to 65535. Chips offer ports seen listening, **page** on one serving a web page. |
-| **Run command** | Starts the server in production. Empty uses the detected command. | One line of at most 500 characters, checked before you republish. Hidden when the project has its own `Dockerfile`. |
+| **Run command** | Starts the app in production. Empty uses the command Alpha detected. | One line of at most 500 characters, checked before you republish. Hidden for projects that set how they start themselves. |
 | **Environment** | "Only what you pick here reaches production, at build time and at runtime." | Letters, digits and `_`, not starting with a digit, at most 64 characters, each name once. Names Alpha sets for the app, such as `PORT`, and names reserved for the machine's shell, such as `PATH`, are refused. |
-| **Database** | Gives production a PostgreSQL of its own. | Starts empty. Your own `DATABASE_URL` wins. See [Production database and sign-in](/publish/production-data). |
-| **Sign-in** | Gives production the session's [app sign-in](/workspace/app-sign-in): the same accounts and **Auth** tab. | Sign-in callbacks on the service's address are accepted. |
+| **Database** | Gives production a PostgreSQL database of its own. | Starts empty. Your own `DATABASE_URL` wins. See [Production database and sign-in](/publish/production-data). |
+| **Sign-in** | Gives production the session's [app sign-in](/workspace/app-sign-in): the same accounts and **Auth** tab. | Sign-in works on the app's own address. |
 
 Nothing is inherited from the session's machine, so build-time variables such as `VITE_…` or `NEXT_PUBLIC_…` must be picked too. Secrets travel by name, so no value shows in the form or the transcript. When a [session secret and a global secret](/secrets) share a name, production gets the session's value.
 

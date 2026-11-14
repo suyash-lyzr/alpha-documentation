@@ -48,14 +48,14 @@ Sign-in errors appear in red on the sign-in screen. Every one of them is listed 
     **Fix:** Open Alpha at the address your team uses, or ask your admin which address to use. If you used to sign in with a password, sign in with Microsoft or Google instead. See [Sign in to Alpha](/account/your-account#sign-in-to-alpha).
   </Accordion>
   <Accordion title="An open page goes back to the sign-in screen by itself">
-    **Causes:** Your sign-in ended, because it expired or because you signed out in another tab. Open Alpha pages notice within about 12 seconds and show the sign-in screen, even if you weren't doing anything.
+    **Causes:** Your sign-in ended, because it expired or because you signed out in another tab. Open Alpha pages notice shortly and show the sign-in screen, even if you weren't doing anything.
 
     **Fix:** Sign in again. Your sessions are as you left them, and turns that were running carried on without you.
   </Accordion>
   <Accordion title="“Can't reach the Alpha server.” with a Retry button">
     **Causes:** Alpha's server didn't answer when the page loaded, and this browser had no remembered sign-in to open with. The server may be restarting, or your connection dropped.
 
-    **Fix:** Alpha keeps retrying by itself, waiting a little longer between tries, up to 15 seconds apart. Press **Retry** to try at once, or check your connection. The red line under the message is the error your browser got. Pass it to your admin if the page stays like this.
+    **Fix:** Alpha keeps retrying by itself. Press **Retry** to try at once, or check your connection. The red line under the message is the error your browser got. Pass it to your admin if the page stays like this.
   </Accordion>
   <Accordion title="“This view couldn't be shown.” or “Alpha couldn't load.”">
     **Causes:** Part of the page hit an error while drawing. "Alpha couldn't load." means the page's outer frame failed, not only one view.
@@ -63,7 +63,7 @@ Sign-in errors appear in red on the sign-in screen. Every one of them is listed 
     **Fix:** Press **Try again**. If the message comes back, reload the page. Your work is safe either way. Turns run on Alpha's servers, not in the page, and unsent text in the composer is kept. If one session or file brings the error back every time, tell your admin which one.
   </Accordion>
   <Accordion title="An open tab reloads by itself">
-    **Causes:** Alpha was updated while the tab was open. When the tab asked for a part of the old version that no longer exists, Alpha reloaded it once to fetch the new one.
+    **Causes:** Alpha was updated while the tab was open, so the tab reloaded once to pick up the new version.
 
     **Fix:** Nothing. The session and its open tabs come back after the reload. If the tab stays on "This view couldn't be shown." instead, reload it yourself.
   </Accordion>
@@ -80,7 +80,7 @@ A session's machine sleeps once you've been away for {idlePark} and nothing is r
     **Fix:** Wait a few seconds. The tabs fill in by themselves, with nothing to retry. The **Shell** can take a few seconds longer than the rest.
   </Accordion>
   <Accordion title="“The session's machine is paused and could not be resumed (…)”, or a message that it could not be restored">
-    **Causes:** The saved machine didn't start. The reason is in the brackets. The saved copy is kept.
+    **Causes:** The machine couldn't be woken. The reason is in the brackets. Nothing on the machine is lost.
 
     **Fix:** Send your message again in a minute. If it keeps failing after several tries, ask an admin to reset the machine, which gives the session a fresh one. Read [Reset the session's machine](/sessions/machines#reset-the-session’s-machine) first, because a reset deletes every file on the machine.
   </Accordion>
@@ -130,7 +130,7 @@ The frame, or a preview address opened in its own tab, says why there's no app. 
     ```
   </Accordion>
   <Accordion title="“Port not previewable”">
-    **Causes:** The **Preview** reaches only servers the agent started. The page goes on: "Alpha has seen no server the agent started with forge serve listening on this port." A server you started yourself in the [Shell](/workspace/shell), or one the agent started some other way, is never listed in the **Preview** or reachable at its preview address.
+    **Causes:** The **Preview** reaches only servers the agent started. The page goes on to say that Alpha hasn't seen a server the agent started on that port. A server you started yourself in the [Shell](/workspace/shell), or one the agent started some other way, is never listed in the **Preview** or reachable at its preview address.
 
     **Fix:** Ask the agent to run the app. It starts the server so the **Preview** can reach it, and keeps it running between turns.
 
@@ -199,7 +199,7 @@ A failed turn keeps the workspace and the transcript up to the failure, and your
     | "this session reached its spend cap on the server's key" | Sign in with your own Claude plan to carry on, or ask your admin to raise the cap. |
     | "the server has no … key configured." | Sign in with Claude, or ask your admin to add a key. |
     | "the server's Anthropic key was rejected (…)" | Ask your admin to fix the key. |
-    | "the server did not let this session use its key, because it does not see the session's machine as running." | Resend in a moment. |
+    | A line saying the session couldn't use Alpha's key because its machine isn't running | Resend in a moment. |
     | A line saying Alpha didn't accept this session's token | Resend. Ask your admin if it keeps happening. |
 
     How to sign in is on [Usage, costs and your own plan](/account/usage-and-costs#run-claude-code-sessions-on-your-claude-plan).
@@ -313,12 +313,12 @@ A failed version never takes traffic. If an earlier version was serving, it keep
     **Fix:** Nothing, if you meant to stop it. To publish after all, ask the agent to publish again. See [Publish your app](/publish/publish-your-app).
   </Accordion>
   <Accordion title="The version is live, with a warning that starts “The service is up, but”">
-    **Causes:** Your framework only answers hostnames on an allow-list, and the app's `.run.app` address isn't on it. Every visitor gets an error page.
+    **Causes:** Your framework only answers the web addresses on an allow-list, and the app's published address isn't on it. Every visitor gets an error page.
 
-    **Fix:** Add `.run.app` to the allow-list beside the entries already there, so the **Preview** keeps working, then republish. Examples for Vite, Django, Rails and FastAPI are on [The service is up, but refuses its own address](/publish/monitor#the-service-is-up-but-refuses-its-own-address).
+    **Fix:** Ask the agent to allow the published address beside the entries already there, so the **Preview** keeps working, then republish. See [The service is up, but refuses its own address](/publish/monitor#the-service-is-up-but-refuses-its-own-address).
 
     ```text
-    The published app refuses its own .run.app address. Add .run.app to the framework's allowed hosts, keep the preview and localhost allowed, and republish.
+    The published app refuses its own address. Allow its published address in the framework's allowed hosts, keep the Preview and localhost allowed, and republish.
     ```
   </Accordion>
 </AccordionGroup>
@@ -393,7 +393,7 @@ If you don't see the microphone, **Publish**, **Report a bug**, the Claude sign-
     Only you, until you share it. A session is private by default. You can open it to anyone with its link, or to specific Alpha accounts. Viewers get a live, read-only view of the transcript, files and **Preview**, with your secrets masked. They can't send messages or change anything. Admins of your Alpha can view every session. See [Share a session](/sharing).
   </Accordion>
   <Accordion title="Is my data kept when the machine sleeps?">
-    Yes. Sleep saves a full copy of the machine's memory and disk: files, installed packages, the session's database and running processes. The machine wakes exactly as you left it. Only a reset or a delete removes files. See [What survives what](/sessions/machines#what-survives-what).
+    Yes. Sleep keeps everything: files, installed packages, the session's database and running processes. The machine wakes exactly as you left it. Only a reset or a delete removes files. See [What survives what](/sessions/machines#what-survives-what).
   </Accordion>
   <Accordion title="Can I edit files myself?">
     Not in the file viewers. They're read-only, because the workspace belongs to the agent. You can change files in the [Shell](/workspace/shell), which runs as the same account as the agent, or point the agent at exactly what to change with [Select and Draw](/workspace/point-and-draw).
@@ -402,7 +402,7 @@ If you don't see the microphone, **Publish**, **Report a bug**, the Claude sign-
     Yes. Deleting a session also deletes every app published from it, along with its address and its production database. What you pushed to GitHub stays, and so do [artifacts](/artifacts) saved from the session. To keep an app online, keep its session, and move the session into a group if you want it out of the way. See [Fork or delete a session](/sessions/fork-and-delete#delete-a-session).
   </Accordion>
   <Accordion title="Can I use my own domain?">
-    Not yet. Every published app gets a `run.app` address. Where your Alpha has a domain of its own, the app also gets an address on it, the same for every app. You can't attach a domain you own. See [Where does my app live?](/publish/publish-your-app#where-does-my-app-live)
+    Not yet. Every published app gets an address of its own from Alpha. Where your Alpha has a domain of its own, the app also gets an address on it, the same for every app. You can't attach a domain you own. See [Where does my app live?](/publish/publish-your-app#where-does-my-app-live)
   </Accordion>
   <Accordion title="Can I undo a delete?">
     No. Alpha has no trash or archive, and **Delete** in the sidebar doesn't ask first. A reset can't be undone either.
@@ -415,7 +415,7 @@ If you don't see the microphone, **Publish**, **Report a bug**, the Claude sign-
     Yes, as [secrets](/secrets), encrypted and tied to your account. The machine gets them as environment variables, so anything the agent runs can read them, including the app it builds. Their values show as `[redacted]` wherever they appear in the transcript. See [How are values hidden in the transcript?](/secrets#how-are-values-hidden-in-the-transcript) A published app only gets the secrets you pick for it. A key typed into the composer lands in the transcript, so add keys under **Secrets** instead.
   </Accordion>
   <Accordion title="Which models can I use?">
-    The ones in the popover of the model chip in the composer. The list comes from the agent itself, so it differs between Alphas and changes when your Alpha updates. The chip always names the model in use, including the one a session runs when you haven't picked one. With Claude Code, the list follows the Claude account the session runs on. See [Choose the agent and model](/chat/agents-and-models#choose-a-model).
+    The ones in the popover of the model chip in the composer. The list can differ between Alphas, and it changes when your Alpha updates. The chip always names the model in use, including the one a session runs when you haven't picked one. With Claude Code, the list follows the Claude account the session runs on. See [Choose the agent and model](/chat/agents-and-models#choose-a-model).
   </Accordion>
   <Accordion title="Which agent should I use?">
     If you're not sure, keep the one the home screen starts with. Codex and Claude Code share the same machine, workspace, **Preview**, database and publishing. They differ in how you talk to them, such as `$name` or `/name` for a skill. You pick the agent on the home screen, with the switch at the top of the model chip's popover, and a session keeps it for life, so try the other one in your next session. See [Codex or Claude Code?](/chat/agents-and-models#codex-or-claude-code)

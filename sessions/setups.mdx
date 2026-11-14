@@ -124,7 +124,7 @@ Under **Secrets & sharing**, pick a set from **Secret set**, or choose **No secr
 | You, the owner | Your values in the set. The setup's build gets them too. |
 | Someone you share the setup with | Their own values. They see the set's names but never yours, and the setup's row on their **Setups** page reads **Add N secrets** until they've filled theirs in. |
 
-A change to a setup's set, or to who it's shared with, reaches every session started from the setup within about 20 seconds. A session's own secrets win over the setup's set. The full order is on [Secrets](/secrets#secret-sets).
+A change to a setup's set, or to who it's shared with, reaches every session started from the setup shortly, with no restart. A session's own secrets win over the setup's set. The full order is on [Secrets](/secrets#secret-sets).
 
 ## Start a session from a setup
 
@@ -163,7 +163,7 @@ A rebuild never touches existing sessions; they keep their machines. If a rebuil
 
 The boot script runs on a fresh machine only, never when a sleeping session wakes. Your first message waits for it, so keep it to seconds. If it fails, Alpha notes it in the transcript, continues on the machine as built, and keeps the script's output in a log on the machine for the agent to read.
 
-To stop a build, choose **⋯ → Cancel build** on its row, or click **Cancel build** in its log. **⋯ → Delete setup** asks first: "Delete the "harbor dev" setup and its snapshot? Sessions started from it keep their machines." A setup can't be deleted while it builds.
+To stop a build, choose **⋯ → Cancel build** on its row, or click **Cancel build** in its log. **⋯ → Delete setup** asks first, and reminds you that sessions started from it keep their machines. A setup can't be deleted while it builds.
 
 ## Share a setup
 
@@ -184,15 +184,14 @@ Starting from someone else's setup means trusting them. Its boot script runs as 
 
 ## What a build keeps and what it removes
 
-A build never touches your sessions. Alpha starts a separate, temporary machine, lends it your credentials, runs your setup, removes the credentials and saves the result.
+A build never touches your sessions. Your setup script runs with your secrets and GitHub access, and they're cleared before the setup is saved.
 
 ```mermaid
 flowchart LR
-  A[Blank machine] --> B[Your credentials added]
-  B --> C[Repositories cloned]
-  C --> D[Setup script runs]
-  D --> E[Credentials removed]
-  E --> F[Saved as the setup]
+  A[You save the setup] --> B[Repositories cloned]
+  B --> C[Setup script runs]
+  C --> D[Your secrets cleared]
+  D --> F[Ready to pick]
   F --> G[New session starts]
   G --> H[Boot script runs]
   classDef focus stroke:#1A54F0,stroke-width:1.5px;

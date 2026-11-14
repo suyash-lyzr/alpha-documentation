@@ -160,7 +160,7 @@ A baseline graded under a different judging, such as another AI reviewer model, 
 
 ## Share the results page and export it
 
-**Open the results page**, at the foot of **Results**, opens the run as a report of its own, at `/s/<code>/results/<eval>/<run>?tree=<agent>`, such as `/s/…/results/suite/r-20261114-091500?tree=harbor-triage`. Its header names the agent, the eval and the run. **Session** or <kbd>Esc</kbd> closes it; <kbd>⌘</kbd>-click (Ctrl on Windows and Linux) opens it in a new tab. Anyone who can [view the session](/sharing) can open the link. At its own address the page is read-only for everyone, so decide split grades and send fixes from the eval's tab.
+**Open the results page**, at the foot of **Results**, opens the run as a report of its own, with an address you can share. Its header names the agent, the eval and the run. **Session** or <kbd>Esc</kbd> closes it; <kbd>⌘</kbd>-click (Ctrl on Windows and Linux) opens it in a new tab. Anyone who can [view the session](/sharing) can open the link. At its own address the page is read-only for everyone, so decide split grades and send fixes from the eval's tab.
 
 {/* screenshot to capture: /images/evals/evals-results-page.png — The same report as the tab, plus the numbers and the downloads. */}
 
@@ -172,7 +172,7 @@ It adds **Previous runs** (once there is more than one run) and a folded **Numbe
 | **Save as PDF** | Shown until then. Prints the page in light colours, every case included. |
 | **JSON** | The full report file. |
 | **CSV** | One row per attempt, with its state and the agent's cost. |
-| JUnit, OpenTelemetry, Confident AI | Ask the agent ("Export the last run as JUnit"). Alpha writes it to the run's `exports` folder. |
+| JUnit, OpenTelemetry, Confident AI | Ask the agent ("Export the last run as JUnit"). Alpha saves it with the run's files and tells you where. |
 
 <Note>
 Viewers of a shared session see **Results** only, read-only. They can't decide split grades or use **Fix with Alpha**, **Run again** or the ask buttons.

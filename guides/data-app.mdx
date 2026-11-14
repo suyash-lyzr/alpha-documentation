@@ -58,7 +58,7 @@ If you don't see **Publish** beside **Share**, or the **Database** and **Sign-in
   <Step title="Look at the data and fix one row">
     Open the **Database** tab and pick `bookings` from the list of tables (type in the **Tables** box above it to narrow the list). The **Data** view shows its rows like a spreadsheet.
 
-    Pick one test booking and change its class. Double-click the cell, type the right value, and press <kbd>Enter</kbd>. <kbd>Esc</kbd> cancels. The edit is staged, not saved: the toolbar now shows **Save 1 change** (**Save 1** when the panel is narrow) and **Discard**. Click **Save 1 change**. Alpha writes every staged change in one transaction and confirms with "Saved — 1 updated." More ways to filter, edit and query are in [Browse, edit and query data](/workspace/database-data).
+    Pick one test booking and change its class. Double-click the cell, type the right value, and press <kbd>Enter</kbd>. <kbd>Esc</kbd> cancels. The edit is staged, not saved: the toolbar now shows **Save 1 change** (**Save 1** when the panel is narrow) and **Discard**. Click **Save 1 change**. Alpha saves all your staged changes together and confirms with "Saved — 1 updated." More ways to filter, edit and query are in [Browse, edit and query data](/workspace/database-data).
 
     {/* screenshot to capture: /images/guides/data-app-02-grid.png — A staged edit waits for Save 1, so nothing reaches the database by accident. */}
   </Step>
@@ -131,7 +131,7 @@ If you don't see **Publish** beside **Share**, or the **Database** and **Sign-in
   <Step title="Check Production Logs">
     Open the live address from the **Publish** tab with **Open**. Sign up there and book a class. Production uses the same accounts, so the new member also shows up in the **Auth** tab.
 
-    Then choose **+** → **Production Logs** (under **Add a tab**). It shows the last hour and reads again every minute. Set the kind to **Requests** for one line per request: method, path, status and milliseconds. Set the level to **Errors** to see only failures. To ask about a line, hover it and click the speech-bubble icon. The line lands in the composer as quoted app output, unsent. See [Monitor and troubleshoot production](/publish/monitor).
+    Then choose **+** → **Production Logs** (under **Add a tab**). It shows the last hour and keeps itself up to date. Set the kind to **Requests** for one line per request: method, path, status and milliseconds. Set the level to **Errors** to see only failures. To ask about a line, hover it and click the speech-bubble icon. The line lands in the composer as quoted app output, unsent. See [Monitor and troubleshoot production](/publish/monitor).
 
     {/* screenshot to capture: /images/guides/data-app-07-logs.png — One line per request, with the status coloured by class. */}
   </Step>
@@ -147,7 +147,7 @@ You turned Harbor from a demo into a members app. Its bookings are saved in a da
 
 <CardGroup cols={2}>
   <Card title="Production database and sign-in" icon="server" href="/publish/production-data">
-    Run migrations in the start command, browse production's rows, and connect with postgres.js.
+    Get production's tables in place, browse its rows, and connect your app to it.
   </Card>
   <Card title="Browse, edit and query data" icon="table" href="/workspace/database-data">
     Filter and sort rows, read a table's CREATE TABLE, and run SQL against the session's database.
@@ -156,6 +156,6 @@ You turned Harbor from a demo into a members app. Its bookings are saved in a da
     Read request and CPU charts, and fix a publish that fails to start.
   </Card>
   <Card title="Add sign-in to your app" icon="user-lock" href="/workspace/app-sign-in">
-    How the sign-in flow works, and how to remove a member from the app.
+    What members see when they sign in, and how to remove a member from the app.
   </Card>
 </CardGroup>

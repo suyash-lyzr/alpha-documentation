@@ -6,7 +6,7 @@ description: "Your published app gets its own PostgreSQL and the same sign-in as
 
 import { PromptCard } from '/snippets/prompt-card.jsx';
 
-A published app takes your session's services with it, never the machine's copies of them. If the session has a database, production gets a PostgreSQL of its own. If the session has [app sign-in](/workspace/app-sign-in), production gets the same sign-in and the same user accounts. To get the app online first, see [Publish your app](/publish/publish-your-app). For the database you build against, see [Your session's database](/workspace/database).
+A published app takes your session's database and sign-in with it. If the session has a database, your published app gets a database of its own. If the session has [app sign-in](/workspace/app-sign-in), production gets the same sign-in and the same user accounts. To get the app online first, see [Publish your app](/publish/publish-your-app). For the database you build against, see [Your session's database](/workspace/database).
 
 <Warning>
 The production database starts empty. Your session's tables and rows stay in the session. An app that queries its tables fails until production has them, so give it a schema before you send anyone the address.
@@ -20,10 +20,10 @@ The database has a session copy and a production copy, and the two never share d
 
 | | In the session | In production |
 | --- | --- | --- |
-| Database | PostgreSQL 16 inside the session's machine | A PostgreSQL of its own, run by Alpha and named after the app, such as `harbor_3f2a9c1e` |
-| What's in it | Whatever you and the agent made | Nothing, until migrations run or you push |
+| Database | PostgreSQL 16 on the session's machine | A PostgreSQL database of its own, run by Alpha and named after the app |
+| What's in it | Whatever you and the agent made | Nothing, until the app creates its tables or you push them |
 | When the machine sleeps | Sleeps with it | Keeps serving. It never touches the session's machine. |
-| Lifetime | Kept until the session's machine is reset | Made by the first version that needs it, kept across versions, deleted with the app |
+| Lifetime | Kept until the session's machine is reset | Made the first time you publish with the database on, kept across versions, deleted with the app |
 | Sign-in | The session's sign-in, on its preview addresses | The same sign-in and accounts, on the app's own https addresses |
 
 ```mermaid
@@ -45,38 +45,29 @@ Deleting a published app deletes its production database too, and that can't be 
 There are two ways to give production its tables. Both leave the session's database as it is.
 
 <Tabs>
-  <Tab title="Migrations in the start command">
-    Use this when the project has migration files. Every version brings production's schema up to date as it starts, and production's rows are kept. Migrations belong in the start command, not the build: the build can't reach the database.
-
-    | Stack | Start command |
-    | --- | --- |
-    | Prisma | `prisma migrate deploy && node server.js` |
-    | Drizzle | `drizzle-kit migrate && node server.js` |
-    | Alembic | `alembic upgrade head && gunicorn …` |
-    | Django | `python manage.py migrate && gunicorn …` |
-
-    A `CREATE TABLE IF NOT EXISTS` that runs when the app boots works too.
+  <Tab title="Let the app create its tables">
+    Use this when the project keeps its database schema in code, such as migration files. Ask the agent, and it sets the app up so every new version brings production's tables up to date as it starts. Production's rows are kept.
 
     <PromptCard label="Try this">
 
     ```text
-    Run harbor's database migrations from its start command so production creates its own tables, then republish it.
+    Set up harbor so production creates and updates its own database tables, then republish it.
     ```
 
     </PromptCard>
 
     Alpha will:
 
-    1. Put the migration step in front of the app's start command.
+    1. Have the app bring its tables up to date each time it starts in production.
     2. Republish harbor as a new version. The rollout shows in the **Publish** tab.
     3. Report the address once the new version is live.
   </Tab>
   <Tab title="Push from the session">
-    Use this when the schema exists only in the session, such as tables the agent made by hand. The push copies the session's default database into production as the app's own role, and the app sees the tables at once, with no republish. It reads from the session's machine, so it wakes the machine if it's asleep.
+    Use this when the schema exists only in the session, such as tables the agent made by hand. The push copies the session's tables into production, and the app sees them at once, with no republish. It reads from the session's machine, so it wakes the machine if it's asleep.
 
     <Steps>
       <Step title="Open the Production database card">
-        Open the **Publish** tab and pick the app. Right under the address line, above **History**, the **Production database** card says when the database was made and whether a schema has arrived, for example "Provisioned … · empty until the app's migrations run". Its lower half, **Push the session's database to production**, holds the push.
+        Open the **Publish** tab and pick the app. Right under the address line, above **History**, the **Production database** card says when the database was made and whether it has tables yet, for example that it's empty until the app creates them. Its lower half, **Push the session's database to production**, holds the push.
 
         {/* screenshot to capture: /images/publish/publish-prod-db-card.png — Choose what goes, and whether production's own tables may be replaced, before you push. */}
       </Step>
@@ -97,7 +88,7 @@ There are two ways to give production its tables. Both leave the session's datab
       </Step>
     </Steps>
 
-    You can also ask the agent: "Push the session's schema to harbor's production database." The agent is told not to replace production's tables when they hold real data, unless you ask for exactly that.
+    You can also ask the agent: "Push the session's schema to harbor's production database." The agent doesn't replace production's tables when they hold real data, unless you ask for exactly that.
   </Tab>
 </Tabs>
 
@@ -107,13 +98,13 @@ The card shows the reason under the button, in red.
 
 | Message | What it means | What to do |
 | --- | --- | --- |
-| "the production database already has … tables — a push would fail on them; …" | Production has tables, usually from the app's migrations. | Leave them if the app's migrations made them. To overwrite them, turn on **Replace tables that already exist**. |
+| "the production database already has … tables — a push would fail on them; …" | Production has tables, usually created by the app itself. | Leave them if the app made them. To overwrite them, turn on **Replace tables that already exist**. |
 | "this deployment has no production database yet — deploy with the database on first" | The app was published without a database. | Turn on **Database** in **Edit settings** and republish, then push. |
 | "this deployment is busy — wait for the rollout to finish" | A new version is rolling out. | Push again once the rollout is done. |
 | "a push into this deployment's database is already running" | Another push into the same database hasn't finished. | Wait for it, then push again if you still need to. |
-| "the session database's dump exceeds 64 MB — …" | A push is for a schema and seed rows, not a data migration. | Push **Schema only**. Load the rows from the app. |
-| "the dump failed on the production database: … — a statement in the dump needs a privilege the app role … does not have — …" | Usually a PostgreSQL extension, which the app's role can't create. | Ask whoever runs your Alpha to create it in production, or drop it from the session's database. |
-| "the dump failed on the production database: … — applying the dump did not finish within 10 minutes — …" | The copy was too large to apply in time. | Push **Schema only**. Load the rows from the app. |
+| A message that the session's database is over 64 MB | A push is for a schema and seed rows, not for moving a lot of data. | Push **Schema only**. Load the rows from the app. |
+| A message that the copy needs a privilege the app doesn't have | Usually a PostgreSQL extension, which the app can't create itself. | Ask whoever runs your Alpha to create it in production, or drop it from the session's database. |
+| A message that applying the copy didn't finish within 10 minutes | The copy was too large to apply in time. | Push **Schema only**. Load the rows from the app. |
 
 More fixes for a published app are in [Troubleshooting](/reference/troubleshooting).
 
@@ -123,11 +114,11 @@ The **Database** tab opens production's database in the same browser as the sess
 
 {/* screenshot to capture: /images/publish/database-production-picker.png — Session databases first, then each published app's production database. */}
 
-You act as the app's own database role, so you can do exactly what the app can, nothing more:
+You can do exactly what the app itself can, nothing more:
 
 | You can | You can't |
 | --- | --- |
-| Filter, sort and search rows | Export a dump or import a SQL file |
+| Filter, sort and search rows | Export the whole database or import a SQL file |
 | Edit, add and delete rows, saved as one transaction | Reset or drop the database |
 | Run SQL, including `CREATE TABLE` | See the database's password |
 | Read each table's structure | Connect from your own computer |
@@ -138,12 +129,12 @@ Saves and SQL here change your live app's data at once. Browsing never wakes the
 
 ## Keep sign-in working in production
 
-With sign-in on, the published app gets the same issuer, client ID and client secret as the session's app. The accounts are the same too: people who sign up on the live app appear in the session's **Auth** tab. [Add sign-in to your app](/workspace/app-sign-in) explains the flow. The sign-in service sends people back only to addresses it knows:
+With sign-in on, the published app uses the same sign-in as the session's app, with nothing to set up. The accounts are the same too: people who sign up on the live app appear in the session's **Auth** tab. [Add sign-in to your app](/workspace/app-sign-in) explains the flow. The sign-in service sends people back only to addresses it knows:
 
 | Where the app runs | Return addresses accepted |
 | --- | --- |
 | Preview | The session's preview addresses, for each port the app listens on |
-| Published app | Its own addresses, https only: the `run.app` one, and the custom-domain one if your Alpha gives apps one |
+| Published app | Its own addresses, https only, including the custom-domain one if your Alpha gives apps one |
 
 So the app must build its callback URL from the request's host. A callback hard-coded to the preview fails in production with "Invalid parameter: redirect_uri". To fix it, send the agent:
 
@@ -152,23 +143,14 @@ Sign-in on the published app fails with "Invalid parameter: redirect_uri". Build
 ```
 
 <Note>
-If the **Database** switch under **Production services** reads "not offered on this Alpha — put a hosted PostgreSQL's DATABASE_URL in the environment", or the **Sign-in** switch reads "not offered on this Alpha — Alpha's sign-in issuer is not public", that service isn't turned on for your Alpha. Ask whoever runs it.
+If the **Database** or **Sign-in** switch under **Production services** says it's "not offered on this Alpha", that service isn't turned on for your Alpha. Ask whoever runs it. For a database, you can still [bring your own](#connect-from-your-code).
 </Note>
 
 ## Connect from your code
 
-Every version sets these on the published app. Read them from the environment, and never hard-code a connection string:
+Your published app finds its database through `DATABASE_URL`, plus the usual `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD` and `PGDATABASE`, set for it on every version. Read them from the environment, and never hard-code a connection string.
 
-```env
-DATABASE_URL=postgresql://harbor_3f2a9c1e:…@localhost/harbor_3f2a9c1e?host=…
-PGHOST=…
-PGPORT=5432
-PGUSER=harbor_3f2a9c1e
-PGPASSWORD=…
-PGDATABASE=harbor_3f2a9c1e
-```
-
-The connection goes through a local socket, not the network, so `PGHOST` is a folder path rather than a host name. `pg` (and Drizzle or Knex over it), Prisma, psycopg and libpq take `DATABASE_URL` as it is. postgres.js reads only the URL's host name, so pass it `PGHOST` as the host. This works in the session and in production:
+Most database libraries, such as `pg` (and Drizzle or Knex over it), Prisma and psycopg, take `DATABASE_URL` as it is. If your app uses postgres.js, also pass it `PGHOST` as the host. This works in the session and in production, and the agent writes it this way for you:
 
 ```js
 import postgres from "postgres";
@@ -183,7 +165,7 @@ To see these values for a production database, click **Connect** in the **Databa
 
 {/* screenshot to capture: /images/publish/database-production-connect.png — Connect shows where the database lives. The password stays sealed. */}
 
-To bring your own database, add `DATABASE_URL` to the app's environment in **Edit settings**, from a [secret](/secrets) or a typed value. Your value wins and Alpha provisions nothing. An existing production database is kept but not attached to the next version. To use a sign-in service of your own instead of Alpha's, ask the agent to point the app at it.
+To bring your own database, add `DATABASE_URL` to the app's environment in **Edit settings**, from a [secret](/secrets) or a typed value. Your value wins and Alpha doesn't create a database. An existing production database is kept but not attached to the next version. To use a sign-in service of your own instead of Alpha's, ask the agent to point the app at it.
 
 ## Next steps
 
@@ -192,7 +174,7 @@ To bring your own database, add `DATABASE_URL` to the app's environment in **Edi
     Turn production services on or off, republish, and roll back to an earlier version without a rebuild.
   </Card>
   <Card title="Monitor and troubleshoot production" icon="chart-line" href="/publish/monitor">
-    Find the request that hit an empty table, and see what a migration in the start command logged.
+    Find the request that hit an empty table, and see what the app logged as it set up its tables.
   </Card>
   <Card title="Browse, edit and query data" icon="table" href="/workspace/database-data">
     Filters, staged edits and the SQL runner work the same on production's database.

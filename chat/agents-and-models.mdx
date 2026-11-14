@@ -18,7 +18,7 @@ Codex is OpenAI's coding agent. Claude Code is Anthropic's coding agent. Both wo
 | --- | --- | --- |
 | Mention a [skill](/skills/overview) | `$name` | `/name` |
 | File `/init` writes for the agent | `AGENTS.md` | `CLAUDE.md` |
-| A [steer](/chat/queue-and-steer) joins the turn | At the next model call | At the next tool boundary |
+| A [steer](/chat/queue-and-steer) joins the turn | At the agent's next step | Once the action under way finishes |
 | Suggested next prompts after a turn | No | Yes |
 | Set effort with a command | No, use the effort chip | `/effort` |
 | List the sub-agents it can hand work to | No | `/agents` |
@@ -58,7 +58,7 @@ The model chip comes right after **+** in the composer. It shows the agent's mar
   <img src="/images/chat/chat-model-picker.png" alt="The Model popover open above the home composer, beside the model chip, which reads gpt-6.1-sol · high and is highlighted. The popover's header reads MODEL. The list opens with Server default, selected with a check mark and a default badge, described as Whatever the Alpha server is configured with. Below it come GPT-6.1-Sol, also with a default badge, Latest workhorse model for coding and everyday work.; GPT-6-Astra, Frontier intelligence for the most demanding work.; GPT-6-Sol, Previous generation workhorse model.; and GPT-6-Luna, Fast and affordable model for easier tasks. Under the list, a header reads REASONING EFFORT · GPT-6.1-Sol, followed by the pills default, low, medium, high, xhigh, max and ultra, each pill after default with small signal bars. The high pill is selected, and the line under the pills reads Greater reasoning depth for complex problems. The footer reads For the session this prompt starts. Change it later with /model. Behind the popover are the greeting Still up, Alex? Sam…, the composer's placeholder Describe what to build — / for comma…, the agent chip codex and, along the bottom edge, the suggestion chips Apps, Agents and Decks & docs, with the rest showing faintly under the popover." />
 </Frame>
 
-Each row shows the model's name and a short tag, such as "latest · workhorse". Hover a row to read the model's full description. Claude models show their version, for example "Opus 5.5". A check marks the model in force; before you pick one, that's the agent's default model. The list is the agent's own, so it can differ between Alphas and change over time. With Claude Code, the list follows the Claude account the session runs on.
+Each row shows the model's name and a short tag, such as "latest · workhorse". Hover a row to read the model's full description. Claude models show their version, for example "Opus 5.5". A check marks the model in force; before you pick one, that's the agent's default model. The list is the agent's own, so it can differ between Alphas and change over time. With Claude Code, the list can also depend on whether the session runs on [your own Claude plan](#run-on-your-own-plan).
 
 | You want to | Do this |
 | --- | --- |
@@ -132,7 +132,7 @@ Pick **Full access** and the chip disappears for good.
 
 ## Run on your own plan
 
-By default the agent runs on your Alpha's keys. Sign in with ChatGPT and Codex sessions bill to your ChatGPT plan, with your plan's models in the list. Sign in with Claude and Claude Code sessions bill to your Claude plan. Each session switches on its next message. [Usage, costs and your own plan](/account/usage-and-costs#who-pays-for-the-agent’s-work) walks through both sign-ins.
+By default the agent's work runs on your Alpha's own access to the models. Sign in with ChatGPT and Codex sessions bill to your ChatGPT plan, with your plan's models in the list. Sign in with Claude and Claude Code sessions bill to your Claude plan. Each session switches on its next message. [Usage, costs and your own plan](/account/usage-and-costs#who-pays-for-the-agent’s-work) walks through both sign-ins.
 
 ## Next steps
 

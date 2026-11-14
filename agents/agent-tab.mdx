@@ -63,7 +63,7 @@ Click a card and its details dock to the right of the canvas, which keeps the ca
 | **Reads** | The inputs the step uses, named here instead of a long line back to **Inputs**. |
 | **Fills** | Placeholders the run fills in, such as `{message}`. |
 | **Tools** | One chip per tool, or "No tools". |
-| **Defined in** | The file and field the card came from. Click it to open `definition.yaml` in the workspace. |
+| **Defined in** | The file and field the card came from. Click it to open the agent's definition file in the workspace. |
 
 The **Inputs** and **Answer** cards open the same way, listing every input or field in full.
 
@@ -138,7 +138,7 @@ Instead of a wrong picture, the canvas says what's wrong and the one thing to do
 | A banner such as "1 unresolved mapping: …" | A name in the definition points at nothing | Ask the agent to fix the name. The graph is still drawn. |
 | "The agent documents could not be drawn" | Reading failed; the red banner gives the reason | Click **Read again**. A machine that was asleep usually reads on the second try. |
 
-The not-ready states also show a command that fixes them. You don't need to run it yourself. Send this to the agent:
+The not-ready states also show how to fix them, but you don't need to do it yourself. Send this to the agent:
 
 ```text
 The Agent tab says the agent isn't ready to draw. Refresh its documents and publish it again.

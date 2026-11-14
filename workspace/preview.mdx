@@ -20,7 +20,7 @@ Four rules decide what you see:
 
 | Rule | Why it matters |
 | --- | --- |
-| The agent must start the server | The Preview lists and reaches only servers the agent started for the Preview. A server you start in the [Shell](/workspace/shell), or one started any other way, isn't listed, and its address answers "Port not previewable". To see an app, ask the agent to start it. |
+| The agent must start the server | The Preview shows only servers the agent started. A server you start in the [Shell](/workspace/shell), or one started any other way, isn't listed, and its address answers "Port not previewable". To see an app, ask the agent to start it. |
 | The app must be reachable from the Preview | An app that only answers inside its own machine can't be shown. The agent sets this up for you. |
 | The home page must be a web page | An API, a file listing or a slide deck is listed in the port menu but not framed. |
 | The frame reloads when a turn ends | Less than a second after the agent finishes, the Preview reloads on the app's home page, so the latest version is on screen. |
@@ -114,7 +114,7 @@ If the Preview always waits for the live app, showing the last version isn't tur
 
 The frame, or a preview address opened in its own tab, says why there's no app. Most fixes are one sentence to the agent. More are in [Troubleshooting and FAQ](/reference/troubleshooting).
 
-{/* screenshot to capture: /images/workspace/preview-loopback.png — A server bound to 127.0.0.1 is running, but only the machine itself can reach it. */}
+{/* screenshot to capture: /images/workspace/preview-loopback.png — The app is running, but it only answers inside the machine, so the Preview can't show it. */}
 
 | Message | What it means | What to do |
 | --- | --- | --- |
@@ -126,11 +126,11 @@ The frame, or a preview address opened in its own tab, says why there's no app. 
 | "Sandbox didn't wake" | The machine couldn't be brought back. Nothing was discarded. | Open the session. The transcript says what went wrong. See [Sleep, wake and reset](/sessions/machines#what-if-a-machine-won’t-wake). |
 | "Nothing on this port" | The machine is up, but nothing answered on that port. | Ask the agent to start the app. |
 | "No live sandbox" | The session has no machine yet. | Open the session and ask the agent to run the app. |
-| "Port not previewable", with "Alpha has seen no server the agent started with forge serve listening on this port." | Nothing the agent started is listening on that port. A server you started in the Shell, or one started any other way, is never shown. | Ask the agent to start the app: "Run the app so I can see it in the Preview." |
+| "Port not previewable", with a line saying Alpha hasn't seen a server the agent started on this port | Nothing the agent started is listening on that port. A server you started in the Shell, or one started any other way, is never shown. | Ask the agent to start the app: "Run the app so I can see it in the Preview." |
 | "Unknown session" | No session matches the address. It may have been deleted. | Open the Preview from the session itself. |
 
 <Tip>
-The agent tells you an app is running only once the Preview can reach it. Apps it starts keep running between turns, and are still running when the machine wakes from sleep. See [Inside a session's machine](/reference/machine-environment).
+The agent tells you an app is running only once it shows in the Preview. Apps it starts keep running between turns, and are still running when the machine wakes from sleep. See [Inside a session's machine](/reference/machine-environment).
 </Tip>
 
 ## Next steps
