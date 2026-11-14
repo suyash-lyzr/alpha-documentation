@@ -7,9 +7,9 @@ description: "Save a machine with your repositories cloned and tools installed, 
 import { setupsMax, reposMax } from '/snippets/limits.mdx';
 import { PromptCard } from '/snippets/prompt-card.jsx';
 
-A setup is a saved machine that new sessions start on. It holds your repositories, already cloned, and whatever your setup script installed, so a session is ready in about a second. To copy one session, transcript included, [fork it](/sessions/fork-and-delete) instead. To add a repository to a single session, use the repos chip on the [home screen](/sessions/home-screen).
+A setup is a saved machine that new sessions start on. It holds your repositories, already cloned, and whatever your setup script installed, so a session is ready in about a second. To copy one session, transcript included, [fork it](/sessions/fork-and-delete) instead. To add a repository to a single session, use **+ → GitHub repos** on the [home screen](/sessions/home-screen).
 
-{/* screenshot to capture: /images/sessions/setups-manager-list.png — Your own setups and the ones shared with you, each with its build status. */}
+{/* screenshot to capture: /images/sessions/setups-manager-list.png — The Setups page: your own setups and the ones shared with you, each with its status badge and buttons. */}
 
 ## Which machine should a session start on?
 
@@ -25,29 +25,53 @@ Every session gets its own machine. You choose what's on it when you start the s
 Not sure? If you've installed the same dependencies in more than two sessions, save them as a setup.
 </Tip>
 
+## Find your setups
+
+Setups have a page of their own. Open it with **Account menu → Setups** (the account menu opens from your account badge at the bottom of the sidebar), or from the home screen with **+ → Machine → Manage setups →**. The page lists your own setups and the ones shared with you, one row each. With none yet, it reads "No setups yet. Add your repository and an install script once, and every session from it starts ready."
+
+Each row shows the setup's name with a status badge, its description, its repositories, when it was last built and by whom, and "Shared by" with the owner's name on a setup someone shared with you. If the last build failed, the error shows under the row.
+
+| Badge | Meaning |
+| --- | --- |
+| **Ready** | Built. Sessions can start from it. |
+| **Building** | A build is running. |
+| **Queued** | Waiting for another build to finish. It starts on its own. |
+| **Failed** | The build failed and there's no earlier build to start from. |
+| **Not built** | Saved without a build. |
+
+The buttons at the right of a row depend on its state and on whether it's yours:
+
+| Button | When it shows | What it does |
+| --- | --- | --- |
+| **Add N secrets** or **Secrets** | The setup has a [secret set](#add-a-secret-set) | Opens the set to fill in your values. It reads **Add N secrets** while some of yours are missing. |
+| **View build** | A build is running | Opens the build log, which follows the build live |
+| **Build** | Your setup, not built yet or failed | Starts a build and opens its log |
+| **Edit** | Your setup, not building | Opens the setup's form |
+| **⋯** ("More actions for …") | Always | **Cancel build** while yours is building, **Rebuild** once yours is ready, **Build log**, and **Delete setup** for your own |
+
 ## Create a setup
 
 Fill in the form yourself, or ask the agent to save the session you're in. Either way the setup is yours alone until you share it. Your own setups are limited to [{setupsMax}](/reference/limits).
 
 <Tabs>
-  <Tab title="In the Setups manager">
+  <Tab title="On the Setups page">
     <Steps>
-      <Step title="Open the Setups manager">
-        Choose **Account menu → Setups** (the account menu opens from your account badge at the bottom of the sidebar), or click **Manage setups →** in the home screen's setup chip. Then click **New setup**.
+      <Step title="Click New setup">
+        On the **Setups** page, click **New setup**. The form opens in sections: **Basics**, **Repositories**, **Scripts**, **Secrets & sharing** and a folded **Advanced**.
       </Step>
       <Step title="Name it and add your repositories">
-        Give the setup a name your team will recognise, such as `harbor dev`. Under **Repositories**, type `owner/repo` or paste a github.com URL, add a branch if you don't want the default, and click **Add**. Private repositories need [GitHub connected](/github/connect).
+        Under **Basics**, give the setup a **Name** your team will recognise, such as `harbor dev`, and a one-line **Description**. Under **Repositories**, type `owner/repo` or paste a github.com URL, add a branch if you don't want the default, and click **Add**. Private repositories need [GitHub connected](/github/connect).
 
-        {/* screenshot to capture: /images/sessions/setups-new-form.png — Repositories are cloned first, then the setup script runs once over them. */}
+        {/* screenshot to capture: /images/sessions/setups-new-form.png — The New setup form: Basics, Repositories and Scripts, with Secrets & sharing below. */}
       </Step>
-      <Step title="Write the setup script">
-        Put the commands you'd otherwise run at the start of every session in **Setup script**: installs, builds, migrations, seed data. It runs once, at build time, in `/workspace`. The first command that fails stops the build.
+      <Step title="Write the scripts">
+        Under **Scripts**, put the commands you'd otherwise run at the start of every session in **Setup script**: installs, builds, migrations, seed data. It runs once, at build time, in `/workspace`. The first command that fails stops the build. **How the script runs** unfolds the details. The optional **Boot script** catches each new machine up with your repository, usually with a `git pull`.
       </Step>
-      <Step title="Add a boot script and notes">
-        Both are optional. A **Boot script** catches each new machine up with your repository, usually with a `git pull`. **Notes for the agent** tell it how the project runs. To share the setup, add emails under **Shared with**.
+      <Step title="Add secrets, sharing and notes">
+        All optional. Under **Secrets & sharing**, pick a **Secret set** ([below](#add-a-secret-set)) and add emails under **Shared with**. Unfold **Advanced** to write **Notes for the agent**, which tell it how the project runs.
       </Step>
       <Step title="Click Save & build">
-        Alpha opens the build log and streams it live. **Save** keeps the setup without building it. When the build finishes, a check mark appears under the log: "Ready — pick it on the home screen with the chip." The setup chip's icon sits before the word "chip".
+        Alpha opens the build log and streams it live. **Save without building** keeps the setup without building it. When the build finishes, a check mark appears under the log: "Ready — pick it on the home screen with the chip." The machine icon sits before the word "chip". On the home screen, that's **+ → Machine**.
 
         {/* screenshot to capture: /images/sessions/setups-build-log.png — The log follows the build live. Scroll up to stop following it. */}
       </Step>
@@ -74,30 +98,44 @@ Fill in the form yourself, or ask the agent to save the session you're in. Eithe
   </Tab>
 </Tabs>
 
-| Field | What it does | Limit |
-| --- | --- | --- |
-| **Name** | Shown in the setup chip, the manager and session headers | 60 characters, unique across your Alpha |
-| **Description** | One line under the name in the manager | 300 characters |
-| **Repositories** | Cloned into `/workspace/<name>`, on the branch you give or the default | 5, which count toward the {reposMax} limit |
-| **Setup script** | Runs once at build time, as root, with `bash -e` and no prompts. Your secrets and `GITHUB_TOKEN` are in its environment. | 32 KB |
-| **Boot script** | Runs on each fresh machine from the setup, before the agent starts. Edits apply without a rebuild. | 32 KB; 5 minutes (default) per run |
-| **Notes for the agent** | Handed to the agent with your messages in every session from the setup. They never appear in the transcript. | 4,000 characters |
-| **Shared with** | Accounts that can see the setup and start sessions from it | 20 emails |
+| Field | Section | What it does | Limit |
+| --- | --- | --- | --- |
+| **Name** | **Basics** | Shown on the **Setups** page, in the machine picker, the tray under the home composer and session headers | 60 characters, unique across your Alpha |
+| **Description** | **Basics** | One line under the name on the **Setups** page | 300 characters |
+| **Repositories** | **Repositories** | Cloned into `/workspace/<name>`, on the branch you give or the default | 5, which count toward the {reposMax} limit |
+| **Setup script** | **Scripts** | Runs once at build time, as root, with `bash -e` and no prompts. Your secrets and `GITHUB_TOKEN` are in its environment. | 32 KB |
+| **Boot script** | **Scripts** | Runs on each fresh machine from the setup, before the agent starts. Edits apply without a rebuild. | 32 KB; 5 minutes (default) per run |
+| **Secret set** | **Secrets & sharing** | The secrets every session from the setup gets. See [Add a secret set](#add-a-secret-set). | One set per setup |
+| **Shared with** | **Secrets & sharing** | Accounts that can see the setup and start sessions from it | 20 emails |
+| **Notes for the agent** | **Advanced** | Handed to the agent with your messages in every session from the setup. They never appear in the transcript. | 4,000 characters |
 
 <Note>
 If you don't see **Shared with**, sharing isn't turned on for your Alpha. It needs everyone to sign in with their own account.
 </Note>
 
+## Add a secret set
+
+A [secret set](/secrets#secret-sets) is a named list of secrets. Attach one to a setup, and every session started from it gets those secrets, without anyone pasting keys into the setup script.
+
+Under **Secrets & sharing**, pick a set from **Secret set**, or choose **No secret set**. A set that's missing values shows how many, such as "· 2 required". **Add keys** creates a new set named after the setup and opens it, so you can add names and values; once a set is attached, the button reads **Edit keys**. The set's names show under the picker. The field's hint says how sharing works: "Sessions from this setup get these secrets. People you share with fill in their own values."
+
+| Who | Which values their sessions get |
+| --- | --- |
+| You, the owner | Your values in the set. The setup's build gets them too. |
+| Someone you share the setup with | Their own values. They see the set's names but never yours, and the setup's row on their **Setups** page reads **Add N secrets** until they've filled theirs in. |
+
+A change to a setup's set, or to who it's shared with, reaches every session started from the setup within about 20 seconds. A session's own secrets win over the setup's set. The full order is on [Secrets](/secrets#secret-sets).
+
 ## Start a session from a setup
 
-The setup chip sits in the home composer's bottom row, beside the repos chip. It reads **blank machine** until you pick a setup. This browser remembers your pick for later sessions.
+On the home screen, the machine is part of the **+** menu. Every new session starts on the blank machine unless you pick a setup for it, and the pick lasts for that one session.
 
 <Steps>
   <Step title="Pick the setup">
-    Click the setup chip and choose a setup. Setups marked **building** or **not built** can't be picked yet. Once you've picked one, the repos chip lists the setup's repositories marked "from the setup", so you don't add them twice.
+    Click **+**, then **Machine**, and choose a setup in the **Setup** popover. **Blank machine** is marked **default**. Setups marked **building** or **not built** can't be picked yet. The setup you pick shows as a chip in the tray under the composer; its **×** takes it off. The **Repositories** popover then lists the setup's repositories marked "from the setup", so you don't add them twice.
 
-    <Frame caption="With no setups yet, Blank machine is the only choice.">
-      <img src="/images/sessions/home-setup-picker.png" alt="The Setup popover open above the home composer, whose setup chip reading blank machine is highlighted. The header reads SETUP, with Manage setups → on the right. The only row is Blank machine, with a default badge and a check mark, described as Ubuntu with the agent, Node, Python, PostgreSQL and a headless browser. Nothing cloned. Under it, beside two dashed squares, an empty state reads No setups yet. Add one — your team's repository, cloned and installed once, ready every time. The footer reads A setup boots with its repositories already cloned and its setup script already run — nothing to install at session start. Behind the popover, the Alpha lockup, the greeting Still up, Alex? Same. Wha… and the composer's placeholder Describe what to build — / for commands, @ for f… show at the left." />
+    <Frame caption="Blank machine is the default; the setups you can start from follow it.">
+      <img src="/images/sessions/home-setup-picker.png" alt="The Setup popover open under the home composer's + button. The header reads SETUP, with Manage setups → on the right. The first row is Blank machine, with a default badge and a check mark. Below it is the harbor dev setup, and a third setup marked building and greyed out. Behind the popover, the greeting and the composer's placeholder Describe what to build — / for commands, @ for f… show at the left." />
     </Frame>
   </Step>
   <Step title="Send your first prompt">
@@ -119,22 +157,23 @@ A setup's repositories are frozen at the moment it was built. There are two ways
 | Change | How | Who gets it |
 | --- | --- | --- |
 | The latest code, or a quick install | Edit the **Boot script**. No rebuild needed. | Every machine created after the edit |
-| New dependencies, repositories or setup script | Edit the setup, then **Rebuild** or **Save & rebuild** | Sessions started after the rebuild |
+| New dependencies, repositories or setup script | **Edit** the setup and click **Save & rebuild**, or choose **⋯ → Rebuild** on its row | Sessions started after the rebuild |
 
-A rebuild never touches existing sessions; they keep their machines. If a rebuild fails, the previous build stays in use. [Resetting a session](/sessions/machines) started from the setup gives it the latest build.
+A rebuild never touches existing sessions; they keep their machines. If a rebuild fails, the previous build stays in use. [Resetting a session's machine](/sessions/machines#reset-the-session’s-machine) started from the setup gives it the latest build.
 
 The boot script runs on a fresh machine only, never when a sleeping session wakes. Your first message waits for it, so keep it to seconds. If it fails, Alpha notes it in the transcript, continues on the machine as built, and keeps the script's output in a log on the machine for the agent to read.
 
-To stop a build, click **Cancel** on its row or **Cancel build** in its log. Deleting a setup asks first. Sessions started from it keep their machines.
+To stop a build, choose **⋯ → Cancel build** on its row, or click **Cancel build** in its log. **⋯ → Delete setup** asks first: "Delete the "harbor dev" setup and its snapshot? Sessions started from it keep their machines." A setup can't be deleted while it builds.
 
 ## Share a setup
 
-Add an account's email under **Shared with** and click **Save**. The setup appears in that person's manager and setup chip, marked "Shared by" and your name. Alpha doesn't notify them.
+**Edit** the setup, add an account's email under **Shared with** ("They can start sessions from it; only you can change it."), and click **Save without building**. The setup appears on that person's **Setups** page, marked "Shared by" and your name, and in their machine picker. Alpha doesn't notify them. If the setup has a [secret set](#add-a-secret-set), they fill in their own values.
 
 | | Owner | Someone it's shared with | Anyone else, admins included |
 | --- | --- | --- | --- |
 | Sees it and starts sessions from it | Yes | Yes | No |
 | Reads its build log | Yes | Yes | No |
+| Sees the names in its secret set | Yes, with your values | Yes, with their own values | No |
 | Edits, builds, cancels, deletes or shares it | Yes | No | No |
 
 Removing an email takes effect at once. Sessions already started keep their machines, but their next fresh machine starts blank, with the repositories cloned again. Setups shared with you don't count toward your limit of {setupsMax}.
@@ -170,16 +209,16 @@ Only the environment is cleaned, not files. A token your script writes into `.np
 
 ## What do the statuses and messages mean?
 
-Builds are limited to 30 minutes (default), and two run at a time across your Alpha.
+Builds are limited to 30 minutes (default), and two run at a time across your Alpha. The build log's header shows the setup's status in these words, and so does each row's badge in short.
 
 | Status | Meaning |
 | --- | --- |
-| "not built yet" | Saved without a build. Click **Build**. |
+| "not built yet" | Saved without a build. Click **Build** on its row. |
 | "queued…" | Waiting for another build to finish. It starts on its own. |
-| "building · 2m ago…" | Running. Open the build log to follow it. |
+| "building · 2m ago…" | Running. Click **View build** to follow it. |
 | "ready · built 3h ago by Dana Reyes" | Sessions can start from it |
 | "ready · built … · last rebuild failed" | The previous build is still in use. The error shows under the row. |
-| "build failed" | Nothing to start from yet. Fix the script and click **Build**. |
+| "build failed" | Nothing to start from yet. Fix the script, then click **Build**. |
 
 | Message | Cause and fix |
 | --- | --- |

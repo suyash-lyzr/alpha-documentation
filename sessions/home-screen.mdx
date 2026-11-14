@@ -9,7 +9,7 @@ import { reposMax } from '/snippets/limits.mdx';
 The home screen is where you set up a session before it exists. Nothing runs behind it yet, and no machine has started. Your first prompt creates the session and starts its machine, and [What happens when you start a session](/sessions/start-a-session) follows it from there. To go back to work you already started, find it in the [sidebar](/sessions/organize).
 
 <Frame caption="The home screen: a greeting, one composer, and seven ways to start.">
-  <img src="/images/sessions/home-screen.png" alt="The Alpha home screen with the sidebar collapsed to a menu button at the top left. In the centre, the Alpha by Lyzr lockup sits above the one-line greeting Still up, Alex? Same. What are we building?, its second half in a blue-to-pink gradient, with a glowing horizon curving behind the composer. Below it is the empty composer with the placeholder Describe what to build — / for commands, @ for files…. Its bottom row shows the paperclip, the agent chip reading codex, the model chip reading gpt-6.1-sol · high, the plan chip, the setup chip reading blank machine, the repos chip, the microphone and a dimmed round send button. Under the composer is a row of seven chips: Apps, Agents, Decks & docs, Images & video, Data, Automations and Research." />
+  <img src="/images/sessions/home-screen.png" alt="The Alpha home screen in the light theme, with the sidebar collapsed to a menu button at the top left and a moon button for dark mode at the top right. In the centre, the orange sail mark sits before the greeting Weekend. Build something just because., above the empty composer with the placeholder Describe what to build — / for commands, @ for files…. Its bottom row shows the + button, the model chip reading GPT-6.1-Sol, the effort chip reading xhigh, the Build chip and the round send button. Below the composer are seven chips: Apps, Agents, Decks & docs, Images & video, Data, Automations and Research, over a sky that warms to orange at the bottom edge." />
 </Frame>
 
 ## Open the home screen
@@ -26,35 +26,53 @@ Opening the home screen creates nothing, so you can leave it again without a str
 
 ## Set up the next session
 
-The chips in the composer's bottom row set up the session your next prompt will start. The agent, model and plan chips sit on the left. On the right, before Send, are the machine and the repositories.
+The composer's bottom row sets up the session your next prompt will start. On the left are the **+** menu, the model chip and the effort chip. On the right, before Send, are the **Build** or **Plan** chip and the microphone.
 
-<Frame caption="What runs is on the left; where it runs is on the right.">
-  <img src="/images/sessions/home-composer-chips.png" alt="A close crop of the home composer's bottom row. On the left: the paperclip button, the agent chip with the Codex mark reading codex, the model chip with a chip icon reading gpt-6.1-sol · high, and the plan chip with a drafting compass reading plan. On the right: the setup chip with a box icon reading blank machine, the repos chip with the GitHub mark reading repos, the microphone button and a dimmed round send button with an up arrow." />
+<Frame caption="The model and effort on the left; the mode on the right, beside Send.">
+  <img src="/images/sessions/home-composer-chips.png" alt="A close crop of the home composer's bottom row. On the left: the + button, the model chip with the OpenAI mark reading GPT-6.1-Sol, and the effort chip with a gauge icon reading xhigh. On the right: the Build chip with a chevron and a dimmed round send button with an up arrow." />
 </Frame>
 
-| Chip | Sets | Remembered for later sessions? |
-| --- | --- | --- |
-| Paperclip (**Add files**) | Files to upload. You can also drop files onto the composer. | No. Files wait in the browser until the session exists, then upload to `uploads/` in its workspace. |
-| Agent | **Codex** or **Claude Code**. The session keeps its agent for life. Switching resets the model and effort to the new agent's defaults. | Yes, in this browser |
-| Model | The model and its reasoning effort | Yes, in this browser |
-| **plan** | **On** to start in [plan mode](/chat/plan-mode), **Off** to build straight away. <kbd>⇧</kbd><kbd>Tab</kbd> switches it from the composer. | Yes, in this browser |
-| Setup | **Blank machine**, or one of your [setups](/sessions/setups). **Manage setups →** opens the setups manager. | Yes, in this browser |
-| **repos** | GitHub repositories to clone before the agent starts, each with an optional branch. The limit is [{reposMax}](/reference/limits), and a setup's repositories count toward it. | No, next session only |
+<Frame caption="The + menu holds what the next session starts with.">
+  <img src="/images/sessions/home-plus-menu.png" alt="A crop of the home composer with its + menu open below the + button, which now shows an ×. The menu lists Add files; Machine, with blank at the right; GitHub repos; Skills; and Secret set, with none and a chevron at the right." />
+</Frame>
 
-The repositories are deliberately not remembered. That way a repo you picked for one task can't end up in an unrelated session later. If you connect GitHub from the **Repositories** popover, Alpha takes you to github.com and back, and your typed prompt, staged repos and name are all still there. [Connect GitHub and add repositories](/github/connect) covers the popover in full. [Choose the agent and model](/chat/agents-and-models) explains the models and efforts.
+| Control | Sets | Remembered for later sessions? |
+| --- | --- | --- |
+| **+** | Files, the machine, repositories, a skill or a secret set for the session. See the next table. | See the next table |
+| Model chip | The model, named on the chip after the agent's mark, such as **Opus 5.5**. Its popover lists each model with a short tag, such as "fastest", and a check on the one in use. When your Alpha offers both agents, a **Codex** / **Claude Code** switch sits at the top of the popover. The session keeps its agent for life, and switching resets the model and effort to the new agent's defaults. | Yes, in this browser |
+| Effort chip | The reasoning effort, such as **xhigh**. Its **Reasoning effort** popover lists every effort the agent offers. Efforts the chosen model doesn't offer are dimmed. The chip hides when the model has no effort levels. | Yes, in this browser |
+| **Build** / **Plan** | **Build** ("Makes changes directly") or **Plan** ("Asks, then proposes a plan", see [Plan mode](/chat/plan-mode)). The chip shows the one in force. <kbd>⇧</kbd><kbd>Tab</kbd> switches it from the composer. | Yes, in this browser |
+
+The **+** menu ("Add files, a machine, repos, a skill or a secret set") holds everything else the session starts with.
+
+| Item | What it does | Remembered for later sessions? |
+| --- | --- | --- |
+| **Add files** | Opens your file picker. You can also drop files onto the composer. Files wait in the browser until the session exists, then upload to `uploads/` in its workspace. | No |
+| **Machine** | Shows **blank** or the setup you picked. Opens the **Setup** popover: **Blank machine** (marked **default**), then your [setups](/sessions/setups) and the ones shared with you. A setup marked **building** or **not built** can't be picked yet. **Manage setups →** opens the **Setups** page. | No. Every new session starts on the blank machine until you pick a setup. |
+| **GitHub repos** | Shows how many you've staged. Opens the **Repositories** popover: GitHub repositories to clone before the agent starts, each with an optional branch. The limit is [{reposMax}](/reference/limits), and a setup's repositories count toward it. | No |
+| **Skills** | Opens the composer's skill list, as typing `$` does in a Codex draft or `/` in a Claude Code draft. | Not a setting |
+| **Secret set** | Shows **none** or the set you picked. Its submenu lists **None** and your own [secret sets](/secrets#secret-sets), with "N required" beside a set that's missing values, then **Create a secret set**. | No |
+
+A machine, repositories or a secret set you pick sit in a tray tucked under the composer, one chip each. Rest the pointer on a chip to read what it does, such as "The machine this session starts on" or "Cloned into the session's workspace before the agent starts". Click a chip to open its picker again, or its **×** to take it off.
+
+The machine, repositories and secret set are deliberately not remembered, so something you picked for one task can't end up in an unrelated session later. If you connect GitHub from the **Repositories** popover, Alpha takes you to github.com and back, and your typed prompt, staged repos and name are all still there. [Connect GitHub and add repositories](/github/connect) covers the popover in full. [Choose the agent and model](/chat/agents-and-models) explains the models and efforts.
 
 There's no permissions chip. Every new session runs with full access inside its own machine. The agent installs packages and runs commands without asking, and nothing it does reaches your other sessions. If you type `/permissions`, Alpha answers in a banner: "/permissions isn't offered — every session runs with full access."
 
 <Note>
-If you don't see the agent chip or the microphone, your Alpha isn't set up to offer both agents or voice input. Without the agent chip, sessions run the one agent your Alpha provides.
+If the model popover has no **Codex** / **Claude Code** switch, or you don't see the microphone, your Alpha isn't set up to offer both agents or voice input. Without the switch, sessions run the one agent your Alpha provides.
 </Note>
+
+## Switch between light and dark
+
+The button at the top right of the home screen switches Alpha between its light and dark themes. Its tooltip names the theme it switches to: "Light mode" or "Dark mode". The **Theme** setting under **Account menu → Settings → Appearance** also offers **System**, which follows your computer's light or dark mode and is the default. The choice is kept on this device only. See [Your account and settings](/account/your-account#change-your-settings).
 
 ## Start from a suggestion
 
 The seven chips under the composer are starting points: **Apps**, **Agents**, **Decks & docs**, **Images & video**, **Data**, **Automations** and **Research**. Click one and its list opens over the row, so the page doesn't move. Each row is a short line such as "Take bookings for my small business" or "Get a morning digest of AI news".
 
-<Frame caption="The Apps list opens where the chip row was, and the highlighted row's prompt previews in the composer.">
-  <img src="/images/sessions/home-suggestions-open.png" alt="The home composer showing the first suggestion's full prompt in grey: Build a portfolio website to show my projects, with an about page and a contact form, then publish it live. Its bottom row shows the paperclip, the chips codex, gpt-6.1-sol · high, plan, blank machine and repos, the microphone and a dimmed round send button. Below it, in place of the suggestion chips, the Apps panel is open, with the Apps icon and title in its header and a close X on the right. Its rows read: Build a portfolio site and publish it live, highlighted with a chevron; Track habits with streaks and reminders; Take bookings for my small business; Manage my team's time-off requests; Run an online store with Stripe checkout; Make a neon snake game for the browser." />
+<Frame caption="The Apps list opens where the chip row was.">
+  <img src="/images/sessions/home-suggestions-open.png" alt="The home screen with the empty composer and, below it in place of the suggestion chips, the Apps panel open, with the Apps icon and title in its header and a close X on the right. Its rows read: Build a portfolio site and publish it live, highlighted with a chevron; Track habits with streaks and reminders; Take bookings for my small business; Manage my team's time-off requests; Run an online store with Stripe checkout; Make a neon snake game for the browser." />
 </Frame>
 
 | You do | What happens |
@@ -68,18 +86,18 @@ A suggestion is a first draft. Edit it to match your project before you send it,
 
 ## Use commands before the session exists
 
-Type `/` in the home composer to open the same command palette you get inside a session. Here it acts on the session about to start. Most commands change a chip. A few start the session at once, with the command as its first message.
+Type `/` in the home composer to open the same command palette you get inside a session. Here it acts on the session about to start. Most commands change a chip or open its popover. A few start the session at once, with the command as its first message.
 
 <Frame caption="The palette on the home screen acts on the next session.">
-  <img src="/images/sessions/home-slash-palette.png" alt="The home composer with a single slash typed and the command palette open above it, over the greeting, whose last letters, …ding?, show at the right. Each row shows an icon, the command and a description: /model, choose what model and reasoning effort to use; /skills, list skills the agent can use ($name mentions them); /review, review my current changes and find issues; /rename, rename this session; /new, start a new session; /delete, permanently delete this session; /fork, fork this session — clones files and conversation; /init, create an AGENTS.md file with instructions for the agent; /compact, summarize conversation to prevent hitting the context limit. The /init row is highlighted. The footer reads ↑↓ navigate, ↵ select, esc dismiss and, at the right, commands. The composer's bottom row shows the paperclip, codex, gpt-6.1-sol · high, plan, blank machine, repos, the microphone and the white send button." />
+  <img src="/images/sessions/home-slash-palette.png" alt="The home composer with a single slash typed and the command palette open above it. Each row shows an icon, the command and a description: /model, choose what model and reasoning effort to use; /skills, list skills the agent can use ($name mentions them); /review, review my current changes and find issues; /rename, rename this session; /new, start a new session; /delete, permanently delete this session; /fork, fork this session — clones the VM, files and conversation; /init, create an AGENTS.md file with instructions for the agent; /compact, summarize conversation to prevent hitting the context limit. The /model row is highlighted. The footer reads ↑↓ navigate, ↵ select, esc dismiss and, at the right, commands. The send button below is lit." />
 </Frame>
 
 | Command | On the home screen | Starts the session? |
 | --- | --- | --- |
-| `/harness`, `/harness codex`, `/harness claude` | Opens the agent chip, or switches the agent. Listed only when your Alpha offers both agents. | No |
-| `/model` | Opens the model chip. In a Claude Code draft, `/model <name>` sets the model directly. | No |
-| `/effort <level>` | Claude Code drafts only. Sets the effort: `low`, `medium`, `high`, `xhigh`, `max` or `ultracode`. `/effort auto` goes back to the model's own, and bare `/effort` opens the model chip. | No |
-| `/plan`, `/plan on`, `/plan off` | Opens the plan chip, or switches plan mode | No |
+| `/harness`, `/harness codex`, `/harness claude` | Bare, opens the model chip's popover, with the **Codex** / **Claude Code** switch at its top. With a name, switches the agent. Listed only when your Alpha offers both agents. | No |
+| `/model` | Opens the model chip's popover. In a Claude Code draft, `/model <name>` sets the model directly. | No |
+| `/effort <level>` | Claude Code drafts only. Sets the effort: `low`, `medium`, `high`, `xhigh`, `max` or `ultracode`. `/effort auto` goes back to the model's own. Bare `/effort` opens the model chip's popover; to pick an effort from a list, use the effort chip. | No |
+| `/plan`, `/plan on`, `/plan off` | Switches plan mode: bare `/plan` turns it on if it's off and off if it's on. The chip shows **Plan** or **Build**. | No |
 | `/plan <task>` | Opens the session in plan mode, with the task as its first message | Yes |
 | `/rename <name>` | Names the session up front, up to 80 characters, and adds a name chip. Bare `/rename` opens **Name the session**. | No |
 | `/init` | The agent writes `AGENTS.md` (Codex) or `CLAUDE.md` (Claude Code), the instructions file for your project | Yes |
@@ -87,7 +105,7 @@ Type `/` in the home composer to open the same command palette you get inside a 
 | `/status` | Shows the **Next session** card | No |
 | `/skills`, `/mcp` | Cards listing the skills and MCP servers every new session gets | No |
 | `/usage`, `/integrations` | Open the Usage page or Integrations | No |
-| `/new` | Clears the composer, including attached files, the staged repos and the name. The remembered settings and setup stay. | No |
+| `/new` | Clears the composer, including attached files, and takes off the machine, repositories, secret set and name you picked. The remembered agent, model, effort and mode stay. | No |
 
 With a repository staged, `/review against main` or `/init` is a complete first message. You don't need a prompt as well. In a Claude Code draft, Claude Code's own commands and your skills also start the session at once.
 
@@ -116,6 +134,8 @@ The workspace doesn't exist yet, so `@` and `$` list what it will start with.
 | Type | Lists |
 | --- | --- |
 | `@` | The files you've attached, as `uploads/…`, and every file in your setup's and staged repositories, read from GitHub. With neither, the list says "Attach files or stage a repository to mention their files here". |
+| `@session:` and a word | Your other sessions that match the word |
+| `@artifact:` and a word | Your [artifacts](/artifacts) and those shared with you. Before the first turn, Alpha copies a tagged artifact's files into the new session's workspace. |
 | `$` | The skills every new session gets. Codex drafts only. |
 | `/` in a Claude Code draft | Your skills appear among the commands. Claude Code runs a skill as `/name`. |
 
@@ -144,7 +164,7 @@ Anything you send from the composer lands in the session's transcript, keys incl
     The status lines while it starts, how the session gets its name, and what to do if the first send fails.
   </Card>
   <Card title="Setups: ready-made machines" icon="server" href="/sessions/setups">
-    Save a machine with your repositories cloned and installed, then pick it from the setup chip.
+    Save a machine with your repositories cloned and installed, then pick it from **+ → Machine**.
   </Card>
   <Card title="Choose the agent and model" icon="robot" href="/chat/agents-and-models">
     How Codex and Claude Code differ, what each effort costs, and when ultracode is worth it.

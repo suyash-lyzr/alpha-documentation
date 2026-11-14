@@ -25,7 +25,7 @@ A new machine starts with the tools below. A [setup](/sessions/setups) starts wi
 | Images | Image generation the agent can use without asking you for a key |
 | Disk | {disk}. See [Limits](/reference/limits). |
 
-The agent works as an ordinary Linux account named `agent`, with `sudo` and no password. So `sudo apt-get install` and global `npm` installs work, and whatever it installs stays on the machine through sleep and wake. A reset, which an admin does, throws it away and starts a fresh machine, from the session's setup if it has one. See [Reset the session's machine](/sessions/machines#reset-the-sessions-machine).
+The agent works as an ordinary Linux account named `agent`, with `sudo` and no password. So `sudo apt-get install` and global `npm` installs work, and whatever it installs stays on the machine through sleep and wake. A reset, which an admin does, throws it away and starts a fresh machine, from the session's setup if it has one. See [Reset the session's machine](/sessions/machines#reset-the-session’s-machine).
 
 ## Where do my files live?
 
@@ -36,6 +36,7 @@ Your project is `/workspace`. It's the folder the agent starts in, the root of t
 | `/workspace` | Your project. Everything the agent builds goes here. |
 | `/workspace/uploads` | Files you attach in the composer, up to {uploadMax} each ([Limits](/reference/limits)). They land as soon as you add them, before you send. |
 | `/workspace/<repo>` | Each repository you add, cloned under its own name. If the name is taken, it becomes `/workspace/<owner>-<repo>`. See [Connect GitHub and add repositories](/github/connect). |
+| `/workspace/artifacts/<id>` | The files of an [artifact](/artifacts) you tagged in a message with `@artifact:`, at the paths it was saved with. Alpha copies them in before the agent's turn, afresh each time a message tags it. |
 
 Screenshots the agent's browser takes are kept outside your project, so they don't end up in your repositories. Ask the agent to copy one into `/workspace` if you want it.
 
@@ -55,9 +56,17 @@ Nothing is set ahead of time. A session without a database has no `DATABASE_URL`
 | `GIT_COMMITTER_NAME`, `GIT_COMMITTER_EMAIL` | You've connected GitHub | Alpha's GitHub app as the committer. You stay the author of every commit. |
 | `OPENAI_BASE_URL`, `OPENROUTER_BASE_URL` | You've added an `OPENAI_API_KEY` or `OPENROUTER_API_KEY` secret without its base URL | The provider's public address, so code that reads the pair works without you pasting a URL |
 | `PORT` | The agent started a server on a port | The port that server was asked to listen on |
-| Your secrets | You've added them | Every [global and session secret](/secrets), under the name you gave it |
+| Your secrets | You've added them | Every [global and session secret](/secrets), and every secret in a [secret set](/secrets#secret-sets) attached to the session or its setup, under the name you gave it |
 
-Your secrets win over every built-in value, so a secret named `DATABASE_URL` or `GITHUB_TOKEN` replaces the one Alpha sets. Between secrets, a session secret beats a global one, and either beats the token from a GitHub connection. A few names are reserved and can't be used for secrets, so the sign-in and integration settings can't be replaced by accident.
+Your secrets win over every built-in value, so a secret named `DATABASE_URL` or `GITHUB_TOKEN` replaces the one Alpha sets. When two places hold the same name, the more specific one wins:
+
+1. The session's own secrets
+2. The secret set of the setup the session started from
+3. The secret set attached to the session
+4. Your global secrets
+5. The token from a GitHub connection
+
+A few names are reserved and can't be used for secrets, so the sign-in and integration settings can't be replaced by accident.
 
 Every command the agent runs, every server it starts and every new Shell read these variables as they start. A change reaches the agent's next command without a restart. A Shell that was already open keeps what it had, so click **Restart shell** to pick up a new secret or a database you switched on since it opened.
 
@@ -65,12 +74,12 @@ A published app doesn't use these copies. It gets its own production database, t
 
 ## Run servers the Preview can reach
 
-The [Preview](/workspace/preview) shows any server on the machine that listens on a port and serves a page at `/`. Two rules decide whether yours shows up, and the agent follows both for you.
+The [Preview](/workspace/preview) shows only servers the agent starts. It lists their ports and frames the one that serves a page at `/`. Any other port, such as a server you started yourself in the [Shell](/workspace/shell) or one started with a bare `&`, isn't listed, and its preview address answers "Port not previewable" with "Alpha has seen no server the agent started with forge serve listening on this port." To see an app, ask the agent to run it. Two rules decide whether it shows up, and the agent follows both for you.
 
 | Rule | Why |
 | --- | --- |
+| Let the agent start it | The Preview reaches only servers the agent started. They also keep running after its turn ends, and through sleep and wake. |
 | Bind `0.0.0.0`, never `127.0.0.1` | The Preview reaches the machine from outside, so a server bound to `127.0.0.1` can't be seen. For example `vite --host 0.0.0.0`, `next dev -H 0.0.0.0` or `uvicorn app:app --host 0.0.0.0`. Any port works. |
-| Let the agent start it | The agent starts servers so they keep running after its turn ends, and through sleep and wake. A server started with a bare `&` or `nohup` can stop when the command that started it ends. |
 
 When the agent starts a server, it waits until the server is listening and the Preview can reach it before it tells you it's running. If the server doesn't come up, the agent sees why, for example that it crashed, bound `127.0.0.1`, or found the port already taken, and fixes it.
 
@@ -93,6 +102,7 @@ The agent switches Alpha's services on, publishes and reads production for you. 
 | A key your app needs | "Take payments with Stripe." | [Secrets](/secrets) |
 | An MCP server | "Install the Linear MCP server." | [MCP servers](/integrations/mcp-servers) |
 | A reusable skill | "Save this workflow as a skill." | [Skills](/skills/overview) |
+| A file kept and shared outside the session | "Save the class schedule as an artifact." | [Artifacts](/artifacts) |
 | A setup to start sessions from | "Save this environment as a setup." | [Setups](/sessions/setups) |
 | Work on a timetable | "Every Monday at 9, post last week's bookings to Slack." | [Routines](/routines) |
 | A deck to view or export | "Show me the deck." | [Slides, drawings and diagrams](/workspace/decks-and-drawings) |

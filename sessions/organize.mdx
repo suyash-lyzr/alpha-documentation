@@ -6,7 +6,7 @@ description: "Pin, group, filter and search your sessions, and read their status
 
 The sidebar lists every session you own and every session shared with you. Each row also shows whether the agent is working or waiting for you. To start a new session, go to the [home screen](/sessions/home-screen). To copy a session or remove it for good, see [Fork or delete a session](/sessions/fork-and-delete).
 
-{/* screenshot to capture: /images/sessions/sidebar-overview.png — The pinned sidebar: page rows with their counts at the top, then Pinned, a custom group and the day groups. */}
+{/* screenshot to capture: /images/sessions/sidebar-overview.png — The pinned sidebar: page rows with their counts at the top, Artifacts below Published, then Pinned, a custom group and the day groups. */}
 
 ## Find your way around the sidebar
 
@@ -16,7 +16,8 @@ The rows at the top open Alpha's pages. A count appears beside a row only when i
 | --- | --- | --- |
 | **New session** | The [home screen](/sessions/home-screen), where your next prompt starts a session | |
 | **Search** | [Session search](#search-every-session) | |
-| **Published** | Every app published from your sessions ([See everything you've published](/publish/monitor)) | Published apps across your sessions |
+| **Published** | Every app published from your sessions ([Monitor and troubleshoot production](/publish/monitor)) | Published apps across your sessions |
+| **Artifacts** | The [Artifacts](/artifacts) page: files you kept from your sessions, and the ones shared with you | |
 | **Skills** | The [Skills](/skills/overview) page | Skills that are on |
 | **Routines** | Every [routine](/routines) on your account | |
 | **Integrations** | The [Integrations](/integrations/overview) page | Connected services and MCP servers |
@@ -25,7 +26,7 @@ Below them, the list runs in this order: **Pinned**, then **Sessions** (your gro
 
 Press <kbd>⌘</kbd><kbd>B</kbd> (Ctrl on Windows and Linux) to keep the sidebar open or hide it. The button at its top right does the same. While it's hidden, rest the pointer on the window's left edge and the sidebar slides in over the page. It closes when the pointer leaves it, or when you press <kbd>Esc</kbd> while using it from the keyboard. Peeking needs a pointer, so it doesn't work on touch screens.
 
-Click a row to open the session. To open it in a new browser tab, <kbd>⌘</kbd>-click (Ctrl-click), <kbd>Shift</kbd>-click or middle-click it.
+Click a row to open the session. To open it in a new browser tab, <kbd>⌘</kbd>-click (Ctrl-click), <kbd>Shift</kbd>-click or middle-click it. **New session** and the page rows at the top open in a new tab the same way.
 
 ## Read a session at a glance
 
@@ -34,10 +35,10 @@ A row shows the session's title and, when something is happening, a mark beside 
 | Mark | Meaning | What to do |
 | --- | --- | --- |
 | Spinner ("Agent working") | A turn is running. | Nothing. The turn keeps going even if you close the tab. |
-| Amber question-mark bubble ("Needs your input") | The agent is waiting on you: a [question card](/chat/plan-mode), or an action awaiting approval in a Claude Code session set to **Ask me**. | Open the session and answer. The mark clears as soon as you do. |
+| Pulsing terracotta speech bubble with a question mark ("Needs your answer") | The agent is waiting on you: [questions](/chat/plan-mode#answer-the-agent’s-questions) it asked, or an action awaiting approval in a Claude Code session set to **Ask me**. | Open the session and answer. The mark clears as soon as you do. |
 | Green clock ("Routine scheduled") | A routine runs in this session on a timetable. | Nothing. See [Routines](/routines). |
 | Pulsing green clock ("Routine running now") | The routine is running now. | Open the session to watch it. |
-| Grey clock ("Routine paused" or "Routine chat — nothing scheduled yet") | A routine session with nothing scheduled. | Resume or schedule it from [Routines](/routines). |
+| Pale green clock ("Routine paused" or "Routine chat — nothing scheduled yet") | A routine session with nothing scheduled. | Resume or schedule it from [Routines](/routines). |
 
 {/* screenshot to capture: /images/sessions/sidebar-row-states.png — Three rows: the agent working, the agent waiting on you, and a scheduled routine. */}
 
@@ -60,7 +61,7 @@ Hover a row and click **⋯** ("Session actions") to open its menu. Only session
 
 | Item | What it does |
 | --- | --- |
-| **Pin** / **Unpin** | Moves the session to **Pinned**, at the top, in the order you pinned. |
+| **Pin** / **Unpin** | Moves the session to **Pinned**, at the top. Pinned sessions follow the list's sort order. |
 | **Rename** | Opens **Rename session**. Type up to 80 characters and press **Save** or <kbd>Enter</kbd>. You can also type `/rename` in the session's composer. |
 | **Move to group** | Lists your groups A to Z, with a check on the current one. **New group…** opens **New group**: name it (up to 40 characters) and press **Create group**. **Remove from group** appears when the session is in one. |
 | **Delete** | Deletes the session and its machine. See [Fork or delete a session](/sessions/fork-and-delete). |
@@ -98,9 +99,12 @@ Some of the sidebar's state is saved on your account, and some only in the brows
 
 | Saved on your account | Saved in this browser only |
 | --- | --- |
-| Groups and which sessions are in them | Pins and their order |
-| The view: **Type**, **Last activity**, **Group by**, **Sort by** | Unread marks |
-| Session names | Folded groups and the folded **Pinned** section |
+| Pins | Unread marks |
+| Groups and which sessions are in them | Folded groups and the folded **Pinned** section |
+| The view: **Type**, **Last activity**, **Group by**, **Sort by** | |
+| Session names | |
+
+Pins used to be kept in the browser. Pins made that way weren't carried over to your account, so pin those sessions again.
 
 ## Search every session
 

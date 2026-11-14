@@ -4,19 +4,19 @@ sidebarTitle: "Troubleshooting"
 description: "Symptoms, what they mean and what to do, plus the questions people ask most."
 ---
 
-import { idlePark, turnMax, promptMax, uploadMax, fileDownloadMax, folderDownloadMax, dictationMax, listenMax } from '/snippets/limits.mdx';
+import { idlePark, turnMax, uploadMax, fileDownloadMax, folderDownloadMax, dictationMax, listenMax } from '/snippets/limits.mdx';
 
 This page starts from what you see in Alpha, such as a red message, a blank pane or a button that does nothing. Each entry gives the likely causes and the fix, and many include a message you can send to the agent as it is. Feature pages keep their own full tables of messages, linked from each section. For the numbers behind a limit, see [Limits](/reference/limits).
 
 | What you see | Go to |
 | --- | --- |
-| A red line on the sign-in screen, the waitlist, or a page that won't load | [Can't sign in, or Alpha won't load](#cant-sign-in-or-alpha-wont-load) |
-| Grey placeholder bars, a message about the session's machine, or a transcript that stopped moving | [The machine won't wake, or the chat stops updating](#the-machine-wont-wake-or-the-chat-stops-updating) |
-| A message in the **Preview** where your app should be | [The Preview shows no app](#the-preview-shows-no-app) |
-| A red card in the transcript, a refused command, or a paused queue | [A turn fails or a command is refused](#a-turn-fails-or-a-command-is-refused) |
-| A failed upload or download, or a **Database** tab with no data | [Uploads, files or the database fail](#uploads-files-or-the-database-fail) |
-| A failed version on the **Publish** tab | [A publish fails](#a-publish-fails) |
-| An error from GitHub, an app or an MCP server | [GitHub, an app or an MCP server won't connect](#github-an-app-or-an-mcp-server-wont-connect) |
+| A red line on the sign-in screen, the waitlist, a page that won't load, or a page that went back to the sign-in screen | [Can't sign in, or Alpha won't load](#can’t-sign-in-or-alpha-won’t-load) |
+| Grey placeholder bars, a message about the session's machine, or a transcript that stopped moving | [The machine won't wake, or the chat stops updating](#the-machine-won’t-wake-or-the-chat-stops-updating) |
+| A message in the **Preview** where your app should be, such as "Port not previewable" | [The Preview shows no app](#the-preview-shows-no-app) |
+| A red ✕ line in the transcript, a refused command, or a paused queue | [A turn fails or a command is refused](#a-turn-fails-or-a-command-is-refused) |
+| A failed upload or download, an artifact that won't open, or a **Database** tab with no data | [Uploads, files or the database fail](#uploads-files-or-the-database-fail) |
+| A failed or stopped version on the **Publish** tab | [A publish fails](#a-publish-fails) |
+| An error from GitHub, an app or an MCP server, or secrets with no value | [GitHub, an app or an MCP server won't connect](#github-an-app-or-an-mcp-server-won’t-connect) |
 
 <Tip>
 The agent reads the same logs and errors you do, and it can usually fix its own work. When an entry offers a message, send it in the session that has the problem.
@@ -35,17 +35,22 @@ Sign-in errors appear in red on the sign-in screen. Every one of them is listed 
   <Accordion title="You land on “You're on the waitlist”">
     **Causes:** You signed in with Google or Microsoft from an address that isn't approved yet. Alpha has made your account and holds it until an admin approves it. The team already knows you're waiting.
 
-    **Fix:** Once you're approved, press **Check again** or refresh the page. "Still waiting for approval. Try again in a little while." means you're not approved yet. "Couldn't reach Alpha. Check your connection and try again." means the check itself failed. If you signed in with the wrong account, click **Sign out** under the card. See [If you're on the waitlist](/account/your-account#if-you-re-on-the-waitlist).
+    **Fix:** Once you're approved, press **Check again** or refresh the page. "Still waiting for approval. Try again in a little while." means you're not approved yet. "Couldn't reach Alpha. Check your connection and try again." means the check itself failed. If you signed in with the wrong account, click **Sign out** under the card. See [If you're on the waitlist](/account/your-account#if-you’re-on-the-waitlist).
   </Accordion>
   <Accordion title="“sign-in was cancelled”, “sign-in didn't complete” or “this sign-in link expired or was already used”">
     **Causes:** You backed out on the Google or Microsoft page, the provider returned an error, or the sign-in took too long or came back to an old tab.
 
     **Fix:** Start again from the sign-in screen, in the same tab, and finish without a long pause. If "sign-in didn't complete — try again" keeps coming back, tell your admin.
   </Accordion>
-  <Accordion title="“too many attempts — try again in a few minutes”">
-    **Causes:** There were too many sign-in attempts for this email from your network in a short time. Alpha refuses more until the window passes, to protect the account.
+  <Accordion title="“Sign-in isn't available at this address.”">
+    **Causes:** The sign-in screen offers **Continue with Microsoft** and **Continue with Google** only, and neither is set up for the address you opened Alpha at. Alpha has no email and password form.
 
-    **Fix:** Wait a few minutes, and check the password before the next try. If you see "this account signs in with Google or Microsoft — use the buttons above", the account has no password. Use the button instead.
+    **Fix:** Open Alpha at the address your team uses, or ask your admin which address to use. If you used to sign in with a password, sign in with Microsoft or Google instead. See [Sign in to Alpha](/account/your-account#sign-in-to-alpha).
+  </Accordion>
+  <Accordion title="An open page goes back to the sign-in screen by itself">
+    **Causes:** Your sign-in ended, because it expired or because you signed out in another tab. Open Alpha pages notice within about 12 seconds and show the sign-in screen, even if you weren't doing anything.
+
+    **Fix:** Sign in again. Your sessions are as you left them, and turns that were running carried on without you.
   </Accordion>
   <Accordion title="“Can't reach the Alpha server.” with a Retry button">
     **Causes:** Alpha's server didn't answer when the page loaded, and this browser had no remembered sign-in to open with. The server may be restarting, or your connection dropped.
@@ -77,7 +82,7 @@ A session's machine sleeps once you've been away for {idlePark} and nothing is r
   <Accordion title="“The session's machine is paused and could not be resumed (…)”, or a message that it could not be restored">
     **Causes:** The saved machine didn't start. The reason is in the brackets. The saved copy is kept.
 
-    **Fix:** Send your message again in a minute. If it keeps failing after several tries, ask an admin to reset the machine, which gives the session a fresh one. Read [Reset the session's machine](/sessions/machines#reset-the-sessions-machine) first, because a reset deletes every file on the machine.
+    **Fix:** Send your message again in a minute. If it keeps failing after several tries, ask an admin to reset the machine, which gives the session a fresh one. Read [Reset the session's machine](/sessions/machines#reset-the-session’s-machine) first, because a reset deletes every file on the machine.
   </Accordion>
   <Accordion title="“The session's machine cannot be reached right now.”">
     **Causes:** Alpha briefly can't reach the machine.
@@ -121,8 +126,19 @@ The frame, or a preview address opened in its own tab, says why there's no app. 
     **Fix:** Click **Logs** in the **Preview** toolbar to see why it stopped, then ask the agent to run it again.
 
     ```text
-    The Preview says nothing is listening. Read the server's log, fix what stopped it, and start it again bound to 0.0.0.0.
+    The Preview says nothing is listening. Read the server's log, fix what stopped it, and start it again so the Preview can reach it.
     ```
+  </Accordion>
+  <Accordion title="“Port not previewable”">
+    **Causes:** The **Preview** reaches only servers the agent started. The page goes on: "Alpha has seen no server the agent started with forge serve listening on this port." A server you started yourself in the [Shell](/workspace/shell), or one the agent started some other way, is never listed in the **Preview** or reachable at its preview address.
+
+    **Fix:** Ask the agent to run the app. It starts the server so the **Preview** can reach it, and keeps it running between turns.
+
+    ```text
+    The Preview says "Port not previewable". Stop the server I started in the Shell and run the app yourself so it shows in the Preview.
+    ```
+
+    See [Run servers the Preview can reach](/reference/machine-environment#run-servers-the-preview-can-reach).
   </Accordion>
   <Accordion title="“… listening, but nothing to frame at /.”">
     **Causes:** Every port that's open serves an API, a file listing or a slide deck, not a web page.
@@ -141,7 +157,7 @@ The frame, or a preview address opened in its own tab, says why there's no app. 
   <Accordion title="A preview address says “Sandbox asleep” or “Sandbox didn't wake”">
     **Causes:** "Sandbox asleep" means the address was opened while the owner is away from Alpha. Preview addresses never wake a machine. "Sandbox didn't wake" means the machine couldn't be brought back. Nothing was discarded.
 
-    **Fix:** Open the session in Alpha. "Sandbox asleep" reloads itself once the machine is back. For "Sandbox didn't wake", Alpha says what went wrong when it tries to wake the machine. Follow the [machine entries above](#the-machine-wont-wake-or-the-chat-stops-updating).
+    **Fix:** Open the session in Alpha. "Sandbox asleep" reloads itself once the machine is back. For "Sandbox didn't wake", Alpha says what went wrong when it tries to wake the machine. Follow the [machine entries above](#the-machine-won’t-wake-or-the-chat-stops-updating).
   </Accordion>
   <Accordion title="Sign-in in your app loops, or opens another window">
     **Causes:** Google's sign-in page, like many outside pages, refuses to be shown inside another page. So the **Preview** shows "Continue on accounts.google.com" and opens it in a window of its own. Inside the frame, the browser can also drop your app's sign-in cookies, so the app keeps forgetting you.
@@ -155,12 +171,12 @@ The frame, or a preview address opened in its own tab, says why there's no app. 
 A failed turn keeps the workspace and the transcript up to the failure, and your next message carries on from there. More messages are on [Follow the agent's work](/chat/transcript#what-if-a-turn-fails).
 
 <AccordionGroup>
-  <Accordion title="A red card ends the turn">
-    **Causes:** The agent stopped with an error. The card says what failed.
+  <Accordion title="A red ✕ line ends the turn">
+    **Causes:** The agent stopped with an error. The red line, marked with a ✕, says what failed, and some have a **details** fold under them.
 
-    **Fix:** It depends on the card:
+    **Fix:** It depends on the line:
 
-    | The card says | What to do |
+    | The line says | What to do |
     | --- | --- |
     | The model provider's own message | Send again. If the refusal repeats, try [another model](/chat/agents-and-models). |
     | "The agent exited with code N" | Open **details** to read why, then ask the agent to carry on. |
@@ -203,11 +219,6 @@ A failed turn keeps the workspace and the transcript up to the failure, and your
 
     **Fix:** Deal with the reason, then click **Resume**. **Send now** sends one message and leaves the rest paused. See [Why did the queue pause?](/chat/queue-and-steer#why-did-the-queue-pause)
   </Accordion>
-  <Accordion title="“prompt too large”">
-    **Causes:** The message is longer than {promptMax}.
-
-    **Fix:** Attach the long text as a file and refer to it in a short message. See [The composer](/chat/composer#attach-files).
-  </Accordion>
   <Accordion title="The microphone is missing, or dictation stops">
     **Causes:** Voice input isn't turned on for your Alpha, or your browser can't record for it. Once it's running, the browser may have blocked the microphone, the connection may have dropped, or the dictation reached {dictationMax}.
 
@@ -244,7 +255,12 @@ A failed turn keeps the workspace and the transcript up to the failure, and your
   <Accordion title="Typing in a file shows “Read-only — ask the agent to change files”">
     **Causes:** The workspace belongs to the agent, so every file viewer is read-only.
 
-    **Fix:** Ask the agent for the change, or make it yourself in the [Shell](/workspace/shell). See [Why can't I edit files here?](/workspace/files#why-cant-i-edit-files-here)
+    **Fix:** Ask the agent for the change, or make it yourself in the [Shell](/workspace/shell). See [Why can't I edit files here?](/workspace/files#why-can’t-i-edit-files-here)
+  </Accordion>
+  <Accordion title="“This artifact was deleted, or it isn't shared with you.”">
+    **Causes:** You opened an [artifact](/artifacts) link, or an artifact badge in the transcript, and the artifact is gone or its sharing no longer includes you. A folder link says the same with "folder".
+
+    **Fix:** Ask the artifact's owner to share it with your email again, or to send you a new link. If the artifact was yours and you deleted it, it can't be brought back, but the workspace file it came from is still in its session.
   </Accordion>
   <Accordion title="The Database tab says “The database is off”">
     **Causes:** The session's database hasn't been switched on. Every machine has one, but it stays off until it's needed.
@@ -265,7 +281,7 @@ A failed turn keeps the workspace and the transcript up to the failure, and your
 
 ## A publish fails
 
-A failed version never takes traffic. If an earlier version was serving, it keeps serving, so your live app stays up. The **Publish** tab marks the step that failed and shows a hint under the error, and the agent reads the same log. These three come up most. Every hint is explained on [Monitor and troubleshoot production](/publish/monitor#when-a-publish-fails).
+A failed version never takes traffic. If an earlier version was serving, it keeps serving, so your live app stays up. The **Publish** tab marks the step that failed and shows a hint under the error, and the agent reads the same log. These come up most. Every hint is explained on [Monitor and troubleshoot production](/publish/monitor#when-a-publish-fails).
 
 <AccordionGroup>
   <Accordion title="“The app never listened on 0.0.0.0:PORT within …”">
@@ -286,6 +302,16 @@ A failed version never takes traffic. If an earlier version was serving, it keep
     The publish failed installing dependencies. Bring the lockfile in step with the manifest, check it builds, and republish.
     ```
   </Accordion>
+  <Accordion title="“the attached secret set needs … — nothing was deployed”">
+    **Causes:** The session has a [secret set](/secrets#secret-sets), directly or through its setup, and at least one name in it has no value of yours. A published app gets every name in the session's sets, so the publish stops before anything is built. A global secret of the same name fills a gap.
+
+    **Fix:** Add the missing values, as the hint says, then ask the agent to publish again. The session's **Secrets** tab shows "N required secrets have no value." with a button to add them.
+  </Accordion>
+  <Accordion title="“the deployment was stopped”">
+    **Causes:** Someone pressed **Stop** on the **Publish** tab while the version was still queued or being built. The version is recorded as failed. The version that was serving before keeps serving.
+
+    **Fix:** Nothing, if you meant to stop it. To publish after all, ask the agent to publish again. See [Publish your app](/publish/publish-your-app).
+  </Accordion>
   <Accordion title="The version is live, with a warning that starts “The service is up, but”">
     **Causes:** Your framework only answers hostnames on an allow-list, and the app's `.run.app` address isn't on it. Every visitor gets an error page.
 
@@ -303,12 +329,17 @@ A failed version never takes traffic. If an earlier version was serving, it keep
   <Accordion title="“… isn't among the repositories … grants — or there is no such repository.”">
     **Causes:** The repository's name is misspelled, or the GitHub account you connected hasn't granted Alpha that repository.
 
-    **Fix:** Check the spelling. Then click **Manage … on GitHub** beside the error, grant the repository, and add it again. See [If a repository won't attach](/github/connect#if-a-repository-wont-attach).
+    **Fix:** Check the spelling. Then click **Manage … on GitHub** beside the error, grant the repository, and add it again. See [If a repository won't attach](/github/connect#if-a-repository-won’t-attach).
   </Accordion>
   <Accordion title="“GitHub isn't connected for … yet — connect that account to reach its repositories”">
     **Causes:** The repository belongs to an account or organization you haven't connected.
 
     **Fix:** Click **Connect …** beside the error, pick that account on GitHub and grant the repository. See [Add organizations and more accounts](/github/connect#add-organizations-and-more-accounts).
+  </Accordion>
+  <Accordion title="“GitHub no longer accepts your connection — sign in again”">
+    **Causes:** GitHub refused the connection Alpha holds for you, for example because the connection expired. The **GitHub** tab shows the message with a **Sign in again** button.
+
+    **Fix:** Click **Sign in again** and finish on GitHub. Your repositories and branches in the session are untouched. See [Connect GitHub and add repositories](/github/connect).
   </Accordion>
   <Accordion title="git rejects a push, or Pull can't fast-forward">
     **Causes:** Both your branch and GitHub's copy of it have new commits. Git's own words show in a red strip under the repository name.
@@ -329,7 +360,7 @@ A failed version never takes traffic. If an earlier version was serving, it keep
   <Accordion title="“The sign-in didn't complete” or “The connector's authorization did not complete. Try connecting again.”">
     **Causes:** You cancelled on the app's sign-in page, or the sign-in took longer than 10 minutes. For an MCP server, the line reads "The MCP server's sign-in did not complete. Try connecting again."
 
-    **Fix:** Close the sign-in window and connect again from Alpha. For GitHub, "Nothing was connected — the GitHub sign-in was cancelled." means the same, so click **Connect GitHub** again. More fixes are on [Connect an app](/integrations/connect-apps#what-if-a-connection-doesnt-work).
+    **Fix:** Close the sign-in window and connect again from Alpha. For GitHub, "Nothing was connected — the GitHub sign-in was cancelled." means the same, so click **Connect GitHub** again. More fixes are on [Connect an app](/integrations/connect-apps#what-if-a-connection-doesn’t-work).
   </Accordion>
   <Accordion title="“MCP sign-in expired … — sign in again under Integrations”">
     **Causes:** The agent used a remote MCP server whose sign-in has expired and couldn't be renewed.
@@ -341,10 +372,15 @@ A failed version never takes traffic. If an earlier version was serving, it keep
 
     **Fix:** On the agent's card, click **Add** and the variable's name, paste the value and save. Then click **Tell the agent to continue**. For a published app, add the secret first, then pick it under **Environment**. Never paste the key into the composer. See [Secrets](/secrets#what-happens-when-the-agent-needs-a-key).
   </Accordion>
+  <Accordion title="“N required secrets have no value.”">
+    **Causes:** A [secret set](/secrets#secret-sets) attached to the session, or to the setup it started from, lists names you haven't given a value. When someone shares a setup with a set, you fill in your own values, so this is expected the first time you use it. The banner shows on the session's **Secrets** tab, and the setup's row on the **Setups** page reads **Add N secrets**.
+
+    **Fix:** Click **Add them** (or **Add it**) on the banner, or the button on the setup's row, and fill in the values. The machine gets them without a restart. See [Add a secret set](/sessions/setups#add-a-secret-set).
+  </Accordion>
 </AccordionGroup>
 
 <Note>
-If you don't see the microphone, **Publish**, the Claude sign-in or **Continue with Google**, it isn't turned on for your Alpha. The same goes for "GitHub isn't set up on this server yet — ask whoever runs it." Ask your admin.
+If you don't see the microphone, **Publish**, **Report a bug**, the Claude sign-in, **Continue with Microsoft** or **Continue with Google**, it isn't turned on for your Alpha. The same goes for "GitHub isn't set up on this server yet — ask whoever runs it." Ask your admin.
 </Note>
 
 ## Frequently asked questions
@@ -363,7 +399,7 @@ If you don't see the microphone, **Publish**, the Claude sign-in or **Continue w
     Not in the file viewers. They're read-only, because the workspace belongs to the agent. You can change files in the [Shell](/workspace/shell), which runs as the same account as the agent, or point the agent at exactly what to change with [Select and Draw](/workspace/point-and-draw).
   </Accordion>
   <Accordion title="Does deleting a session delete my published app?">
-    Yes. Deleting a session also deletes every app published from it, along with its address and its production database. What you pushed to GitHub stays. To keep an app online, keep its session, and move the session into a group if you want it out of the way. See [Fork or delete a session](/sessions/fork-and-delete#delete-a-session).
+    Yes. Deleting a session also deletes every app published from it, along with its address and its production database. What you pushed to GitHub stays, and so do [artifacts](/artifacts) saved from the session. To keep an app online, keep its session, and move the session into a group if you want it out of the way. See [Fork or delete a session](/sessions/fork-and-delete#delete-a-session).
   </Accordion>
   <Accordion title="Can I use my own domain?">
     Not yet. Every published app gets a `run.app` address. Where your Alpha has a domain of its own, the app also gets an address on it, the same for every app. You can't attach a domain you own. See [Where does my app live?](/publish/publish-your-app#where-does-my-app-live)
@@ -379,10 +415,10 @@ If you don't see the microphone, **Publish**, the Claude sign-in or **Continue w
     Yes, as [secrets](/secrets), encrypted and tied to your account. The machine gets them as environment variables, so anything the agent runs can read them, including the app it builds. Their values show as `[redacted]` wherever they appear in the transcript. See [How are values hidden in the transcript?](/secrets#how-are-values-hidden-in-the-transcript) A published app only gets the secrets you pick for it. A key typed into the composer lands in the transcript, so add keys under **Secrets** instead.
   </Accordion>
   <Accordion title="Which models can I use?">
-    The ones in the **Model** popover, opened from the model chip in the composer. The list comes from the agent itself, so it differs between Alphas and changes when your Alpha updates. The row marked **default** is what a session runs when you haven't picked one. With Claude Code, the list follows the Claude account the session runs on. See [Choose the agent and model](/chat/agents-and-models#choose-a-model).
+    The ones in the popover of the model chip in the composer. The list comes from the agent itself, so it differs between Alphas and changes when your Alpha updates. The chip always names the model in use, including the one a session runs when you haven't picked one. With Claude Code, the list follows the Claude account the session runs on. See [Choose the agent and model](/chat/agents-and-models#choose-a-model).
   </Accordion>
   <Accordion title="Which agent should I use?">
-    If you're not sure, use the one marked **default**. Codex and Claude Code share the same machine, workspace, **Preview**, database and publishing. They differ in how you talk to them, such as `$name` or `/name` for a skill. You pick the agent on the home screen, and a session keeps it for life, so try the other one in your next session. See [Codex or Claude Code?](/chat/agents-and-models#codex-or-claude-code)
+    If you're not sure, keep the one the home screen starts with. Codex and Claude Code share the same machine, workspace, **Preview**, database and publishing. They differ in how you talk to them, such as `$name` or `/name` for a skill. You pick the agent on the home screen, with the switch at the top of the model chip's popover, and a session keeps it for life, so try the other one in your next session. See [Codex or Claude Code?](/chat/agents-and-models#codex-or-claude-code)
   </Accordion>
 </AccordionGroup>
 

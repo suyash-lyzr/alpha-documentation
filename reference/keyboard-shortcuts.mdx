@@ -20,10 +20,10 @@ These keys work in the [composer](/chat/composer) of an open session. The ones m
 | <kbd>Esc</kbd> | Stops the turn. The Stop button dims and its square pulses until the turn ends, and a second press does nothing. | While the agent works. See [Stop the agent](/chat/queue-and-steer#stop-the-agent). |
 | <kbd>Enter</kbd> or <kbd>⌘</kbd><kbd>Enter</kbd> | Saves a queued message you're editing. | Under the "Editing queued message" strip. |
 | <kbd>Esc</kbd> | Cancels the edit, leaves the queued message as it was and brings back your draft. It doesn't stop the turn. | Under the "Editing queued message" strip. |
-| <kbd>⇧</kbd><kbd>Tab</kbd> | Turns [plan mode](/chat/plan-mode) on or off. It applies from your next message. | Home screen too. |
+| <kbd>⇧</kbd><kbd>Tab</kbd> | Turns [plan mode](/chat/plan-mode) on or off, switching the chip on the composer's right between **Build** and **Plan** ("Mode (/plan · ⇧Tab)"). It applies from your next message. | Home screen too. |
 | <kbd>⌘</kbd><kbd>.</kbd> | Starts or stops dictation. A tap toggles it. Hold the keys for 400 ms or more and dictation stops when you let go. | Home screen too, wherever the mic shows. See [Dictate a message](/chat/composer#dictate-a-message). |
 | <kbd>⌘</kbd><kbd>Z</kbd> | Brings back the draft that a picked suggestion replaced. | On the home screen or in an empty session, right after you pick a suggested prompt from the chips under the composer. |
-| <kbd>Enter</kbd> | Sends the question card's answers, including what you typed in its "Something else…" or "Type your answer…" field. | When the agent [asks you a question](/chat/plan-mode#answer-the-agents-questions). |
+| <kbd>Enter</kbd> | Moves to the next question, or on the last one sends every answer, like the **→** button. | In the "Something else", "Type your answer" or "Type the secret" field of the questions that open above the composer when the agent [asks you something](/chat/plan-mode#answer-the-agent’s-questions), once you've typed an answer. |
 
 <Note>
 If you don't see the mic beside the send button, dictation isn't turned on for your Alpha, and <kbd>⌘</kbd><kbd>.</kbd> does nothing.
@@ -31,7 +31,7 @@ If you don't see the mic beside the send button, dictation isn't turned on for y
 
 ## Move through suggestion lists
 
-Typing `/`, `@` or `$` in the composer opens a list of commands, files and sessions, or skills. While a list is open it owns <kbd>Enter</kbd> and <kbd>Esc</kbd>, so neither sends nor stops anything. The footer of the list repeats these keys: "↑↓ navigate", "↵ select", "esc dismiss". [Mention files, sessions and skills](/chat/composer#mention-files-sessions-and-skills) explains what each list holds.
+Typing `/`, `@` or `$` in the composer opens a list of commands, files, sessions and artifacts, or skills. While a list is open it owns <kbd>Enter</kbd> and <kbd>Esc</kbd>, so neither sends nor stops anything. The footer of the list repeats these keys: "↑↓ navigate", "↵ select", "esc dismiss". [Mention files, sessions and skills](/chat/composer#mention-files-sessions-and-skills) explains what each list holds.
 
 | Shortcut | What it does |
 | --- | --- |
@@ -47,7 +47,7 @@ These work anywhere in Alpha, with the exceptions noted.
 
 | Shortcut | What it does | Exceptions |
 | --- | --- | --- |
-| <kbd>⌘</kbd><kbd>K</kbd> | Opens or closes **Search** across your sessions. See [Search every session](/sessions/organize#search-every-session). | Works with the focus inside the Preview too. It doesn't open from the [Shell](/workspace/shell), where <kbd>Ctrl</kbd><kbd>K</kbd> belongs to the terminal, so click **Search** in the sidebar there. |
+| <kbd>⌘</kbd><kbd>K</kbd> | Opens or closes **Search** across your sessions. See [Search every session](/sessions/organize#search-every-session). | Works with the focus inside the Preview too. It doesn't open from the [Shell](/workspace/shell), where <kbd>Ctrl</kbd><kbd>K</kbd> belongs to the terminal, or from the code editor, which uses it for its own shortcuts. Click **Search** in the sidebar there. |
 | <kbd>⌘</kbd><kbd>⇧</kbd><kbd>O</kbd> | Opens the home screen, like **New session** in the sidebar. Nothing is created until you send a prompt. | None. |
 | <kbd>⌘</kbd><kbd>B</kbd> | Shows or hides the sidebar ("Collapse sidebar · ⌘B", "Show sidebar · ⌘B", "Keep sidebar open · ⌘B"). | None. |
 | <kbd>⌘</kbd><kbd>⇧</kbd><kbd>B</kbd> | Folds the transcript and composer away so the workspace fills the window, or brings them back ("Show chat · ⌘⇧B"). | Only in a session whose [workspace](/workspace/overview#arrange-the-workspace) is showing. |
@@ -56,15 +56,16 @@ These work anywhere in Alpha, with the exceptions noted.
 
 ## Point at and draw on the Preview
 
-Select, Draw and Edit work the same over the [Preview](/workspace/preview), HTML files and decks. [Point at and draw on your app](/workspace/point-and-draw) covers each tool.
+Select, Draw and Edit work the same over the [Preview](/workspace/preview), HTML files and decks. Edit changes text only. [Point at and draw on your app](/workspace/point-and-draw) covers each tool.
 
 | Shortcut | What it does | When |
 | --- | --- | --- |
 | <kbd>Esc</kbd> | Cancels the element picker ("Click an element in the preview — Esc cancels"). | **Select** is on. |
 | <kbd>Esc</kbd> | Leaves drawing and drops your marks ("Drawing on the preview — Esc cancels"). | **Draw** is on. |
 | <kbd>⌘</kbd><kbd>Z</kbd> | Undoes the last mark ("Undo · ⌘Z"). | **Draw** is on and you aren't typing in a field. |
-| <kbd>Esc</kbd> | Leaves editing and discards every change ("Editing the preview — Esc discards the changes"). | **Edit** is on. |
-| <kbd>⌘</kbd><kbd>Z</kbd> | Undoes the last text or style change. | **Edit** is on. |
+| <kbd>Enter</kbd>, <kbd>Tab</kbd> or <kbd>Esc</kbd> | Stops typing in the piece of text you're changing. The change is kept and counted in the "N text changes" bar. | **Edit** is on and you're typing. Text stays on one line, so <kbd>Enter</kbd> adds no line break. |
+| <kbd>⌘</kbd><kbd>Z</kbd> | Undoes your typing in the piece of text you're changing. To put back every change, click **Clear** in the bar. | **Edit** is on and you're typing. |
+| <kbd>Esc</kbd> | Leaves Edit and drops every change you haven't sent ("Click any text on the page and type — Esc discards the changes"). Pressed while typing, the first <kbd>Esc</kbd> stops typing and a second one leaves. | **Edit** is on. |
 
 ## Read files in the viewers
 
@@ -74,8 +75,8 @@ Select, Draw and Edit work the same over the [Preview](/workspace/preview), HTML
 
 | Shortcut | What it does | Where |
 | --- | --- | --- |
-| <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> | Adds the selected text, cells or element to your next message as a chip, the same as the floating **Add to prompt** button. | Code editor, Markdown, PDF, Word, Excel and PowerPoint files, BPMN diagrams. |
-| <kbd>Esc</kbd> | Leaves drawing on a PDF, Office file, diagram or drawing, and leaves the PDF's picker. In a BPMN diagram you aren't drawing on, it lets go of the picked element. | While drawing or picking. |
+| <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> | Adds the selected text, cells or element to your next message as a chip, the same as the floating **Add to prompt** button. | Code editor, Markdown, PDF, Word, Excel and PowerPoint files, BPMN diagrams, and Mermaid diagrams once you've clicked a node, an edge or a label. |
+| <kbd>Esc</kbd> | Leaves drawing on a PDF, Office file, diagram or drawing, and leaves the PDF's picker. In a BPMN or Mermaid diagram you aren't drawing on, it lets go of the picked element. | While drawing or picking. |
 
 In Excalidraw drawings <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> is the editor's own lock, so use the **Add to prompt** button there.
 
@@ -87,9 +88,9 @@ In Excalidraw drawings <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> is the editor's 
 | <kbd>←</kbd> <kbd>↑</kbd> <kbd>PageUp</kbd> | Previous slide. |
 | <kbd>Home</kbd> / <kbd>End</kbd> | First slide / last slide. |
 | <kbd>f</kbd> | Starts or ends **Present** (fullscreen). |
-| <kbd>Esc</kbd> | Leaves Present. Otherwise, leaves drawing, the element picker or editing. |
+| <kbd>Esc</kbd> | Leaves Present. Otherwise, leaves drawing, the element picker or Edit. |
 
-[Present the deck](/workspace/decks-and-drawings#present-the-deck) has the rest.
+While **Edit** is on, the slide keys and <kbd>f</kbd> wait, so typing a space or an "f" into a slide changes the text instead of the slide. [Present the deck](/workspace/decks-and-drawings#present-the-deck) has the rest.
 
 ### Images
 
@@ -116,6 +117,26 @@ In Excalidraw drawings <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> is the editor's 
 | --- | --- |
 | <kbd>Enter</kbd> | Opens the first match in **Search files**. |
 | <kbd>Esc</kbd> | Clears the search. |
+
+## Type in the Shell
+
+At the bash prompt in the [Shell](/workspace/shell), Alpha edits the line in your browser and sends it when you press <kbd>Enter</kbd>, so typing shows at once. These keys work at the prompt. They're the same on a Mac: use Ctrl, not ⌘. While a command runs, every key goes straight to it, so editors, REPLs and password prompts get the keys they expect.
+
+| Shortcut | What it does |
+| --- | --- |
+| <kbd>Enter</kbd> | Runs the line. |
+| <kbd>←</kbd> / <kbd>→</kbd> | Moves the cursor one character. With <kbd>⌥</kbd> (Alt) or <kbd>Ctrl</kbd>, moves one word. <kbd>Ctrl</kbd><kbd>B</kbd> and <kbd>Ctrl</kbd><kbd>F</kbd> also move one character. |
+| <kbd>Home</kbd> / <kbd>End</kbd> | Goes to the start or end of the line. <kbd>Ctrl</kbd><kbd>A</kbd> and <kbd>Ctrl</kbd><kbd>E</kbd> do the same. |
+| <kbd>↑</kbd> / <kbd>↓</kbd> | Steps through earlier lines. <kbd>Ctrl</kbd><kbd>P</kbd> and <kbd>Ctrl</kbd><kbd>N</kbd> do the same. History holds only the lines typed in this Shell tab. |
+| <kbd>Tab</kbd> | Completes a command, a file or folder, or a `$variable`. One match completes, several are completed as far as they agree, and otherwise the matches are listed. |
+| <kbd>Ctrl</kbd><kbd>U</kbd> | Deletes everything before the cursor. |
+| <kbd>Ctrl</kbd><kbd>K</kbd> | Deletes everything after the cursor. |
+| <kbd>Ctrl</kbd><kbd>W</kbd> | Deletes the word before the cursor. |
+| <kbd>Ctrl</kbd><kbd>L</kbd> | Clears the screen and keeps the line you're typing. |
+| <kbd>Ctrl</kbd><kbd>C</kbd> | Drops the line at the prompt. While a command runs, stops it. |
+| <kbd>Ctrl</kbd><kbd>D</kbd> | On an empty line, ends the shell and closes the tab. Otherwise, deletes the character under the cursor. |
+
+<kbd>Ctrl</kbd><kbd>R</kbd> history search doesn't work at the prompt, and other Ctrl keys do nothing there.
 
 ## Work in the Database and GitHub tabs
 
@@ -146,7 +167,26 @@ The canvas keys work once the canvas has focus, so click an empty part of it fir
 | <kbd>Space</kbd> | Plays or pauses **Walk through the flow**. | The canvas. |
 | <kbd>Esc</kbd> | Clears the selection and closes the step or tool details. | Anywhere in the Agent tab. |
 | <kbd>Enter</kbd> | Runs the agent on your message ("Run (Enter)"). <kbd>Shift</kbd><kbd>Enter</kbd> adds a new line. | The [Try it](/agents/try-it) panel. |
+
+## Work with evals
+
+Each eval opens as a tab of its own in the workspace's tab row. The tab keys work once an eval tab has focus.
+
+| Shortcut | What it does | Where |
+| --- | --- | --- |
+| <kbd>←</kbd> / <kbd>→</kbd> | Moves to the previous or next eval tab. | The eval tabs. |
+| <kbd>Home</kbd> / <kbd>End</kbd> | Moves to the first or last eval tab. | The eval tabs. |
+| <kbd>Delete</kbd> | Closes the eval tab and moves to its neighbour. | The eval tabs. |
 | <kbd>Esc</kbd> | Closes the eval results page and returns to the session. If a test case's panel is open, the first press closes that panel. | The [results page](/evals/results). |
+
+## Fill in a routine template
+
+On the [Routines](/routines) page, a template puts a sentence with blanks into the box.
+
+| Shortcut | What it does |
+| --- | --- |
+| <kbd>Tab</kbd> / <kbd>⇧</kbd><kbd>Tab</kbd> | Selects the next or previous blank, going round to the first or last. |
+| <kbd>Enter</kbd> | Starts a new session in which the agent sets up the routine you described. <kbd>Shift</kbd><kbd>Enter</kbd> adds a new line. |
 
 <Tip>
 When a key seems to do nothing, click the area it belongs to and try again. Many viewer and canvas keys listen only to the pane that has focus, so they don't fire while you type in the composer.
