@@ -19,7 +19,7 @@ Build an AI receptionist for Harbor Sailing School. It answers questions about c
 
 Alpha will:
 
-1. Ask two or three questions in one card: the channel, the job, and the languages and voice.
+1. Ask two or three questions, one at a time above the composer: the channel, the job, and the languages and voice.
 2. Ask for the model provider's key with a secret request card, and for Twilio with a Connect card if you want phone calls or texts.
 3. Build a server that holds the key, a page with a start button and a live transcript, and the tools the agent calls mid-conversation.
 4. Test every layer it can reach without a microphone, then tell you two or three things to say to it.
@@ -37,9 +37,9 @@ The channel decides what you need to have ready. The browser is the default, and
 | Phone calls, in or out | A number people call, or calls the app places, plus a calls page | The provider's key, a Twilio connection, a Twilio number you own (the agent asks before buying one), and, for a real number, a [published app](/publish/publish-your-app) |
 | SMS alongside calls | Confirmations, links and follow-ups sent after a call | A Twilio connection and your Twilio number |
 
-## Answer the setup card
+## Answer the setup questions
 
-The agent asks only what your message left open, in one [question card](/chat/plan-mode#answer-the-agents-questions). Anything you skip gets a sensible default, which the agent names in its reply.
+The agent asks only what your message left open. The [questions](/chat/plan-mode#answer-the-agent’s-questions) open one at a time in a dock above the composer, such as "1 of 3", with the recommended option first. **Skip** leaves one question to the agent, and **×** ("Skip all — let the agent decide") leaves them all. Anything you skip gets a sensible default, which the agent names in its reply.
 
 | Question | What it settles |
 | --- | --- |

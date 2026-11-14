@@ -12,74 +12,83 @@ Connecting GitHub lets Alpha work in your repositories: search them, private one
 Public repositories attach without connecting, by typing `owner/repo`. They are read-only until you connect: nothing can be pushed.
 </Note>
 
-{/* screenshot to capture: /images/github/github-tab-overview.png — One repository attached, on a feature branch with work to push. */}
+{/* screenshot to capture: /images/github/github-tab-overview.png — One repository attached, on a feature branch with work to push: the account bar first, then the repository with its pull request button. */}
 
 ## Connect GitHub
 
-You pick the account and the repositories on GitHub's own pages. Nothing is pasted into Alpha.
+You sign in on GitHub's own pages and choose the repositories there. Nothing is pasted into Alpha.
 
 <Steps>
   <Step title="Open the connect card">
-    In a session, click **GitHub** in the workspace header, beside **Share**, or open the workspace's **+** menu and choose **GitHub**. On the home screen, click the **repos** chip in the composer instead. Both show **Connect GitHub**.
+    In a session, click **GitHub** in the workspace header, beside **Share**, or open the workspace's **+** menu and choose **GitHub**. On the home screen, click **+** in the composer and choose **GitHub repos** instead. Both show **Connect GitHub**. In a session, the card above it reads "Sign in with GitHub, and choose the repositories Alpha may work in." and lists what connecting unlocks.
 
     {/* screenshot to capture: /images/github/github-connect-card.png — The three perks are what connecting unlocks. */}
   </Step>
   <Step title="Click Connect GitHub">
-    GitHub opens in a new browser tab, listing your own account and every organization you belong to. If your browser blocks the new tab, this page goes to GitHub instead. On the home screen, your unsent prompt and staged repositories are kept for your return.
+    GitHub opens in a new browser tab and asks you to sign in, and which GitHub account to use. If your browser blocks the new tab, this page goes to GitHub instead. On the home screen, your unsent prompt and staged repositories are kept for your return.
   </Step>
-  <Step title="Pick the account and its repositories">
-    Choose an account, then **All repositories** or **Only select repositories**, and confirm. Alpha reaches only the repositories you grant here.
+  <Step title="Choose the account and its repositories">
+    If Alpha's app is already on an account you can reach, your own or an organization's, you come straight back connected. If it isn't on any yet, GitHub goes on to set it up: choose your account or an organization, then **All repositories** or **Only select repositories**, and confirm. Alpha reaches only the repositories you grant here.
   </Step>
   <Step title="Come back to Alpha">
-    GitHub returns you to the page you left: a session opens on its **GitHub** tab, and the home screen reopens the repos popover. The tab you started from picks up the connection when you switch back to it.
+    GitHub returns you to the page you left: a session opens on its **GitHub** tab, and the home screen reopens the **Repositories** dialog. The tab you started from picks up the connection when you switch back to it.
   </Step>
 </Steps>
 
-If an organization owner already set Alpha up on the account, click **Already set up by your organization? Sign in** instead. What you see on your return depends on what happened on GitHub:
+What you see on your return depends on what happened on GitHub:
 
 | On your return | What it means | What to do |
 | --- | --- | --- |
 | The repository list, or **No repositories yet** | Connected | Add a repository |
+| **Choose repositories**: "Connected as harbor-dev. Pick your account or an organization on GitHub, and the repositories Alpha may work in." | You're signed in, but Alpha isn't on any account yet | Click **Choose on GitHub** and pick them |
 | "Your install request went to the organization's owners; the account appears here once they approve it." | You aren't an owner of the organization, so GitHub sent a request | Wait for an owner to approve it |
-| "Set up on GitHub — sign in to finish connecting." | Installed, but not signed in | Click **Sign in with GitHub** |
+| "GitHub was signed in to another account, so Alpha stayed connected as harbor-dev." | You added an organization while GitHub was signed in as a different person, so Alpha kept your connection | Click **Switch account** to connect as the account GitHub is signed in to, or **Keep harbor-dev** |
+| "Set up on GitHub — sign in to finish connecting." | Set up on GitHub, but not signed in | Click **Sign in with GitHub** |
 | "Nothing was connected — the GitHub sign-in was cancelled." | You backed out | Click **Connect GitHub** again |
 
 <Note>
 If the card says "GitHub isn't set up on this server yet — ask whoever runs it.", GitHub isn't turned on for your Alpha. You can still add public repositories by name.
 </Note>
 
+### If GitHub asks you to sign in again
+
+If GitHub stops accepting Alpha's connection, the **GitHub** tab reads "GitHub no longer accepts your connection — sign in again" with a **Sign in again** button. Click it and sign in on GitHub in the new tab. The tab picks up the renewed connection when you switch back, and the repositories attached to your sessions stay where they are.
+
 ## Add organizations and more accounts
 
-Alpha signs in to GitHub as you, and works in every account you've connected: your own and any organizations. To connect another, click **Add account** wherever your accounts are listed: the empty **GitHub** tab, **Add repository**, the **manage** popover, or **add account** in the home repos popover. GitHub opens on the same account chooser in a new tab, and the account appears when you switch back.
+Alpha is connected as one GitHub account, your login, and works in every account its app is on: your own and any organizations. To add one, click **Add organization** wherever your accounts are listed: the empty **GitHub** tab's **Repositories from** row, the account chips in **Add repository**, the **Owner** chips in [Publish to GitHub](/github/branches-and-prs#publish-to-github), the **Manage** menu, or **add organization** at the top of the home screen's **Repositories** dialog. GitHub opens in a new tab to choose the account and its repositories, and the account appears when you switch back.
 
 If you connect an organization but not your own account, Alpha asks "Also connect your own account? Repositories under harbor-dev aren't reachable until you do." Click **Connect harbor-dev** or **Not now**.
 
-The footer of the **GitHub** tab shows the login your commits are authored as. Click **manage** beside it to change what Alpha can reach:
+The bar at the top of the **GitHub** tab reads "Connected as", with your avatar and login: the account your commits are authored as. Click **Manage** beside it to change what Alpha can reach:
 
-| In the manage popover | What it does |
+| In the Manage menu | What it does |
 | --- | --- |
-| harbor-sailing **on GitHub ↗** | Opens the account's settings on GitHub, to grant or remove repositories, or uninstall |
-| **Add account** | Connects another account or organization |
+| harbor-sailing **on GitHub ↗** | One row per connected account. Opens the account's settings on GitHub, to grant or remove repositories, or uninstall. |
+| **Add organization** | Adds your own account or another organization, on GitHub's chooser |
+| **Switch account** | Signs in to GitHub again, so you can connect as a different GitHub account |
 | **Disconnect** | Disconnects GitHub from Alpha |
 
 **Disconnect** asks "Disconnect GitHub? The app stays installed on GitHub (remove it there if you want). Attached repos stay, but push/PR and private access stop working." To withdraw access on GitHub's side too, uninstall it from each account's settings page before you disconnect.
 
 ## Find your way around the GitHub tab
 
-The **GitHub** tab is the session's view of its repositories, with a count of them on its label. Open it from the header's **GitHub** button or the **+** menu. Only the session's owner sees it; people you [share the session](/sharing) with don't.
+The **GitHub** tab is the session's view of its repositories. Open it from the header's **GitHub** button (tooltip "GitHub: repositories, branches, commits and pull requests"). Only the session's owner sees it; people you [share the session](/sharing) with don't.
 
 {/* screenshot to capture: /images/github/github-repo-switcher.png — Switch repositories, add one or remove one from the switcher. */}
 
 | Part | What it shows |
 | --- | --- |
-| Repo switcher | The active repository, a lock if it's private, and an amber dot on any with uncommitted changes. Beside it, **Open on GitHub** and **Refresh from GitHub**. |
+| Account bar | "Connected as", your avatar and the login your commits are authored as, and **Manage** |
+| Repo switcher | The active repository as the title, a lock if it's private, and how many repositories the session has when there's more than one. The menu marks any with uncommitted changes with an amber dot, and ends with **Add repository…**, **Publish to GitHub…** and **Remove** followed by the active repository's name. |
+| Header buttons | **Open on GitHub**, **Refresh from GitHub**, and the pull request button once the changes are committed: **Push & create PR** or **Create pull request**, or **View PR** with its number when the branch already has one open |
 | Branch row | The current branch and how far it is ahead of or behind GitHub, or **unpublished** if GitHub doesn't have it yet. **Pull** appears when GitHub has commits you don't, and **Push** when everything is committed but not pushed. |
 | **Changes** | Every changed file, and the commit box with **Commit & push** and **Commit** |
 | **Pull requests** | Open pull requests, with the current branch's pinned on top under "this branch", and **Refresh pull requests** |
-| The button above the footer | Once the changes are committed: **Push & create PR** or **Create pull request**, or **View PR** with its number when the branch already has one open |
-| Footer | The login your commits are authored as, and **manage** |
 
-[Branches, commits and pull requests](/github/branches-and-prs) covers each part in use. The tab keeps itself up to date while it's open, including shortly after the agent changes files. Opening the tab fetches from GitHub when the last fetch is more than a minute old. **Refresh from GitHub** fetches at once.
+[Branches, commits and pull requests](/github/branches-and-prs) covers each part in use. The tab keeps itself up to date while it's open, including after the agent changes files. **Refresh from GitHub** fetches the latest from GitHub at once.
+
+With no repositories attached, the tab reads **No repositories yet** and offers **Publish to GitHub** ("A new repo from what the agent built") and **Add repository** ("Clone an existing repo into the workspace"), then **Repositories from** with your connected accounts.
 
 <Warning>
 **Remove** in the switcher deletes the repository's folder from the machine. Unpushed commits and uncommitted changes go with it and can't be recovered. Push first.
@@ -93,24 +102,28 @@ Each repository lands at `/workspace/<name>` on the session's machine, or `/work
 
 | Route | When it's cloned | Use it when |
 | --- | --- | --- |
-| **Add repository** in the GitHub tab | At once, into the running session | The session already exists |
-| The home screen's **repos** chip | Before the agent's first turn | You know what the session will work on before you start it |
+| **Add repository** in the GitHub tab, or **+** → **GitHub repos** in the session's composer | At once, into the running session | The session already exists |
+| **+** → **GitHub repos** in the home screen's composer | Before the agent's first turn | You know what the session will work on before you start it |
 | A [setup](/sessions/setups) | Already in the machine when it boots | You start many sessions on the same codebase |
 
 <Tabs>
   <Tab title="In a session">
-    Open the **GitHub** tab and click **Add repository**, or choose **Add repository…** in the repo switcher.
+    Open the **GitHub** tab and click **Add repository**, or choose **Add repository…** in the repo switcher. In the session's composer, **+** → **GitHub repos** opens the same view. It's titled **Add repository**, with "Clone a repository into this session's workspace."
 
     {/* screenshot to capture: /images/github/github-add-repo-connected.png — Repositories from every connected account, most recently pushed first. */}
 
-    Search across your connected accounts, or narrow to one with the chips. The list shows 50 at a time, then **show more**. For a repository that isn't listed, including anyone's public one, type its full name and press <kbd>Enter</kbd>. Click a repository and it clones straight away.
+    Search across your connected accounts, or, with more than one account, narrow to one with the chips (**All**, then each account). The chips end in **Add organization**. The list shows 50 at a time, then **show more**. For a repository that isn't listed, including anyone's public one, type its full name and press <kbd>Enter</kbd>. Click a repository and it clones straight away.
+
+    Before you connect GitHub, the view reads **Add any public repository**: type its full name, such as `vercel/next.js`, and press <kbd>Enter</kbd>, or click the **Add** button that names it. Below it, **Connect GitHub** ("For your own repos, private ones too.") starts the same sign-in as the connect card.
   </Tab>
   <Tab title="Before the session starts">
-    On the home screen, click the **repos** chip at the bottom right of the composer.
+    On the home screen, click **+** in the composer and choose **GitHub repos**. The **Repositories** dialog opens, with your login, **disconnect** and **add organization** at the top once you're connected.
 
     {/* screenshot to capture: /images/github/home-repos-popover.png — Staged repositories are cloned before the agent's first turn. */}
 
     Search, or type `owner/repo` or a github.com URL and press <kbd>Enter</kbd>. Leave a repository's branch field empty for the default branch, or type an existing branch. Repositories your chosen [setup](/sessions/setups) already holds show as "from the setup".
+
+    Each staged repository becomes a chip in the tray under the composer ("Cloned into the session's workspace before the agent starts"). Click a chip to reopen the dialog, or its × to take the repository off.
 
     Before you send, **@** in the composer already lists the staged repositories' files, so you can [mention one](/chat/composer) in your first prompt. Staged repositories apply to the next session only, so one never rides into an unrelated session.
   </Tab>
@@ -133,7 +146,7 @@ A running session picks up a new connection at once; a sleeping one gets it when
 
 {/* screenshot to capture: /images/github/github-agent-connect-card.png — The agent asks for GitHub. You connect in the GitHub tab, not in the transcript. */}
 
-**Connect GitHub** opens the session's **GitHub** tab. Once you've connected, the card reads "GitHub is connected" and "git and gh are signed in for the agent from its next turn." Click **Tell the agent to continue** to let it pick up where it stopped.
+The card reads "GitHub · the agent wants to use it", with the agent's reason under it. **Connect** opens the session's **GitHub** tab, where you [connect](#connect-github) as usual. Once you've connected, the card reads "GitHub is connected", with a tick, and "git and gh are signed in for the agent from its next turn." Click **Tell the agent** to send "I connected GitHub in Alpha — git and gh are authenticated now. Continue." so it picks up where it stopped. During a turn, the message says "from your next turn" instead of "now".
 
 ## If a repository won't attach
 

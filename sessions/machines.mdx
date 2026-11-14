@@ -27,7 +27,7 @@ stateDiagram-v2
 
 The turn keeps going. The agent works on the session's machine, not in your browser, so closing the tab, the window or the laptop doesn't stop it. A turn can run for up to {turnMax}.
 
-When you open the session again, Alpha shows the transcript so far and carries on live from there, so you land on whatever the agent is doing now. If the agent stopped to ask you something, the session's row in the sidebar shows a question-mark icon (labelled "Needs your input"), and the machine stays awake until you [answer the question card](/chat/plan-mode).
+When you open the session again, Alpha shows the transcript so far and carries on live from there, so you land on whatever the agent is doing now. If the agent stopped to ask you something, the session's row in the sidebar and its header show a speech bubble with a question mark ("Needs your answer"), and the machine stays awake until you [answer its questions](/chat/plan-mode#answer-the-agent’s-questions).
 
 ## When does a machine go to sleep?
 
@@ -79,22 +79,22 @@ If you don't see the saved copy while a machine wakes, it isn't turned on for yo
 
 ## What if a machine won't wake?
 
-Alpha never swaps a sleeping machine for a blank one behind your back. If it can't bring the machine back, it tells you and keeps the saved copy, so you can try again. Each of these messages says "Nothing was discarded" or asks you to try again, and means exactly that.
+Alpha never swaps a sleeping machine for a blank one behind your back. If it can't bring the machine back, it tells you and keeps everything as it was, so you can try again. Each of these messages says "Nothing was discarded" or asks you to try again, and means exactly that.
 
 | Message | What to do |
 | --- | --- |
-| "The session's machine is paused and could not be resumed (…). Nothing was discarded — try again in a moment, or reset the machine to start over." | Send your message again in a minute. If it keeps failing, ask an admin to [reset the machine](#reset-the-sessions-machine). |
+| "The session's machine is paused and could not be resumed (…). Nothing was discarded — try again in a moment, or reset the machine to start over." | Send your message again in a minute. If it keeps failing, ask an admin to [reset the machine](#reset-the-session’s-machine). |
 | A message that the session's machine could not be restored, ending "Nothing was discarded — try again in a moment." | Try again in a moment. Nothing is lost. |
 | "The session's machine cannot be reached right now." | Alpha can't reach the machine for a moment. Try again shortly. |
 | "The session's machine changed while this request was starting it — try again in a moment." | Something else woke or put the machine to sleep at the same instant. Send again. |
 | "Sandbox didn't wake" (in a preview link) | Open the session in Alpha and send a message. The transcript says what went wrong. |
 | "The paused machine could not be resumed." (in the **Shell**) | Send a message in the session to see the reason, then follow the rows above. |
 
-More fixes are in [Troubleshooting and FAQ](/reference/troubleshooting#the-machine-wont-wake-or-the-chat-stops-updating).
+More fixes are in [Troubleshooting and FAQ](/reference/troubleshooting#the-machine-won’t-wake-or-the-chat-stops-updating).
 
 ## Reset the session's machine
 
-A reset throws the session's machine away, along with its saved copy, and gives the session a fresh one on its next message. It's the fix for a machine that is broken beyond repair, or won't wake after several tries. A session that has slept and woken dozens of times can also start to wake more slowly, and a reset clears that too.
+A reset throws the session's machine away and gives the session a fresh one on its next message. It's the fix for a machine that is broken beyond repair, or won't wake after several tries. It can also help a session that has started to wake more slowly than it used to.
 
 Only an admin can reset a machine, and not while a turn is running or the session is publishing.
 

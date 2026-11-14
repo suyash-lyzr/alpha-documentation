@@ -9,7 +9,7 @@ import { idlePark } from '/snippets/limits.mdx';
 The workspace is the panel to the right of the chat. It shows your session's machine: the app the agent is running, the files it wrote, a terminal, the database and the services you've switched on. Each of those is a tab in one strip across the top, and new tabs appear only when there's something to put in them. To look at your app, go straight to [Preview your app](/workspace/preview). To find a file, see [Files and uploads](/workspace/files).
 
 <Frame caption="The chat sits on the left and the workspace on the right, with the Preview in front.">
-  <img src="/images/workspace/workspace-overview.png" alt="The Harbor bookings session, with the sidebar collapsed to a menu button at the top left, then the title Harbor bookings and the Codex mark. The chat takes the left quarter. It ends with the agent's message that three choices will shape the plan, a card titled The agent has questions with a green check, listing three questions each answered Left to the agent — it went with In app only, Until class starts and Current browser, and a Proposed plan card titled Automatic class waitlist with a copy button and a chevron. The composer below shows the placeholder Describe what to plan…, then the + button, the model chip reading gpt-6.… · high and the plan chip reading p… · on on the left, and the microphone and a dimmed round send button on the right. The workspace fills the rest. Its tab strip reads Plan, Preview (in front), Shell, Database, Secrets, README.md and server.js, then the round + button, and at the right end the GitHub button, Share, the Publish pill and the files button. Under it, the Preview toolbar shows the Desktop, Tablet and Mobile icons, Back, Forward, Reload, the port pill reading node · 3000 and Logs, with Draw, Select and Open in new tab at the right. The frame shows the Harbor Sailing School app: the headline Good days start on the water., a sailboat photo with a round LESS LAND MORE SEA badge, This week's classes with a count of 3 and the date pill Oct 26 – Nov 1, 2026 · This week, the filters All classes, Beginner, Intermediate and All levels, and three class cards: Beginner Dinghy, Wednesday, Oct 28, 09:00 – 12:00, with Maya Chen; Intermediate Keelboat, Friday, Oct 30, 13:00 – 16:00, with Oliver Brooks; and Sunset Sail, Saturday, Oct 31, 16:30 – 18:30, with Sophie Laurent." />
+  <img src="/images/workspace/workspace-overview.png" alt="The Harbor bookings session in the light theme. On the left, the chat shows the agent's progress notes with folded rows such as 7 commands · 1 edit · 7 tools, ending with Built and running in Preview on port 3000., and the composer at the bottom with the + button, the model chip reading GPT-6.1-Sol, the effort chip reading xhigh, the Build chip and the round send button. On the right, the workspace has the Preview tab and the + button, with the GitHub, Share and files buttons at the top right. The Preview toolbar holds the Desktop, Tablet and Mobile buttons, the Back, Forward and Reload buttons with node · 3000 and the Logs button, then Draw, Select and Edit, and Open in new tab. The Harbor Sailing School app fills the Preview: the headline Good days start on the water. beside a photo of a sailboat, then Make time for the tide. with cards for Beginner dinghy, Intermediate keelboat and Sunset cruise." />
 </Frame>
 
 ## What each tab shows
@@ -19,15 +19,15 @@ Most tabs arrive by themselves when the agent starts using something. The rest y
 | Tab | What it shows | How it appears | Viewers see it? |
 | --- | --- | --- | --- |
 | **[Plan](/chat/plan-mode)** | The plan the agent proposed in plan mode | By itself when the agent proposes a plan | Yes |
-| **[Preview](/workspace/preview)** | Your running app | By itself when the agent starts your app. It comes to the front once there's a page to show. | Yes, without **Select** and **Draw** |
+| **[Preview](/workspace/preview)** | Your running app | By itself when the agent starts your app. It comes to the front once there's a page to show. | Yes, without **Select**, **Draw** and **Edit** |
 | **[Shell](/workspace/shell)** | A terminal on the machine | **+** → **Shell**. The agent never opens it for you. | No |
 | **[Agent](/agents/agent-tab)** | The flow of the AI agent you're building, and the tools each step uses | By itself when the agent publishes an AI agent | Yes |
-| **[Evals](/evals/set-up)** | That AI agent's test cases, runs and results | By itself when the agent publishes its evals | Yes |
+| **[Evals](/evals/set-up)** | That AI agent's evals. Each eval you open gets a tab of its own, named after it, such as **booking-flow eval**, and **New eval** opens a tab with the form for another. | By itself when the agent publishes its evals | Yes, results only |
 | **[Database](/workspace/database)** | The session's PostgreSQL, and your published apps' production databases | By itself when the agent starts the database, or **+** → **Database** | No |
 | **[Auth](/workspace/app-sign-in)** | Your app's sign-in settings and its users | By itself when the agent adds sign-in, or **+** → **Sign-in** | No |
 | **[Routines](/routines)** | Work that runs on a timetable | By itself once a routine is saved in the session | No |
 | **[Publish](/publish/publish-your-app)** | The session's published apps and their versions | **+** → **Publish**, or by itself when a publish starts | No |
-| **[Production Logs](/publish/monitor)**, **Production Metrics** | A live app's log and its traffic | **+** once an app is live, or by itself when the agent reads them | No |
+| **[Production Logs](/publish/monitor)**, **Production Metrics** | A live app's log and its traffic | **+** → **Production Logs** or **Production Metrics**, once an app from this session is live. They never open by themselves, even when the agent reads them. | No |
 | **[Secrets](/secrets)** | This session's tools key and secrets | **+** → **Secrets**, or by itself when the agent saves a secret for the session | No |
 | **[GitHub](/github/branches-and-prs)** | Branches, changes, commits and pull requests | The **GitHub** button at the right of the strip, or **+** → **GitHub** | No |
 | [File tabs](/workspace/file-viewers) | One file each, in the viewer that fits it | Click a file in the files panel or a file link in the chat. Some files you asked for open themselves. | Yes, read-only |
@@ -36,12 +36,25 @@ Every file in the workspace is the agent's, so every file tab is read-only. To c
 
 [People you share the session with](/sharing) get the tabs marked Yes, and never the **+** menu.
 
+## Use the buttons beside the tabs
+
+At the right end of the tab strip sit the session's own buttons. People you share the session with see only the files button and, where it's on, **Report a bug**.
+
+| Button | What it does |
+| --- | --- |
+| **GitHub** | Opens the [GitHub](/github/branches-and-prs) tab. |
+| **Share** | Shares the session. See [Share a session](/sharing). |
+| **Publish** | Publishes your app, or shows the published one. See [Publish your app](/publish/publish-your-app). |
+| **Publish as artifact** | Takes the place of **Publish** while a file tab is in front. It asks the agent to keep the file as an [artifact](/artifacts), with a link of its own. Once the file is an artifact, the pill reads **Artifact** and opens its menu. |
+| **Report a bug** (bug icon) | Opens a panel to describe a problem and attach screenshots or files, and send them to the Alpha team. **Send feedback** in the account menu opens the same panel. |
+| Files (folder icon) | Shows or hides the [files panel](/workspace/files). |
+
 ## Why is there no workspace yet?
 
-Alpha switches nothing on until the work needs it, so a new session has no workspace panel and the chat takes its place. The **+** button, GitHub, Share and the files button sit in the chat header instead. A pulsing dot on **+** means a service is starting.
+Alpha switches nothing on until the work needs it, so a new session has no workspace panel and the chat takes its place. The **+** button, **GitHub**, **Share**, **Report a bug** and the files button sit in the chat header instead. A pulsing dot on **+** means a service is starting.
 
-<Frame caption="A new session: the chat and the files panel, with + in the header and no workspace yet.">
-  <img src="/images/workspace/workspace-fresh-session.png" alt="A new session a few seconds after its first message, with the sidebar collapsed. The header shows the title Harbor Sailing Classes and a pill with the Codex mark reading codex, and at its right the round +, GitHub and Share buttons and the lit files button. There is no workspace panel. The files panel is open along the right edge, headed /workspace with Refresh and Hide buttons, and reads workspace is empty. At the top of the chat, the prompt asking for a class-booking web app for Harbor Sailing School sits in a bubble. Below it, the agent's first message reads I'll build the weekly class list and booking form, keep availability in server memory, and check that a booking reduces the seat count. I'm using the design-system and landing-page-design skills for the interface. Under it, a folded row with two small round icons reads 3 commands, and a three-by-three pixel loader sits beside Striking while hot… and a 4s counter. The composer at the bottom shows the placeholder Add a follow-up, the + button, the model chip reading gpt-6.1-sol · high, the plan chip, the microphone and a round Stop button with a dark square." />
+<Frame caption="A new session: just the chat, until the agent opens something in the workspace.">
+  <img src="/images/workspace/workspace-fresh-session.png" alt="A new session a few seconds after its first message, with the sidebar collapsed. The header shows the title Harbor Sailing Classes and a pill with the Codex mark reading codex, and at its right the +, GitHub, Share and files buttons. The message reads Make a simple one-page website for Harbor Sailing School that lists this week's classes with times and seats left, and show it in the Preview. Under it, the agent replies that it will build a clean, nautical page with a weekly class schedule, check it on desktop and mobile and open it in the Preview, then a folded row reads 2 commands, and the working line reads Striking while hot… with a 5s counter. The composer at the bottom shows Add a follow-up and a round stop button." />
 </Frame>
 
 The panel slides in the first time there's something to show: usually the Preview, once the agent starts your app.
@@ -50,10 +63,10 @@ The panel slides in the first time there's something to show: usually the Previe
 
 The agent switches services on when the work calls for them, such as the database when your app needs one. Each new tab folds into the strip and comes to the front. The **Shell** is the exception: only you can open it.
 
-To switch one on yourself, click **+** at the end of the tab strip (tooltip "Open a tab, or turn on a service"). The menu lists any tabs you closed first, then the services that aren't on yet.
+To switch one on yourself, click **+** at the end of the tab strip (tooltip "Open a tab, or turn on a service"). The menu has two parts: **Closed tabs** lists the tabs you hid with their **×**, and **Add a tab** lists the services that aren't on yet, plus **GitHub** when its tab isn't open. A part with nothing in it doesn't show.
 
-<Frame caption="With Shell, Database and Secrets already open as tabs, the + menu offers only the services that aren't.">
-  <img src="/images/workspace/workspace-plus-menu.png" alt="A close crop of the workspace's tab strip with the + menu open below the + button, which follows the server.js tab and comes before the GitHub, Share, Publish and files buttons. The menu lists, each with its icon: Sign-in, Publish and GitHub. Behind it, the top of the Preview shows." />
+<Frame caption="The + menu adds a tab or turns on a service.">
+  <img src="/images/workspace/workspace-plus-menu.png" alt="The workspace's + menu, headed ADD A TAB, listing Shell, Database, Sign-in, Secrets and GitHub, each with its icon." />
 </Frame>
 
 | Menu item | What happens |
@@ -63,14 +76,10 @@ To switch one on yourself, click **+** at the end of the tab strip (tooltip "Ope
 | **Sign-in** | Alpha registers your app for sign-in. Until it's done, an **Auth** tab shows dimmed, and hovering it shows "Registering the app for sign-in…". |
 | **Production Logs**, **Production Metrics** | The tab opens on your live app. Offered only once an app from this session is live. |
 
-<Frame caption="A service the machine has to start shows as a dimmed tab until it's ready.">
-  <img src="/images/workspace/workspace-tab-starting.png" alt="A close crop of the workspace tab strip. It reads Preview, then Shell in front with its ×, then Database, dimmed while it starts, and the round + button at the end." />
-</Frame>
-
 If a service can't start, Alpha shows the error and the starting tab goes away. The Preview is in the menu only after you close it: to get one, ask the agent to run your app.
 
 <Note>
-If you don't see **Publish** in the **+** menu or the workspace header, publishing isn't turned on for your Alpha.
+If you don't see **Publish** in the **+** menu or the workspace header, publishing isn't turned on for your Alpha. If you don't see **Report a bug**, it isn't turned on for your Alpha.
 </Note>
 
 ## Close a tab or switch a service off
@@ -82,14 +91,15 @@ The **×** on most tabs only hides the tab, and the service keeps running. Only 
 | **Preview** | Hides the tab | The app keeps running. The tab comes back the next time you load the page. |
 | **Database** | Hides the tab | The agent and your app still use the database. |
 | **Auth** | Hides the tab | Your app's users can still sign in. |
-| **Plan**, **Agent**, **Evals**, **GitHub** | Hides the tab | Nothing changes. |
+| **Plan**, **Agent**, **GitHub** | Hides the tab | Nothing changes. |
+| An eval's tab, such as **booking-flow eval** | Closes the tab | The eval and its runs stay. While the eval runs, its tab shows a spinner and has no **×**. A warning dot on the tab means its last run stopped short. |
 | **Shell** | Switches the Shell off | The terminal, its scrollback and anything running in it end. Typing `exit` does the same. The next **Shell** starts fresh. |
 | **Publish** | Removes the tab | Your apps stay live, and the tab comes back with the next publish. While a publish runs, the tab stays: "publishing is in progress — the tab stays until it is done". |
 | **Secrets** | Removes the tab | Your secrets are kept and still reach the session. |
-| **Production Logs**, **Production Metrics** | Removes the tab | Your live app is unaffected. The tab comes back when the agent reads them again. |
+| **Production Logs**, **Production Metrics** | Removes the tab | Your live app is unaffected. Open it again from **+** → **Add a tab**. |
 | **Routines** | Has no **×** | |
 
-To bring back a hidden tab, pick it from the top of the **+** menu. A new plan brings **Plan** back by itself, and the agent publishing its AI agent or evals again brings back **Agent** or **Evals**.
+To bring back a hidden tab, pick it under **Closed tabs** in the **+** menu. A tab whose **×** removed it, such as **Shell**, **Publish** or **Secrets**, is under **Add a tab** instead. A new plan brings **Plan** back by itself, and the agent publishing its AI agent or evals again brings back **Agent** or **Evals**.
 
 Close a file tab with its **×** or by middle-clicking it. If you close every tab, the workspace folds away, and **Show workspace** in the chat header brings your closed tabs back.
 
@@ -105,7 +115,9 @@ Close a file tab with its **×** or by middle-clicking it. If you close every ta
 
 Use Ctrl instead of ⌘ on Windows and Linux. Every shortcut is listed in [Keyboard shortcuts](/reference/keyboard-shortcuts).
 
-Alpha remembers each session's tabs in this browser: the open files, the tab in front and the tabs you closed. Switch sessions or reload and they return as you left them, except a closed Preview, which comes back on reload. What a tab shows inside, such as the Preview's port, isn't kept. Another browser or device opens the session on its Preview, or on its first tab when it has no Preview.
+Alpha saves each session's tabs with the session, so they're the same in every browser and on every device: the open files, the **GitHub** tab, the tab in front and the tabs you closed. Switch sessions, reload or open the session somewhere else, and they return as you left them, except a closed Preview, which comes back on reload, behind the tab in front. Files a turn opened while you were away are open when you come back. What a tab shows inside, such as the Preview's port or the Database table, isn't kept.
+
+If you have the same session open in two places, the last change in either wins. People you share the session with start on its Preview, or on its first tab when it has no Preview, each time they open it.
 
 ## What do the tabs show while the machine wakes?
 

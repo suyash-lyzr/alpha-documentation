@@ -143,6 +143,7 @@
             "group": "Share and automate",
             "pages": [
               "sharing",
+              "artifacts",
               "routines"
             ]
           }

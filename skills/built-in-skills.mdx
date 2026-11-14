@@ -8,8 +8,8 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 
 Alpha ships seven skills in every session, for Codex and Claude Code alike. Each one teaches the agent how Alpha does one kind of work, such as a landing page, a deck or a voice agent, and the agent loads it when your request fits. To add a skill of your own or install one from the catalog, see [Skills](/skills/overview).
 
-<Frame caption="Built-in skills read “ships with Alpha” and have no trash icon; skills the agent wrote have one.">
-  <img src="/images/skills/builtin-skills-list.png" alt="The Your skills shelf of the Skills page's Installed tab, reading 9 on, 0 off at its right. Full-width rows list Agent builder (agent-builder), Design system (design-system), Design To Motion (design-to-motion), Evals (evals), Generative UI (generative-ui), Landing Page Design (landing-page-design) and, cut off at the bottom, Search (search). Each row shows an icon, the display name in bold, the directory name in monospace and a one-line description. Agent builder, Design system, Evals and Generative UI show a package icon and ships with Alpha with their file count and size, such as 8 files, 63 KB, then 1d ago, a switch turned on and a chevron at the right. Design To Motion and Landing Page Design show a terminal icon and written by the agent in “AI Design Skills” instead, with 1 file, 47 KB and 1 file, 18 KB, then 16h ago, a switch turned on, a chevron and a trash icon. Search, cut off below its description, shows 1d ago, a switch turned on and a chevron, with no trash icon." />
+<Frame caption="Skills that ship with Alpha read “ships with Alpha”, each with a switch.">
+  <img src="/images/skills/builtin-skills-list.png" alt="The Your skills shelf of the Skills page's Installed tab, reading 7 on, 0 off. Rows list Agent builder (agent-builder), Design system (design-system), Evals (evals), Generative UI (generative-ui), Search (search), Slides (slides) and Voice agent (voice-agent), each with a coloured icon, a one-line description, the line ships with Alpha with its file count and size, and a switch turned on." />
 </Frame>
 
 ## How do built-in skills work?
@@ -19,7 +19,7 @@ You don't need to name a skill. The agent reads each skill's description and pic
 | To… | Do this |
 | --- | --- |
 | Let the agent decide | Ask in plain words. "Make me a pitch deck" loads **Slides** on its own. |
-| Force one skill | Mention it: `$design-system` in Codex, `/design-system` in Claude Code. Type `$` (Codex) or `/` (Claude Code) in the [composer](/chat/composer#mention-files-sessions-and-skills) to pick from the list. |
+| Force one skill | Mention it: `$design-system` in Codex, `/design-system` in Claude Code. Type `$` (Codex) or `/` (Claude Code) in the [composer](/chat/composer#mention-files-sessions-and-skills), or click **+** and choose **Skills**, to pick from the list. In Claude Code, picking a skill types `/design-system ` into your message, so add your request after it and send. |
 | See what this session has | Send `/skills`. |
 | Keep one for mentions only | Turn off **Let the agent use it on its own** in the skill's dialog. Admins only, since it changes the skill for every account. |
 | Stop using one | [Switch it off](#switch-a-built-in-skill-off) for your sessions. Other accounts keep theirs. |
@@ -47,7 +47,7 @@ What the agent does depends on your brief:
 | Your brief | What the agent does |
 | --- | --- |
 | Gives a direction ("minimal black and white, Swiss type") | Builds to it, no questions asked |
-| Is open, for a landing page, portfolio or brand site | Asks three visual questions in one card: palette, typography and layout, four options each, its recommendation first |
+| Is open, for a landing page, portfolio or brand site | Asks three visual questions, palette, typography and layout, with four options each and its recommendation first |
 | Is functional (a booking form, an admin panel, a dashboard) | Skips the questions and still picks a deliberate look |
 | Refines what exists ("make the hero more elegant") | Asks the three visual questions unless the look is already set, then shows three rendered directions as small pages you open in the [Preview](/workspace/preview) and builds the one you pick |
 
@@ -61,14 +61,18 @@ Build a landing page for Harbor Sailing School. We teach adults and kids on a sm
 
 Alpha will:
 
-1. Ask the three visual questions in a [question card](/chat/plan-mode#answer-the-agents-questions). Each palette option lists its four colours.
+1. Ask the three visual questions, which open one at a time [above the composer](/chat/plan-mode#answer-the-agent’s-questions). Each palette option shows its colours as swatches.
 2. Build the page with your picks, tuned rather than copied from the preset.
 3. Check it in the machine's browser at 1600×900, 1280×800 and 390×844 before calling it done.
 4. Write the chosen direction to `styleguide.md` at the project root, and read it first on later turns so new pages match.
 
-{/* screenshot to capture: /images/skills/design-system-questions-card.png — One card holds all three questions. Something else… on each lets you describe your own. */}
+<Frame caption="The design skill asks about the look one question at a time.">
+  <img src="/images/skills/design-system-questions-card.png" alt="The question dock above the composer in the Harbor Sailing Classes session, asking about the page's colour palette, 1 of 3. Option rows name palettes with a line on each, such as Warm Sand, Cream and sandy neutrals for a relaxed coastal feel, and Navy Trust, Crisp navy and white for a classic sailing club feel, then Something else. The footer reads 0 of 3 answered, with Skip and an arrow button." />
+</Frame>
 
-Skipping the card is fine: the agent goes with its recommended picks. To change the look later, say so. The agent updates `styleguide.md` along with the pages.
+The questions arrive in a dock above the composer, one at a time, with "1 of 3" at the top. Each one lists its options as rows, then a **Something else** row where you type your own answer. Picking an option moves on to the next question, and **→** on the last one sends your answers. **Skip** passes on one question, and **×** skips them all. Once you answer, the agent's card in the transcript lists what you picked.
+
+Skipping is fine: the agent goes with its recommended picks. To change the look later, say so. The agent updates `styleguide.md` along with the pages.
 
 ## Build decks, agents, evals and voice apps
 
@@ -108,7 +112,7 @@ To point at one session directly, tag it. Type `@session:` and a word in the com
 | What Search does | What it doesn't do |
 | --- | --- |
 | Reads the messages of your sessions: yours and the agent's replies | Read sessions other people own, even ones shared with you, or commands and their output |
-| Reads at most 50 messages, about 24,000 characters, at a time, then reads on as needed | Open another session's machine, its files or its database |
+| Reads as much of a session as the answer needs | Open another session's machine, its files or its database |
 | Shows secret values in search results as `[redacted]` | Look up routines, published apps, MCP servers or secrets |
 
 ## Switch a built-in skill off

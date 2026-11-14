@@ -6,13 +6,17 @@ description: "See your agent as a team on a canvas: its inputs, each step and to
 
 The **Agent** tab draws the AI agent your session built as a team on a canvas: what it's given, who does each step, which steps run side by side, and what it hands back. It's a map, not an editor: to change the agent, ask the session's agent. To run it on your own input, open [Try it](/agents/try-it). To build an agent in the first place, see [Build an AI agent](/agents/build-an-agent).
 
-{/* screenshot to capture: /images/agents/agent-tab-canvas-overview.png — harbor-triage drawn top to bottom: one input, a classify step, two steps that run together, then the answer. */}
+<Frame caption="The Agent tab draws the agent: its inputs, its step and its answer.">
+  <img src="/images/agents/agent-tab-canvas-overview.png" alt="The Harbor triage agent session with the Agent tab in front, headed Harbor Sailing School Inbox Triage, 1 step. The canvas shows three cards joined by lines: Inputs with email and received_at, the step Harbor triage with an answer tag, its model gpt-6-luna and the start of its task, and Answer with category, reply_draft, reply_subject, staff_action and summary, and Show all 7. The canvas bar along the bottom holds the zoom controls and Try it. The chat on the left ends with the agent's summary and a Test this agent with evals? card." />
+</Frame>
 
 ## Open the Agent tab
 
 The tab appears when the agent publishes an agent, and opens by itself. The agent publishes a draft as soon as it has written the agent's definition, so you can read the graph before the proof runs. Each later publish opens the tab again with the new version.
 
-The tab keeps itself current. When the session's machine [wakes](/sessions/machines), it shows grey placeholder bars and reads the agent again once the machine is up. Close the tab with its **×**; to bring it back, click **+** at the end of the tab strip and choose **Agent**.
+The tab keeps itself current. When the session's machine [wakes](/sessions/machines), it shows grey placeholder bars and reads the agent again once the machine is up. To read it again yourself, click **Read the agent again** (the circular arrow) on the canvas bar. Close the tab with its **×**; to bring it back, click **+** at the end of the tab strip and choose **Agent**.
+
+A header above the canvas names the agent, with its framework's logo, and counts its steps, such as "4 steps". While a [Try it](/agents/try-it) run goes, it also counts the steps running and any that failed, such as "1 running" and "1 failed".
 
 <Note>
 If you don't see the **Agent** tab after an agent build, the agent hasn't published yet, or the **Agent builder** skill is switched off for your sessions. Ask "Publish the agent", or [switch the skill back on](/skills/built-in-skills#switch-a-built-in-skill-off). People you [share the session](/sharing) with see the canvas, the details panel and the eval result, but not **Try it** or the eval setup, because only the owner can run the agent or change its evals.
@@ -20,13 +24,13 @@ If you don't see the **Agent** tab after an agent build, the agent hasn't publis
 
 ## Read the canvas
 
-The canvas reads top to bottom, in the order the agent runs. Each kind of card keeps one colour everywhere: on the card, in its details and on the minimap.
+The canvas reads top to bottom, in the order the agent runs. Every card is grey: you tell the kinds apart by their icon and name, and colour is kept for state, such as a step that's running or a failed run.
 
 | Card | Looks like | What it shows |
 | --- | --- | --- |
-| **Inputs** | Green, file-input icon | One row per input, with its name and type. Hover a row for the input's description. |
-| Step | Blue, with the framework's logo | One card per step, titled by its worker. Then the step id and framework, the model chip (hover for provider, temperature, token limit and reasoning effort), two lines of instructions and one chip per tool. |
-| **Answer** | Amber, file-output icon | The fields the agent returns, with types. An amber dot marks a required field. With no fields it reads "Any JSON value". |
+| **Inputs** | File-input icon, with the number of inputs | One row per input, with its name and type. Hover a row for the input's description. |
+| Step | The model's logo, or the framework's logo when the step names no model | One card per step, titled by its worker, with the model's name under the title. Hover the model's name for its provider, temperature, token limit and reasoning effort. Then a line on the step's task, led by one icon per tool it can use; hover an icon for the tool's name, and click it to open the tool. The footer gives the step id and the framework. |
+| **Answer** | File-output icon, with the number of fields | The fields the agent returns, with types. A dark dot marks a required field. With no fields it reads "Any JSON value". |
 
 The step whose result is the answer carries an `answer` tag. Steps that don't depend on each other share a row inside an outline labelled `parallel · 2` (or however many). Nothing runs between them, so they can run at the same time; whether they do is up to the framework. Lines have no arrows, because top-down order gives the direction, and a dashed line is one Alpha inferred. An **Inputs** or **Answer** card with seven or more rows shows five and a **Show all** button, such as **Show all 9**.
 
@@ -36,13 +40,23 @@ The small dot that travels the lines is decoration. It shows how the agent is wi
 To add a step, swap a model or give a step a tool, ask the session's agent, for example `Add a critic step that checks the reply`. The agent edits the definition, proves it again and republishes, and the canvas redraws.
 </Tip>
 
+### Fold a branch
+
+A step that feeds other cards shows, at the right of its footer, how many cards it feeds, with a small arrow. Click it ("Fold the 3 cards only it leads to") to tuck away every card that only that step leads to, and the count becomes "+3". Click it again ("Show the 3 folded cards") to bring them back. Folding changes only the drawing, never the agent. A step whose cards are all reached some other way has nothing to fold and shows no count.
+
+### Pick the framework
+
+When your agent was [built for more than one framework](/agents/build-an-agent#what-does-alpha-build), a picker on the canvas bar, "The framework shown and run", shows the framework's logo and name. Click it to choose another. A framework whose live run hasn't passed reads "· not proved live" in the list. The pick switches both the drawing and the framework [Try it](/agents/try-it) runs, and the framework chip in Try it changes with it. It holds until the agent publishes again. The tab opens on the framework the agent last published.
+
 ## Inspect a step or tool
 
-Click a card and its details dock to the right of the canvas, which keeps the card in view. Its lines light up and the rest dim; in a lane, the other steps stay lit and the outline turns blue, because they run together. Close the panel with its **×**, a click on empty canvas, or <kbd>Esc</kbd>.
+Click a card and its details dock to the right of the canvas, which keeps the card in view. Its lines light up and the rest dim; in a lane, the other steps stay lit and the outline takes the accent colour, because they run together. Close the panel with its **×**, a click on empty canvas, or <kbd>Esc</kbd>.
 
 ### Step details
 
-{/* screenshot to capture: /images/agents/agent-tab-inspector-step.png — A step's details: its instructions and task first, then where it sits in the flow. */}
+<Frame caption="Click a card to read everything about it.">
+  <img src="/images/agents/agent-tab-inspector-step.png" alt="The Agent tab with the Harbor triage step selected on the canvas and its details open on the right: the step's name, its INSTRUCTIONS, its TASK with the placeholders for the received time and the email, what it RETURNS, then Model gpt-6-luna, Worker, Answer, Reads received_at and email, TOOLS No tools, and where it's defined." />
+</Frame>
 
 | Field | What it tells you |
 | --- | --- |
@@ -53,13 +67,13 @@ Click a card and its details dock to the right of the canvas, which keeps the ca
 | **Reads** | The inputs the step uses, named here instead of a long line back to **Inputs**. |
 | **Fills** | Placeholders the run fills in, such as `{message}`. |
 | **Tools** | One chip per tool, or "No tools". |
-| **Defined in** | The file and field the card came from. Click it to open `definition.yaml` in the workspace. |
+| **Defined in** | The file and field the card came from. Click it to open the agent's definition file in the workspace. |
 
 The **Inputs** and **Answer** cards open the same way, listing every input or field in full.
 
 ### Tool details
 
-Click a tool chip, on a card or in a step's details, to open the tool rather than its card.
+Click a tool's icon on a step card, or its chip in a step's details, to open the tool rather than its card.
 
 {/* screenshot to capture: /images/agents/agent-tab-inspector-tool.png — A tool's details show what it touches and where its code lives. */}
 
@@ -108,8 +122,8 @@ The flask button sits beside **Try it**. Once a run has finished, its dot gives 
 
 | Tooltip | A click |
 | --- | --- |
-| "Not tested yet: set up evals" | With no evals yet, shows **How evals work**. **Set up evals** there asks the agent to write test cases, which is free. Nothing runs until you press **Run evaluation**. Once evals exist, opens the **Evals** tab at their setup. |
-| "Evals: 10 of 12 test cases passed. Open the results" | Opens that run's [results](/evals/results) in the **Evals** tab. |
+| "Not tested yet: set up evals" | With no evals yet, shows **How evals work**. **Set up evals** there asks the agent to write test cases, which is free. Nothing runs until you press **Run evaluation**. Once evals exist, opens the agent's [eval tab](/evals/set-up#one-tab-per-eval) on **Test cases**. |
+| "Evals: 10 of 12 test cases passed. Open the results" | Opens that run's [results](/evals/results) on its eval's tab. The run is the agent's latest finished run, whichever eval it belongs to. |
 | The same, with "(the agent changed since)" | Opens the older run. Run the eval again to test the current agent. |
 
 Viewers of a shared session see "Not tested yet: no eval run has finished" once evals exist but no run has finished. Before that, they see no flask button.
@@ -128,7 +142,7 @@ Instead of a wrong picture, the canvas says what's wrong and the one thing to do
 | A banner such as "1 unresolved mapping: …" | A name in the definition points at nothing | Ask the agent to fix the name. The graph is still drawn. |
 | "The agent documents could not be drawn" | Reading failed; the red banner gives the reason | Click **Read again**. A machine that was asleep usually reads on the second try. |
 
-The not-ready states also show a command that fixes them. You don't need to run it yourself. Send this to the agent:
+The not-ready states also show how to fix them, but you don't need to do it yourself. Send this to the agent:
 
 ```text
 The Agent tab says the agent isn't ready to draw. Refresh its documents and publish it again.

@@ -4,7 +4,7 @@ sidebarTitle: "Limits"
 description: "Every size, count and time limit in Alpha in one place."
 ---
 
-import { idlePark, turnMax, disk, promptMax, reposMax, uploadMax, imageMax, fileDownloadMax, folderDownloadMax, dictationMax, queueMax, sourceMax, buildMax, listenMax, publishPerSession, publishPerAccount, memory, instances, versionsKept, routinesMax, routineMinInterval, setupsMax, secretsMax, secretsTotal } from '/snippets/limits.mdx';
+import { idlePark, turnMax, disk, reposMax, uploadMax, imageMax, fileDownloadMax, folderDownloadMax, dictationMax, queueMax, artifactMax, artifactsMax, artifactsTotal, feedbackFiles, sourceMax, buildMax, listenMax, publishPerSession, publishPerAccount, memory, instances, versionsKept, routinesMax, routineMinInterval, setupsMax, secretsMax, secretSetsMax, secretSetNames, secretsTotal } from '/snippets/limits.mdx';
 
 This page lists every size, count and time limit in Alpha, and what you see when you reach one. Every feature page quotes these same values, so the numbers never disagree. If something fails without reaching a limit, go to [Troubleshooting](/reference/troubleshooting).
 
@@ -21,7 +21,6 @@ Each session runs on its own machine. These limits apply to each session, and to
 | Idle time before a machine sleeps | {idlePark} | Once no Alpha page of yours has been visible for this long, each session with nothing running goes to sleep. Nothing is lost. The machine wakes when you open the session, or when work arrives for it. |
 | Length of one turn | {turnMax} | The turn is stopped. Your next message carries on from the session so far. |
 | Disk per session's machine | {disk} | Writes inside the machine fail once the disk is full. Delete large files or build outputs to free space. |
-| Length of one message | {promptMax} | The message is refused with "prompt too large", and your text goes back into the composer. Attach long text as a file instead. |
 | Repositories in a session | {reposMax} | You can't add another. Repositories that a [setup](/sessions/setups) brings count toward this. |
 | Session name | 80 characters | A longer name, from **Rename session** or `/rename`, is cut to 80 characters. The same applies to a fork's "(fork)" title. |
 | Group name | 40 characters | The **Group name** field takes no more. |
@@ -36,7 +35,6 @@ These limits shape what you send and how much can wait its turn. [Queue, steer o
 | Limit | Value | What happens when you hit it |
 | --- | --- | --- |
 | Queued messages | {queueMax} | Another is refused with "at most 20 queued messages" until one has run. |
-| Length of one queued message | {promptMax} | The same as any message. |
 | `/compact` instructions <Badge>Claude Code only</Badge> | 2,000 characters | The command is refused with "compact instructions must be at most 2000 characters". |
 | Length of one dictation | {dictationMax} | Recording stops by itself. Start the mic again to keep talking. |
 | Dictations started per minute | 6 | The mic doesn't start, and Alpha shows "Voice input disconnected — press the mic to try again." Wait a minute, then press the mic again. |
@@ -55,6 +53,21 @@ Files reach the session's machine as uploads, and leave it as downloads. [Files 
 | Size of a folder you download | {folderDownloadMax} | The download is refused. `node_modules`, `.venv`, `.venvs`, `venv`, `__pycache__` and `.cache` are always left out and don't count. |
 | Text shown in a viewer | 512 KB | The code and source views show the first 512 KB, and the file header says "truncated at 512 KB". Download the file to read the rest. |
 | Results of the file search | 200 | Only the best 200 matches show. Type more of the name. |
+| Size of the workspace you download as a `.zip` | {folderDownloadMax} | The download is refused. The same dependency folders are left out and don't count. |
+| Files attached to a bug report | {feedbackFiles} | The panel says "Attach up to 10 files." or "Attachments must be at most 25 MB in total." |
+| Description of a bug report | 4,000 characters | The box takes no more. |
+
+## Artifacts
+
+[Artifacts](/artifacts) covers publishing a file, folders and sharing.
+
+| Limit | Value | What happens when you hit it |
+| --- | --- | --- |
+| Size of one artifact | {artifactMax} | The file and every file it references count together. A larger artifact can't be published. |
+| Artifacts | {artifactsMax} | Another is refused with "artifacts are full (200): delete some first". |
+| Total size of your artifacts | {artifactsTotal} | Another is refused with "artifacts are full (1 GB): delete some first". |
+| Title | 60 characters | A longer title is refused with "title must be 1 to 60 characters". |
+| People an artifact or folder is shared with by email | 20 | Use **Anyone with the link** for a wider audience. |
 
 ## Database
 
@@ -84,7 +97,7 @@ Each published app runs as its own service with its own versions. [Publish your 
 | Time for the app to start listening | {listenMax} | The version fails. Make sure the app binds `0.0.0.0` on the `PORT` it's given, and that its database is ready when it starts. |
 | Memory per copy of the app | {memory} | The app is stopped and the version fails with an out-of-memory message. |
 | CPU per copy of the app | 1 (default) | Each copy gets this much CPU. Busy periods are handled by more copies, up to the limit below. |
-| Copies running at once | {instances} | Your app never runs more copies than this at the same time, however busy it gets. An idle app scales to zero, so the first request after a quiet spell is slower. |
+| Copies running at once | {instances} | Your app never runs more copies than this at the same time, however busy it gets. When nobody has used the app for a while, the first request after the quiet spell is slower. |
 | Versions kept | {versionsKept} | The oldest versions and their logs are removed as new ones arrive. The version serving traffic is never removed. |
 | **Production Logs** search text | 200 characters | The **Search the lines…** box takes no more. |
 | **Production Logs** lines kept on screen | 2,000 | As newer lines arrive, the oldest drop off the view. **↑ Older lines…** loads earlier lines 200 at a time. |
@@ -137,6 +150,9 @@ These limits count across your whole account, not per session.
 | Total size of secrets | {secretsTotal} | The new value is refused because the total would be too large. |
 | One value | 8 KB (default) | The value is refused with "value must be at most 8192 bytes". |
 | Name | 64 characters | The name is refused. It must start with a letter or `_`, then use only letters, digits and `_`. |
+| [Secret sets](/secrets#secret-sets) | {secretSetsMax} | Another is refused with "at most 20 secret sets". Sets from setups shared with you don't count. |
+| Names in one secret set | {secretSetNames} | The set is refused with "at most 50 secrets per set". |
+| Secret set name | 60 characters | The set is refused with "a set name must be at most 60 characters". |
 
 ## Skills, MCP servers and agents
 
@@ -146,13 +162,12 @@ These limits count across your whole account, not per session.
 | --- | --- | --- |
 | Skills you add | 64 per account | Adding another is refused with "at most 64 skills". Remove one first. |
 | Skills shared with everyone | 64 across your Alpha | Sharing another is refused with "at most 64 skills can be shared with everyone". |
-| Files in one skill | 120 | The skill is refused with "a skill may have at most 120 files". |
-| Size of one skill | 4 MB, and 1 MB per file | The skill is refused with "a skill may total at most 4 MB", or with the name of the file that is too large. |
+| Size of one skill | 4 MB, and 1 MB per file | The skill is refused with "a skill may total at most 4 MB" (from GitHub: "the skill is over 4 MB"), or with the name of the file that is too large. There is no limit on the number of files. |
 | `SKILL.md` | 256 KB | The skill is refused with "SKILL.md must be under 256 KB". Move detail into reference files beside it. |
 | Local MCP servers | 32 per account | Adding another is refused with "at most 32 MCP servers". Servers you didn't add yourself don't count. |
 | Arguments and settings of a local server | 64 arguments, 32 environment settings | The server is refused with "at most 64 arguments" or "at most 32 environment settings". |
 | Tools from one remote MCP server | 500 | The connection fails with "MCP server returned too many tools". Ask the vendor for a narrower endpoint. |
-| Connected tools named in the agent's tool list | 100 | Nothing fails. Past 100, none are listed up front. The agent looks each tool up by name when it needs it, and can still use every one. |
+| Connected tools the agent sees at once | 100 | Nothing fails. Past 100, the agent finds each tool when it needs it, and can still use every one. |
 | One **Try it** run | 900 seconds | The run is stopped and marked **Did not finish**, with "the run took longer than 900 s and was stopped". |
 | One **Try it** answer | 64 KiB | The rest is kept in the run's `stdout.txt`, and the card says where. |
 | Chats under **Earlier chats** | The newest 30 | Older chats stay in the agent's folder but aren't listed. |

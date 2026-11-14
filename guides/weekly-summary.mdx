@@ -13,7 +13,7 @@ A [routine](/routines) is work Alpha runs on a timetable, even while its session
 
 By the end of this guide you will have a routine called `harbor-weekly-summary`. Every Monday at 09:00 in your time zone, Alpha wakes the Harbor bookings session and runs a tested script that counts last week's bookings. The script posts the summary to a Slack channel, and then the machine goes back to sleep. Nothing keeps running between Mondays.
 
-{/* screenshot to capture: /images/guides/summary-00-result.png — The finished routine: active, scheduled for Monday, and its first run is ok. */}
+{/* screenshot to capture: /images/guides/summary-00-result.png — The finished routine's row, expanded: its switch on, Mondays at 9:00, and a Latest run that Succeeded by hand. */}
 
 ## Before you start
 
@@ -30,9 +30,9 @@ If Slack isn't listed under **Integrations**, or the **Routines** page says "Rou
 
 <Steps>
   <Step title="Connect Slack">
-    Click **Integrations** in the sidebar. On the **Connectors** tab, search for `slack` and open the Slack card. Click **Sign in**. A window opens on Slack's consent page, where you approve the connection. That window then shows "Connected" and closes itself, and the card turns **Active**.
+    Click **Integrations** in the sidebar. The page has three tabs, **Connectors**, **MCPs** and **Connected**. Type `slack` into the search box, which looks through every tab, and click the Slack card under **Connectors**. Its panel reads "Sign in to Slack" and "One consent on your account. The connection acts as you, in every session you own." Click **Sign in**. A window opens on Slack's consent page, where you approve the connection. That window then shows "Connected" and closes itself, and the card shows **Active** with a green dot.
 
-    In Slack's panel, click **Test connection**. A green line with a tick and the time it took means Alpha reached Slack with your account. As the panel says, the connection "acts as you, in every session you own". You connect once, and every session you own can use it. For other apps, see [Connect an app](/integrations/connect-apps).
+    In Slack's panel, now headed **Connected**, click **Test connection**. A green line with a tick, a short message and the time it took means Alpha reached Slack with your account. You connect once, and every session you own can use it. For other apps, see [Connect an app](/integrations/connect-apps).
 
     {/* screenshot to capture: /images/guides/summary-01-slack.png — A green Test connection line means the agent can use Slack from its next turn. */}
   </Step>
@@ -51,11 +51,11 @@ If Slack isn't listed under **Integrations**, or the **Routines** page says "Rou
     Alpha will:
 
     1. Write the summary as a script in the workspace, reading the session's database.
-    2. Post through your Slack connection. The script never holds a Slack token.
-    3. Ask for your time zone in a [question card](/chat/plan-mode#answer-the-agents-questions), because 9:00 falls at a different moment in each zone.
+    2. Post through your Slack connection, so no Slack key goes into the script.
+    3. Ask for your time zone in the [question dock](/chat/plan-mode#answer-the-agent’s-questions) above the composer, because 9:00 falls at a different moment in each zone. Pick your zone, or type it in the **Something else** row and press **→**.
 
     <Tip>
-    **New routine** on the **Routines** page starts a new session only for the routine, on its own machine, without this session's files or database. Use it for work that needs nothing from an existing session. Its **Weekly summary** starter is a Monday 9:00 prompt you can adapt.
+    A routine you describe on the **Routines** page (click **New routine**, or type straight into its composer when you have none yet) gets a new session of its own, on its own machine, without this session's files or database. Use it for work that needs nothing from an existing session. Its **Templates** start you off: **Competitor watch** (**Mondays · 9:00**) is a Monday-morning check you can adapt. Pick it, replace the highlighted blanks (<kbd>Tab</kbd> jumps to the next one), and click **Create routine**.
     </Tip>
   </Step>
 
@@ -66,37 +66,40 @@ If Slack isn't listed under **Integrations**, or the **Routines** page says "Rou
 
     | Row | What it shows |
     | --- | --- |
-    | **When** | The timetable as a cron expression, with its time zone |
+    | **When** | The timetable in plain words, with the city of its time zone, for example "Mondays at 9:00 · London" |
     | **Runs** | The command |
-    | **Next** | The first scheduled run |
+    | **Next** | The first scheduled run, as a day and time, for example "Mon 16 Nov, 09:00" |
 
-    The session's **Routines** tab then opens beside the transcript.
+    Under the rows, the card says "Runs even when its session is closed — Alpha wakes it for each run. The Routines page has every run." The session's **Routines** tab then opens beside the transcript.
 
     {/* screenshot to capture: /images/guides/summary-03-saved.png — The saved card states what runs and when. It runs whether or not the session is open. */}
   </Step>
 
-  <Step title="Set Mondays at 09:00 in your time zone">
-    You can check or change the timetable without asking the agent. In the **Routines** tab, click **Edit** (the pencil) on the routine's row.
+  <Step title="Check Mondays at 9:00 in your time zone">
+    You can check or change the timetable without asking the agent. In the **Routines** tab, the routine's row is titled **Harbor weekly summary**, with "Mondays at 9:00" and the time to the next run under it, such as "Next run in 3 d 9 h". Click the row to open it.
 
-    1. Under **How often**, pick **On certain days of the week**.
-    2. Select **Mon** and set the time to 09:00.
-    3. Leave **Months** empty. With nothing picked, it runs every month.
-    4. Pick your zone under **Time zone**.
+    The open row's **Schedule** section shows **Weekly**, with **Day** set to Monday and **Time** to 9:00, and the words "Mondays at 9:00 · London" under them. To move the run, pick another choice (**Hourly**, **Daily**, **Weekdays** or **Weekly**), day or time; **Discard** and **Save** appear as soon as you change something.
 
-    The line under the form spells the timetable out, "At 09:00, only on Monday", and lists the next three runs. If the timetable is wrong, the line shows the reason in red. Click **Save**.
+    The time zone is changed in the full form. Click **Edit** at the bottom of the open row:
 
-    {/* screenshot to capture: /images/guides/summary-04-timetable.png — The preview line confirms the next three Mondays before you save. */}
+    1. Under **How often**, check that **On certain days of the week** is picked, with **Mon** selected and the time set to 09:00.
+    2. Leave **Months** empty. With nothing picked, it runs every month.
+    3. Pick your zone under **Time zone**.
+
+    The line under the form spells the timetable out and lists the next runs, for example "At 09:00, only on Monday · next Mon 16 Nov, 09:00, …". If the timetable is wrong, the line shows the reason in red. Click **Save**. There is no field for a raw timetable: for an uneven one, such as 9:00 and 15:30, ask the agent.
+
+    {/* screenshot to capture: /images/guides/summary-04-timetable.png — The open row's Schedule section: Weekly, Day Monday, Time 9:00, and Mondays at 9:00 · London under them. */}
   </Step>
 
   <Step title="Run it now and read the log">
-    You don't have to wait for Monday. On the routine's row, click **Run now** (the play button), and the row opens on its **Runs** list. The new run shows **queued**, then **running**. Until the script prints its first line, the run's log reads "Waking the session and starting…".
+    You don't have to wait for Monday. Hover the routine's row and click **Run now** (with the play icon). The button reads **Starting**, then **Running**, and the line under the routine's name reads "Running ·" followed by what the run is doing: "Waking the session" until the script prints its first line, then the script's latest line. Open the row to follow the last lines of its log as they arrive.
 
-    When the run finishes, its chip turns **ok**, and the row shows how long the run took and that it was run **by hand**. Click the run to read its whole log, which is the script's own output. The transcript also gets a **Routine harbor-weekly-summary ran** card with the end of that log.
+    When the run finishes, the open row's **Latest run** shows **Succeeded** (or **Failed**), when it ran, how long it took and **by hand**, with the script's whole output below it. Each run also adds a coloured tick to the history strip on the row, shown when the panel is wide enough; click a tick to read that run's log. The transcript also gets a **Routine harbor-weekly-summary ran** card, with **Took** (for example "12.3 s · run by hand") and the end of the log.
 
     {/* screenshot to capture: /images/guides/summary-05-run.png — Each run keeps its own log, which you can read while the machine sleeps. Illustrative values. */}
 
     <Check>
-    A new summary is in `#harbor-staff`, and **Next runs** shows next Monday at 09:00. The routine is live.
+    A new summary is in `#harbor-staff`, and the routine's row counts down to next Monday at 9:00 ("Next run in …"). The routine is live.
     </Check>
   </Step>
 </Steps>
@@ -119,8 +122,8 @@ flowchart LR
 | If… | What Alpha does |
 | --- | --- |
 | The script exits with an error | It marks the run failed and posts "Routine harbor-weekly-summary: the run failed" in the session's transcript, with the error and the end of the log. Failed runs aren't retried. |
-| Alpha itself wasn't running at 09:00 | A run that would start more than 10 minutes late is skipped, not caught up. The next Monday runs as usual. |
-| You pause the routine | Nothing runs until you click **Resume**. A paused routine still counts toward your limit. |
+| Alpha was unavailable at 09:00 | A run that would start more than 10 minutes late is skipped, not caught up. The next Monday runs as usual. |
+| You pause the routine with the switch on its row | The row reads "Paused", and nothing runs until you turn the switch back on. The transcript gets one line, "You paused the routine harbor-weekly-summary". A paused routine still counts toward your limit. |
 | You delete the Harbor bookings session | The routine and its runs are deleted with it. |
 
 A routine runs at most once every {routineMinInterval}, because each run wakes a machine. Routines are capped at {routinesMax}, paused ones included. Both limits are on [Limits](/reference/limits).

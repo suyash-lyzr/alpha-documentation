@@ -29,19 +29,25 @@ If the GitHub card says "GitHub isn't set up on this server yet — ask whoever 
 
 <Steps>
   <Step title="Connect GitHub">
-    On the home screen, click the **repos** chip in the composer, then **Connect GitHub**. GitHub opens in a new browser tab. Pick your account or an organization, choose which repositories Alpha may work in, and authorize. When you come back, Alpha's tab has already picked up the connection. You do this once per account: every session you own gets an authenticated `git` and `gh`, and the token is redacted if it ever reaches the transcript. To add an organization later, use **add account** in the same popover. [Connect GitHub and add repositories](/github/connect) covers organizations and access requests.
+    On the home screen, click **+** at the bottom left of the composer and choose **GitHub repos**. The **Repositories** popover opens over the composer. While GitHub isn't connected, it shows a **Connect GitHub** button: click it. GitHub opens in a new browser tab and signs you in first. Then pick your account or an organization, choose which repositories Alpha may work in, and authorize. When you come back, Alpha's tab has already picked up the connection.
 
-    {/* screenshot to capture: /images/github/github-connect-card.png — The GitHub tab's connect card lists what connecting unlocks. In the repos popover the same button appears without the list. */}
+    You do this once per account: every session you own can use `git` and `gh` with your GitHub account, and your token never shows in the transcript. To add an organization later, click **add organization** at the top of the same popover, or open the **GitHub** tab in a session and choose **Manage** → **Add organization**. [Connect GitHub and add repositories](/github/connect) covers organizations and access requests.
+
+    {/* screenshot to capture: /images/github/github-connect-card.png — The GitHub tab's connect card lists what connecting unlocks. In the home screen's Repositories popover the same button appears without the list. */}
   </Step>
 
   <Step title="Stage the repository and its branch">
-    Open the **repos** chip again and type `harbor` in **Search your repos or owner/repo**. Click `harbor-sailing/harbor-api`. It is added to the staged list with a branch field that reads **default branch**. Leave it empty to start from the repository's default branch, `main` here, or type an existing branch such as `staging`. The branch must already exist on GitHub. New work goes on a new branch, which the agent creates in the next step. You can stage up to {reposMax}, and a setup's repositories count toward it; see [Limits](/reference/limits). The repository is cloned into `/workspace/harbor-api` before the agent's first turn.
+    Open **+** → **GitHub repos** again and type `harbor` in **Search your repos or owner/repo**. Click `harbor-sailing/harbor-api`. It is added to the staged list at the top of the popover, with a check beside it in the results and a branch field that reads **default branch**. Leave it empty to start from the repository's default branch, `main` here, or type an existing branch such as `staging`. The branch must already exist on GitHub, or the clone fails. New work goes on a new branch, which the agent creates in the next step. You can stage up to {reposMax}, and a setup's repositories count toward it; see [Limits](/reference/limits).
+
+    Close the popover. The repository now sits in a tray under the composer as a chip with an ×: click the chip to reopen the popover, or the × to take the repository off. It is cloned into `/workspace/harbor-api` before the agent's first turn.
 
     {/* screenshot to capture: /images/guides/repo-02-staged.png — Staged repositories ride along with your first prompt and are cloned before the agent starts. */}
   </Step>
 
   <Step title="Ask for a plan">
-    Type the task after `/plan` and send it. On the home screen, `/plan <task>` creates the session in [plan mode](/chat/plan-mode) and sends the task as its first message. In plan mode the agent reads the code and changes no files. When it needs a decision, it asks in a question card titled "The agent has questions". Pick an option or type into **Something else…**, then press **Send answers**. To leave the choice to the agent, press **Skip — let the agent decide** instead. You can also switch plan mode on and off with <kbd>⇧</kbd><kbd>Tab</kbd> in the composer.
+    Type the task after `/plan` and send it. On the home screen, `/plan <task>` creates the session in [plan mode](/chat/plan-mode) and sends the task as its first message. In plan mode the agent reads the code and changes no files. You can also switch plan mode on and off with the **Build**/**Plan** chip at the right of the composer, or with <kbd>⇧</kbd><kbd>Tab</kbd>.
+
+    When the agent needs a decision, its questions open one at a time in a dock above the composer, and a card titled **The agent has questions** waits in the transcript. Click an option, or type your own in the **Something else** row and press **→**. On the last question, **→** sends your answers. **Skip** leaves one question to the agent, and **×** ("Skip all — let the agent decide") leaves them all.
 
     <PromptCard label="Try this">
 
@@ -62,28 +68,28 @@ If the GitHub card says "GitHub isn't set up on this server yet — ask whoever 
   </Step>
 
   <Step title="Implement the plan and run the tests">
-    Press **Implement this plan** in the Plan tab. It switches plan mode off and sends "Implement the plan." for you. As the task asked, the agent creates `feature/waitlist`, writes the code, runs your test suite and commits on the branch. The turn runs on Alpha's servers, so you can close the tab and come back to a complete transcript.
+    Press **Implement this plan** in the Plan tab. It switches plan mode off and sends "Implement the plan." for you, and the button reads "Starting the build…" until the turn starts. As the task asked, the agent creates `feature/waitlist`, writes the code, runs your test suite and commits on the branch. The turn runs on Alpha's servers, so you can close the tab and come back to a complete transcript.
 
-    To check the work yourself, open the workspace's **+** menu and choose **Shell**. The [Shell](/workspace/shell) is a terminal on the same machine, in the same folder the agent works in. Run `cd harbor-api && npm test`. Files you change there are files the agent sees on its next turn.
+    To check the work yourself, open the workspace's **+** menu ("Open a tab, or turn on a service") and choose **Shell** under **Add a tab**. The [Shell](/workspace/shell) is a terminal on the same machine, in the same folder the agent works in. Run `cd harbor-api && npm test`. Files you change there are files the agent sees on its next turn.
 
-    <Frame caption="The Shell opens in /workspace, the same folder the agent works in.">
-      <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Plan, Preview, then Shell with a terminal icon and its ×, then Database, Secrets, README.md and a tab cut off behind a scroll arrow. To its right sit the round + button, a trash can for Clear and a circular arrow for Restart shell, then the GitHub button, Share, Publish and the files button. The terminal fills the panel. At the /workspace prompt, ls lists README.md, booking-store.js, booking-store.test.js, db, node_modules, package-lock.json, package.json, public, server.js and styleguide.md. Then node --version prints v22.23.4, and a fresh prompt waits below. The chat on the left shows the answered The agent has questions card and the Proposed plan card for Automatic class waitlist." />
+    <Frame caption="The Shell is a real terminal in the session’s machine.">
+      <img src="/images/workspace/shell-tab.png" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Preview, Shell, Database, Auth, Secrets and server.js, and a bash status pill with a green dot, Clear and Restart shell sit at the right. The dark terminal shows a PostgreSQL prompt, harbor=#, the query SELECT title, capacity FROM classes ORDER BY title; and its result: Beginner dinghy 6, Intermediate keelboat 4 and Sunset cruise 8, (3 rows), then a fresh prompt." />
     </Frame>
   </Step>
 
   <Step title="Review the branch against main">
-    When the turn ends, type `/review` and press <kbd>Enter</kbd>. In **Start a review**, choose **Review against a base branch**. The branch field is already filled with `main`, the repository's default branch. Press **Start review**. In a Codex session, Codex runs its review mode on the workspace and posts a "Review started" card, then a "Review findings" card. In a Claude Code session, Claude Code gets a review prompt and answers in the transcript instead. To act on what it found, reply with the findings you want fixed. While a turn is running, the review is refused with "'/review' is disabled while a task is in progress."; see [Slash commands](/reference/slash-commands).
+    When the turn ends, type `/review` and press <kbd>Enter</kbd>. In **Start a review**, choose **Review against a base branch**. The branch field is already filled with `main`, the repository's default branch. Press **Start review**. In a Codex session, Codex runs its review mode on the workspace and posts a "Review started" card, then a "Review findings" card. In a Claude Code session, Claude Code reviews the branch and answers in the transcript instead. To act on what it found, reply with the findings you want fixed. While a turn is running, the review is refused with "'/review' is disabled while a task is in progress."; see [Slash commands](/reference/slash-commands).
 
     {/* screenshot to capture: /images/guides/repo-05-review.png — The findings arrive in one card; reply with the ones you want fixed. */}
   </Step>
 
   <Step title="Push and open the pull request">
-    Click **GitHub** in the workspace header, beside **Share**. The branch row shows `feature/waitlist` marked **unpublished**. If the review fixes left uncommitted changes, type a message in the commit message box under **Changes** and press **Commit**, or **Commit & push** (<kbd>⌘</kbd><kbd>Enter</kbd>, Ctrl on Windows and Linux) to push at once. Then press **Push & create PR** in the footer. The **New pull request** view shows the branch, a base selector set to `main`, a **Title** taken from the last commit and an optional description. Tick **Create as draft** if you want, then press **Push & create pull request**. See [Branches, commits and pull requests](/github/branches-and-prs) for why a button can be disabled.
+    Click **GitHub** in the workspace header, beside **Share**. The branch row shows `feature/waitlist` marked **unpublished**. If the review fixes left uncommitted changes, type a message in the commit message box under **Changes** and press **Commit**, or **Commit & push** (<kbd>⌘</kbd><kbd>Enter</kbd>, Ctrl on Windows and Linux) to push at once. Then press **Push & create PR** at the top of the tab, on the repository's title row. It stays hidden while there are uncommitted changes. The **New pull request** view shows the branch, a base selector set to `main`, how many commits will be pushed first, a **Title** taken from the last commit and an optional description. Tick **Create as draft** if you want, then press **Push & create pull request**. See [Branches, commits and pull requests](/github/branches-and-prs) for why a button can be disabled.
 
     {/* screenshot to capture: /images/guides/repo-06-pr.png — Alpha pushes the branch first, then opens the pull request on GitHub. */}
 
     <Check>
-    The footer now reads **View PR #12**, and the pull request is pinned at the top of **Pull requests**. Commits carry your GitHub account as their author.
+    The top of the tab now shows **View PR #12**, and the pull request is pinned at the top of **Pull requests**. Commits carry your GitHub account as their author.
     </Check>
   </Step>
 
@@ -102,16 +108,16 @@ If the GitHub card says "GitHub isn't set up on this server yet — ask whoever 
 
     1. Write the setup from the commands that worked here: the install, the migrations, and a boot script that pulls the latest `main`.
     2. Start the build on a fresh machine, which usually takes a few minutes. Your session's machine is not touched.
-    3. Tell you when it is ready, or that it is still building and will appear in the home screen's machine chip.
+    3. Tell you when it is ready, or that it is still building and will appear in the home screen's machine list.
 
-    Next time, click the machine chip on the home screen, which reads **blank machine**, and pick **harbor-api dev**. You can keep {setupsMax} ([Limits](/reference/limits)). To see a build's progress, open **Account menu → Setups**.
+    Next time, on the home screen, click **+** → **Machine**. The **Setup** list starts with **Blank machine**, marked **default**, then your setups. Pick **harbor-api dev**; a setup that is still building is greyed out and marked "building". The pick shows in the tray under the composer, with an × to go back to the blank machine. The home screen doesn't remember it, so pick it again for each new session. You can keep {setupsMax} ([Limits](/reference/limits)). To see a build's progress, open the **Setups** page: **Account menu → Setups**, or **Manage setups →** at the top of the list.
 
-    {/* screenshot to capture: /images/guides/repo-07-setup-chip.png — A ready setup is one click away on the home screen. */}
+    {/* screenshot to capture: /images/guides/repo-07-setup-chip.png — The home screen's + → Machine list, with harbor-api dev under Blank machine. */}
   </Step>
 </Steps>
 
 <Warning>
-A setup build runs with your GitHub token and secrets in its environment. Alpha removes them before saving the machine, but files are kept. A token written into `.npmrc` or `.env` during the build ends up in every machine started from the setup, including those of anyone you share it with.
+Your GitHub token and secrets are available while a setup builds, but they aren't saved with it. Files are. A token written into `.npmrc` or `.env` during the build ends up in every machine started from the setup, including those of anyone you share it with.
 </Warning>
 
 You connected GitHub, planned a change before any code moved, built and reviewed it on a branch, opened a pull request, and saved the machine as a setup for your next session.

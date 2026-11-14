@@ -1,15 +1,15 @@
 ---
 title: "File viewers"
 sidebarTitle: "File viewers"
-description: "Code, Markdown, HTML, images, PDFs, Word, Excel, PowerPoint and LaTeX, each opened in a viewer made for it."
+description: "Code, Markdown, HTML, images, PDFs, Word, Excel, PowerPoint, LaTeX and Mermaid, each opened in a viewer made for it."
 ---
 
 import { fileDownloadMax } from '/snippets/limits.mdx';
 
-A file viewer is the tab a file opens in when you click it in the files panel, built for its type: an editor for code, rendered pages for Markdown, HTML, PDFs and Office documents, and a compiled PDF for LaTeX. Every viewer is read-only, because the files belong to the agent; to change one, ask. Slide decks, Excalidraw drawings and BPMN diagrams are on [Slides, drawings and diagrams](/workspace/decks-and-drawings), and browsing, searching and downloading are on [Files and uploads](/workspace/files).
+A file viewer is the tab a file opens in when you click it in the files panel, built for its type: an editor for code, rendered pages for Markdown, HTML, PDFs and Office documents, a compiled PDF for LaTeX, and a drawn diagram for Mermaid. Every viewer is read-only, because the files belong to the agent; to change one, ask. Slide decks, Excalidraw drawings and BPMN diagrams are on [Slides, drawings and diagrams](/workspace/decks-and-drawings), and browsing, searching and downloading are on [Files and uploads](/workspace/files).
 
 <Frame caption="A file tab's header: the path, the Preview and Source switch, the size, the read-only chip and Refresh.">
-  <img src="/images/workspace/viewer-markdown.png" alt="The Harbor bookings session with README.md open in a file tab and the files panel open along the right edge. The tab strip reads Preview, Shell, Database, then README.md in front with its ×, with scroll arrows at both ends, then the + button, the GitHub, Share and Publish buttons and the lit files button. The file's header reads README.md on the left, and a Preview and Source switch with Preview selected, the size 3.7 KB, a read-only chip and a Refresh icon on the right. Below it the README is rendered: the heading Harbor Sailing School, the line A responsive class booking app with an Express server, PostgreSQL, and a plain JavaScript frontend., a Run section with the setup and start commands in code blocks, and a Behavior section of bullet points. The files panel's header reads /workspace, with the Refresh files and Hide files buttons, above the Search files box. Its tree lists the db and public folders, collapsed, then .env.example 126 B, .gitignore 29 B, booking-store.js 4.4 KB, booking-store.test.js 5.6 KB, package-lock.json 35.2 KB, package.json 471 B, README.md 3.7 KB, server.js 2.2 KB and styleguide.md 1.7 KB. The chat on the left shows the answered The agent has questions card and the Proposed plan card." />
+  <img src="/images/workspace/viewer-markdown.png" alt="The Harbor bookings session with styleguide.md open in the Markdown viewer. The tab strip reads Preview, then styleguide.md in front, then the + button, and at the right the GitHub and Share buttons, the Publish as artifact pill and the files button. The file's header shows a Preview and Source switch with Preview selected, the size 2.1 KB, a read-only chip and a Refresh icon. Below, the rendered file reads Harbor Sailing School, Current UI direction and a numbered list from Domain and user to Name, then a Components section of bullet points." />
 </Frame>
 
 ## Which viewer opens a file?
@@ -25,9 +25,10 @@ Alpha picks the viewer from the file's extension. A file that reads as binary an
 | `.pdf` | PDF | Select text, pick, draw | [PDFs](#read-pdfs) |
 | `.docx`, `.xlsx`, `.pptx`, `.csv`, `.tsv` | Office | Select text or cells, pick, draw | [Office](#read-word-excel-and-powerpoint-files) |
 | `.tex`, `.latex`, `.ltx` | LaTeX | As for PDFs | [LaTeX](#build-a-latex-document) |
+| `.mmd`, `.mermaid` | Mermaid diagram | Pick, draw | [Mermaid](/workspace/decks-and-drawings#read-mermaid-diagrams) |
 | `.deck.html`, `.slides.html`, `.excalidraw`, `.bpmn` | Deck, Excalidraw, BPMN | See their page | [Decks and drawings](/workspace/decks-and-drawings) |
 
-The pen, the picker and **Edit** sit at the header's right end, in the viewers that have them. While the agent writes files, an open viewer re-reads its file every few seconds; **Refresh** re-reads it at once. If a re-read fails, the header says "refresh failed" and the last good version stays. How picks and marks reach the agent is on [Point at and draw on your app](/workspace/point-and-draw).
+The pen, the picker and **Edit** sit at the header's right end, in the viewers that have them. While the agent writes files, an open viewer keeps up with its file by itself; **Refresh** re-reads it at once. If a re-read fails, the header says "refresh failed" and the last good version stays. How picks and marks reach the agent is on [Point at and draw on your app](/workspace/point-and-draw).
 
 <Note>
 People you [share the session](/sharing) with open the same viewers, read-only, without the pen, the picker, **Edit**, **Add to prompt** or **Add to chat**, and they can't build a LaTeX document. The files they see have your secrets masked.
@@ -45,7 +46,9 @@ Text files open in a code editor with syntax highlighting, line numbers, a minim
 
 ## Read Markdown and HTML
 
-Markdown and HTML files open rendered, with a **Preview** and **Source** switch in the header. Markdown renders GitHub-flavoured, tables and task lists included. Select text and **Add to prompt** stages it with the lines it came from.
+Markdown and HTML files open rendered, with a **Preview** and **Source** switch in the header. Markdown renders GitHub-flavoured, tables and task lists included, and a `mermaid` code block draws as a diagram. Select text and **Add to prompt** stages it with the lines it came from.
+
+In a Markdown file, relative image paths and links resolve from the file's own folder: images load, and a link to another workspace file opens it as a tab, as file links in the chat do. Images written inline as `data:image/…` show too.
 
 An HTML file's **Preview** runs the page in an isolated frame: scripts run and relative assets load, but nothing in the file can read your Alpha sign-in or act as you. The header carries the same tools as the app's [Preview](/workspace/preview):
 
@@ -53,7 +56,7 @@ An HTML file's **Preview** runs the page in an isolated frame: scripts run and r
 | --- | --- | --- |
 | Pen | "Draw on the page and send it, marked up, with your next message" | A picture of the page with your marks. |
 | Picker | "Point at an element on the page to attach it to your next message" | The element you click, as a chip. <kbd>Esc</kbd> cancels. |
-| Edit | "Change text, colours and spacing right on the page, then send the changes to the agent" | The changes you made, for the agent to apply to the file. |
+| Edit (T) | "Retype text right on the page, then send the changes to the agent" | The text you retyped, sent with **Send** from the "N text changes · **Clear** · **Send**" bar, for the agent to put in the file. See [Retype text on the page](/workspace/point-and-draw#retype-text-on-the-page). |
 
 {/* screenshot to capture: /images/workspace/viewer-html-preview.png — An HTML file in Preview with the picker armed: the hovered element is outlined before you click it. */}
 
@@ -109,7 +112,9 @@ Select text and **Add to prompt** stages it with its page or slide numbers. Clic
 
 In Excel, CSV and TSV files, select cells, a range, a row, a column or the whole sheet, then **Add to prompt**. The agent gets a Markdown table plus the formulas behind it. Charts, pictures and shapes can be clicked; cells can't.
 
-{/* screenshot to capture: /images/workspace/viewer-office-xlsx.png — A selected range in a spreadsheet, with Add to prompt floating beside it. */}
+<Frame caption="Spreadsheets open with their formatting, sheets and formulas.">
+  <img src="/images/workspace/viewer-office-xlsx.png" alt="The Harbor documents session with classes.xlsx open in the spreadsheet viewer. The sheet is headed HARBOR SAILING SCHOOL, This week, Monday, November 9 – Sunday, November 15, 2026, with columns Day, Date, Class, Time, Instructor, Seats and Price listing twelve classes such as Try Sailing, Learn to Sail, Boat Handling Clinic and Navigation Clinic, and a WEEK TOTALS row. Sheet tabs Classes and Read me sit along the bottom." />
+</Frame>
 
 ### What the Office viewer can't open
 
@@ -125,7 +130,7 @@ Files named `.doc`, `.xls` or `.ppt`, and macro and template files (`.docm`, `.x
 
 ## Build a LaTeX document
 
-A `.tex`, `.latex` or `.ltx` file opens with a **PDF** view beside **Source**. Alpha compiles it in the session's machine with Tectonic, a XeTeX engine, on open and whenever the file changes, writes `<name>.pdf` next to it, and shows it in the PDF viewer with all its tools. **Build** compiles again by hand.
+A `.tex`, `.latex` or `.ltx` file opens with a **PDF** view beside **Source**. Alpha compiles it on open and whenever the file changes, writes `<name>.pdf` next to it, and shows it in the PDF viewer with all its tools. **Build** compiles again by hand.
 
 {/* screenshot to capture: /images/workspace/viewer-latex.png — A LaTeX document built into a PDF, with the Built status above it. */}
 
@@ -137,13 +142,19 @@ A `.tex`, `.latex` or `.ltx` file opens with a **PDF** view beside **Source**. A
 | "The document did not compile — the errors above say where. The Source view shows the file." | No version of the document has built yet. |
 | "a build or export is already running for this session" | One build or deck export runs per session at a time. Wait, then **Build**. |
 | "the LaTeX build timed out" | The build ran past its time limit and was stopped. Try **Build** again. |
-| "this session's machine has no LaTeX engine yet — send any message to re-provision it" | The machine is older than LaTeX support and couldn't fetch the engine. Any message updates it. |
+| A message saying the session's machine has no LaTeX engine yet | The machine is older than LaTeX support. Send any message, and it's brought up to date. |
 
-Only the session's owner can build. LuaTeX-only packages don't work, and a document can't run commands on the machine. A package the machine hasn't cached is downloaded on first use, which needs the machine's network.
+Only the session's owner can build. LuaTeX-only packages don't work, and a document can't run commands on the machine. A package used for the first time is downloaded, which needs the machine's network.
 
 <Note>
 The PDF is an ordinary workspace file: it shows in the files panel, downloads like any file, and the agent can read it.
 </Note>
+
+## Keep a file as an artifact
+
+While a file tab is in front, the pill at the top right of the workspace reads **Publish as artifact**. Click it and the agent keeps the file as an [artifact](/artifacts): a page and a link of its own, which you can share without sharing the session and which opens whether or not the session's machine is awake. The pill reads **Publishing…** while the agent works, or **Queued** if the agent is busy. Once the file is an artifact, the pill reads **Artifact** and opens a menu with **Share…**, **Open**, **Download** and **Delete**.
+
+The first time a file tab is in front in your browser, a hint under the pill asks "Want to keep this file?". Only the session's owner sees the pill. [Artifacts](/artifacts) covers sharing, folders and changing an artifact later.
 
 ## Next steps
 

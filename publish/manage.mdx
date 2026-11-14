@@ -8,7 +8,7 @@ import { versionsKept, publishPerSession, publishPerAccount } from '/snippets/li
 
 A published app is a service with its own page in the session's **Publish** tab, where you republish it, change how it runs, switch between its versions and delete it. To put an app online the first time, see [Publish your app](/publish/publish-your-app). For its logs and metrics, see [Monitor and troubleshoot production](/publish/monitor).
 
-{/* screenshot to capture: /images/publish/publish-service-live.png — A live service's page. The address card at the top is the one thing most people need. */}
+{/* screenshot to capture: /images/publish/publish-service-live.png — A live service's page: the header and its actions, the address line, History, and the Details rail at the right. */}
 
 Pick the action by what you want to change:
 
@@ -16,8 +16,9 @@ Pick the action by what you want to change:
 | --- | --- | --- |
 | Ship the latest code | **Republish** | Yes, a new version |
 | Change the port, run command, environment variables, database or sign-in | **Edit settings** | Yes, a new version |
-| Undo a bad release, or serve a newer version again | **Roll back** / **Roll forward** | No. It only switches which version is live. |
-| Take the app offline for good | The trash icon → **Delete service** | No, and it can't be undone. |
+| Call off a rollout that's still building | **Stop** | No. The version serving stays as it is. |
+| Undo a bad release, or serve a newer version again | **⋯** → **Roll back**, or **Roll back** / **Roll forward** on a version in **History** | No. It only switches which version is live. |
+| Take the app offline for good | **⋯** → **Delete service** | No, and it can't be undone. |
 
 <Note>
 If you don't see the **Publish** pill or the **Publish** tab, publishing isn't turned on for your Alpha. Ask your administrator.
@@ -25,48 +26,57 @@ If you don't see the **Publish** pill or the **Publish** tab, publishing isn't t
 
 ## Read a service's page
 
-The page runs from the address people open down to the rollout's raw log. The folds at the bottom start closed, except **Log** on a failed version.
+Open **+** → **Publish** and pick the service. On a wide workspace the page has two columns: the service on the left, from its actions down to its history, and a **Details** rail on the right. On a narrow one, **Details** follows the history.
 
 | Part | What it shows |
 | --- | --- |
-| Header | The name, which opens the switcher; the state (**live**, **failed**, or the current stage); then **Edit settings**, **Republish**, **Roll back** and the trash icon. |
-| **Published URL** | The address, a copy icon and **Open**. The label adds "· a new version is rolling out" during a rollout. |
-| **Version N** | The open version: when it ran, who started it ("by the agent" or "from the dialog") and how long it took. **Published** when it serves, else the steps **Export → Plan → Build → Publish → Live**. |
-| **Production database** | Only when the service has one. See [Production database and sign-in](/publish/production-data). |
-| **Versions** | Every rollout, newest first. Shown once there's more than one. |
-| **Details** | How the version was built and runs: its source folder, stack, port, start command, database and sign-in, and **Environment**, which lists variable names, never their values. |
-| **Log** | The open version's rollout log, live while it runs. Secret values appear as `[redacted]`. |
+| Header | The name, which opens the switcher (see below); an **App** or **API** tag when the session has an agent's API; the state (**live**, **failed**, or the step a rollout is on, such as **building**). Then **Edit settings**, **Republish**, **Stop** while a rollout can still be stopped, and **⋯** (**More actions**), which holds **Roll back** and **Delete service**. |
+| Address line | The address, which opens the app, a copy button (tooltip "Copy address") and **Open**. "A new version is rolling out." shows under it during a rollout, and "also …" with the app's second address when it has one. Before a first version is live it reads "Your app's address appears here once it is live." |
+| **Production database** | Only when the service has one: when it was made, whether a schema arrived, and the push from the session. See [Production database and sign-in](/publish/production-data). |
+| **History** | Every version, newest first, on a timeline: "Version N", its state, and when it ran, who started it ("by the agent" or "from the dialog") and how long it took. The open version unfolds with its steps while it rolls out or after it fails, any error or hint, and its **Log**. |
+| **Details** | How the open version runs: its stack, how it starts, its port and where its code came from. Then **Environment**, which lists variable names, never their values, and **Services**, which says what **Database** and **Sign-in** production gets. |
+
+The **Log** under the open version is open from the start, on every version. It shows the build's own output with **follow**, a copy button and **Hide log** / **Show log**; see [Watch the rollout](/publish/publish-your-app#watch-the-rollout). Secret values appear as `[redacted]`.
+
+Under **Environment**, names you picked show first. Names Alpha sets for the app's database or sign-in follow, paler. A variable of the same name that you pick takes their place.
 
 ### Switch between a session's apps
 
-A session can publish up to [{publishPerSession}](/reference/limits), one per directory, such as a web app and its API. Click the name in the header to open the switcher: every service of the session with its address and state, then **Publish another app**, which asks the agent "Deploy this."
+A session can publish up to [{publishPerSession}](/reference/limits), one per directory, such as a web app and its API. Click the name in the header to open the switcher: every service of the session with its address and state, then **Publish another app**, which sends the agent "Deploy this."
 
-When one of them is an [AI agent's API](/agents/build-an-agent), each service carries a tag: **App** for "The app people open", **API** for "The agent's API: called from code, not opened in a browser". An API's address card reads **API endpoint**, with **Copy endpoint** in place of **Open**.
+When one of them is an [AI agent's API](/agents/build-an-agent), each service carries a tag: **App** for "The app people open", **API** for "The agent's API: called from code, not opened in a browser". An API's address line has **Copy endpoint** in place of the copy button and **Open**, and a note under it: "The agent's API, for calling it from code. The app people open is harbor." Click the app's name to open its page.
 
 {/* screenshot to capture: /images/publish/publish-service-switcher.png — Two services in one session, told apart by their App and API tags. */}
 
 ## Republish your changes
 
-**Republish** sends "Republish harbor." to the agent, with the service's name, as if you'd typed it. The agent publishes the session's latest code as a new version of the same service, and the **Publish** tab follows the rollout. Asking in your own words works too: "Push the latest to production."
+A republish sends "Republish harbor." to the agent, with the service's name, as if you'd typed it. The agent publishes the session's latest code as a new version of the same service, and the **Publish** tab follows the rollout. There are two places to start one:
 
-The button is in each service's header, and in the pill at the right of the workspace tabs, which reads **Republish** once a service is live. The link icon beside the pill copies the address.
+| Where | What happens |
+| --- | --- |
+| **Republish** in the service's header | Sends the message at once. Its tooltip reads "Sends “Republish harbor.” to the agent — it publishes the latest changes as a new version". |
+| The **Republish** pill beside **Share** | Opens a popover first (tooltip "Republish, or copy its address"). The pill shows once a service is live, and stands for the service the **Publish** tab shows, or else the first live one. |
+
+The popover is headed **Republish** and has three rows: **Status**, such as "Live · published 2 h ago"; **Address**, which opens the app in a new tab, with a copy button; and **Access**, "Public · anyone with the URL". Under them, a line reads "The agent publishes the latest changes as a new version; the Publish tab follows the rollout." **Open Publish tab** opens the tab, and **Republish** sends the message. The link icon beside the pill copies the address without opening anything.
 
 {/* screenshot to capture: /images/publish/publish-pill-republish.png — The Republish popover. The address can be read and copied even while the button is held. */}
 
-A republish asks you nothing. It keeps the address, port, run command, environment variables and production services, and attaches the same production database. The old version keeps answering until the new one serves.
+Asking in your own words works too, such as "Republish harbor with the latest changes." Saying that the live app needs a fix isn't a request to republish: the agent makes the fix, says a republish would ship it, and waits for you to ask. See [When does the agent publish?](/publish/publish-your-app#when-does-the-agent-publish).
 
-The button is held while a turn runs ("The agent is busy — ask once it is done"), because a message then would [steer](/chat/queue-and-steer) the agent instead. It's also held during any of the session's rollouts or rollbacks ("A rollout is in progress").
+A republish asks you nothing. It keeps the address, port, run command, environment variables and production services, and attaches the same production database. Every name in the session's [secret sets](/secrets#secret-sets) goes with it too. The old version keeps answering until the new one serves.
+
+Both buttons are held while a turn runs ("The agent is busy — ask once it is done"), because a message then would [steer](/chat/queue-and-steer) the agent instead. In the popover, the reason replaces the line above the buttons, and the address can still be opened and copied. During any of the session's rollouts or rollbacks, the header button is held with "A rollout is in progress", and the pill reads **Publishing…** and opens the **Publish** tab.
 
 ## Change how the app runs
 
-**Edit settings** opens **Settings for harbor**, a form holding every setting of the next version. You change them by hand and republish from it, without the agent. The form plans the build from the project's files, so opening it wakes the session's machine if it's asleep.
+**Edit settings** opens **Settings for harbor**, a form holding every setting of the next version. You change them by hand and republish from it, without the agent. The form reads your project, so opening it wakes the session's machine if it's asleep.
 
 <Steps>
   <Step title="Open the form">
     On the service's page, click **Edit settings**. It's off while any of the session's rollouts runs.
   </Step>
   <Step title="Change what you need">
-    The rows sit under **Build and run** and **Production services**. After you change **Run command**, press <kbd>Enter</kbd>, click away or click **Check** so Alpha plans the build again. **Republish** stays off until it has.
+    The rows sit under **Build and run** and **Production services**. After you change **Run command**, press <kbd>Enter</kbd>, click away or click **Check** so Alpha checks it. **Republish** stays off until it has.
 
     {/* screenshot to capture: /images/publish/publish-edit-settings.png — The form keeps the address fixed and shows what production gets before you commit. */}
   </Step>
@@ -86,12 +96,14 @@ The button is held while a turn runs ("The agent is busy — ask once it is done
 | --- | --- | --- |
 | **Address** | The public address. | Read-only: the name is the address. For a new one, publish under a new name and delete this service. |
 | **Port** | Where the app listens. Alpha sends requests there and sets `PORT`. | 1 to 65535. Chips offer ports seen listening, **page** on one serving a web page. |
-| **Run command** | Starts the server in production. Empty uses the detected command. | One line of at most 500 characters, checked before you republish. Hidden when the project has its own `Dockerfile`. |
+| **Run command** | Starts the app in production. Empty uses the command Alpha detected. | One line of at most 500 characters, checked before you republish. Hidden for projects that set how they start themselves. |
 | **Environment** | "Only what you pick here reaches production, at build time and at runtime." | Letters, digits and `_`, not starting with a digit, at most 64 characters, each name once. Names Alpha sets for the app, such as `PORT`, and names reserved for the machine's shell, such as `PATH`, are refused. |
-| **Database** | Gives production a PostgreSQL of its own. | Starts empty. Your own `DATABASE_URL` wins. See [Production database and sign-in](/publish/production-data). |
-| **Sign-in** | Gives production the session's [app sign-in](/workspace/app-sign-in): the same accounts and **Auth** tab. | Sign-in callbacks on the service's address are accepted. |
+| **Database** | Gives production a PostgreSQL database of its own. | Starts empty. Your own `DATABASE_URL` wins. See [Production database and sign-in](/publish/production-data). |
+| **Sign-in** | Gives production the session's [app sign-in](/workspace/app-sign-in): the same accounts and **Auth** tab. | Sign-in works on the app's own address. |
 
 Nothing is inherited from the session's machine, so build-time variables such as `VITE_…` or `NEXT_PUBLIC_…` must be picked too. Secrets travel by name, so no value shows in the form or the transcript. When a [session secret and a global secret](/secrets) share a name, production gets the session's value.
+
+One exception to "only what you pick": when a [secret set](/secrets#secret-sets) is attached to the session, or to the setup it started from, every name in it reaches production on every version, without being picked here. Each takes the session's own secret of that name if there is one, else your value in the set, else your global secret of that name. If none has a value, nothing is published, and the version fails with "the attached secret set needs STRIPE_SECRET_KEY — nothing was deployed" and the hint "add them on the Secrets page, then deploy again".
 
 ## Roll back or forward
 
@@ -99,21 +111,21 @@ Rolling back puts a version that already exists back in front of visitors. Alpha
 
 | From | Click | Makes live |
 | --- | --- | --- |
-| The service's header | **Roll back #n** | The version that served before the latest change. Shown only when there is one, and not during a rollout. |
-| A version that isn't serving, under **Versions** | **Roll back to #N** or **Roll forward to #N** | That version. Back when it's older than the live one, forward when it's newer. |
-| A message to the agent | "Roll back harbor." | The previous version, the same as the header button. |
+| The header's **⋯** menu | **Roll back**, which names the version, such as "to #3" | The version that served before the latest change. Shown only when there is one, and off while the service is busy. |
+| A version under **History** that's built but not serving | **Roll back** or **Roll forward** at the end of its row | That version. Back when it's older than the live one, forward when it's newer. Off during any of the session's rollouts. |
+| A message to the agent | "Roll back harbor." | The previous version, the same as the menu item. |
 
-Open **Versions** to see every rollout Alpha keeps. Click one to open its page, with its steps, details and log.
+**History** lists every version Alpha keeps. Click one to open it: it unfolds with its log, and **Details** shows how it was built. A version you can switch to also says it's built and kept but not serving, and which version is.
 
 | State | Meaning | What you can do |
 | --- | --- | --- |
 | **live** | Serving every visitor. | Nothing to do. |
-| **rolling out** | Being built or switched to now. | Watch it, or open **Log**. |
+| **rolling out** | Being built or switched to now. | Watch it and its **Log**, or [stop it](/publish/publish-your-app#stop-a-rollout) while it builds. |
 | **ready** | Built and kept, but not serving. | Roll back or forward to it. |
-| **failed** | Never served. Shows the error, and on the newest version a hint. | Fix the cause and republish. See [When a publish fails](/publish/monitor#when-a-publish-fails). |
+| **failed** | Never served. Shows the error, and on the newest version a hint. A stopped rollout fails with "the deployment was stopped". | Fix the cause and republish. See [When a publish fails](/publish/monitor#when-a-publish-fails). |
 | **gone** (struck through) | No longer exists, because it was removed outside Alpha. | Nothing. It can't be served again. |
 
-{/* screenshot to capture: /images/publish/publish-versions-fold.png — Versions, newest first. A ready version is one click from serving again. */}
+{/* screenshot to capture: /images/publish/publish-versions-fold.png — History, newest first. A ready version is one click from serving again, with Roll back or Roll forward at the end of its row. */}
 
 Each switch also posts a card in the transcript, such as "Rolled harbor back to version #3". Your next republish makes the new version live again, so a rollback never holds the app on an old version. Alpha keeps the last [{versionsKept}](/reference/limits), never removing the serving one.
 
@@ -123,7 +135,9 @@ An agent's API gets one more safeguard: a new version must pass a health check t
 
 Deleting takes the app offline for good, along with its production database and, if your Alpha gives services an address on its own domain, that address too. The name becomes free for anyone.
 
-Click the trash icon in the service's header. It turns into **Delete service** and **Keep**, and there's no other confirmation. The icon is off while the service is busy.
+Open **⋯** (**More actions**) in the service's header and choose **Delete service**. Its tooltip says whether the production database goes too. **⋯** then gives way to **Delete service** and **Keep** in the header, and there's no other confirmation. The menu item is off while the service is busy.
+
+You can also delete from the service's card on the [**Published** page](/publish/monitor#see-everything-you’ve-published): its trash button asks "Delete harbor and its database?" (or "Delete harbor?" without one), with **Keep** and **Delete**.
 
 {/* screenshot to capture: /images/publish/publish-delete-confirm.png — One more click deletes the service. Keep backs out. */}
 
@@ -140,11 +154,12 @@ The **Publish** tab belongs to the session's owner. People you [share the sessio
 | Action | Owner | Viewer | The agent |
 | --- | --- | --- | --- |
 | Republish | Yes | No | Yes, when you ask |
+| Stop a rollout | Yes | No | No |
 | Change settings | Yes | No | Yes, when you ask |
 | Roll back or forward | Yes | No | Yes, when you ask |
 | Delete a service | Yes | No | No, never |
 
-Every app you've published is listed, read-only, on the [**Published** page](/publish/monitor#see-everything-you-ve-published) in the sidebar.
+Every app you've published is listed on the [**Published** page](/publish/monitor#see-everything-you’ve-published) in the sidebar, where you can open it, go to its session or delete it.
 
 ## Next steps
 

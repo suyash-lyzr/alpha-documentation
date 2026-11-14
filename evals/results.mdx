@@ -6,13 +6,15 @@ description: "See what passed, read the trace of what failed, let Alpha propose 
 
 import { PromptCard } from '/snippets/prompt-card.jsx';
 
-**Results** is the third step of the **Evals** tab: what one eval run found, every test case's answer, grades and steps, and a way to hand the failures to Alpha. To change the test cases, see [Set up evals](/evals/set-up). To start, pause or stop a run, see [Run an evaluation](/evals/run).
+**Results** is the third step of each [eval's tab](/evals/set-up#one-tab-per-eval): what one eval run found, every test case's answer, grades and steps, and a way to hand the failures to Alpha. To change the test cases, see [Set up evals](/evals/set-up). To start, pause or stop a run, see [Run an evaluation](/evals/run).
 
-{/* screenshot to capture: /images/evals/evals-results-overview.png — One card answers whether the agent is ready. Everything under it explains why. */}
+<Frame caption="One card answers whether the agent is ready. Everything under it explains why.">
+  <img src="/images/evals/evals-results-overview.png" alt="The Results step of the harbor-support eval. A card reads Not ready yet, 17 must-pass cases failed, with the first failure explained and a Fix with Alpha button. The figures row shows PASS RATE 66%, 33 of 50 passed, FAILED 17, COST $0.0793 est. and DURATION 6m 50s over a green and red bar. Below, the Overview shows TEST CASES as numbered hexagons, green with a tick for passed and red with a cross for failed, then BY SCENARIO and BY PERSONA bars. Run again and Open the results page sit at the bottom." />
+</Frame>
 
 ## Did it pass? Read the verdict
 
-The verdict card sums up the run in one chip, a plain-words heading and the one action that moves things forward. Its ring has a slice per state the cases ended in.
+The verdict card sums up the run. A chip and a short line beside it say what kind of run it was, such as **Not ready yet** and "1 must-pass case failed". A plain-words heading and one sentence say why, and the one action that moves things forward sits on the right. Once Alpha has written up the run, the write-up's first line becomes the heading.
 
 | Chip | What it means | What the card offers |
 | --- | --- | --- |
@@ -24,11 +26,47 @@ The verdict card sums up the run in one chip, a plain-words heading and the one 
 | **Can't run** | A framework version of your agent failed to start. The error is shown under the card. | **Ask Alpha to fix it** |
 | **Nothing ran** | No test case ran. The card says why. | Nothing |
 
-A case that couldn't be graded, was stopped or never ran counts as neither a pass nor a fail. Once Alpha has written up the run, the write-up's first line becomes the heading. The card's last line gives the spend ("$0.4200 on your key"), the duration and the number of cases. With no must-pass case, it says the run "has no overall result"; under **Ready**, it lists failed cases outside the gate: "Look at them before you trust the green."
+A case that couldn't be graded, was stopped or never ran counts as neither a pass nor a fail.
+
+Along the card's foot, the run in figures, over a thin bar with a piece per state:
+
+| Figure | What it shows |
+| --- | --- |
+| **Pass rate** | The share of every test case that passed, with the count beside it, such as "83%" and "10 of 12 passed". |
+| One per other state | How many cases ended **Failed**, **Mixed**, **Needs your review**, **Couldn't grade**, **Stopped on our side** or **Not run**. Only the states the run has are shown. |
+| **Cost** | What the whole run spent: your agent, the AI review and any fast AI checks. "est." means part of it was estimated rather than measured. |
+| **Duration** | How long the run took from start to end. |
+
+A line under the figures adds what you need to read them right, when it applies: "12 cases, 3 tries each", "a subset of 4 cases", "9 of 12 attempts ran", the run's state if it didn't finish, and "2 inconsistent: passed last run".
+
+### Cases outside the gate
+
+The gate reads only must-pass test cases. When other cases didn't pass, the card says so under the figures, lists each one with a **Failed**, **Couldn't grade** or **Not run** chip and the reason, and links each to its case. The first five are listed; **Show all 8** shows the rest.
+
+| You see | When |
+| --- | --- |
+| "The gate passed, but 2 cases failed and 1 couldn't be graded outside the gate." then "The gate reads only must-pass test cases, so these did not stop it. Look at them before you trust the green." | The run is **Ready**, but cases that aren't must-pass failed, couldn't be graded or didn't run. The note is shaded, so a green chip never hides them. |
+| "The gate failed, but 3 cases failed outside the gate." then "They are not must-pass, so they do not move the gate." | The gate failed, and other cases didn't pass either. |
+| "No case is must-pass, so the run has no overall pass or fail. Mark the cases that must hold as must-pass to get one." | None of the eval's cases is **Must pass**. Star the ones that must hold on [Test cases](/evals/set-up#edit-a-test-case). |
+
+### By target
+
+When your agent was built for more than one framework, or one framework broke, a **By target** card lists each framework's own gate. Each row names the framework, how many must-pass cases it has, and which of them failed or couldn't be graded or didn't run.
+
+| State | What it means |
+| --- | --- |
+| **Passed** | Every must-pass test case on this target passed every attempt. |
+| **Failed** | A must-pass test case on this target failed an attempt. |
+| **Needs your review** | The AI reviewer split on a must-pass grade here; it waits for your call before the gate can pass. |
+| **Incomplete** | No must-pass test case failed here, but one couldn't be graded or did not run. |
+| **Broken** | Every attempt on this target ended in a framework error, so nothing says how the agent did. The row shows the first line of the error. |
+| **No gate** | No test case on this target is must-pass. |
+
+A broken framework never counts as a failed agent: the verdict reads **Can't run**, and **Ask Alpha to fix it** asks Alpha to find and fix why that version didn't start.
 
 ## Switch between Overview and Detailed report
 
-A switch under the verdict card picks the view. **Overview** is for reading. The **Test cases** card draws a numbered hexagon per case; hover one for why it didn't pass, click it to open it. **By scenario** and **By persona** bars show where the agent struggles. Below them, **What this run tells us** holds Alpha's write-up (or **Ask Alpha to explain this run**), and **Cases to look at** lists each failed case once with every check it missed. **The AI reviewer's doubts** appears when the reviewer was unsure: a doubtful answer on a must-pass case is asked again, and a split that stays is yours to decide.
+A switch under the verdict card picks the view. **Overview** is for reading. The **Test cases** card draws a numbered hexagon per case; hover one for why it didn't pass, click it to open it. **By scenario** and **By persona** bars show where the agent struggles. Below them, **What this run tells us** holds Alpha's write-up (or **Ask Alpha to explain this run**), and **Cases to look at** lists each failed case once with every check it missed. **The AI reviewer's doubts** appears when the reviewer was unsure; see [Decide a split grade](#decide-a-split-grade).
 
 | Tile | Meaning | Counts as |
 | --- | --- | --- |
@@ -42,7 +80,9 @@ A switch under the verdict card picks the view. **Overview** is for reading. The
 
 **Detailed report** is a table with a row per case, for working through them.
 
-{/* screenshot to capture: /images/evals/evals-results-detailed.png — Every case that didn't pass starts out picked, ready to hand to Alpha together. */}
+<Frame caption="The detailed report lists every test case with its input, expected answer and grades.">
+  <img src="/images/evals/evals-results-detailed.png" alt="The Detailed report of the harbor-support eval run r-20261114-203447, 33 passed of 50 total. A table lists each test case with its ID, such as TC001, its name, scenario and persona, a pass or fail status, the start of its input email, the expected answer, and its Automatic and AI review scores such as 3/3 and 4/4. The failed case TC008 is ticked." />
+</Frame>
 
 **Automatic** counts the code checks passed and **AI review** the AI review questions passed, over every attempt. **Inconsistent** under a status means the case passed in the run this one is compared with and fails now, with the agent unchanged: it gets this right only some of the time.
 
@@ -54,7 +94,9 @@ To catch these, run each case more than once: **Advanced** → **Run each test c
 
 Click a tile, a row or **Open** to see a case in a side panel. When it ran more than once, a strip of attempts ("Run 2 of 3") lets you pick one; the panel opens on the first that didn't pass.
 
-{/* screenshot to capture: /images/evals/evals-case-trace.png — The response, the grades and the agent's own steps, in one panel. */}
+<Frame caption="The test case, its input, what was expected and how it was graded, in one panel.">
+  <img src="/images/evals/evals-case-trace.png" alt="A panel open over the eval's results for the test case imminent-weather-group-organizer, tagged Imminent weather, Group organizer, FAIL and Must pass. It shows what the case checks, the run's framework, model, time and cost, the Context with the scenario and persona, the user input email from Jules about heavy rain before a group lesson, and the expected output. Ask Alpha why sits at the bottom." />
+</Frame>
 
 | Section | What it shows |
 | --- | --- |
@@ -64,9 +106,32 @@ Click a tile, a row or **Open** to see a case in a side panel. When it ran more 
 | **Evaluation reasoning** | Each grade's written reason, the AI reviewer's first. |
 | **Execution trace** | Each step your agent took: timing, model, tokens, cost and tools used, failed tools in red. **Raw trace** has the full record. |
 
-**Ask Alpha why** asks Alpha to read a failed case and explain it. When a scorer broke, **Grade again** re-scores the recorded answer with no model call, and **Ask Alpha to fix the scorer** asks for the repair. When the AI reviewer stays split, the session's owner makes the call.
+**Ask Alpha why**, at the foot of a case that didn't pass, asks Alpha to read it and explain why in a few lines, then propose a fix. It shows the change before it edits anything.
+
+An attempt that the network or the model's provider stopped carries a note at the top, such as "Stopped on our side, not the agent's fault: …", or "The framework or provider refused the request, not the agent's answer: …". A retry that then ran clean is graded as usual, and its note says the first attempt was set aside.
+
+### Fix a scorer and grade again
+
+A case reads **Couldn't grade** when a check gave no grade: a scorer crashed, the AI reviewer didn't answer, or the run gave no answer to grade. Its panel opens on the cause, such as "Couldn't grade this case: …", then the error as the run kept it, and "It counts as neither a pass nor a fail."
+
+When a scorer broke, two buttons follow:
+
+| Button | What it does |
+| --- | --- |
+| **Ask Alpha to fix the scorer** | Asks Alpha to reproduce the error on this attempt, fix the scorer and check the eval. |
+| **Grade again** | Once the scorer is fixed, scores the recorded answer again with no model call and nothing spent. It reads, for example, "Graded again with … as it is now: it passes." The run keeps its first grade; the next run counts the new one. |
+
+Other causes say what to do instead. People you share the session with read the cause but get no buttons.
+
+### Decide a split grade
+
+The AI reviewer can be unsure of an answer. On a must-pass case it's asked again; if its answers still split, the grade is yours to decide, and the case reads **Needs your review**.
 
 {/* screenshot to capture: /images/evals/evals-split-grade.png — Your grade is recorded as yours. The machine's result is kept beside it. */}
+
+On **Overview**, **The AI reviewer's doubts** lists every doubtful answer with a count, plus "· 1 waiting for you" while any wait. Each row names the case, the attempt and the check, then how it ended: a **Doubtful** chip, how many more times it was asked ("asked 2 more times" or "not asked again"), and **Passed**, **Failed** or **Still split**. Under it is the reviewer's first answer, in quotes.
+
+On a split that waits for you, "Your call:" is followed by **Pass** and **Fail**. Click one; the row says "Saving your call…", then who decided and what, such as "Decided by …: passed." The case's panel offers the same buttons at its foot: "The AI reviewer was split on … Your call:". Your grade is recorded as yours, beside the reviewer's. Only the session's owner can decide; anyone else reads "The session's owner decides it in the Evals tab."
 
 ## Fix failures with Alpha
 
@@ -74,7 +139,7 @@ Click a tile, a row or **Open** to see a case in a side panel. When it ran more 
 
 <Steps>
   <Step title="Send the failures">
-    Click **Fix with Alpha** on the verdict card, or tick rows in **Detailed report** and use the bar under the table. The message is sent at once; mid-turn, it [steers](/chat/queue-and-steer) the turn.
+    Click **Fix with Alpha** on the verdict card, or tick rows in **Detailed report** and use the bar under the table. When the agent is idle, the message is sent at once. While it works, the message is queued or [steers](/chat/queue-and-steer) the running turn, as your send mode says, the same as pressing <kbd>Enter</kbd> in the composer. Every button on the eval's tab that asks Alpha something works this way.
   </Step>
   <Step title="Read the proposal and answer">
     Alpha reads each failed attempt, then shows the change in the transcript. Say yes, or tell it what to do instead.
@@ -83,7 +148,7 @@ Click a tile, a row or **Open** to see a case in a side panel. When it ran more 
     **Run again** opens the **Run** step with the cost worked out again. Nothing starts until you press **Run evaluation**.
   </Step>
   <Step title="Compare the runs">
-    The run picker at the top right lists every run, newest first. When a run is **Ready**, **Approve as baseline** makes the next run compare against it.
+    Pick an earlier run in the run picker to set the two side by side. When a run is **Ready**, **Approve as baseline** makes the next run compare against it. See [Compare runs and set a baseline](#compare-runs-and-set-a-baseline).
   </Step>
 </Steps>
 
@@ -91,9 +156,17 @@ Click a tile, a row or **Open** to see a case in a side panel. When it ran more 
 Every run calls your agent's real model and the AI reviewer, and spends on your keys. Reading results and **Grade again** cost nothing.
 </Warning>
 
+## Compare runs and set a baseline
+
+The run picker at the top right of **Results** lists this eval's runs only, newest first, each with its start time and state, such as "Today, 9:15 AM · finished". Runs of other evals stay on their own tabs.
+
+Each eval has its own baseline: the run the next one is compared with. When a run is **Ready**, click **Approve as baseline**. The card reads "Approved: the next run compares against r-20261114-091500." If the approval is refused, the reason shows with **Approve anyway**. Against a baseline, the **Detailed report** marks cases that passed then and fail now as **Inconsistent**, and the results page sets the run's numbers **Against the run before**.
+
+A baseline graded under a different judging, such as another AI reviewer model, can't be compared fairly. The page then says so above the views: "Judging changed since the baseline, not comparable: …", naming the model that graded each run, "so no test case is called better or worse". Once the run has finished, click **Approve this run as the baseline**, and the next run compares against this one.
+
 ## Share the results page and export it
 
-**Open the results page** opens the run as a report of its own, at `/s/<code>/results/<suite>/<run>`. **Session** or <kbd>Esc</kbd> closes it; <kbd>⌘</kbd>-click (Ctrl on Windows and Linux) opens it in a new tab. Anyone who can [view the session](/sharing) can open the link. At its own address the page is read-only for everyone, so decide split grades and send fixes from the **Evals** tab.
+**Open the results page**, at the foot of **Results**, opens the run as a report of its own, with an address you can share. Its header names the agent, the eval and the run. **Session** or <kbd>Esc</kbd> closes it; <kbd>⌘</kbd>-click (Ctrl on Windows and Linux) opens it in a new tab. Anyone who can [view the session](/sharing) can open the link. At its own address the page is read-only for everyone, so decide split grades and send fixes from the eval's tab.
 
 {/* screenshot to capture: /images/evals/evals-results-page.png — The same report as the tab, plus the numbers and the downloads. */}
 
@@ -105,7 +178,7 @@ It adds **Previous runs** (once there is more than one run) and a folded **Numbe
 | **Save as PDF** | Shown until then. Prints the page in light colours, every case included. |
 | **JSON** | The full report file. |
 | **CSV** | One row per attempt, with its state and the agent's cost. |
-| JUnit, OpenTelemetry, Confident AI | Ask the agent ("Export the last run as JUnit"). Alpha writes it to the run's `exports` folder. |
+| JUnit, OpenTelemetry, Confident AI | Ask the agent ("Export the last run as JUnit"). Alpha saves it with the run's files and tells you where. |
 
 <Note>
 Viewers of a shared session see **Results** only, read-only. They can't decide split grades or use **Fix with Alpha**, **Run again** or the ask buttons.
@@ -133,13 +206,22 @@ Alpha will:
 | --- | --- |
 | "Did my change make it better or worse?" | Compares two runs, and says when a difference is chance. |
 | "Which framework does it best?" | Gives each framework's counts and cost. It names no winner. |
-| "That verdict is wrong" | Records your grade beside the machine's, and the report gets a new revision. |
+| "That verdict is wrong" | Records your grade beside the machine's, and the report is updated to show it. |
 
 When a run ends, an **Eval result** card appears in the transcript.
 
 {/* screenshot to capture: /images/evals/evals-result-card.png — The run at a glance, without leaving the chat. */}
 
-The chip is the must-pass gate: **PASS**, **FAIL**, **HELD** while a split grade waits for you, or **INCOMPLETE** when a case that counts couldn't be graded. A run with no must-pass case has no chip. **Open detailed report** opens **Results** on **Detailed report**. **Fix** appears when something failed or couldn't be graded; it sends the findings to Alpha, which edits nothing without your yes.
+It shows how many cases passed, failed, couldn't be graded and were planned, over a bar, then the eval it belongs to and what the run cost, such as "harbor-triage / suite · \$0.4200". The chip is the must-pass gate:
+
+| Chip | What it means |
+| --- | --- |
+| **PASS** | Every must-pass case passed every attempt. |
+| **FAIL** | A must-pass case failed an attempt. |
+| **HELD** | The AI reviewer split on a must-pass grade, and it waits for [your call](#decide-a-split-grade). |
+| **INCOMPLETE** | No must-pass case failed, but one couldn't be graded, was stopped on Alpha's side (such as a connection failure or a timeout with no answer), or didn't run. Run those cases again before you read the gate. |
+
+A run with no must-pass case has no chip. A run that didn't finish says how it ended. **Open detailed report** opens the eval's tab on **Results**, **Detailed report**. **Fix** appears when something failed or couldn't be graded; it sends the findings to Alpha, which edits nothing without your yes.
 
 ## Read the run's event log
 

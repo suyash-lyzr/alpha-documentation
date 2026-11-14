@@ -10,7 +10,7 @@ An AI agent in Alpha is a set of model-driven steps you describe in words. Alpha
 
 ## What does Alpha build?
 
-Every agent is one folder, `/workspace/<name>`, called the agent tree. At its root, `definition.yaml` names the workers, their steps and order, the inputs and the fields of the answer, and `tools/` holds the Python functions the steps call. Alpha's agent builder turns that description into a project for a framework, in its own folder inside the tree. It's plain framework code you own and can run anywhere. Open any of it from [Files](/workspace/files).
+Every agent lives in one folder in your workspace. It holds a description of the agent, which names the workers, their steps and order, the inputs and the fields of the answer, and the Python functions the steps call as tools. Alpha turns that description into a project for each framework you choose, in its own folder beside it. It's plain framework code you own and can run anywhere. Open any of it from [Files](/workspace/files).
 
 | Framework | Alpha uses it when | Worth knowing |
 | --- | --- | --- |
@@ -21,7 +21,7 @@ Every agent is one folder, `/workspace/<name>`, called the agent tree. At its ro
 | Vercel AI SDK | Your project is TypeScript | Can't be evaluated. |
 | GitAgent | You want the agent as a git repository | Nothing runs it, so its proof checks the repository only. Can't be evaluated. |
 
-Ask for more than one ("also write it for LangGraph") and each framework gets its own folder in the same tree. [Try it](/agents/try-it) lets you pick which one a message runs on.
+Ask for more than one ("also write it for LangGraph") and each framework gets its own folder in the same agent folder. The [Agent tab](/agents/agent-tab#pick-the-framework) then gets a framework picker on its canvas bar, which switches both the drawing and the framework [Try it](/agents/try-it) runs.
 
 ## Ask for an agent
 
@@ -48,14 +48,14 @@ It must never promise a refund; staff decide those.
 
 Alpha will:
 
-1. Ask about the agent's shape and inputs, unless your message already says.
+1. Ask about the agent's shape and inputs, one question at a time above the composer, unless your message already says.
 2. Say the plan back in one sentence: the framework, the steps and their order.
 3. Draw the agent on the **Agent** tab while it is still being proved.
 4. Prove it, including one live run on your key, and publish it.
 
-### Answer the question card
+### Answer the agent's questions
 
-When the shape is open, the agent shows one [question card](/chat/plan-mode) before writing anything: two or three questions, recommended option first.
+When the shape is open, the agent [asks two or three questions](/chat/plan-mode#answer-the-agent’s-questions) before writing anything. They open in a dock right above the composer, one at a time, such as "1 of 3", with the recommended option first.
 
 | Question | What it decides |
 | --- | --- |
@@ -63,9 +63,11 @@ When the shape is open, the agent shows one [question card](/chat/plan-mode) bef
 | The inputs | What the agent reads: a file in the workspace, or a value you type each run. |
 | The framework, or one extra | Google ADK first. If your message raises an approval step, a schedule or who reads the result, that question takes this slot. |
 
-Pick an option or type into **Something else…**, then click **Send answers**. **Skip — let the agent decide** takes every recommendation, and "just build it" in your message skips the card. The plan sentence names every default it assumed.
+Pick an option, or type your own words in the **Something else** row. A pick on a question that takes one answer moves straight to the next. **Skip** leaves one question to the agent, and **→** moves on; on the last question it reads "Send answers" and sends them all. **×** ("Skip all — let the agent decide") takes every recommendation. "Just build it" in your first message skips the questions, and so does a message you steer in while they wait. The plan sentence names every default it assumed.
 
-{/* screenshot to capture: /images/agents/agent-question-card.png — The shape question comes first, because it decides everything after it. */}
+<Frame caption="The agent asks what it needs before it builds.">
+  <img src="/images/agents/agent-question-card.png" alt="The question dock above the composer in the Harbor triage agent session. The question reads How should the first version receive Harbor's emails?, with the options Email text or JSON (Recommended), Local .eml files and Live mailbox, each with a one-line description, then Something else. The footer reads Pick one, with Skip and an arrow button." />
+</Frame>
 
 Once the agent is published, it may ask once whether you want a small page around it. Declining ends the matter.
 
@@ -75,14 +77,14 @@ Every agent goes through five stages before it's published. A failing stage name
 
 ```mermaid
 flowchart LR
-  A[Your prompt] --> B[Question card]
-  B --> C[Agent tree]
+  A[Your prompt] --> B[Questions]
+  B --> C[Agent description]
   C --> D[Framework code]
-  D --> E[Structural check]
-  E --> F[Gate checks]
-  F --> G["Scripted run, free"]
+  D --> E[Description check]
+  E --> F[Code checks]
+  F --> G["Practice run, free"]
   G --> H["Live run, on your key"]
-  H --> I[Sealed]
+  H --> I[Proved]
   I --> J[Agent tab]
   C -.->|Draft graph| J
   classDef focus stroke:#1A54F0,stroke-width:1.5px;
@@ -94,16 +96,16 @@ flowchart LR
     Every worker, step, input and tool the description names exists, and the answer has a defined shape.
   </Step>
   <Step title="Check the code against it">
-    Seven gate checks confirm the generated project matches the description, among them agents listed, tools bound, settings reaching the model, the answer's shape enforced, inputs declared.
+    Alpha confirms the code it wrote matches the description: every worker and tool is there, each step gets its settings and inputs, and the answer comes back in the promised shape.
   </Step>
   <Step title="Run it on a stand-in model">
-    The real tools run under a local stand-in for the model. No key and no cost. This catches a project that passes its checks but can't run.
+    A practice run uses the real tools with a stand-in for the model. No key and no cost. This catches code that passes its checks but can't run.
   </Step>
   <Step title="Run it live">
     The agent calls the real model on your key and must return the answer it promised. This is the only stage that costs money.
   </Step>
-  <Step title="Seal it">
-    Every framework folder carries a current proof and nothing has changed since. A hand edit inside a framework folder counts as a change, so it stops here. The proved agent is published to the **Agent** tab.
+  <Step title="Mark it proved">
+    Every framework version has passed and nothing has changed since. A hand edit inside a framework folder counts as a change, so it stops here. The proved agent is published to the **Agent** tab.
   </Step>
 </Steps>
 
@@ -121,19 +123,19 @@ The live run reads the key the description names, usually `OPENAI_API_KEY`. The 
 {/* screenshot to capture: /images/agents/agent-connect-card.png — The agent names the exact variable its code reads. The value goes into Secrets, never the chat. */}
 
 <Warning>
-Never paste a key into a message: it lands in the transcript and the agent's context. Keys are never written into the agent tree or a commit. The live proof spends on your key, and so does every message in [Try it](/agents/try-it).
+Never paste a key into a message: it lands in the transcript and the agent's context. Keys are never written into the agent's files or a commit. The live proof spends on your key, and so does every message in [Try it](/agents/try-it).
 </Warning>
 
 ## Change the agent
 
-Ask the agent. It edits the tree's root, redraws the graph, proves every framework folder again and republishes. Don't edit a generated framework folder by hand: the next build rewrites it.
+Ask the agent. It edits the agent's description, redraws the graph, proves every framework version again and republishes. Don't edit a generated framework folder by hand: the next build rewrites it.
 
 | Ask | What the agent does |
 | --- | --- |
 | "Add a critic step that checks the reply" | Adds the step, then proves and republishes. |
 | "Also write it for LangGraph" | Adds a second framework folder and proves it. |
 | "Why did that run fail?" | Reads the failed **Try it** run, fixes the description or a tool, and proves again. |
-| "Publish this agent" | Only when you ask. Proves it, publishes one framework folder as a service and reports its health. Callers use the session secret `AGENT_API_KEY` from **Secrets**. See [Publish your app](/publish/publish-your-app). |
+| "Publish this agent" | Only when you ask. Proves it, publishes one framework version so other apps can call it, and confirms it answers. Callers use the session secret `AGENT_API_KEY` from **Secrets**. See [Publish your app](/publish/publish-your-app). |
 
 ## What can't an agent do yet?
 
@@ -161,7 +163,7 @@ If **Agent builder** isn't on your **Installed** tab, find it on the **Explore**
 
 <CardGroup cols={2}>
   <Card title="The Agent tab" icon="diagram-project" href="/agents/agent-tab">
-    Read each card, walk the flow and open any field in `definition.yaml`.
+    Read each card, walk the flow and open the definition behind any card.
   </Card>
   <Card title="Try your agent" icon="play" href="/agents/try-it">
     One live run per message on your own input, with each step lighting up.

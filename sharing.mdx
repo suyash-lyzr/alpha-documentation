@@ -6,7 +6,7 @@ description: "Let people watch a session live and read-only: anyone with the lin
 
 import { idlePark } from '/snippets/limits.mdx';
 
-Sharing lets other people watch one of your sessions as it happens: the chat, the plan, the files and the app in **Preview**. It is always read-only. Nobody you share with can send a message, run a command or change anything. To let someone build on your work in their own sessions, [save a setup](/sessions/setups) and share it with them. A [fork](/sessions/fork-and-delete) is a copy for you, not for them. To show a finished app to the world, [publish it](/publish/publish-your-app).
+Sharing lets other people watch one of your sessions as it happens: the chat, the plan, the files and the app in **Preview**. It is always read-only. Nobody you share with can send a message, run a command or change anything. To let someone build on your work in their own sessions, [save a setup](/sessions/setups) and share it with them. A [fork](/sessions/fork-and-delete) is a copy for you, not for them. To show a finished app to the world, [publish it](/publish/publish-your-app). To hand over one finished file, such as a report or a deck, save it as an [artifact](/artifacts).
 
 ## Who can see a session?
 
@@ -20,8 +20,8 @@ Every session has one permanent, unguessable address, `/s/` followed by a 16-cha
 
 Pick **Anyone with the link** to show work to someone who won't sign in to Alpha. Pick **Specific people** when the session holds anything you wouldn't post publicly: a forwarded link does nothing for someone who isn't on the list.
 
-<Frame caption="Every session starts Private: the link already exists, but it works only for you.">
-  <img src="/images/sharing/share-dialog-link.png" alt="The Share this session dialog, with a close button at its top right. The description reads: People you let in get a live, read-only view — the chat, the files and the app preview as they happen. They can't send messages, run commands, or change anything. Their watching doesn't keep the machine on: it sleeps once you've been away half an hour, unless the agent is working. Three options follow. Private, with a lock icon and the line Only you. The link is dead for everyone else., is highlighted with a filled check mark. Anyone with the link, with a globe icon, reads No account needed — anyone who opens the URL can watch. Specific people, with a people icon, reads Only the Alpha accounts you list below — the session shows up under Shared with you in their sidebar. Below them, the session's address, https://alpha.new/s/ followed by its code, is dimmed in monospace, with a copy icon at the right. The last line reads Sharing is off — this link currently works only for you. Code from server.js shows faintly behind the dialog." />
+<Frame caption="Every session starts Private: only you can open it.">
+  <img src="/images/sharing/share-dialog-link.png" alt="The Share this session dialog, with a close button at its top right. The description reads: People you let in get a live, read-only view — the chat, the files and the app preview as they happen. They can't send messages, run commands, or change anything. Below it, the Private option, Only you. The link is dead for everyone else., is selected with a check mark, above Anyone with the link, No account needed — anyone who opens the URL can watch." />
 </Frame>
 
 ## Share a session
@@ -67,7 +67,7 @@ Someone you've shared with, signed in to Alpha, gets the same workbench you use,
 | Follow the **Plan** and the agents working under it | Open the **Shell**, **Database**, **Auth**, **Secrets** or **Routines** tabs |
 | Browse the [files](/workspace/files), read-only, with your secret values shown as `[redacted]` | Publish, or open **Publish**, **Production Logs** or **Production Metrics** |
 | Open the [**Preview**](/workspace/preview) and use the app | Use **GitHub**, see the session's cost, or add a service from **+** |
-| See the **Agent** tab, and eval results under **Evals** | Rename, fork, reset or delete the session, or change its sharing |
+| See the **Agent** tab, and eval results under **Evals** | Rename, fork or delete the session, or change its sharing |
 
 A session with nothing in it yet shows "Nothing here yet — you'll see this session live as its owner works."
 
@@ -106,6 +106,21 @@ A few more rules:
 | Admins can watch any session | They see it read-only, like a viewer, and can switch a session's sharing off. |
 | Your own link opens your workbench | Opening your own `/s/` link takes you straight into the full session. |
 
+## Sharing files instead
+
+A shared session shows everything in it, live. When you only want people to see one file, such as a report, a deck or a picture, save it as an [artifact](/artifacts) and share that instead. The two work separately: sharing a session never shares its artifacts, and sharing an artifact never shares its session.
+
+| | Shared session | Shared artifact |
+| --- | --- | --- |
+| What people see | The whole session, live: the transcript, the files and **Preview** | One file, in its viewer, as it was when you saved it |
+| Needs the session's machine | Yes, for the files and **Preview** | No. The file is copied out when it's saved. |
+| Who can open it | **Private**, **Anyone with the link** or **Specific people** | **Only people invited** or **Anyone with the link**, set under **General access** in the artifact's own share dialog. Inviting someone switches back to **Only people invited**. |
+| People invited by email | Up to 20, under **Specific people** | Up to 20, listed under **People with access** |
+| Where it shows for them | Their sidebar, under **Shared with you** | The **Artifacts** page, under **Shared with you**, not in the sidebar |
+| Sharing many at once | One session at a time | A folder's sharing covers every artifact in it, including ones added later |
+
+The artifact's dialog copies its link with **Copy link**, or **Copy private link** while only you can open it. See [Share an artifact or a folder](/artifacts) for the details.
+
 ## When a link doesn't open
 
 Each of these is a full-page card with an **Open your own Alpha** button that leads to the viewer's own home screen.
@@ -130,7 +145,7 @@ Each of these is a full-page card with an **Open your own Alpha** button that le
   <Card title="Sleep, wake and reset" icon="moon" href="/sessions/machines">
     Why a shared session's files and preview wait for you, and what wakes its machine.
   </Card>
-  <Card title="Fork or delete a session" icon="code-branch" href="/sessions/fork-and-delete">
-    Try another direction on a copy, or delete a session and its machine for good.
+  <Card title="Artifacts" icon="box-archive" href="/artifacts">
+    Hand over one finished file on a page of its own, shared by email or by link, without sharing the session.
   </Card>
 </CardGroup>

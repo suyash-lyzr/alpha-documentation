@@ -9,10 +9,6 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 
 A routine is work Alpha runs on a timetable, even while its session is closed and the session's machine is asleep. For each run, Alpha wakes the session, runs the work there with that session's files, secrets and database, then lets the machine sleep again. For a worked example, follow [Post a weekly summary to Slack](/guides/weekly-summary). A [published app](/publish/publish-your-app) has no scheduler of its own, so its periodic jobs belong in a routine too.
 
-<Frame caption="Each routine row shows its state, its timetable and when it runs next.">
-  <img src="/images/routines/routines-page-list.png" alt="The Routines page. Beside a circular-arrows icon, the header reads Routines, with the subtitle Work that runs on its own schedule, even while your sessions are closed, and a New routine button with a plus icon on the right. The summary line reads 1 routine · next run in 5 hr. One row follows: a bot icon, a green dot, the name Ai morning brief and the timetable Every day at 09:00 · Kolkata · next in 5 hr. The row ends with six icon buttons: View session, Run now, Pause, Edit, Remove and Expand." />
-</Frame>
-
 <Note>
 If the Routines page says "Routines are not enabled on this Alpha", routines aren't turned on for your Alpha. Ask your administrator.
 </Note>
@@ -25,7 +21,7 @@ A routine either runs a command or asks the agent. The agent picks one when it b
 | --- | --- | --- |
 | What runs | A script the agent wrote and tested, in the workspace, with the session's secrets and `DATABASE_URL` | Your instruction, sent to the session's agent as a turn nobody watches |
 | Cost per run | No agent turn and no tokens | A full agent turn |
-| The run's log | The command's output. Exit 0 is **ok**; anything else fails the run. | The agent's closing report |
+| The run's log | The command's output. Exit 0 means **Succeeded**; anything else fails the run. | The agent's closing report |
 | In the transcript | A **Routine … ran** card, or **Routine …: the run failed** | A **Routine run · …** message, then the agent's work |
 | Use it for | Work that follows the same steps every time | Work that needs judgement every time, such as triaging an inbox |
 
@@ -41,11 +37,25 @@ You describe a routine, and the agent builds it, tests it once and saves it. Sta
 
 <Steps>
   <Step title="Open the Routines page">
-    Click **Routines** in the sidebar. With no routines yet, the page opens on a composer with four starter cards: **Hacker News digest**, **Uptime check**, **Exchange rate log** and **Weekly summary**. A card fills the composer with its prompt for you to edit. Once you have routines, click **New routine** to bring the composer back above them; **Cancel** closes it.
+    Click **Routines** in the sidebar. With no routines yet, the page opens on a composer, with **Templates** below it. Once you have routines, click **New routine** to bring the composer back above them; **Cancel** closes it.
 
-    <Frame caption="Pick a starter, or say what should run and when in your own words.">
-      <img src="/images/routines/routines-page-empty-composer.png" alt="The Routines page after clicking New routine. Beside a circular-arrows icon, the header reads Routines, with the subtitle Work that runs on its own schedule, even while your sessions are closed. Below it is a composer with the placeholder What should run, and when? — “Every weekday at 9, send me the top Hacker News stories”, a Cancel button and a dimmed Create routine button with an arrow-up icon. Below are four starter cards in two columns, each with an icon, a label and a schedule in monospace: Hacker News digest, Weekdays · 9:00; Uptime check, Every hour; Exchange rate log, Daily · 18:00; Weekly summary, Mondays · 9:00. Under the starters, the summary line reads 1 routine · next run in 5 hr, above the row Ai morning brief, Every day at 09:00 · Kolkata · next in 5 hr, with its green dot and icon buttons." />
+    <Frame caption="Say what should run and when, or start from a template.">
+      <img src="/images/routines/routines-page-empty-composer.png" alt="The Routines page. Beside a circular-arrows icon, the header reads Routines, with the subtitle Work that runs on its own schedule, even while your sessions are closed. Below it is a composer with the placeholder What should run, and when? and a Create routine button. TEMPLATES lists six cards: Morning brief, PR nudge, Revenue pulse, Hacker News digest, Competitor watch and Uptime check, each with its schedule, such as Weekdays · 9:00, and a one-line description." />
     </Frame>
+  </Step>
+  <Step title="Start from a template, or write your own">
+    Each template card shows its name, its schedule and what it does. Click one and its prompt fills the composer, with the parts meant for you, such as the time or the website, highlighted and the first one selected. A hint reads "Replace the highlighted parts, or keep them. Tab jumps to the next one."
+
+    | Template | Schedule | What it does |
+    | --- | --- | --- |
+    | **Morning brief** | Weekdays · 9:00 | Today's meetings and the emails that need you, on one page, from Gmail and Google Calendar |
+    | **PR nudge** | Weekdays · 10:00 | GitHub pull requests waiting on your review, oldest first |
+    | **Revenue pulse** | Fridays · 17:00 | The week's Stripe revenue, new customers and churn, against last week |
+    | **Hacker News digest** | Weekdays · 9:00 | The top Hacker News stories on a topic you pick, summarised |
+    | **Competitor watch** | Mondays · 9:00 | What changed on competitors' sites since last week |
+    | **Uptime check** | Every hour | Checks your site, and tells you only when it's down |
+
+    The highlighted parts sit in square brackets. Type over one to replace it; <kbd>Tab</kbd> selects the next one and <kbd>Shift</kbd> + <kbd>Tab</kbd> the one before, wrapping around. Any you keep are sent without their brackets. The templates give their times in IST, so change that to your own time zone if it differs.
   </Step>
   <Step title="Describe what runs and when">
     Say what to do, how often, and where the result goes. Click **Create routine** or press <kbd>Enter</kbd>; <kbd>Shift</kbd> + <kbd>Enter</kbd> adds a new line.
@@ -66,12 +76,12 @@ You describe a routine, and the agent builds it, tests it once and saves it. Sta
     4. Save the routine and tell you what runs and when.
   </Step>
   <Step title="Find the routine session in the sidebar">
-    A routine session is an ordinary session marked with a clock in the sidebar. Any session that is home to a routine gets the clock too. The clock is green while a routine is scheduled and pulses while a run is going. It's grey while the routine is paused or nothing is saved yet. To list only routine sessions, open the sidebar's **Filter, group and sort** menu and set **Type** to **Routines**.
+    A routine session is an ordinary session marked with a clock in the sidebar. Any session that is home to a routine gets the clock too. The clock is green while a routine is scheduled and pulses while a run is going. It turns a paler green while the routine is paused or nothing is saved yet. To list only routine sessions, open the sidebar's **Filter, group and sort** menu and set **Type** to **Routines**.
 
     {/* screenshot to capture: /images/routines/sidebar-routine-clocks.png — The clock tells you whether a routine session has anything scheduled. */}
   </Step>
   <Step title="Check the saved card">
-    When the agent saves the routine, the card **Routine harbor-weekly-summary saved** appears with **When**, **Runs** (or **Asks the agent**) and **Next**. When it's the session's first routine, the session's **Routines** tab opens beside the chat.
+    When the agent saves the routine, the card **Routine harbor-weekly-summary saved** appears. **When** gives the timetable in words and the time zone, such as "Mondays at 9:00 · London"; **Runs** gives the command (or **Asks the agent**, the instruction); and **Next** gives the first run as a time, such as "Mon 17 Nov, 09:00". When it's the session's first routine, the session's **Routines** tab opens beside the chat.
 
     {/* screenshot to capture: /images/routines/routine-saved-card.png — The saved card states what runs, when, and the first run. */}
   </Step>
@@ -81,7 +91,15 @@ To give a routine an existing session's files, secrets or database, ask for it i
 
 ## Set the timetable
 
-The timetable lives under **How often** in the edit form. The line under it spells the timetable out in words and lists the next three runs, or shows in red why it can't be used. Every choice except **Once, at a set time** and **Custom (cron expression)** also shows its `cron:` expression.
+A routine's timetable reads in plain words wherever it appears, such as "Weekdays at 9:00", "Every hour at :00" or "Mondays at 9:00", with the time zone beside it on the saved card and in an open row. There are two ways to change it.
+
+### Pick a common timetable from the row
+
+Open the routine's row on the Routines page or in the session's **Routines** tab. Under **Schedule**, four buttons set the usual timetables in one click: **Hourly**, **Daily**, **Weekdays** and **Weekly**. Then pick the minute past the hour for **Hourly**, the time for the others, and the day for **Weekly**. The line under them updates as you go. Click **Save** to keep the change, or **Discard** to drop it. Saving posts "You changed the routine …" in the home session's transcript, with the new timetable.
+
+### Use the edit form for everything else
+
+**Edit**, at the foot of an open row, opens the whole form inline. The timetable lives under **How often**. The line under it spells the timetable out in words and lists the next runs, or shows in red why it can't be used.
 
 | **How often** | You set |
 | --- | --- |
@@ -91,47 +109,65 @@ The timetable lives under **How often** in the edit form. The line under it spel
 | **On certain days of the week** | Weekday chips and a time |
 | **On certain days of the month** | Day chips (1–31) and a time. A month without that day skips it. |
 | **Once, at a set time** | A date and time. The routine shows **Done** after it runs. |
-| **Custom (cron expression)** | Five fields: minute, hour, day of month, month, day of week |
 
 Daily, weekly and monthly timetables also take **Months**; none picked means every month. **Time zone** is the zone the routine's times are read in. It's hidden for a plain every-*n*-minutes or every-*n*-hours timetable, which runs the same in any zone. A routine runs at most once every {routineMinInterval}, because each run wakes a machine.
 
+A step that doesn't divide the hour or the day evenly restarts at the top of each one, and the form warns you, for example "The count restarts every hour, so every 7 minutes runs at :00, :07 … :56 and then :00 again."
+
+The form has no field for a timetable these choices can't express, such as 9:00 and 15:30 on the same day. Ask the agent for it instead: "Run harbor-weekly-summary at 9:00 and 15:30 on weekdays." A routine whose timetable the form can't show lists it in words as an extra choice under **How often**, and keeps it when you save the form without picking another.
+
 For a command, **More options** adds **Folder** (where the command runs, the workspace by default) and **Stop after (seconds)**, which defaults to 600 and goes up to 3600.
 
-{/* screenshot to capture: /images/routines/routine-edit-form.png — The preview line confirms the next three runs before you save. */}
+{/* screenshot to capture: /images/routines/routine-edit-form.png — The preview line confirms the next runs before you save. */}
 
 ## Run, pause and edit a routine
 
-Each row on the Routines page has the same buttons. The session's **Routines** tab shows only that session's routines, without **View session**. The tab edits routines but doesn't add them; to add one, ask the agent. Once all of a session's routines are removed, its tab shows **How a routine comes together** instead.
+The Routines page lists every routine on your account. Its header counts them, such as "2 of 3 on schedule". A session's **Routines** tab shows only that session's routines, with the count and a refresh button at the right of the workspace tabs. The tab edits routines but doesn't add them; to add one, ask the agent. A session's only routine opens already expanded there. Once all of a session's routines are removed, its tab shows **How a routine comes together** instead.
 
-| Button | What it does |
+Each routine is one row:
+
+| Part of a row | What it shows |
 | --- | --- |
-| **View session** | Opens the routine's home session (Routines page only) |
-| **Run now** | Starts a run at once and opens the row on it. The run is marked **by hand**. It's refused while a run is already going, or while an agent routine's session is in the middle of a turn. |
-| **Pause** / **Resume** | Stops or restarts the timetable. A finished one-time routine has neither. |
-| **Edit** | Opens the form inline. Saving posts "You changed the routine …" in the home session's transcript. |
-| **Remove** | Deletes the routine after you confirm "Remove the routine harbor-weekly-summary? Its runs go with it." |
-| **Expand** / **Collapse** | Shows the **Command** or **Instruction**, then **Runs in** (Routines page only), **Next runs**, **Last run**, **Folder** and **Stops after** (commands only), **Name**, **Added**, and **Runs** |
+| Name | The routine's name as a title, such as "Harbor weekly summary". Click anywhere on the left of the row to expand or collapse it. |
+| Timetable line | The timetable in words, then "Next run in 2 h 14 min", or **Paused**, **Done** for a one-time routine that has run, or **Running** and what the run is doing |
+| Marks | The services the routine's words name, such as Gmail or GitHub, and a channel it posts to, such as #harbor-staff. Then the agent's mark for an agent routine, or a terminal for a command. |
+| **Run now** | Appears when you hover the row, or always on an open row. See below. |
+| Switch | On while the routine is on its timetable. Turn it off to pause, on to resume. A one-time routine that has run has none. |
+| Last run | Its result icon and when, such as "Last run today 9:00" |
+| Ticks | One tick per run, up to the last 20, oldest first: green for succeeded, red for failed, amber for skipped. Click one to open the row on that run. |
+
+A paused routine's row is dimmed, and its ticks turn grey. Pausing or resuming posts one line in the home session's transcript, such as "You paused the routine harbor-weekly-summary", or "The agent resumed the routine …" when the agent did it.
+
+**Run now** starts a run at once and opens the row on it. The run is marked **by hand**. It's refused while a run is already going, or while an agent routine's session is in the middle of a turn. While a run is going, the button gives way to **Starting** or **Running** with a spinner, and a thin bar under the row fills as the run goes. For an agent routine, **Stop** takes its place once the run is underway: it stops the agent's turn, which fails the run.
+
+An open row has three sections and a footer:
+
+| Section | What it shows |
+| --- | --- |
+| **Latest run** | The run's result, such as **Succeeded**, with when it ran, how long it took, **by hand** if you started it, and the model for an agent run. Then the reason in red if it failed or skipped, and its log: the command's output, or the agent's report. While a run goes, its steps or its last line instead. Before the first run: "No runs yet — the first is …". A run picked from the ticks shows here as **Run**. |
+| **Command** or **Instructions** | What runs. A command adds the folder it runs in and when it stops, such as "In the workspace · stops after 600 s". Long instructions fold, with **Show more**. |
+| **Schedule** | The four quick timetables and the timetable in words with its time zone. See [Set the timetable](#set-the-timetable). |
+| Footer | "Runs in" and the home session, which opens it (Routines page only); the routine's name; when it was added and whether "by the agent" or "by you"; then **Edit** and **Remove**. |
+
+**Edit** opens the form inline, with **What it does** (**Run a command** or **Ask the agent**), **How often**, and for a command **More options**. **Save** keeps it, and posts "You changed the routine …" in the home session's transcript. **Remove** deletes the routine after you confirm "Remove the routine harbor-weekly-summary? Its runs go with it."
 
 <Warning>
-**Remove** deletes the routine and every run's log, and it can't be undone. To stop a routine you may want back, **Pause** it.
+**Remove** deletes the routine and every run's log, and it can't be undone. To stop a routine you may want back, turn its switch off to pause it.
 </Warning>
 
-{/* screenshot to capture: /images/routines/routine-row-expanded.png — An expanded row: what runs, the facts, and the last runs. */}
+{/* screenshot to capture: /images/routines/routine-row-expanded.png — An expanded row: the latest run and its log, what runs, the quick schedule, and the footer with Edit and Remove. */}
 
 ## Read a routine's runs
 
-The row's dot gives the routine's state. Each run under **Runs** gets a chip; click a run to read its whole log, even while the machine sleeps. Alpha keeps the last 50 runs of each routine.
+Click a tick, or open the row, to read a run's whole log, even while the machine sleeps. Alpha keeps the last 50 runs of each routine, and the row shows ticks for the last 20.
 
-| You see | It means |
+| A run reads | It means |
 | --- | --- |
-| **Active** (green dot) | The routine runs on its timetable. |
-| **Paused** (amber dot) | Nothing runs until you click **Resume**. |
-| **Done** (grey dot) | A one-time routine that has run. |
-| **Last run failed** (red dot) | Open the latest run to read why. |
-| **ok** | The command exited 0, or the agent's turn finished with a report. |
-| **failed** or **exit** + a code | The command failed, timed out ("stopped after 600 s") or couldn't start. |
-| **skipped** | The run didn't start, for example "the previous run was still going". |
-| **queued** / **running** | The log reads "Waiting for the routine service…" or "Waking the session and starting…". |
+| **Succeeded** | The command exited 0, or the agent's turn finished with a report. |
+| **Failed** | The command failed, timed out ("stopped after 600 s") or couldn't start, or the agent's turn went wrong. The reason shows in red. |
+| **Skipped** | The run didn't start, for example "the previous run was still going". |
+| **Queued** | Waiting to start. The row says it's waiting for Alpha to start it. |
+| **Running** | Under way. The row shows what the run is doing: the agent's current step (or "The agent is working"), or the command's latest line of output ("Waking the session" before there is one). |
 
 An agent run appears in its session's transcript as **Routine run · harbor-inbox-digest**. The agent works without asking questions and ends with a short report, which becomes the run's log. A failed command run posts **Routine harbor-uptime: the run failed** with **Error**, **Took** and the end of the log.
 
@@ -144,16 +180,16 @@ Open the run to read its reason. A failed or skipped run is never retried; the r
 | Reason | What happened | What to do |
 | --- | --- | --- |
 | "the previous run was still going" | The run before it hadn't finished, so this one was skipped. | Nothing, if it's rare. If it keeps happening, make the work faster or the timetable less frequent. |
-| "the fire came more than 10m0s late (Alpha was not running) — skipped, not caught up" | Alpha was down or restarting when the run was due. | Nothing. Click **Run now** if you need this run. |
-| "the run waited more than 10m0s for a worker — skipped, not caught up" | Alpha was too busy to start it in time. | Click **Run now** if you need this run. |
+| A message that the run came more than 10 minutes late and was skipped, not caught up | Alpha was down or restarting when the run was due. | Nothing. Click **Run now** if you need this run. |
+| A message that the run waited more than 10 minutes to start and was skipped, not caught up | Alpha was too busy to start it in time. | Click **Run now** if you need this run. |
 | "the session has no machine" | The routine's session has no machine to run on. | Open the session and send a message, so it gets a machine, then **Run now**. |
-| "the session's machine could not be woken: …" | The session's machine wouldn't wake. Nothing was discarded. | See [What if a machine won't wake?](/sessions/machines#what-if-a-machine-wont-wake). |
+| "the session's machine could not be woken: …" | The session's machine wouldn't wake. Nothing was discarded. | See [What if a machine won't wake?](/sessions/machines#what-if-a-machine-won’t-wake). |
 | "the command could not be run: …" | The command never started, for example because its folder is missing. | Ask the agent in the routine's session to fix the command or its folder. |
 | "stopped after 600 s" (or another number) | The command ran past its time limit. | Make it faster, or raise **Stop after (seconds)** under **Edit → More options**, up to 3600. |
 | "the agent could not be started: …" | An agent routine couldn't begin its turn. | Open the session to see why, then **Run now**. |
 | "the agent's turn failed" or "the agent's turn was stopped" | The agent's turn ended in an error, or was stopped. | Read the turn in the session's transcript. |
 | "the agent's turn ended without reporting back" | The agent finished without its closing report. | Read the turn in the transcript, and make the instruction say what to report. |
-| "the server running it stopped mid-run", "the run's job was lost before a worker took it", "stopped: the run outlived its limit" or "stopped: the routine service ended the run" | Alpha lost track of the run, usually during a restart. | Click **Run now** if you need this run. |
+| "the server running it stopped mid-run", "stopped: the run outlived its limit", or another message that the run was lost or ended by Alpha | Alpha lost track of the run, usually during a restart. | Click **Run now** if you need this run. |
 | "the session is gone" or "the session's owner is gone" | The routine's session, or its owner's account, was deleted. | Remove the routine, or ask the agent in another session to create it again. |
 
 ## What are the limits?

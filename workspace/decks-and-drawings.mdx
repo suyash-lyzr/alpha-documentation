@@ -1,7 +1,7 @@
 ---
 title: "Slides, drawings and diagrams"
 sidebarTitle: "Decks and drawings"
-description: "Ask for a deck, review it slide by slide, present it and export it to PowerPoint or PDF; work with Excalidraw drawings and BPMN diagrams."
+description: "Ask for a deck, review it slide by slide, present it and export it to PowerPoint or PDF; work with Excalidraw drawings, BPMN diagrams and Mermaid diagrams."
 ---
 
 import { fileDownloadMax } from '/snippets/limits.mdx';
@@ -9,15 +9,18 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 
 A deck is a presentation the agent builds as one HTML file of 1280 × 720 slides. Alpha shows it in a slide viewer of its own, with a filmstrip, speaker notes, a present mode and an **Export** menu for PowerPoint and PDF. Drawings and process diagrams get viewers of their own too. For PDFs, images, Word and Excel files, see [File viewers](/workspace/file-viewers). To point at a web app instead, see [Point at and draw on your app](/workspace/point-and-draw).
 
-{/* screenshot to capture: /images/workspace/viewer-deck-filmstrip.png — The deck viewer: the filmstrip on the left, the current slide on its stage, and the speaker notes under it. */}
+<Frame caption="The deck viewer: slides on the left, the slide in view on the right.">
+  <img src="/images/workspace/viewer-deck-filmstrip.png" alt="The Harbor documents session with harbor-summer.deck.html open in the deck viewer. Its header shows the Deck and Source switch and the draw, select and edit tools. A filmstrip of six slides runs down the left, the first highlighted, and the first slide fills the stage: Harbor Sailing School, Summer starts with a sail., Learn the ropes. Find your crew. Make the harbor your summer., beside a drawing of a sailboat against an orange sun. The footer shows 1 / 6, Notes, Present and Export." />
+</Frame>
 
 Each format opens in its own viewer, and each takes something different back to the agent:
 
 | Format | File | What you can do | What you can download |
 | --- | --- | --- | --- |
-| Deck | `.deck.html` or `.slides.html` | Review, present, and point at, draw on or edit a slide | PowerPoint (`.pptx`) or PDF |
+| Deck | `.deck.html` or `.slides.html` | Review, present, and point at, draw on or retype the text of a slide | PowerPoint (`.pptx`) or PDF |
 | Excalidraw drawing | `.excalidraw`, `.excalidraw.json` | Move and draw on the canvas, select shapes, attach a picture to your next message | PNG, SVG or `.excalidraw` |
 | BPMN diagram | `.bpmn`, `.bpmn20.xml`, `.bpmn.xml` | Pan, zoom, pick a task or flow, draw on it | The file itself, from the file tree |
+| Mermaid diagram | `.mmd`, `.mermaid` | Read the diagram or its source, pick a node or a link, draw on it | The file itself, from the file tree |
 
 ## Ask for a deck
 
@@ -38,7 +41,7 @@ Alpha will:
 3. Check every slide for text that sticks out of the slide, missing images and text too small to read, then render the slides and look at them.
 4. Open the deck in the slide viewer in your workspace.
 
-A new deck opens by itself during the turn. Any deck also opens from the [file tree](/workspace/files), where it carries a slide icon. To revise, say what to change ("Make slide 4 punchier", "Add a pricing slide"). The agent edits the same file, and the viewer swaps in the new version at the slide you're on without going blank.
+The agent opens the deck in the viewer when it's ready. Decks that are already in the workspace, such as those in an attached repository, don't open by themselves. Any deck opens from the [file tree](/workspace/files), where it carries a slide icon. To revise, say what to change ("Make slide 4 punchier", "Add a pricing slide"). The agent edits the same file, and the viewer swaps in the new version at the slide you're on without going blank.
 
 ## Review the slides
 
@@ -57,15 +60,17 @@ All shortcuts are listed in [Keyboard shortcuts](/reference/keyboard-shortcuts).
 
 ## Fix a slide by pointing at it
 
-The three tools at the right end of the file header work on the slide on the stage, as they do on the [Preview](/workspace/point-and-draw). <kbd>Esc</kbd> cancels any of them, and for the paintbrush it also discards the changes you haven't applied.
+The three tools at the right end of the file header work on the slide on the stage, as they do on the [Preview](/workspace/point-and-draw). <kbd>Esc</kbd> cancels any of them. For **Edit**, the first <kbd>Esc</kbd> ends the typing and the second leaves Edit and drops the changes you haven't sent.
 
 | Tool | What you do | What the agent gets |
 | --- | --- | --- |
 | Pencil ("Draw on the slides and send them, marked up, with your next message") | Draw, add arrows, boxes and numbered pins, on as many slides as you like, then **Add to chat**. | One picture of every marked slide, up to 12, each labelled with its slide number. |
 | Dashed cursor ("Point at an element on the slide to attach it to your next message") | Click anything on the slide while "Click anything on the slide · Esc cancels" shows. | A chip naming the slide by number and title, with the element's position on the 1280 × 720 slide, its text, styles and HTML. |
-| Paintbrush ("Change text, colours and spacing right on the slide, then send the changes to the agent") | Click an element, change its **Text**, **Text colour**, **Background**, **Font size**, **Weight**, **Padding**, **Margin** or **Radius**, then press **Apply changes**. | One message, sent at once, listing every change for the agent to put into the file. |
+| **Edit**, a T ("Retype text right on the slide, then send the changes to the agent") | Click any text on the slide and type over it, on as many slides as you like. A bar reads "N text changes · **Clear** · **Send**". Press **Send**, or **Clear** to put the text back. | One message covering every slide you changed, with one chip per change, for the agent to put into the file. |
 
-Your marks stay on the slide they were drawn on while you move around the deck. Paintbrush changes show on the slide at once but aren't saved until the agent applies them.
+Your marks stay on the slide they were drawn on while you move around the deck. Retyped text shows on the slide at once but isn't saved until the agent applies it. **Edit** changes plain text only. To change colours, sizes or layout, pick the element with the dashed cursor and say what you want.
+
+While **Edit** is on, **Present** and the slide keys wait, so typing <kbd>f</kbd> or a space goes into the text instead of starting Present or moving to the next slide. Use the filmstrip to change slides. Presenting turns **Edit** off.
 
 When text runs past a slide's edge, a warning appears in the bar, such as "slide 4 overflows". Hover it to see which slides are affected. Click it to jump to the first one. Anything outside the 1280 × 720 box is cut off in the export, so fix it before you download.
 
@@ -85,14 +90,16 @@ Press **Present** or <kbd>f</kbd> to show the deck fullscreen, without the bar a
 
 Open **Export** and pick a format. The file downloads to your computer, named after the deck, such as `junior-club.pptx`. Export is for the session's owner. A session runs one export or LaTeX build at a time.
 
-{/* screenshot to capture: /images/workspace/viewer-deck-export-menu.png — Export offers an editable PowerPoint or a PDF with one page per slide. */}
+<Frame caption="Export turns the deck into a PowerPoint or a PDF.">
+  <img src="/images/workspace/viewer-deck-export-menu.png" alt="The deck viewer's Export menu open above its footer. It offers PowerPoint (.pptx), Editable text over rendered visuals, and PDF, One page per slide. The footer below shows Notes, Present and Export." />
+</Frame>
 
 | Format | What you get | What to know |
 | --- | --- | --- |
 | **PowerPoint (.pptx)** | Each slide is a picture of everything except the text, with the text laid over it as real, editable text boxes. Lists are real bullets. Speaker notes become slide notes. | Shapes, icons, charts and text drawn inside them are part of the picture and can't be edited. A font from Google Fonts shows as a substitute on computers that don't have it. |
 | **PDF** | One page per slide, each rendered as it looks in the viewer. | Speaker notes are left out. |
 
-If export fails, the message says why. "an export is already running for this session" clears when the first one finishes. "this session's machine predates deck export — send any message to re-provision it" goes away after your next message.
+If export fails, the message says why. "an export is already running for this session" clears when the first one finishes. A message saying the session's machine is older than deck export goes away after your next message.
 
 <Tip>
 To keep the file in the session, for example to commit it, ask: "Export the deck as a PowerPoint into the workspace." The agent writes it next to the deck, and you can download it from the file tree.
@@ -112,7 +119,9 @@ Show me the deck.
 
 Ask for a diagram, a flowchart, an architecture sketch or a whiteboard, and the agent draws it as an Excalidraw file. For example: "Draw the Harbor booking app's architecture as an Excalidraw diagram." Open the file from the file tree, or click the link to it in the agent's reply. It opens in the Excalidraw editor itself and takes shape on the canvas as the agent writes it. Drawings you upload open the same way.
 
-{/* screenshot to capture: /images/workspace/viewer-excalidraw.png — A drawing in the Excalidraw editor, with Export open on the bar below it. */}
+<Frame caption="Drawings open in the Excalidraw editor.">
+  <img src="/images/workspace/viewer-excalidraw.png" alt="The Harbor documents session with booking-flow.excalidraw open in the Excalidraw viewer. The toolbar runs across the top, and the canvas shows a hand-drawn diagram headed Harbor Sailing School, Class booking · From choosing a course to stepping aboard, with boxes such as Browse classes, Choose class and time, Enter contact details and Waitlist confirmed, No payment, joined by arrows. Zoom controls and Add to chat and Export sit along the bottom." />
+</Frame>
 
 | Control | What it does |
 | --- | --- |
@@ -140,6 +149,18 @@ Drag to pan. Zoom with **Zoom in** and **Zoom out**, or hold <kbd>⌘</kbd> and 
 
 The pencil marks up the diagram. **Add to chat** then sends a picture of the whole diagram with your marks where you drew them. The small icons that mark a task's type are missing from that picture. A file that isn't valid BPMN shows "The diagram could not be drawn:" with the reason, and the **Source** view still shows the file.
 
+## Read Mermaid diagrams
+
+A Mermaid file, `.mmd` or `.mermaid`, opens in **Diagram** view, with **Source** beside it showing the text. Ask for a flowchart, a sequence diagram or any other diagram type Mermaid knows, and say you want it as a Mermaid file. A `mermaid` code block draws as a diagram in a Markdown file's preview and in the agent's replies too. When the agent writes a new version, the diagram updates in place.
+
+When a diagram is too big for the pane, it shrinks to fit and gains zoom: pinch, or hold <kbd>⌘</kbd> and scroll, drag to pan, double-click to reset, or use its **+** and **−** buttons. Click a node, a link or a link's label and press **Add to prompt** or <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>L</kbd>. The chip carries what it is, its text and its shape, for a flowchart node the links in and out with their labels, and the first line of the source that names it. Click the diagram's background or press <kbd>Esc</kbd> to let it go.
+
+<Frame caption="A Mermaid file opens as a diagram, with its source one click away.">
+  <img src="/images/workspace/viewer-mermaid.png" alt="The Harbor documents session with booking-flow.mmd open in the Mermaid viewer, with Diagram selected beside Source in its header. The diagram is a left-to-right flowchart of the booking flow, from browsing classes through choosing a class, checking seats and entering details to a confirmed booking or a waitlist." />
+</Frame>
+
+The pencil marks up the diagram. **Add to chat** then sends a picture of the diagram as shown, with your marks. Diagrams never run scripts, follow links or load images. A diagram that can't be drawn shows the reason instead, and **Source** still shows the file.
+
 <Note>
 People you [share the session](/sharing) with can page through a deck, open its notes and present it, but can't export it. They see drawings in view mode, where **Export** still works, and diagrams without the picker. None of the pointing tools appear for them, because they have no composer to attach to.
 </Note>
@@ -148,7 +169,7 @@ People you [share the session](/sharing) with can page through a deck, open its 
 
 <CardGroup cols={2}>
   <Card title="Point at and draw on your app" icon="arrow-pointer" href="/workspace/point-and-draw">
-    The same pencil, picker and paintbrush, on the running app in the Preview.
+    The same pencil, picker and Edit, on the running app in the Preview.
   </Card>
   <Card title="Skills that ship with Alpha" icon="wand-magic-sparkles" href="/skills/built-in-skills">
     What the Slides skill knows, and how to turn it off or call it by name.

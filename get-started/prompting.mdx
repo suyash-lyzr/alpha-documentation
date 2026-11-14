@@ -4,7 +4,7 @@ sidebarTitle: "Prompting"
 description: "Say what done looks like, give the agent a way to check it, and change one thing at a time."
 ---
 
-import { imageMax, promptMax, queueMax } from '/snippets/limits.mdx';
+import { imageMax, queueMax } from '/snippets/limits.mdx';
 
 A good prompt is a short brief: what should exist when the turn ends, how you will know it works, and what to leave alone. The agent does the rest, including testing its own work. For what each button in the composer does, see [The composer](/chat/composer). For choosing between plan mode, queueing and forking, see [Choose the right tool](/get-started/choose-the-right-tool).
 
@@ -95,24 +95,34 @@ Pointing beats describing. Each of these puts exact context ahead of your text, 
 
 | What you have | How to give it to the agent | Learn more |
 | --- | --- | --- |
-| A file: a spreadsheet, a PDF, a screenshot | **Add Attachment** (**+**) in the composer, or drag it onto the composer. Images up to [{imageMax}](/reference/limits) reach the agent as pictures it can see. | [Files and uploads](/workspace/files) |
+| A file: a spreadsheet, a PDF, a screenshot | **+** → **Add files** in the composer, or drag it onto the composer. Images up to [{imageMax}](/reference/limits) reach the agent as pictures it can see. | [Files and uploads](/workspace/files) |
 | A file already in the workspace | Type `@` and pick it, or drag it from the file tree | [The composer](/chat/composer) |
+| An artifact, yours or one shared with you | Type `@artifact:` and pick it. The agent can then read its files. | [Artifacts](/artifacts) |
 | Something on the page | **Select** in the Preview, then click the element | [Point at and draw](/workspace/point-and-draw) |
+| Words on the page you want changed | **Edit** in the Preview, click the text and type over it, then press **Send** in the bar along the bottom | [Point at and draw](/workspace/point-and-draw) |
 | A layout or visual problem | **Draw** in the Preview, mark it up, then **Add to chat** | [Point at and draw](/workspace/point-and-draw) |
 | An error in the app | Open **Logs** in the Preview and click the paperclip ("Attach the last lines to your next message") | [Preview your app](/workspace/preview) |
 | A few lines of code | Select them in the editor, then **Add selection to prompt** or <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>L</kbd> (Ctrl on Windows and Linux) | [Point at and draw](/workspace/point-and-draw) |
 
 <Frame caption="A chip waits above your text until you send.">
-  <img src="/images/workspace/pointing-chips-composer.png" alt="The composer of the Harbor bookings session with one chip above the typed text Make this text larger on mobile. The chip has a dashed-pointer icon, reads p and the quoted start of the paragraph it holds, Find your balance, catch t…, and has a small X on its right. Below the text sit the + button, the model chip gpt-6.… · high, the plan chip p… · on, a microphone and the white Send button." />
+  <img src="/images/workspace/pointing-chips-composer.png" alt="The composer of the Harbor bookings session with one chip above the typed text Make this headline smaller on phones. The chip reads h1 and the quoted start of the headline, Good days start on the wa…, with a small X on its right." />
 </Frame>
 
-Long text works better as a file than pasted in: one message holds at most [{promptMax}](/reference/limits).
+Long text, such as a log or a spec, is easier to work with as an attached file than pasted into the message.
 
 ## Let the agent ask
 
-When only you can decide something, the agent asks with a question card instead of guessing. Pick an option, type into **Something else…**, or choose **Skip — let the agent decide** to let it go with its recommendation.
+When only you can decide something, the agent asks instead of guessing. Its questions open in a dock just above the composer, one at a time, with "1 of 3" at the top when there are several, and a card titled **The agent has questions** in the transcript waits for you.
 
-When the shape of the work isn't settled yet, switch on [plan mode](/chat/plan-mode) with the plan chip or <kbd>⇧</kbd> <kbd>Tab</kbd>. The agent explores, asks a few questions and proposes a plan. It changes no files until you press **Implement this plan**.
+- **Pick an option.** For a question with one answer, a pick moves you to the next question. The agent's recommendation comes first.
+- **Write your own answer** in the **Something else** row.
+- **Skip** leaves this question to the agent and moves on.
+- **→** goes to the next question, and on the last one sends your answers ("Send answers").
+- **×** at the top right ("Skip all — let the agent decide") sends no answers, and the agent goes with its recommendations.
+
+Afterwards the card lists your answers, and "Left to the agent" for the ones you skipped. See [Answer the agent's questions](/chat/plan-mode#answer-the-agent’s-questions).
+
+When the shape of the work isn't settled yet, switch on [plan mode](/chat/plan-mode) with the **Build**/**Plan** chip at the right of the composer, or <kbd>⇧</kbd> <kbd>Tab</kbd>. The agent explores, asks a few questions and proposes a plan. It changes no files until you press **Implement this plan**.
 
 ## Keep keys out of your messages
 
@@ -137,10 +147,10 @@ One message with many unrelated asks gets uneven attention. Break it up.
 
 ## Start from an example prompt
 
-These come from the suggestion chips under the composer on the [home screen](/sessions/home-screen). Click a chip, hover a row to preview its prompt, and click the row to fill the composer. A pick replaces whatever you had typed, and nothing is sent, so edit it first.
+These come from the suggestion chips under the composer on the [home screen](/sessions/home-screen). Click a chip, hover a row to preview its prompt, and click the row to fill the composer. A pick replaces whatever you had typed (<kbd>⌘</kbd> <kbd>Z</kbd>, or Ctrl Z on Windows and Linux, brings your draft back), and nothing is sent, so edit it first.
 
-<Frame caption="The Apps list opens where the chip row was, and the highlighted row's prompt previews in the composer.">
-  <img src="/images/sessions/home-suggestions-open.png" alt="The home composer showing the first suggestion's full prompt in grey: Build a portfolio website to show my projects, with an about page and a contact form, then publish it live. Its bottom row shows the paperclip, the chips codex, gpt-6.1-sol · high, plan, blank machine and repos, the microphone and a dimmed round send button. Below it, in place of the suggestion chips, the Apps panel is open, with the Apps icon and title in its header and a close X on the right. Its rows read: Build a portfolio site and publish it live, highlighted with a chevron; Track habits with streaks and reminders; Take bookings for my small business; Manage my team's time-off requests; Run an online store with Stripe checkout; Make a neon snake game for the browser." />
+<Frame caption="The Apps list opens where the chip row was.">
+  <img src="/images/sessions/home-suggestions-open.png" alt="The home screen with the empty composer and, below it in place of the suggestion chips, the Apps panel open, with the Apps icon and title in its header and a close X on the right. Its rows read: Build a portfolio site and publish it live, highlighted with a chevron; Track habits with streaks and reminders; Take bookings for my small business; Manage my team's time-off requests; Run an online store with Stripe checkout; Make a neon snake game for the browser." />
 </Frame>
 
 <Tabs>

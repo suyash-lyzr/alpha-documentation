@@ -8,30 +8,26 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 
 Every session has a key that lets the app it builds call the apps and remote MCP servers you connected, with no app token anywhere in your code. The agent uses it for you; you only handle it yourself when you run an exported copy somewhere else. To connect something first, see [Connect an app](/integrations/connect-apps) or [MCP servers](/integrations/mcp-servers). For your own API keys, use [Secrets](/secrets).
 
-<Frame caption="The key sits at the top of the session's Secrets tab, masked until you click Reveal.">
-  <img src="/images/integrations/tools-key-card-masked.png" alt="The top of a session's Secrets tab. Under the heading This session, with a lock icon, a card titled This session's key reads: Set for you in every shell and on every deployment. For an exported copy, put these two in its .env. Rotating invalidates every copy; deployments need a redeploy. Below it are two rows in monospace: the address of your Alpha's tools, and the key shown as a row of dots, each with a copy icon at the right. Under the rows are three buttons: Reveal, Copy .env lines and Rotate." />
-</Frame>
-
 <Note>
-If the card says the tools service is off instead of showing the key, calling your connections from your app isn't turned on for your Alpha. Ask your administrator.
+If you see an error where the key should be, calling your connections from your app isn't turned on for your Alpha. Ask your administrator.
 </Note>
 
 ## How does your app reach your connections?
 
-Your app reads two values from its environment, an address and this session's key, and sends every call to Alpha. Alpha holds your sign-ins, attaches the right one and calls the app for you. Your app never sees the app's own token, so there is nothing to leak beyond the key itself.
+Your app uses this session's key, along with your Alpha's address, to call what you connected. Your sign-ins stay with Alpha, so your app never sees an app's own password or token, and there is nothing to leak beyond the key itself.
 
 ```mermaid
 flowchart LR
-  P[App in the Preview] --> G
-  D[Published app] --> G
-  E[Exported copy] --> G
-  G[Alpha] -->|your sign-in| C[Connected apps]
-  G -->|your sign-in| M[Remote MCP servers]
+  P[App in the Preview] --> K
+  D[Published app] --> K
+  E[Exported copy] --> K
+  K[Session key] --> C[Connected apps]
+  K --> M[Remote MCP servers]
   classDef focus stroke:#1A54F0,stroke-width:1.5px;
-  class G focus
+  class K focus
 ```
 
-The same code runs in all three places. Only the way the variables arrive changes:
+The same code runs in all three places. Only the way the app gets the key changes:
 
 | Where the app runs | How it gets the address and key |
 | --- | --- |
@@ -41,14 +37,14 @@ The same code runs in all three places. Only the way the variables arrive change
 
 ## Find this session's key
 
-The key card appears in two places. Both show the same key for the open session.
+The key appears in two places. Both show the same key for the open session.
 
 <Tabs>
   <Tab title="Secrets tab">
-    In a session, open the workspace's **+** menu and choose **Secrets**. The card **This session's key** sits at the top, under **This session**. The tab is for the session's owner <Badge>Owner only</Badge>. Viewers of a [shared session](/sharing) don't get it.
+    In a session, open the workspace's **+** menu and choose **Secrets**. **This session's key** sits in a column at the right, headed **This session**, beside the session's [secrets](/secrets). When the workspace is narrow, the column moves below the secrets. The tab is for the session's owner <Badge>Owner only</Badge>. Viewers of a [shared session](/sharing) don't get it.
   </Tab>
   <Tab title="Integrations">
-    Open **Integrations** in the sidebar, then **Connectors → Built in → Alpha tools**. The panel explains the built-in, shows the same card, and lists both variables under **What the agent gets**. With no session open, the card reads "Open a session to see the key its app and agents use."
+    Open **Integrations** in the sidebar, then **Connectors → Built in → Alpha tools**. Its detail explains the built-in, shows the same key, and lists both variables under **What the agent gets**. With no session open, it reads "Open a session to see the key its app and agents use."
   </Tab>
 </Tabs>
 
@@ -67,7 +63,7 @@ When you download or push an app and run it on your own machine or host, it no l
 
 <Steps>
   <Step title="Copy the lines">
-    On the key card, click **Copy .env lines**.
+    Under **This session's key**, click **Copy .env lines**.
   </Step>
   <Step title="Paste them into the app's .env">
     Add them, as they are, to the `.env` file the app loads at startup. The address points at your Alpha, so the place you run the app must be able to reach it.
@@ -89,7 +85,7 @@ Rotate as soon as the key leaks: pasted into a message, committed to a repositor
 
 | Where the old key was | What happens after **Rotate** |
 | --- | --- |
-| The session's machine | Alpha writes the new key into the machine and refreshes the agent's tools. If the agent is mid-turn, the refresh waits until the turn ends. A server already running in the Preview keeps the old key until it restarts. |
+| The session's machine | The session gets the new key at once, and so does the agent, after its current turn if one is running. An app already running in the Preview keeps the old key until it restarts. |
 | A published app | Its calls fail until you [republish it](/publish/manage#republish-your-changes). Republishing sets the new key. |
 | An exported copy | Its calls fail until you copy the new lines into its `.env`. |
 | Your other sessions | Unaffected. Each session has its own key. |
