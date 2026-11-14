@@ -4,9 +4,131 @@ sidebarTitle: "Changelog"
 description: "New features, improvements and fixes in Alpha."
 ---
 
-import { appUrl, turnMax, uploadMax, imageMax, fileDownloadMax, folderDownloadMax, queueMax, routineMinInterval } from '/snippets/limits.mdx';
+import { appUrl, feedbackFiles, turnMax, uploadMax, imageMax, fileDownloadMax, folderDownloadMax, queueMax, routineMinInterval } from '/snippets/limits.mdx';
 
 The changelog lists what changed in Alpha, newest release first. Each entry describes something you can see or do, and links to the section that explains it. For what Alpha does today, start with [How Alpha works](/get-started/how-alpha-works).
+
+<Update label="November 6, 2026" description="v0.2.0: artifacts, light and dark themes, secret sets" tags={["New", "Improved", "Fixed"]}>
+
+v0.2.0 brings **artifacts**, a page and link of their own for any file you want to keep or share, a redesign with **light and dark themes**, and **secret sets**, which let everyone fill in their own keys for a shared setup. The composer, the Shell and the agent's questions work differently too. v0.1.4 shipped the same changes earlier the same day; v0.2.0 is that release under its proper version number. Two changes ask something of you: [pin your sessions again](/sessions/organize#what-follows-you-to-another-device), and ask the agent to start any server you want to see in the Preview.
+
+### New
+
+- **Artifacts.** Click [**Publish as artifact**](/artifacts#from-the-file’s-tab) on a file tab, or [ask the agent](/artifacts#by-asking-the-agent), and the file gets its own page and link that open whether or not the session's machine is awake. Decks, HTML and Markdown keep the images they use, and a deck's PowerPoint and PDF are made when it's saved.
+- The [**Artifacts** page](/artifacts#find-your-artifacts-on-the-artifacts-page) in the sidebar lists yours and the ones shared with you, with search, a filter by kind, cards or a list, a Pinned shelf and [folders](/artifacts#organize-artifacts-in-folders). Drag a card onto a folder to move it.
+- [Share an artifact or a folder](/artifacts#share-an-artifact-or-a-folder) with people by email or with anyone who has the link. A folder's sharing covers everything in it, including what's added later.
+- Type `@artifact:` in the composer to [hand the agent an artifact](/chat/composer#hand-the-agent-an-artifact), and artifact links in the transcript [open in the side pane](/chat/transcript#open-files-from-the-chat).
+- **Light and dark themes.** [Settings → Appearance](/account/your-account#light-and-dark), or the switch at the top right of the home screen, offers **System**, **Light** or **Dark** on each device. With no choice saved, Alpha follows your computer.
+- [**Secret sets**](/secrets#secret-sets) are named lists of keys you attach to a session or a [setup](/sessions/setups#add-a-secret-set). Everyone who uses a shared setup fills in their own values and never sees yours, and a published app gets every key in the session's set.
+- The Shell [edits each line in your browser](/workspace/shell#type-at-the-prompt), so typing shows at once. <kbd>Tab</kbd> completes commands, files and variables, and the arrow keys bring back earlier lines.
+- [**Stop**](/publish/publish-your-app#stop-a-rollout) in the Publish tab ends a rollout that's queued or building, and the version already serving keeps serving.
+- [Mermaid diagrams](/chat/transcript#read-diagrams-in-a-reply) draw in replies and Markdown previews, and `.mmd` and `.mermaid` files [open in their own viewer](/workspace/decks-and-drawings#read-mermaid-diagrams).
+- The [Download the workspace](/workspace/files#download-what-the-agent-made) button in the files panel saves the whole workspace as a `.zip`, without dependency folders.
+- The session header shows the logos of the [connected services the session used](/integrations/overview#see-what-a-session-used).
+- The browser tab [shows a dot](/chat/transcript#know-when-the-agent-needs-you) while the open session waits for your answer, and the finish chime plays only when you aren't watching that session.
+- The Routines page offers [six templates](/routines#create-a-routine) with blanks to fill in. <kbd>Tab</kbd> and <kbd>⇧</kbd><kbd>Tab</kbd> move between the blanks.
+- The composer's [**+** menu](/chat/composer#add-repositories-skills-and-secret-sets) adds files, GitHub repositories, a skill or a secret set from inside a session.
+
+### Improved
+
+- **Ask the agent to start your app.** The Preview [now reaches only servers the agent started](/workspace/preview#how-does-my-app-get-here). Any other port, such as a server started in the Shell, answers "Port not previewable".
+- **Pin your sessions again.** Pins and each session's open tabs are now [saved to your account](/sessions/organize#what-follows-you-to-another-device), so they're the same on every device. Pins kept in your browser before this release aren't carried over.
+- Alpha is redesigned in warm greys with one terracotta accent, and the Publish, Auth, Secrets and Database tabs share one layout.
+- The agent's questions open [one at a time in a dock above the composer](/chat/plan-mode#answer-the-agent’s-questions). If you type a message while they wait, your message is the answer.
+- [Build and Plan](/chat/plan-mode#switch-plan-mode-on) are a chip on the composer's right, reasoning effort has [its own chip](/chat/agents-and-models#set-reasoning-effort), and the agent switch moved inside the [model chip](/chat/agents-and-models#pick-the-agent-for-a-new-session).
+- A new session [starts on the blank machine](/sessions/home-screen#set-up-the-next-session). The setup and repositories you pick sit in a tray under the composer.
+- **Global secrets** is now the [**Secrets** page](/secrets#find-your-secrets), and setups have their own [**Setups** page](/sessions/setups#find-your-setups). Both open from the account menu.
+- The agent [publishes only when you tell it to](/publish/publish-your-app#when-does-the-agent-publish). A finished task or a fix no longer counts as a request.
+- Routine schedules [read in plain words](/routines#set-the-timetable), such as "Weekdays at 9:00 · New York". The Edit form has no cron field, so ask the agent for an uneven timetable.
+- Back and Forward [move between pages and sessions](/sessions/start-a-session#open-a-session-in-a-new-tab) inside Alpha, and a sidebar row opens in a new tab with <kbd>⌘</kbd>-click or a middle click.
+- **Connect GitHub** [signs you in first](/github/connect#connect-github), and the GitHub tab's menu adds **Add organization** and **Switch account**.
+- A message no longer has a length limit, and an imported skill no longer has a file-count limit.
+- A deck [opens by itself](/workspace/files#which-files-open-by-themselves) only when the agent shows it, and Production Logs and Metrics open only from the workspace's **+** menu.
+- When your sign-in ends, an open Alpha page [returns to the sign-in screen](/account/your-account#sign-in-to-alpha) by itself.
+- The file tree appears about two seconds after a machine wakes, and more Word and Excel files open in the viewer.
+
+### Fixed
+
+- GitHub no longer stops working after eight hours with "Bad credentials". A connection GitHub refuses now offers [**Sign in again**](/github/connect#if-github-asks-you-to-sign-in-again).
+- An account that already had Alpha's GitHub app installed can connect GitHub again.
+- Tabs a turn opened are there when you come back to a session.
+- Files you ask for open by themselves even after a turn has written more than 40 files.
+- An answer sent the moment a question appeared is no longer refused.
+- Dictation with Wispr Flow lands every time, and pasted text always goes in.
+- **Add to prompt** goes away after you click elsewhere in the Office viewer and the code editor.
+- <kbd>Ctrl</kbd><kbd>C</kbd> in the Shell stops a running command.
+- A deck in the dark theme no longer shows its slide on a white stage.
+
+</Update>
+
+<Update label="October 30, 2026" description="v0.1.3: Codex reasons at xhigh effort by default" tags={["Improved"]}>
+
+New Codex sessions reason at **xhigh** effort by default again.
+
+### Improved
+
+- A Codex session that picks no effort now runs at [**xhigh**](/chat/agents-and-models#set-reasoning-effort), up from medium, and the effort picker shows xhigh until you pick another. Sessions started before this release keep medium until you pick an effort in them.
+
+</Update>
+
+<Update label="October 29, 2026" description="v0.1.2: retype text on the page, a new bug report panel, Published as cards" tags={["New", "Improved", "Fixed"]}>
+
+This release replaces v0.1.1's style panel with typing straight onto the page, rebuilds **Report a bug** as a panel you attach your own screenshots to, and shows the Published page as cards.
+
+### New
+
+- [**Edit**](/workspace/point-and-draw#retype-text-on-the-page) in the Preview, an HTML file or a deck lets you click any text and type over it. **Send** passes the changes to the agent, which puts them in the source.
+- [**Report a bug**](/account/your-account#report-a-bug-or-suggest-an-improvement) opens a panel at the bottom of the screen that leaves Alpha usable. Attach {feedbackFiles}, or use **Take screenshot** and crop it.
+- The [**Published** page](/publish/monitor#see-everything-you’ve-published) shows each app as a card with its address, session and state, and a recency menu narrows the list.
+
+### Improved
+
+- **Edit** changes text only. To change colours, sizes or spacing, [point at the element with **Select**](/workspace/point-and-draw#pick-an-element-in-the-preview) and ask the agent.
+- **Report a bug** no longer captures the screen by itself, and has no drawing tool.
+- The [sign-in screen](/account/your-account#sign-in-to-alpha) shows **Continue with Microsoft** first, then **Continue with Google**.
+- The sidebar's **New session** row shows its shortcut, <kbd>⌘</kbd><kbd>⇧</kbd><kbd>O</kbd>.
+- [Secrets](/secrets#name-rules-and-limits) accept names that start with `FORGE_`, except the ones Alpha sets itself.
+
+### Fixed
+
+- Sign-up and password reset in an [app with sign-in](/workspace/app-sign-in) work again while the app runs in its session. Restart an app that started before this release.
+
+</Update>
+
+<Update label="October 28, 2026" description="v0.1.1: several evals at once, editing in place, bug reports and the Integrations page" tags={["New", "Improved", "Fixed"]}>
+
+This release lets you run several evals at once, edit a page in place, and report a bug from inside Alpha. Integrations now has a page of its own.
+
+### New
+
+- Each eval [opens as its own tab](/evals/set-up#one-tab-per-eval), and evals run side by side. [**New eval**](/evals/set-up#set-up-another-eval) starts another eval of the same agent, and **All evals** lists every eval with how its newest run went.
+- Up to four test cases of a run [go at once](/evals/run#watch-pause-or-stop-a-run), and a line above the eval shows what's running and what it has spent so far.
+- The verdict [names the cases that failed outside the gate](/evals/results#cases-outside-the-gate), shows [each framework's result](/evals/results#by-target), and lets you [decide a split grade](/evals/results#decide-a-split-grade) or [grade again](/evals/results#fix-a-scorer-and-grade-again) at no model cost.
+- **Edit** in the Preview, an HTML file or a deck changed an element's text, colours or spacing in place. v0.1.2 replaced it with [text editing](/workspace/point-and-draw#retype-text-on-the-page).
+- **Report a bug** and **Send feedback** sent a screenshot of Alpha with your notes to the Alpha team. v0.1.2 [rebuilt it as a panel](/account/your-account#report-a-bug-or-suggest-an-improvement).
+- [Integrations](/integrations/overview#browse-the-catalog) is a page in the sidebar, and its search covers every tab.
+- **Group by → Unread** in the [sidebar](/sessions/organize#filter-group-and-sort-the-list) lists the sessions that moved on since you last looked, and right-clicking a group's name renames or deletes it.
+- **Republish** [opens a popover](/publish/manage#republish-your-changes) with the app's status, address and who can open it.
+
+### Improved
+
+- The [sign-in screen](/account/your-account#sign-in-to-alpha) offers only **Continue with Google** and **Continue with Microsoft**. Accounts that had only a password sign in with one of those instead.
+- **Send feedback** replaced **Reset session sandbox** in the account menu.
+- The agent, model and effort pickers [list options by name](/chat/agents-and-models#choose-a-model), with a short tag on each model and no "Server default" row.
+- In a Claude Code session, picking a skill after `/` [types it into your message](/chat/composer#mention-files-sessions-and-skills) instead of running it.
+- The Agent tab [opens on the framework the agent published](/agents/agent-tab#pick-the-framework), with a picker when there's more than one.
+- The Publish tab's [**Log**](/publish/publish-your-app#watch-the-rollout) shows the build as it happens on every version, and keeps following it.
+
+### Fixed
+
+- Codex sessions retry when the model reports that it's at capacity, instead of failing the turn.
+- A run that fails on a model key [names the key and offers **Open Secrets**](/evals/run#when-a-model-key-is-missing-or-refused).
+- The Evals tab loads on older sessions and on sessions reopened after going idle.
+- Relative images and links in a [Markdown preview](/workspace/file-viewers#read-markdown-and-html) resolve from the file's own folder.
+- A message sent while its file is still uploading waits for the upload, and comes back to the composer if it can't be sent.
+- A message you send while the agent's questions wait [goes into the turn](/chat/queue-and-steer#steer-while-the-agent-asks) instead of leaving the agent waiting.
+
+</Update>
 
 <Update label="October 26, 2026" description="v0.1.0: Alpha's first production release" tags={["New", "Improved", "Fixed"]}>
 
@@ -22,12 +144,12 @@ Alpha's first production release runs at {appUrl}. New lists what Alpha does. If
 - A built-in skill guides the agent when you ask for something people [talk to by voice](/agents/voice-agents), in the browser or over the phone.
 - After you confirm what will be served, the agent [publishes your app](/publish/publish-your-app#publish-your-app) under the name you choose, which becomes its address.
 - Once an app is live, the [**Production Logs** and **Production Metrics** tabs](/publish/monitor) show its log lines, requests, errors, latency and resource use.
-- The [**Published**](/publish/monitor#see-everything-you-ve-published) row in the sidebar lists every app and API published from your sessions, with its state and address.
+- The [**Published**](/publish/monitor#see-everything-you’ve-published) row in the sidebar lists every app and API published from your sessions, with its state and address.
 - A [routine](/routines) runs a command or an agent turn on a timetable, at most once every {routineMinInterval}, even when nobody has the session open.
 - Connectors, MCP servers and GitHub share one [Integrations catalog](/integrations/overview), and the agent can [ask you to connect](/integrations/connect-apps#when-the-agent-asks-you-to-connect) a service with a card in the transcript.
 - [Global secrets](/secrets#global-or-session-where-should-a-secret-live) reach every session you own, and a session's **Secrets** tab adds secrets only that session gets.
 - When the agent needs a key, it [posts a card instead of asking for it in a message](/secrets#what-happens-when-the-agent-needs-a-key), and **Add** opens the Secrets form with the name filled in.
-- [**Continue with Google** and **Continue with Microsoft**](/account/your-account#sign-in-to-alpha) sign you in to Alpha, and an address outside the allow-list [waits for an admin](/account/your-account#if-you-re-on-the-waitlist).
+- [**Continue with Google** and **Continue with Microsoft**](/account/your-account#sign-in-to-alpha) sign you in to Alpha, and an address outside the allow-list [waits for an admin](/account/your-account#if-you’re-on-the-waitlist).
 - Apps you build get [sign-in of their own](/workspace/app-sign-in) from the **Auth** tab, with the users who signed in and a way to revoke them.
 - Where a picture reads better than prose, the agent [draws its answer](/chat/interactive-answers) as tables, charts, maps, sliders, checklists or quizzes, and formulas show as [typeset math](/chat/interactive-answers#read-formulas-in-a-reply).
 - [Built-in viewers](/workspace/file-viewers) open PDFs, images, HTML, Word, Excel and PowerPoint files, CSV, Excalidraw and BPMN, and a `.tex` file [compiles to a PDF beside it](/workspace/file-viewers#build-a-latex-document).
