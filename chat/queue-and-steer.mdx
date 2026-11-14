@@ -4,7 +4,7 @@ sidebarTitle: "Queue, steer and stop"
 description: "Send a message while the agent works: queue it for later, steer it into the running turn, or stop the turn."
 ---
 
-import { queueMax, promptMax } from '/snippets/limits.mdx';
+import { queueMax } from '/snippets/limits.mdx';
 
 You never have to wait for the agent to finish before you type. A message you send mid-turn is either **queued**, to run as its own turn once the agent is done, or **steered** into the turn that is already running. **Stop** ends the turn instead. To write the message itself, with files, mentions and commands, see [the composer](/chat/composer).
 
@@ -39,16 +39,18 @@ Steer and Queue are the only two modes. A message sent while files are still upl
 
 While the agent works, <kbd>Enter</kbd> and the **↑** button send your message your default way, and <kbd>⌘</kbd><kbd>Enter</kbd> sends it the other way. Use Ctrl instead of ⌘ on Windows and Linux. Hover **↑** to check: its tooltip reads "Queue · ⌘⏎ to steer" or "Steer · ⌘⏎ to queue".
 
-Until you choose, the default is Queue. The first time a message lands in the queue, a card appears above it asking **Queue or steer new messages?** ("Queue waits for the agent to finish; Steer joins the running turn.").
+Until you choose, the default is Queue. The first time a message lands in the queue, a card above it asks **Steer new messages?**: "Steering sends new messages to the agent while it works, without stopping it. You can change this later in Settings." A line under it reminds you that <kbd>⌘</kbd><kbd>Enter</kbd> "sends a message the other way, whichever you choose."
 
-{/* screenshot to capture: /images/chat/chat-queue-or-steer-card.png — One answer sets your default for good. Steer also sends what's already waiting into the turn. */}
+{/* screenshot to capture: /images/chat/chat-queue-or-steer-card.png — One answer sets your default for good. Switch to Steer also sends what's already waiting into the turn. */}
 
 | You pick | Your default becomes | And |
 | --- | --- | --- |
-| **Queue** | Queue | Nothing else changes. |
-| **Steer** | Steer | The messages already waiting are steered into the running turn, in order. |
+| **Switch to Steer** | Steer | The messages already waiting are steered into the running turn, in order. |
+| **Keep queuing** | Queue | Nothing else changes. |
 
-Either answer hides the card for good, on every device. To change your mind later, open **Account menu → Settings** and set **New messages**, or use **More actions → New message settings** on any queued row. [Change your settings](/account/your-account#change-your-settings) covers the page. Buttons and forms inside the agent's [interactive answers](/chat/interactive-answers) don't follow this default: a click while the agent works is always sent as a steer.
+Either answer hides the card for good, on every device. To change your mind later, open **Account menu → Settings** and set **New messages** to **Queue** or **Steer**, or use **More actions → New message settings** on any queued row. [Change your settings](/account/your-account#change-your-settings) covers the page.
+
+Buttons and forms inside the agent's [interactive answers](/chat/interactive-answers) follow the same default. A click while the agent works is queued, or steered into the running turn when your default is Steer.
 
 ## Manage the queue
 
@@ -65,7 +67,7 @@ The queue panel sits on top of the composer. Its toggle, a count such as "3 queu
 | Trash (**Delete queued message**) | Removes the message. |
 | **More actions → New message settings** | Opens the Settings page. |
 
-A newly queued message shows dimmed, without actions, until Alpha has saved it. The queue holds at most [{queueMax}](/reference/limits), each up to [{promptMax}](/reference/limits). There is no reordering: a message keeps the place it was added in. Editing changes only the text, and context chips come back as plain text while you edit. Images attached to the message stay with it.
+A newly queued message shows dimmed, without actions, until Alpha has saved it. The queue holds at most [{queueMax}](/reference/limits). There is no reordering: a message keeps the place it was added in. Editing changes only the text, and context chips come back as plain text while you edit. Images attached to the message stay with it.
 
 Queued messages run in whatever mode the session is in, [plan mode](/chat/plan-mode) included. They belong to the session, so they keep waiting if you close the tab, and deleting the session deletes them.
 
@@ -89,6 +91,12 @@ While paused, **Send now** sends only that one message, and the rest stay paused
 A steer is part of the turn, not a new one. It shows dimmed with "Steering — joining the running turn…" until the agent takes it. In the transcript it then sits at the point it joined, with a corner-arrow badge underneath. [Follow the agent's work](/chat/transcript) explains the rest of the transcript.
 
 {/* screenshot to capture: /images/chat/chat-steer-badge.png — The badge marks where your message entered the agent's work. */}
+
+### Steer while the agent asks
+
+When the agent is waiting on [its questions](/chat/plan-mode#answer-the-agent’s-questions), a steered message answers them. That covers a message sent with Steer as your default, with <kbd>⌘</kbd><kbd>Enter</kbd> or with **Send now**. The agent gets your message in place of answers, the question dock closes, and the question card marks every question "Skipped". A queued message doesn't do this: it keeps waiting until the turn ends, and the questions keep waiting for you. An approval card in an older Claude Code session always waits for your click.
+
+### When a steer becomes a queued message
 
 Some activity can't take a steer. Alpha then queues the message instead, and it appears in the queue panel. This happens during `/compact` and `/review` ([slash commands](/reference/slash-commands)), while a turn is still starting, while a stopped turn is still winding down, and for a message longer than about 45 KB.
 

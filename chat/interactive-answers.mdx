@@ -1,7 +1,7 @@
 ---
 title: "Answers you can interact with"
 sidebarTitle: "Interactive answers"
-description: "When an answer is better seen than read, the agent draws tables, charts, sliders, maps, quizzes and math right in the chat."
+description: "When an answer is better seen than read, the agent draws tables, charts, sliders, maps, quizzes, diagrams and math right in the chat."
 ---
 
 import { PromptCard } from '/snippets/prompt-card.jsx';
@@ -74,14 +74,14 @@ Some controls work only in your browser. Others send a message, which appears in
 | What-if sliders and their fields | Every figure recomputes in your browser. Values settle when the pointer pauses, so a long drag updates in steps. | No |
 | Buttons, list items and follow-ups | Their text is sent as your next message. | Yes |
 | Forms | Submitting sends the button's text plus one `name: value` line per field you filled in. | Yes |
-| A clickable card | Sends its text plus a `Selected item: {…}` line with the card's details. | Yes |
+| A clickable card | Sends its text plus a line with the card's details. | Yes |
 | Links and copy buttons | Links open web pages (`http` and `https` only) in a new tab. Copy buttons copy to your clipboard. | No |
 | Quiz | Each answer is graded on the spot. **Next** moves on, **See results** shows how many you got right, and **Try again** starts over. | Only **Go over what I missed**, which sends your misses |
 | Flashcards | "Tap to flip", then **Didn't know** or **Knew it**. At the end, **Review the … you missed** or **Start over**. | No |
 | Timer and stepper | The timer's start, pause and reset buttons, and the stepper's − and +. | No |
 | Map | Tap a pin for its note. The scroll wheel or one finger scrolls the chat; <kbd>⌘</kbd> with the wheel, or two fingers, moves the map. Use Ctrl instead of ⌘ on Windows and Linux. | No |
 
-A block's buttons stay disabled until the agent's text moves past that block, not until the whole reply ends. A click sent while the agent is working always [steers](/chat/queue-and-steer) the running turn, whatever your default for typed messages. If the turn can't take it, the message waits in the queue instead.
+A block's buttons stay disabled until the agent's text moves past that block, not until the whole reply ends. A click sent while the agent is working goes the way a typed message would: it's queued, or steered into the running turn when your [default](/chat/queue-and-steer#choose-what-enter-does) is Steer. If the turn can't take a steer, the message waits in the queue instead.
 
 {/* screenshot to capture: /images/chat/genui-quiz.png — Each answer is graded the moment you pick it. Only Go over what I missed, at the end, talks to the agent. */}
 
@@ -97,6 +97,8 @@ Prices survive next to formulas: `$5 and $10`, `$HOME/$USER` and `($$)` stay as 
 
 {/* screenshot to capture: /images/chat/chat-math.png — Inline formulas sit in the sentence. Display formulas get a centred line of their own. */}
 
+Diagrams draw the same way. A ` ```mermaid ` block in a reply draws as a diagram once the block is complete, under a header whose **Copy** gives the Mermaid text. Ask for one by name, such as "explain the booking flow with a Mermaid diagram". [Read diagrams in a reply](/chat/transcript#read-diagrams-in-a-reply) covers zooming in.
+
 ## What are the limits?
 
 | Limit | What it means for you |
@@ -107,7 +109,7 @@ Prices survive next to formulas: `$5 and $10`, `$HOME/$USER` and `($$)` stay as 
 | Photos need the internet | With no network on the session's machine, or no good match, the agent draws without them. |
 | A block that fails shows its code | You see its source as a code block, so the answer is never blank. A formula that can't be parsed shows in red. |
 | Viewers look but can't send | People you [share the session](/sharing) with see every block. Clicks that would send a message do nothing for them. |
-| Math draws only in the chat | The **Plan** tab, the **Agent** tab and Markdown file previews show TeX as source. |
+| Math draws only in the chat | The **Plan** tab, the **Agent** tab and Markdown file previews show TeX as source. Mermaid diagrams draw in all three. |
 
 ## Turn it off
 
@@ -125,7 +127,7 @@ Interactive answers come from **Generative UI**, a [skill that ships with Alpha]
   </Step>
 </Steps>
 
-To ask for a drawn answer outright while the skill is on, mention it in your message: `$generative-ui` in Codex, `/generative-ui` in Claude Code. Math draws either way; it isn't part of the skill.
+To ask for a drawn answer outright while the skill is on, mention it in your message: `$generative-ui` in Codex, `/generative-ui` in Claude Code. Math and diagrams draw either way; they aren't part of the skill.
 
 <Note>
 <Badge>Admins only</Badge> Two more switches in the same dialog decide for every account. **Ships with Alpha** off moves Generative UI to the catalog, so it is only in the sessions of accounts that install it. **Let the agent use it on its own** off means only a mention runs it.

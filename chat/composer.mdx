@@ -4,19 +4,20 @@ sidebarTitle: "Composer"
 description: "Type, attach, dictate and mention: everything you can put in a message to the agent."
 ---
 
-import { promptMax, uploadMax, imageMax, dictationMax } from '/snippets/limits.mdx';
+import { uploadMax, imageMax, dictationMax } from '/snippets/limits.mdx';
 
 The composer is the box at the bottom of a session where you write to the agent: text, files, dictation, mentions and context picked from the workspace. Sending while the agent is still working has its own page, [Queue, steer or stop](/chat/queue-and-steer). For the composer before a session exists, see [The home screen](/sessions/home-screen).
 
-<Frame caption="Settings sit on the left of the composer. Voice and send sit on the right.">
-  <img src="/images/chat/chat-composer-overview.png" alt="The Harbor bookings session, with the sidebar collapsed to a menu button at the top left, then the title Harbor bookings and the Codex mark. The chat takes the left quarter. It ends with the agent's message that three choices will shape the plan, a card titled The agent has questions with a green check, listing three questions each answered Left to the agent — it went with In app only, Until class starts and Current browser, and a Proposed plan card titled Automatic class waitlist with a copy button and a chevron. The composer below shows the placeholder Describe what to plan…, then the + button, the model chip reading gpt-6.… · high and the plan chip reading p… · on on the left, and the microphone and a dimmed round send button on the right. The workspace fills the rest. Its tab strip reads Plan, Preview (in front), Shell, Database, Secrets, README.md and server.js, then the round + button, and at the right end the GitHub button, Share, the Publish pill and the files button. Under it, the Preview toolbar shows the Desktop, Tablet and Mobile icons, Back, Forward, Reload, the port pill reading node · 3000 and Logs, with Draw, Select and Open in new tab at the right. The frame shows the Harbor Sailing School app: the headline Good days start on the water., a sailboat photo with a round LESS LAND MORE SEA badge, This week's classes with a count of 3 and the date pill Oct 26 – Nov 1, 2026 · This week, the filters All classes, Beginner, Intermediate and All levels, and three class cards: Beginner Dinghy, Wednesday, Oct 28, 09:00 – 12:00, with Maya Chen; Intermediate Keelboat, Friday, Oct 30, 13:00 – 16:00, with Oliver Brooks; and Sunset Sail, Saturday, Oct 31, 16:30 – 18:30, with Sophie Laurent." />
+<Frame caption="The + menu, the model and the effort sit on the left of the composer. Build or Plan, voice and send sit on the right.">
+  <img src="/images/chat/chat-composer-overview.png" alt="A close crop of a session's composer with the placeholder Describe what to build — / for commands, @ for files…. Its bottom row shows the + button, the model chip with the OpenAI mark reading GPT-6.1-Sol and the effort chip reading xhigh on the left, and the Build chip and a dimmed round send button on the right." />
 </Frame>
 
 | Control | What it does |
 | --- | --- |
-| **+** (**Add Attachment**) | Uploads files into the session's machine |
-| Model chip | Shows the model, plus the reasoning effort once you've picked one. Click it, or type `/model`, to [change them](/chat/agents-and-models). |
-| **plan** chip | Opens a picker that turns [plan mode](/chat/plan-mode) **On** or **Off**. The chip reads **plan · on** while it's on. <kbd>⇧</kbd><kbd>Tab</kbd> switches it from the keyboard. |
+| **+** (**Add files, GitHub repos, a skill or a secret set**) | Opens a menu with **Add files**, **GitHub repos**, **Skills** and **Secret set**. See [the + menu](#add-repositories-skills-and-secret-sets). |
+| Model chip | Shows the agent's mark and the model in force, such as "Opus 5.5". Click it, or type `/model`, to [change the model](/chat/agents-and-models#choose-a-model). |
+| Effort chip | Shows a gauge and the reasoning effort in force, such as **xhigh**. Click it to [change the effort](/chat/agents-and-models#set-reasoning-effort). |
+| **Build** or **Plan** chip | Sits at the right, beside the microphone. Its menu offers **Build** ("Makes changes directly") and **Plan** ("Asks, then proposes a plan"), which turns on [plan mode](/chat/plan-mode). <kbd>⇧</kbd><kbd>Tab</kbd> switches between them from the keyboard. |
 | Microphone | Dictates into the composer |
 | **↑** (**Send message**) | Sends the message |
 | Square stop button (**Stop generating**) | Replaces send while the agent works and the composer is empty. It stops the turn, as <kbd>Esc</kbd> does. |
@@ -38,11 +39,11 @@ The placeholder tells you what the next message will do:
 
 In a narrow composer the longer placeholders are cut to their first half, such as "Describe what to build…".
 
-One message can be up to [{promptMax}](/reference/limits). A longer one is refused with "prompt too large", so attach long text as a file. If a send fails, the banner says why and your text goes back into the composer.
+If a send fails, the banner says why and your text goes back into the composer.
 
 ## Attach files
 
-Click **+** or drag files onto the composer. Each file uploads as soon as you attach it, not when you send, into `/workspace/uploads/` on the session's machine, where the agent opens it with its ordinary tools. Attaching wakes a sleeping machine.
+Click **+** → **Add files**, drag files onto the composer, or paste them. Each file uploads as soon as you attach it, not when you send, into `/workspace/uploads/` on the session's machine, where the agent opens it with its ordinary tools. Attaching wakes a sleeping machine.
 
 {/* screenshot to capture: /images/chat/chat-attachments.png — Tiles upload while you type. A tile that is still uploading doesn't hold up the rest of the message. */}
 
@@ -60,22 +61,40 @@ Each file can be up to [{uploadMax}](/reference/limits). If an upload goes wrong
 | Message | Meaning |
 | --- | --- |
 | A red alert icon on the tile | The upload failed. Hover the tile for the reason ("Upload failed" when there is none), then remove it and attach the file again. |
-| "An attachment failed to upload — the message wasn't sent." | A file that was still uploading when you sent failed. Your text is back in the composer. |
+| "An attachment failed to upload — the message wasn't sent." | A file that was still uploading when you sent failed. Your text and files are back in the composer. |
 | "The session was switched before the upload finished — the message wasn't sent." | You sent, then opened another session before a file finished uploading. The message goes back into its own session's composer, so go back and send it again. |
 
 Sent files show as tiles above your message in the transcript. [Files and uploads](/workspace/files) covers the `uploads` folder.
 
+## Add repositories, skills and secret sets
+
+The **+** menu gathers what you can bring into the session besides your words.
+
+| Menu item | What it does |
+| --- | --- |
+| **Add files** | Opens your computer's file picker. See [Attach files](#attach-files). |
+| **GitHub repos** | Opens the **GitHub** tab at **Add repository**, to clone a repository into the workspace. See [Add a repository](/github/connect#add-a-repository). |
+| **Skills** | Types `$` at the end of your message (`/` in a Claude Code session), which opens the list of skills the agent can use. |
+| **Secret set** | Opens a submenu of your [secret sets](/secrets#secret-sets). The row shows the set attached to the session, or "none". |
+
+In the **Secret set** submenu, pick one of your sets to attach it to the session, or **None** to take it off. A set with keys that have no value yet shows how many, such as "2 required". **Create a secret set** opens the editor on a new set, and saving it attaches it to the session. A set the session's [setup](/sessions/setups) brings is attached already, so it isn't listed.
+
 ## Mention files, sessions and skills
 
-Three characters open a list above the composer. Use <kbd>↑</kbd> <kbd>↓</kbd> to move, <kbd>Enter</kbd> to pick, and <kbd>Esc</kbd> to close.
+Three characters open a list above the composer. Use <kbd>↑</kbd> <kbd>↓</kbd> to move, <kbd>Enter</kbd> or <kbd>Tab</kbd> to pick, and <kbd>Esc</kbd> to close.
 
 | Type | Lists | Notes |
 | --- | --- | --- |
-| `/` at the start of the message | Commands | Opens only when the message is the command. Codex commands Alpha doesn't run yet show **not in Alpha yet**. See [Slash commands](/reference/slash-commands). |
+| `/` at the start of the message | Commands | Opens only when the message is the command. Codex commands Alpha doesn't run yet show **not in Alpha yet**. In a Claude Code session the list holds its skills too. See [Slash commands](/reference/slash-commands). |
 | `@` | Files and folders in the session's workspace | Up to 50 matches, with the matching letters highlighted. Picking one inserts `@path`, drawn as a badge. |
 | `@session:` and one word | Your other sessions whose messages or title contain that word | Up to 15 sessions. Picking one inserts a link the agent can open and read. |
+| `@artifact:` and a word | Your [artifacts](/artifacts) and the ones shared with you, by title or file name | Up to 50. Picking one inserts its link, drawn as a badge with its title. |
 | `$` | The skills the agent can use | Codex sessions. Picking one inserts `$skill-name`. |
-| `/` after other text | The skills the agent can use | Claude Code sessions, where a skill runs as `/name` |
+| `/` after other text | The skills the agent can use | Claude Code sessions. Picking one types `/skill-name` into your message. |
+
+The `@` list's footer reads "workspace files · @session:… · @artifact:…". Type three letters of `session:` or `artifact:` after `@`, and a row for that search ("Search your other sessions" or "Tag one of your artifacts") moves to the top of the list. Picking it leaves the list open for your word.
+
+In a Claude Code session, picking a skill from either `/` list doesn't run it. It types `/skill-name ` into the composer, and the message goes to the agent as an ordinary prompt with that text, so you can add what the skill should work on.
 
 {/* screenshot to capture: /images/chat/chat-at-mention-files.png — Typing after @ narrows the list to matching paths in the workspace. */}
 
@@ -86,6 +105,12 @@ You can also drag a file or folder from the file tree onto the composer to menti
 Type `@session:` and a word from the session you mean, such as `@session:booking`. Each hit shows the session's title, the date it was last active and a line from where the word matched. The search takes one word: a space after it closes the list. The session you're in is never listed.
 
 {/* screenshot to capture: /images/chat/chat-at-session-search.png — Each hit shows when its session was last active, so sessions with similar titles are easy to tell apart. */}
+
+### Hand the agent an artifact
+
+Type `@artifact:` and a word from the artifact's title or file name, such as `@artifact:timetable`. Each hit shows the artifact's title and its file. Your own artifacts and the ones shared with you are both listed.
+
+Before the turn starts, Alpha copies each tagged artifact's files into `artifacts/` in the workspace, in a folder of its own, at the paths it was saved with. The agent reads them there, so a page still finds its images. Alpha copies up to 10 artifacts per message, and only ones you can open. To keep a file of the session's as an artifact, see [Artifacts](/artifacts).
 
 ## Dictate a message
 

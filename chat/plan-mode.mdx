@@ -6,7 +6,7 @@ description: "Have the agent explore and propose a plan before it changes anythi
 
 import { PromptCard } from '/snippets/prompt-card.jsx';
 
-Plan mode makes the agent think before it builds. It reads the workspace, asks you a few multiple-choice questions and proposes a plan, and it changes no files until you click **Implement this plan**. Questions themselves aren't limited to plan mode: the agent asks with the same card whenever it needs a decision. To change direction while the agent is already building, [steer or queue](/chat/queue-and-steer) instead.
+Plan mode makes the agent think before it builds. It reads the workspace, asks you a few multiple-choice questions and proposes a plan, and it changes no files until you click **Implement this plan**. Questions themselves aren't limited to plan mode: whenever the agent needs a decision, you answer it one question at a time just above the composer. To change direction while the agent is already building, [steer or queue](/chat/queue-and-steer) instead.
 
 <Info>
 **Use plan mode when** the work is large, vague or hard to undo: a new feature across several files, a schema change, an existing repo you haven't read yet. You see the agent's understanding before a single file changes.
@@ -31,7 +31,7 @@ The agent explores without editing, asks what it can't work out on its own, then
 ```mermaid
 flowchart LR
   A[Plan mode on] --> B[Agent explores, no edits]
-  B --> C[Question card]
+  B --> C[Questions above composer]
   C --> D[You answer]
   D --> E[Proposed plan]
   E -->|Reply to refine| B
@@ -49,15 +49,15 @@ Plan mode belongs to the session and stays on until you switch it off. A change 
 
 | Way | What it does |
 | --- | --- |
-| The **plan** chip in the [composer](/chat/composer) | Opens a **Plan mode** picker with **On** and **Off** (**Off** is the **default**). The chip reads **plan · on** while it's on. |
-| <kbd>⇧</kbd><kbd>Tab</kbd> in the composer | Turns plan mode on or off without opening the picker. |
-| `/plan` | Opens the same picker. `/plan on` and `/plan off` switch it directly. |
+| The **Build** or **Plan** chip in the [composer](/chat/composer) | Sits at the right, beside the microphone. Its menu offers **Build** ("Makes changes directly") and **Plan** ("Asks, then proposes a plan"). The chip reads **Plan** while plan mode is on. |
+| <kbd>⇧</kbd><kbd>Tab</kbd> in the composer | Switches between Build and Plan without opening the menu. The menu's footer reminds you: "Switch with ⇧ Tab". |
+| `/plan` | Switches plan mode on or off. `/plan on` and `/plan off` set it directly. |
 | `/plan` followed by a task | Switches plan mode on and sends the task in one step. |
 
 All four work on the [home screen](/sessions/home-screen) too, for the session your prompt starts. With plan mode on, the composer's placeholder changes: "Describe what to plan — the agent explores and asks, then proposes a plan…" in a session, and "Describe what to plan — the agent explores and asks before proposing a plan…" on the home screen.
 
-<Frame caption="The plan chip's picker on the home screen, with On picked and Off as the default.">
-  <img src="/images/chat/chat-plan-chip-picker.png" alt="The Plan mode popover open above the home composer's plan chip, which has a drafting-compass icon, reads pl… · on and is highlighted. The header reads PLAN MODE. The On row has a check mark and reads Plan first. The agent explores the workspace, asks you a few questions and proposes a plan — it changes no files until you switch this off, or press Implement this plan in the Plan tab. The Off row has a default badge and reads Build straight away — the agent works on what you ask for. The footer reads For the session this prompt starts. Switch it later with /plan, or ⇧Tab in the composer. Behind the popover, the greeting Still up, Alex? Sa… shows at the left, and the composer's placeholder has changed to Describe what to plan — the agent e…, cut off by the popover. The composer's bottom row shows the paperclip, the agent chip cod…, the model chip gpt-6.1-s… · high, the plan chip, blank machi…, rep…, the microphone and a dimmed send button." />
+<Frame caption="The mode chip on the composer's right switches between Build and Plan.">
+  <img src="/images/chat/chat-plan-chip-picker.png" alt="A crop of the home composer with the Build chip's menu open. Build, with the line Makes changes directly, is checked. Plan reads Asks, then proposes a plan. The menu's footer reads Switch with ⇧ Tab." />
 </Frame>
 
 <PromptCard label="Try this">
@@ -72,30 +72,42 @@ Alpha will:
 
 1. Switch plan mode on for the session and send the task.
 2. Read the booking code and the database schema without changing a file.
-3. Ask you questions in a card, for example how a freed spot should be offered.
+3. Ask you questions above the composer, for example how a freed spot should be offered.
 4. Write the plan into the **Plan** tab and stop, waiting for you.
 
 ## Answer the agent's questions
 
-The agent asks with a card, never a numbered list, in every mode and in both agents. The card is titled "The agent has a question" or "The agent has questions", and the turn pauses on it with "Waiting for your answer".
+The agent asks with a set of questions, never a numbered list, in every mode and in both agents. They open in a dock just above the composer, one question at a time, and the turn pauses with "Waiting for your answer". In the transcript, a card titled "The agent has a question" or "The agent has questions" reads "Waiting for you" and "Answer it just above the message box."
 
-Pick an option for each question; one that takes several answers says "Pick any that apply." Where the agent allows it, click **Something else…** and type your own answer. Then click **Send answer**, or **Send answers** for several questions, which counts your answers once you've picked some, as in **Send answers (1/2)**; pressing <kbd>Enter</kbd> in a typed answer sends the card too. Sending with nothing picked shows "Pick an option or type an answer first — or skip." **Skip — let the agent decide** sends no answers, and the agent goes with its own recommendations.
+| In the dock | What it does |
+| --- | --- |
+| The question, with "1 of 3" and **‹** **›** | Where you are when there are several questions. The arrows move between them. |
+| Option rows | A round button for a question that takes one answer, a box for one that takes several. Picking a one-answer option moves on to the next question. |
+| "Something else" | A row for your own words, where the agent allows them. A question with no options shows "Type your answer" instead. |
+| **Skip** | Leaves this question to the agent and moves on. On the last question it sends your answers. |
+| **→** ("Next question", or "Send answers" on the last) | Moves on once this question has an answer. On the last question it sends every answer you gave. <kbd>Enter</kbd> in a typed answer does the same. |
+| **×** ("Skip all — let the agent decide") | Sends no answers at all. The agent goes with its own recommendations. |
 
-Once the agent has its answer, the card folds to a record of what happened:
+Dots in the footer show each question, with the answered ones filled; click a dot to go to that question. Beside them, the footer says how far along you are: "Pick one" for a lone question, "2 of 3 answered" for several, "2 selected" on a question that takes several answers, and "Sending your answers…" once they're on their way. If the answers can't be sent, the dock comes back as you left it, with the reason in the footer.
+
+A message you [steer](/chat/queue-and-steer#steer-while-the-agent-asks) while questions wait answers them too: the agent reads your message, and the card marks every question "Skipped". A queued message waits until the turn ends.
+
+Once the agent has its answer, the dock closes and the card in the transcript becomes a record of what happened:
 
 | The card shows | What it means |
 | --- | --- |
 | Your answer, with several joined by · | You answered. Answers to a secret question show as dots. |
+| "Skipped" | You steered a message while the questions waited, and the agent took your message instead. |
 | "Left to the agent — it went with …" | You skipped, and the agent took the option it had marked as recommended. |
 | "no answer — the agent decided on its own" | You skipped a question that had no recommended option. |
-| "The turn ended before this was answered." | The turn stopped or failed while the card was open. |
+| "The turn ended before this was answered." | The turn stopped or failed while the questions waited. |
 | "Not answered — the agent went on with its own judgement." | The agent stopped waiting and carried on. |
 
 <Frame caption="After a skip, the card folds to a record of the option the agent went with for each question.">
   <img src="/images/chat/chat-question-card.png" alt="The top of an answered question card in the Harbor bookings transcript, under the end of the agent's message, …booking cannot take the released seat. Three choices will shape the plan. The card is titled The agent has questions, with a question-mark icon and a green check at the right. It lists each question with what happened to it: How should someone learn that the waitlist has automatically booked them a seat?, Left to the agent — it went with In app only; Until when should members be able to cancel a booking and trigger automatic promotion?, Left to the agent — it went with Until class starts; and the start of How should people access cancellation and waitlist controls?, cut off at the bottom." />
 </Frame>
 
-An open question waits for you, even if you close the tab, so you can answer it later. Questions from the agent's helpers never reach you: they carry on with their own judgement, and their work shows in the [transcript](/chat/transcript). People you've [shared the session](/sharing) with see "Waiting for the session's owner to answer."
+Open questions wait for you, even if you close the tab, so you can answer them later. A browser tab with the session open shows a dot on its icon while they wait; see [Know when the agent needs you](/chat/transcript#know-when-the-agent-needs-you). Questions from the agent's helpers never reach you: they carry on with their own judgement, and their work shows in the [transcript](/chat/transcript). People you've [shared the session](/sharing) with see "Waiting for the session's owner to answer."
 
 ## Read and refine the plan
 
