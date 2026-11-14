@@ -8,7 +8,7 @@ import { memory, listenMax, buildMax } from '/snippets/limits.mdx';
 
 Once an app is live, two workspace tabs show how it behaves in production: **Production Logs** for every line it writes and every request it answers, and **Production Metrics** for its traffic, errors, speed and resource use. This page also covers the **Published** page and what to do when a version fails. To republish, roll back or change settings, see [Manage a published app](/publish/manage).
 
-Both tabs read from the live app, not from the session's machine, so they work while the machine sleeps. Only the session's owner sees them.
+Both tabs read from the live app, not from the session's machine, so they work while the machine sleeps. Only the session's owner sees them, and they open only when you pick them from **+**: the agent reading production never opens them for you.
 
 <Note>
 The production tabs appear in the **+** menu once one of the session's apps has gone live and has an address. If you don't see **Publish** at all, publishing isn't turned on for your Alpha.
@@ -44,11 +44,11 @@ Hover any line and a speech-bubble icon appears. It copies the line into the com
     Alpha adds the line after anything you've already typed, with the app, time, version and level, and terminal colour codes stripped. It is quoted as the app's output, so the agent treats it as data, not instructions.
   </Step>
   <Step title="Add context and send">
-    Nothing is sent until you press send. The agent is told to fix the cause, republish, and read the new version's logs before it reports done.
+    Nothing is sent until you press send. The pasted text ends with "What went wrong here? Fix it and redeploy.", so sending it as it is asks the agent to fix the cause and republish, and it reads the new version's logs before it reports done. To have the cause explained without a republish, change that last line before you send.
   </Step>
 </Steps>
 
-You can also describe the symptom in your own words. When you say a live app is broken or slow, the agent reads production logs and metrics before it changes any code, and opens the matching tab for you.
+You can also describe the symptom in your own words. When you say a live app is broken or slow, the agent reads production's logs and metrics before it changes any code, and quotes the line that explains the problem. Its reads don't open the production tabs: to look along with it, open **Production Logs** or **Production Metrics** from **+**. Once the fix is made, the agent says a republish would ship it and waits for you to ask. After you do, it reads the new version's logs once more before it reports done.
 
 ## Check traffic, errors and resources
 
@@ -72,22 +72,35 @@ Metrics arrive one to three minutes behind, so the last few minutes of traffic m
 
 ## See everything you've published
 
-The **Published** row in the sidebar, with a badge counting your apps, opens a list of every app and API published from your sessions. Use it to find an address or the session an app came from. Search by name, address or session, or filter with **All**, **Live**, **Publishing** and **Failed**.
+The **Published** row in the sidebar, with a badge counting your apps, opens a page of every app and API published from your sessions: "Every app and API published from your sessions, and the address each one answers at." Use it to find an address, get back to the session an app came from, or clear out apps you no longer need.
 
-{/* screenshot to capture: /images/publish/published-page.png — One row per app, newest publish first. A failed row shows its last error in red. */}
+{/* screenshot to capture: /images/publish/published-page.png — One card per app, newest publish first, two to a row on a wide screen. A failed card shows its last error in red. */}
 
-| Part of a row | What it tells you |
+Above the cards, narrow the list three ways. A count line under them reads, for example, "4 services · 3 live", or "2 of 4 services · 3 live" while a filter hides some.
+
+| Control | Options | What it does |
+| --- | --- | --- |
+| **Search by name, address or session** | Free text | Keeps apps whose name, address or session title contains the text. |
+| State | **All**, **Live**, **Publishing**, **Failed** | **Publishing** is any app with a rollout under way. |
+| Published within | **Any time**, **Today**, **Last 7 days**, **Last 30 days** | Filters by the app's last publish, counting calendar days with today included, as the sidebar does. |
+
+When nothing matches, the page reads "Nothing matches." Each card shows one app:
+
+| Part of a card | What it tells you |
 | --- | --- |
-| Name, tag, state | The app's name, a tag reading **App** or **API** (an agent's API, called from code), and its state: **live**, **failed**, or the step a publish is on, such as **building**. |
-| Address | Opens the app. Reads "No address yet" until a version goes live. |
-| from *session* | Opens the session. Also shows the folder, when it was last published, its number of versions, and "database" if it has a production database. |
-| **Copy link**, **Open** | Copy the address, or open it in a new tab. |
+| Mark, name, tag, region | The mark of the app's framework or runtime, its name, a tag reading **App** or **API** (an agent's API, called from code), and the region it runs in. |
+| from *session* | The session it was published from, then its folder when it isn't the workspace root, its number of versions once there's more than one, and "database" if it has a production database. |
+| Address | Opens the app in a new tab, with a copy button (tooltip "Copy link"). Reads "No address yet" until a version goes live, or "Not published — no address" for a failed app that never had one. |
+| Last error | On a failed app, the error of its last publish, in red. Hover it for the whole line. |
+| Footer | The state (**live**, **failed**, or the step a publish is on, such as **building**) and "published 2 h ago". Then **View session**, which opens the session; **Open app**, once it has an address; and a trash button. |
 
-The page is read-only and lists only your own sessions. Until you publish something, it reads "Nothing is published yet." To republish, roll back, edit settings or delete, use the session's **Publish** tab.
+The trash button (tooltip "Delete service and its database", or "Delete service") is off while the app is publishing. It turns the footer into "Delete harbor and its database?" with **Keep** and **Delete**. Deleting here is the same as **Delete service** on the [Publish tab](/publish/manage#delete-a-service): the app and its production database go for good.
+
+The page lists only your own sessions. Until you publish something, it reads "Nothing is published yet" and "Open a session and ask the agent to deploy its app; it shows up here, with the address it answers at." To republish, roll back or edit settings, use the session's **Publish** tab.
 
 ## When a publish fails
 
-A failed version never takes traffic. If an earlier version was serving, it keeps serving, so your live app doesn't go down. The **Publish** tab marks the step that failed and shows the first lines of the error and a hint. The version's **Log** opens by itself, with the build's own output, and the session's transcript gets a failure card with the same hint and the end of the log.
+A failed version never takes traffic. If an earlier version was serving, it keeps serving, so your live app doesn't go down. The **Publish** tab marks the step that failed and shows the first lines of the error and a hint. Under them, the version's **Log**, open as on every version, has the build's own output, and the session's transcript gets a failure card with the same hint and the end of the log.
 
 {/* screenshot to capture: /images/publish/publish-failed-version.png — The failed step is marked in red. The hint under the error says what usually causes it. */}
 
@@ -136,12 +149,19 @@ The agent reads the same log, so asking it is usually the fastest fix. The hints
 
     **Fix:** Hold less in memory, such as large files read whole or big in-process caches. The limit is set for your whole Alpha; ask your administrator if the app needs more.
   </Accordion>
+  <Accordion title="“The attached secret set needs … — nothing was deployed”">
+    **Causes:** A [secret set](/secrets#secret-sets) is attached to the session, or to the setup it started from, and every name in it goes to production. At least one of those names has no value of yours: not in the set, not as a secret of the session, and not among your global secrets. The version fails while planning, before anything is built, with the hint "add them on the Secrets page, then deploy again".
+
+    **Fix:** Open the **Secrets** page, fill in your value for each name the message lists, then publish again. A set someone shared with you through a setup needs your own values too.
+  </Accordion>
   <Accordion title="“Your organization policy forbids public services”">
     **Causes:** Your organization's settings don't allow apps that anyone can open, and published apps are public.
 
     **Fix:** This is a setting on your Alpha's side, not in your code. Pass the message to your administrator.
   </Accordion>
 </AccordionGroup>
+
+A version that fails with "the deployment was stopped" isn't an error: someone clicked [**Stop**](/publish/publish-your-app#stop-a-rollout) while it was building. Republish when you're ready.
 
 A hint about permissions or credentials is a setup problem on your Alpha's side that your code can't fix. Pass it to your administrator. For limits such as source size, see [Limits](/reference/limits).
 

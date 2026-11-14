@@ -12,7 +12,7 @@ Publishing puts your app on the internet at a public `https://` address that sta
 {/* screenshot to capture: /images/publish/publish-pill-idle.png — Nothing is published yet, so the pill beside Share reads Publish. */}
 
 <Note>
-Only the session's owner sees **Publish**. If you don't see it beside **Share** in your own session, publishing isn't turned on for your Alpha. Ask whoever runs it.
+Only the session's owner sees **Publish**. While a file's tab is in front, the same pill reads **Publish as artifact** and keeps that one file as an [artifact](/artifacts) instead; switch to any other tab to publish the app. If you don't see **Publish** beside **Share** in your own session, publishing isn't turned on for your Alpha. Ask whoever runs it.
 </Note>
 
 ## How does publishing work?
@@ -44,7 +44,8 @@ If the app needs a system package, such as `ffmpeg`, the agent adds it to the bu
 | --- | --- |
 | One app per directory | A top-level directory, or the workspace root, is one app. A front end and an API in two directories are two apps. |
 | Only that directory | Nothing outside it, and never `node_modules`, `.git`, build outputs or `.env` files. Production installs and builds from scratch. |
-| Only the secrets you pick | The agent asks which of your [secrets](/secrets) production gets and passes them by name. Values never appear in the transcript. |
+| The secrets you pick | The agent asks which of your [secrets](/secrets) production gets and passes them by name. Values never appear in the transcript. |
+| Every name in the session's secret sets | When a [secret set](/secrets#secret-sets) is attached to the session, or to the setup it started from, all its names go to production too, each with your value, without being picked. If one has no value of yours, nothing is published: the version fails with "the attached secret set needs STRIPE_SECRET_KEY — nothing was deployed". Fill in the value on the **Secrets** page, then publish again. |
 | The session's services, not their copies | With the database on, production gets [a database of its own](/publish/production-data). With sign-in on, it gets the same app sign-in. |
 
 <Warning>
@@ -70,7 +71,7 @@ Publishing is done by the agent, in the session, so you can see and answer every
 
 <Steps>
   <Step title="Click Publish">
-    Click **Publish** beside **Share**. While the agent is working, the pill is held and its tooltip reads "The agent is busy — ask once it is done", because a message then would [steer](/chat/queue-and-steer) the turn. The **Publish to production** box shows what ships: **Serves** is the process and port serving a page in the Preview, or "detected from the code". **Database** reads "its own, in production" or "none", **Sign-in** reads "on" or "off", and **Access** is always "Public · anyone with the URL".
+    With any tab but a file's in front, click **Publish** beside **Share** (tooltip "Publish this app to production"). While the agent is working, the pill is held and its tooltip reads "The agent is busy — ask once it is done", because a message then would [steer](/chat/queue-and-steer) the turn. The **Publish to production** box, headed by the region your app will run in, shows what ships: **Serves** is the process and port serving a page in the Preview, or "detected from the code". **Database** reads "its own, in production" or "none", **Sign-in** reads "on" or "off", and **Access** is always "Public · anyone with the URL".
 
     <Frame caption="Check what goes with the app before the agent starts.">
       <img src="/images/publish/publish-confirm-popover.png" alt="The Publish to production popover open below the Publish pill at the top right of the workspace, which follows the server.js tab, the + button and the GitHub and Share icons. Four rows follow: Serves, node · 3000 in monospace; Database, its own, in production; Sign-in, off; Access, Public · anyone with the URL. A grey note reads The agent names it (the name is its address), builds it from source and publishes it; the Publish tab follows the rollout. Cancel and a white Publish button with a rocket icon sit at the bottom right. Behind the popover, code from server.js shows at the left and the files panel, with the public folder open, at the right." />
@@ -91,7 +92,7 @@ Publishing is done by the agent, in the session, so you can see and answer every
 
 You can also start from the **Publish** tab: open it from **+** → **Publish**. Before anything is published, it reads "Ship this app to production" and lists the three stages, **Name it**, **Build** and **Serve**. **Publish with the agent** sends the same "Deploy this." as the pill, and is held at the same times.
 
-You can also ask the agent: "deploy", "publish", "ship it", "go live" and "put it online" all count. The agent never publishes unasked.
+You can also ask the agent in your own words.
 
 <PromptCard label="Publish from the chat">
 
@@ -106,6 +107,18 @@ Alpha will:
 1. Check what would be built, and fix anything that would stop it.
 2. Ask only what you haven't said. Here the name and the secret are given, so with one directory nothing is left to ask.
 3. Publish the app and post its address.
+
+### When does the agent publish?
+
+The agent publishes only when you tell it to: to publish, "deploy" or "redeploy" the app, or to put it online. Anything else isn't a request to publish, even when it sounds close:
+
+| Your message | Does the agent publish? |
+| --- | --- |
+| "Publish this", "deploy it", "redeploy harbor", "put it online" | Yes. |
+| A goal, such as "we need to ship this by Friday" | No. It says a publish would ship it, and stops there. |
+| A request for work or a fix, with no word about publishing | No. When the work is done, it says a publish would ship it, and stops there. |
+
+One request covers one publish of one app, until the agent reports it live. If the rollout fails, or the app refuses its own address, the agent fixes the cause and publishes again under the same request. Publishing a second directory, or republishing after the agent has reported the app live, for example to ship a fix, waits for you to ask again.
 
 ## Choose a name
 
@@ -138,22 +151,38 @@ You can't attach a domain you own. Where there is a domain, it is the same for e
 
 ## Watch the rollout
 
-The build usually takes 2–6 minutes. The **Publish** tab tracks the version through **Export**, **Plan**, **Build**, **Publish** and **Live**, each marked **Done**, **In progress**, **Failed** or **Waiting**. The pill beside **Share** reads **Publishing…** meanwhile. Open the **Log** fold to read the build as it runs; secret values show as `[redacted]`.
+The build usually takes 2–6 minutes. The pill beside **Share** reads **Publishing…** meanwhile, and clicking it opens the **Publish** tab. There, the service's state says which step it's on. On a first publish, "Your app's address appears here once it is live." holds the address's place; on a republish, the address stays, with "A new version is rolling out." under it. The new version sits at the top of **History**, marked **rolling out**, with its steps: **Export**, **Plan**, **Build**, **Publish** and **Live**, each marked **Done**, **In progress**, **Failed** or **Waiting**.
 
-{/* screenshot to capture: /images/publish/publish-rollout-in-progress.png — The build is under way. The address appears once it is live. */}
+{/* screenshot to capture: /images/publish/publish-rollout-in-progress.png — The build is under way: the steps, Stop in the header, and the Log following the build. */}
+
+Under the steps, the version's **Log** is already open. It shows the build's own output as it streams in, marked **live**, and reads "waiting for the image build…" until the first line arrives. Secret values show as `[redacted]`.
+
+| Log control | What it does |
+| --- | --- |
+| **follow** | Keeps the newest lines in view. Scrolling up lets go; scrolling back to the bottom picks it up again. |
+| Copy button (tooltip "Copy the log") | Copies the whole log. |
+| **Hide log** / **Show log** | Folds the log away under the version, or brings it back. |
+
+Every version has a log, not only a failed one. A version published before Alpha kept build output reads "no build output for this version".
 
 The transcript gets a card when the publish starts and one when it ends, visible to anyone who can read the transcript. **Publish tab** in each card opens the tab.
 
 | Card | It reads |
 | --- | --- |
 | Started | That harbor is being published, with a pointer to the **Publish** tab to follow the build. |
-| Live | That harbor is published and how long it took, what went with it, and the address. The pill becomes **Republish**, with a link icon that copies the address. |
+| Live | That harbor is published and how long it took, what went with it, and the address. The pill becomes **Republish**, which opens a popover with the address and **Republish** (see [Republish your changes](/publish/manage#republish-your-changes)), and a link icon beside it copies the address. |
 | Live, in yellow | The same, plus a hint starting "The service is up, but …": the app refuses its own hostname. The agent fixes the config and republishes. |
 | Failed | "Publishing harbor failed while building the image: …", a hint and a foldable log tail. Fixes for each hint are in [Troubleshooting and FAQ](/reference/troubleshooting#a-publish-fails). |
 
 {/* screenshot to capture: /images/publish/publish-chat-card-live.png — The live card carries the address and what went with the app. */}
 
 A session publishes one app at a time; meanwhile the buttons are held with "A rollout is in progress". You can close the browser. The publish runs on Alpha's side, and the machine stays awake until it ends.
+
+### Stop a rollout
+
+While a version is queued, or in **Export**, **Plan** or **Build**, the service's header shows **Stop** (tooltip "Stop this rollout — the version serving, if any, stays as it is"). Click it to end the rollout at once. The version is marked **failed** with "the deployment was stopped", and if an earlier version was serving, it keeps serving.
+
+**Stop** disappears once the version reaches **Publish**, because the switch to the new version finishes either way. Stopping the agent's turn in the transcript stops only the turn, never a rollout that has started.
 
 ## Limits
 

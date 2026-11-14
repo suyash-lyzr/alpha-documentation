@@ -11,7 +11,7 @@ The **GitHub** tab is the session's git panel: you switch branches, commit what 
 
 Open it with **GitHub** in the workspace header, beside **Share**. Only the session's owner sees it.
 
-{/* screenshot to capture: /images/github/github-tab-overview.png — One repository, top to bottom: branch, changes, pull requests, then the account commits are authored as. */}
+{/* screenshot to capture: /images/github/github-tab-overview.png — One repository, top to bottom: the account commits are authored as, the repository with its pull request button, then branch, changes and pull requests. */}
 
 Pick the place by what you want to do:
 
@@ -19,7 +19,7 @@ Pick the place by what you want to do:
 | --- | --- |
 | Switch to a branch or start a new one | The branch row in the **GitHub** tab |
 | Commit and push what changed | **Changes** in the **GitHub** tab |
-| Open a pull request | The tab's footer button, **Create pull request** |
+| Open a pull request | The pull request button in the tab's header, **Create pull request** |
 | Put a project the agent built on GitHub for the first time | **Publish to GitHub** |
 | Have the changes checked before you merge | `/review` |
 | Read the raw diff in the transcript | `/diff` |
@@ -71,26 +71,26 @@ A commit always includes every listed file. To commit only some, ask the agent. 
 
 ## Open a pull request
 
-The footer button reads **Create pull request**, or **Push & create PR** when the branch has commits GitHub doesn't have yet or has never been pushed. Alpha pushes the branch for you first.
+The pull request button sits in the tab's header, beside **Refresh from GitHub**. It reads **Create pull request**, or **Push & create PR** with the number of commits to push when the branch has commits GitHub doesn't have yet or has never been pushed. Alpha pushes the branch for you first.
 
 <Steps>
   <Step title="Commit your changes">
-    The footer button appears only when **Changes** is empty. On the default branch it stays greyed out.
+    The pull request button appears only when **Changes** is empty. On the default branch it stays greyed out.
   </Step>
   <Step title="Open the form">
-    Click the footer button. The **New pull request** view shows your branch → a base selector set to the default branch, and a count such as "3 commits ahead of origin/main · will push first".
+    Click the pull request button. The **New pull request** view shows your branch → a base selector set to the default branch, and a count such as "3 commits ahead of origin/main · will push first".
   </Step>
   <Step title="Write the title and description">
     **Title** starts as your last commit's subject. **Describe the change… (optional)** is free text. Tick **Create as draft** for a draft pull request.
   </Step>
   <Step title="Create it">
-    Click **Create pull request**, or **Push & create pull request** when the branch still needs pushing. The footer turns into **View PR #12**, which opens the pull request on GitHub.
+    Click **Create pull request**, or **Push & create pull request** when the branch still needs pushing. The button turns into **View PR #12**, which opens the pull request on GitHub.
 
     {/* screenshot to capture: /images/github/github-new-pr.png — The form pushes the branch first when it needs to, then opens the pull request. */}
   </Step>
 </Steps>
 
-The footer button is greyed out, with the reason as its tooltip, in these cases:
+The pull request button is greyed out, with the reason as its tooltip, in these cases:
 
 | Tooltip | What to do |
 | --- | --- |
@@ -109,10 +109,10 @@ The footer button is greyed out, with the reason as its tooltip, in these cases:
     Alpha lists `/workspace` and each project folder in it, such as "12 items · main · 3 commits · uncommitted changes" or "will run git init". Folders already linked to GitHub are greyed out.
   </Step>
   <Step title="Pick the owner, name and visibility">
-    Choose your account or a connected organization from the chips. **Repository name** is filled in from the folder: letters, digits, `-`, `_` and `.`, up to 100 characters. New repositories are **Private** unless you pick **Public**.
+    Under **Repository**, the **Owner** chips list your own account first, then each connected organization, and end in **Add organization**. If the owner you pick isn't connected yet, a line reads "GitHub isn't connected for harbor-dev yet — nothing can be created there until it is." with **Connect harbor-dev**, and the create button stays off until you do. The repository name is filled in from the folder: letters, digits, `-`, `_` and `.`, up to 100 characters. **Description (optional)** goes on the repository's GitHub page. Under **Visibility**, new repositories are **Private** ("Only you and people you invite") unless you pick **Public** ("Anyone on the internet can see it").
   </Step>
   <Step title="Create and push">
-    Click **Create repository & push**. When it's done, **Done** takes you to the tab with the new repository attached.
+    Click **Create repository & push**; the line beside it says what happens, such as "Creates harbor-dev/harbor-site, initializes git with a starter .gitignore, and pushes everything." The button reads **Creating & pushing…** meanwhile. When it's done, the view reads **Published to GitHub**: "The code is pushed, and this session now works on the repository.", with the new repository, its visibility and branch, and **Open on GitHub**. Click **Go to the repository** to return to the tab with it attached.
 
     {/* screenshot to capture: /images/github/github-publish-form.png — Pick the folder, the owner and the visibility. Alpha does the rest in one push. */}
   </Step>
