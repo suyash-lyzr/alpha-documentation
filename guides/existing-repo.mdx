@@ -33,7 +33,9 @@ If the GitHub card says "GitHub isn't set up on this server yet — ask whoever 
 
     You do this once per account: every session you own can use `git` and `gh` with your GitHub account, and your token never shows in the transcript. To add an organization later, click **add organization** at the top of the same popover, or open the **GitHub** tab in a session and choose **Manage** → **Add organization**. [Connect GitHub and add repositories](/github/connect) covers organizations and access requests.
 
-    {/* screenshot to capture: /images/github/github-connect-card.png — The GitHub tab's connect card lists what connecting unlocks. In the home screen's Repositories popover the same button appears without the list. */}
+    <Frame caption="The GitHub tab's connect card lists what connecting unlocks. In the home screen's Repositories popover the same button appears without the list.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/github/github-connect-card.webp" alt="A GitHub icon above the heading Connect GitHub and the line Sign in with GitHub, and choose the repositories Alpha may work in. Three rows follow: Clone your repositories into a session; Commit, push and open pull requests; Search your repositories, private ones too. Below them a dark Connect GitHub button." />
+</Frame>
   </Step>
 
   <Step title="Stage the repository and its branch">
@@ -73,7 +75,7 @@ If the GitHub card says "GitHub isn't set up on this server yet — ask whoever 
     To check the work yourself, open the workspace's **+** menu ("Open a tab, or turn on a service") and choose **Shell** under **Add a tab**. The [Shell](/workspace/shell) is a terminal on the same machine, in the same folder the agent works in. Run `cd harbor-api && npm test`. Files you change there are files the agent sees on its next turn.
 
     <Frame caption="The Shell is a real terminal in the session’s machine.">
-      <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/shell-tab.webp" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Preview, Shell, Database, Auth and Secrets, and a bash status pill with a green dot, a clear button and a restart button sit at the right. The dark terminal shows a PostgreSQL prompt, harbor=#, the query SELECT title, capacity FROM classes ORDER BY title; and its result: Beginner dinghy 6, Intermediate keelboat 4 and Sunset cruise 8, (3 rows), then a fresh prompt. The chat on the left ends with the agent describing what a first-time sailor sees on the booking page: this week's Beginner dinghy, Intermediate keelboat and Sunset cruise classes, each with a Book a place button." />
+      <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/workspace/shell-tab.webp" alt="The Harbor bookings session with the Shell tab in front. The tab strip reads Preview, Shell, Database, Auth and Secrets, and a bash status pill with a green dot, a clear button and a restart button sit at the right. The dark terminal shows a PostgreSQL prompt, harbor=#, the query SELECT title, capacity FROM classes ORDER BY title; and its result: Beginner dinghy 6, Intermediate keelboat 4 and Sunset cruise 8, (3 rows), then a fresh prompt. The chat on the left ends with the agent describing what a first-time sailor sees on the booking page: this week's Beginner dinghy, Intermediate keelboat and Sunset cruise classes, each with a Book a place button." />
     </Frame>
   </Step>
 

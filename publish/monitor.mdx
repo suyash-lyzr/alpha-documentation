@@ -18,7 +18,9 @@ The production tabs appear in the **+** menu once one of the session's apps has 
 
 Open **+** → **Production Logs**. Newest lines sit at the bottom, like a terminal. The tab loads new lines by itself, or right away from the refresh button. It opens on the app you published most recently; if the session has more than one, switch with the app menu at the left of the filter row.
 
-{/* screenshot to capture: /images/publish/prod-logs-tab.png — Errors stand out with a red bar and an ERR tag. The strip above the lines counts them for you. */}
+<Frame caption="Errors stand out with a red bar and an ERR tag. The strip above the lines counts them for you.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/prod-logs-tab.webp" alt="The Harbor bookings session with the Production Logs tab open. The filter row reads harbor-bookings, Search the lines…, Last hour, All levels, All lines and an updated time; the strip below reads 38 lines · last 1h · 4 error lines · 2 failed requests and newest at the bottom · reads again every minute. Request lines show the method, path, status and time, such as GET /classes/sunset-cruise 200 30 ms. Two WARN lines have amber bars, GET /favicon.ico 404 and a slow query on classes, and two red ERR pairs read POST /api/bookings 500 followed by Booking failed for sunset-cruise with a TypeError and its stack trace." />
+</Frame>
 
 | Control | Options | What it does |
 | --- | --- | --- |
@@ -54,7 +56,9 @@ You can also describe the symptom in your own words. When you say a live app is 
 
 Open **+** → **Production Metrics**. The tab, titled **Monitoring**, has two cards, and each card has its own period: **Past one hour**, **Past 24 hours** or **Past one week**. **Performance** starts on the past week and **Resources** on the past hour.
 
-{/* screenshot to capture: /images/publish/prod-metrics-tab.png — Performance answers whether the app is up and fast. Resources answers whether it's running out of room. Illustrative values. */}
+<Frame caption="Performance answers whether the app is up and fast. Resources answers whether it's running out of room. Illustrative values.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/prod-metrics-tab.webp" alt="Two cards. PERFORMANCE, set to Past one week, has a Requests chart of daily traffic peaks from Nov 8 to Nov 15 with Connected and Failed lines, then HTTP Statuses (2xx, 3xx, 4xx, 5xx) and Request Durations in ms (p50, p95, p99, with occasional p99 spikes). RESOURCES, set to Past one hour, shows CPU Utilization around 25% and Memory Utilization around 40% of the limit." />
+</Frame>
 
 | Chart | Lines | Read it as |
 | --- | --- | --- |
@@ -74,7 +78,9 @@ Metrics arrive one to three minutes behind, so the last few minutes of traffic m
 
 The **Published** row in the sidebar, with a badge counting your apps, opens a page of every app and API published from your sessions: "Every app and API published from your sessions, and the address each one answers at." Use it to find an address, get back to the session an app came from, or clear out apps you no longer need.
 
-{/* screenshot to capture: /images/publish/published-page.png — One card per app, newest publish first, two to a row on a wide screen. A failed card shows its last error in red. */}
+<Frame caption="One card per app, newest publish first, two to a row on a wide screen. A failed card shows its last error in red.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/published-page.webp" alt="The Published page with 3 SERVICES, a search box Search by name, address or session, the filters All, Live, Publishing, Failed and Any time, and the count 3 SERVICES · 2 LIVE. The harbor-api card (API, from Harbor booking agent) reads Not published — no address with the red error The app never listened on 0.0.0.0:8080 within 4 minutes and failed · published 41 min ago. The harbor-bookings card (App, from Harbor bookings · 3 versions · database) shows harbor-bookings.apps.example.com and live · published 2 h ago with View session and Open app. The harbor-triage card (API, 2 versions) shows harbor-triage.apps.example.com and live · published 1 d ago." />
+</Frame>
 
 Above the cards, narrow the list three ways. A count line under them reads, for example, "4 services · 3 live", or "2 of 4 services · 3 live" while a filter hides some.
 
@@ -102,7 +108,9 @@ The page lists only your own sessions. Until you publish something, it reads "No
 
 A failed version never takes traffic. If an earlier version was serving, it keeps serving, so your live app doesn't go down. The **Publish** tab marks the step that failed and shows the first lines of the error and a hint. Under them, the version's **Log**, open as on every version, has the build's own output, and the session's transcript gets a failure card with the same hint and the end of the log.
 
-{/* screenshot to capture: /images/publish/publish-failed-version.png — The failed step is marked in red. The hint under the error says what usually causes it. */}
+<Frame caption="The failed step is marked in red. The hint under the error says what usually causes it.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/publish-failed-version.webp" alt="HISTORY with Version 4 · failed, 14 min ago · from the dialog · 1m 24s. Its steps read Export Done, Plan Done, Build Failed, then Publish and Live Waiting. A red box reads the build ended with FAILURE and Dependency install failed — make sure the lockfile matches the manifest and every dependency exists. Below it are Version 3 · live and Versions 2 and 1 · ready, each with Roll back." />
+</Frame>
 
 The agent reads the same log, so asking it is usually the fastest fix. The hints below are quoted as they appear; [Troubleshooting](/reference/troubleshooting#a-publish-fails) collects them with the rest.
 

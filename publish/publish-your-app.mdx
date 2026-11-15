@@ -9,7 +9,9 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 
 Publishing puts your app on the internet at a public `https://` address that starts with a name you choose. The agent asks for the name, then Alpha builds a fresh copy of your app and runs it on Alpha's cloud, so it stays up while the session's machine sleeps. To change or roll back an app that is already live, see [Manage a published app](/publish/manage). To show work in progress instead, [share the session](/sharing).
 
-{/* screenshot to capture: /images/publish/publish-pill-idle.png — Nothing is published yet, so the pill beside Share reads Publish. */}
+<Frame caption="Nothing is published yet, so the pill beside Share reads Publish.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/publish-pill-idle.webp" alt="The Harbor bookings session with the chat on the left and the Preview tab on the right showing the Harbor Sailing School booking page. In the workspace header, beside the Share and GitHub buttons, a pill with a rocket icon reads Publish." />
+</Frame>
 
 <Note>
 Only the session's owner sees **Publish**. While a file's tab is in front, the same pill reads **Publish as artifact** and keeps that one file as an [artifact](/artifacts) instead; switch to any other tab to publish the app. If you don't see **Publish** beside **Share** in your own session, publishing isn't turned on for your Alpha. Ask whoever runs it.
@@ -73,6 +75,9 @@ Publishing is done by the agent, in the session, so you can see and answer every
   <Step title="Click Publish">
     With any tab but a file's in front, click **Publish** beside **Share** (tooltip "Publish this app to production"). While the agent is working, the pill is held and its tooltip reads "The agent is busy — ask once it is done", because a message then would [steer](/chat/queue-and-steer) the turn. The **Publish to production** box shows what ships: **Serves** is the process and port serving a page in the Preview, or "detected from the code". **Database** reads "its own, in production" or "none", **Sign-in** reads "on" or "off", and **Access** is always "Public · anyone with the URL".
 
+    <Frame caption="What ships with a first publish, before the agent is asked.">
+      <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/publish-confirm-popover.webp" alt="The body of the Publish to production popover. Four rows: Serves node · 3000, Database its own, in production, Sign-in on, and Access Public · anyone with the URL. Below them: The agent names it (the name is its address), builds it from source and publishes it; the Publish tab follows the rollout. Buttons Cancel and Publish." />
+    </Frame>
   </Step>
   <Step title="Send the request">
     Click **Publish** in the box. Alpha sends "Deploy this." to the agent, as if you had typed it. One click sends one message.
@@ -142,7 +147,9 @@ Where your Alpha has its own domain, the app is also at `https://<name>.<domain>
 | Ready | The domain becomes the main address everywhere, with the app's first address under it. |
 | Failed | "could not be mapped" and the reason. The app's first address keeps working; a domain problem never fails the publish. |
 
-{/* screenshot to capture: /images/publish/publish-domain-ready.png — Once the certificate is ready, the domain is the address you share. */}
+<Frame caption="Once the certificate is ready, the domain is the address you share.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/publish-domain-ready.webp" alt="The harbor-bookings header, marked live, with Edit settings, Republish and ⋯. Below it the address harbor-bookings.apps.example.com has a copy button and Open, with the smaller line also harbor-bookings-4k2p.apps.example.com." />
+</Frame>
 
 You can't attach a domain you own. Where there is a domain, it is the same for every app on your Alpha.
 
@@ -150,7 +157,9 @@ You can't attach a domain you own. Where there is a domain, it is the same for e
 
 The build usually takes 2–6 minutes. The pill beside **Share** reads **Publishing…** meanwhile, and clicking it opens the **Publish** tab. There, the service's state says which step it's on. On a first publish, "Your app's address appears here once it is live." holds the address's place; on a republish, the address stays, with "A new version is rolling out." under it. The new version sits at the top of **History**, marked **rolling out**, with its steps: **Export**, **Plan**, **Build**, **Publish** and **Live**, each marked **Done**, **In progress**, **Failed** or **Waiting**.
 
-{/* screenshot to capture: /images/publish/publish-rollout-in-progress.png — The build is under way: the steps, Stop in the header, and the Log following the build. */}
+<Frame caption="The build is under way: the steps, Stop in the header, and the Log following the build.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/publish-rollout-in-progress.webp" alt="The Publish tab for harbor-bookings, marked building. The header shows Edit settings and Republish greyed out, plus Stop and ⋯, and the pill beside Share reads Publishing…. The address harbor-bookings.apps.example.com has A new version is rolling out. under it, then the Production database card. Under History, Version 6 · rolling out · started 1 min ago · by the agent shows the steps Export Done, Plan Done, Build In progress, Publish Waiting and Live Waiting, then Building the app. Its Log, marked live, reads Publishing harbor-bookings, version 6, Detected Node · Express · start: npm start, the environment with both Stripe keys [redacted], Database: harbor_bookings, Installing dependencies… added 214 packages in 17s and Building the app…. A Details rail on the right lists the stack, start command, port, environment and services." />
+</Frame>
 
 Under the steps, the version's **Log** is already open. It shows the build's own output as it streams in, marked **live**, with a waiting line until the first line arrives. Secret values show as `[redacted]`.
 

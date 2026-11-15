@@ -12,7 +12,9 @@ A published app takes your session's database and sign-in with it. If the sessio
 The production database starts empty. Your session's tables and rows stay in the session. An app that queries its tables fails until production has them, so give it a schema before you send anyone the address.
 </Warning>
 
-{/* screenshot to capture: /images/publish/database-production-grid.png — Production's own database, browsed from the Database tab. The PROD tag says which one you're looking at. */}
+<Frame caption="Production's own database, browsed from the Database tab. The PROD tag says which one you're looking at.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/database-production-grid.webp" alt="The Database tab with its database pill reading harbor-bookings PROD, and Connect and ⋯ on the right. The table list shows bookings, classes, members, schema_migrations and sessions. classes is open on Data, with the columns id, slug, title and category and the rows Beginner dinghy, Intermediate keelboat and Sunset cruise; the footer reads 5 tables and 1-3 of 3." />
+</Frame>
 
 ## How production services work
 
@@ -69,7 +71,9 @@ There are two ways to give production its tables. Both leave the session's datab
       <Step title="Open the Production database card">
         Open the **Publish** tab and pick the app. Right under the address line, above **History**, the **Production database** card says when the database was made and whether it has tables yet, for example that it's empty until the app creates them. Its lower half, **Push the session's database to production**, holds the push.
 
-        {/* screenshot to capture: /images/publish/publish-prod-db-card.png — Choose what goes, and whether production's own tables may be replaced, before you push. */}
+        <Frame caption="Choose what goes, and whether production's own tables may be replaced, before you push.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/publish-prod-db-card.webp" alt="The Production database card: Provisioned 1d ago · empty until the app's migrations run, harbor_bookings on harbor-bookings-db, and Browse it under Production in the Database tab. Below, Push the session's database to production has Schema only selected next to Schema and data, with The tables, with no rows: production's data stays its own., the switch Replace tables that already exist (off) with its warning, and the button Push schema." />
+</Frame>
       </Step>
       <Step title="Choose what to push">
         **Schema only** copies the tables with no rows, so production's data stays its own. **Schema and data** copies every row as it is in the session. Pick **Schema only** for a live app: test rows rarely belong in production.
@@ -84,7 +88,9 @@ There are two ways to give production its tables. Both leave the session's datab
       <Step title="Push">
         Click **Push schema**, or **Push schema and data**. The button reads **Pushing…** until the copy is done, and the card confirms with "Pushed … tables (…) into …". A push that fails part way changes nothing in production.
 
-        {/* screenshot to capture: /images/publish/publish-prod-db-pushed.png — The success line names the tables copied and the database they went into. */}
+        <Frame caption="The success line names the tables copied and the database they went into.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/publish-prod-db-pushed.webp" alt="The same card after a push: its header reads Provisioned 1d ago · schema pushed just now, and green text beside Push schema reads Pushed 5 tables (14.2 KB) into harbor_bookings." />
+</Frame>
       </Step>
     </Steps>
 
@@ -112,7 +118,9 @@ More fixes for a published app are in [Troubleshooting](/reference/troubleshooti
 
 The **Database** tab opens production's database in the same browser as the session's: the grid, **Structure** and **SQL**, explained in [Browse, edit and query data](/workspace/database-data). In the toolbar's database picker, the **Production** section lists each published app with a database. Pick one, and the pill shows the app's name with a **PROD** tag.
 
-{/* screenshot to capture: /images/publish/database-production-picker.png — Session databases first, then each published app's production database. */}
+<Frame caption="Session databases first, then each published app's production database.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/publish/database-production-picker.webp" alt="The database picker open under the harbor-bookings PROD pill. SESSION lists harbor 7.8 MB, postgres 7.3 MB and New database…; PRODUCTION lists harbor-bookings with harbor_bookings and a check mark." />
+</Frame>
 
 You can do exactly what the app itself can, nothing more:
 

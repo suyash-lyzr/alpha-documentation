@@ -12,7 +12,9 @@ Connecting GitHub lets Alpha work in your repositories: search them, private one
 Public repositories attach without connecting, by typing `owner/repo`. They are read-only until you connect: nothing can be pushed.
 </Note>
 
-{/* screenshot to capture: /images/github/github-tab-overview.png — One repository attached, on a feature branch with work to push: the account bar first, then the repository with its pull request button. */}
+<Frame caption="One repository attached, on a feature branch with work to push: the account bar first, then the repository with its pull request button.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/github/github-tab-overview.webp" alt="The GitHub tab. A bar reads Connected as harbor-sailing, with a Manage button. Below it the repository harbor-sailing/harbor-bookings with a switcher chevron, open-on-GitHub and refresh icons, and a dark Push & create PR ↑2 button. The branch row shows feature/waitlist, a ↑2 pill and Push. CHANGES 0 reads working tree clean, and PULL REQUESTS 2 lists #11 Show instructor photos on class cards and #9 Fix time zone on Sunset cruise times." />
+</Frame>
 
 ## Connect GitHub
 
@@ -22,7 +24,9 @@ You sign in on GitHub's own pages and choose the repositories there. Nothing is 
   <Step title="Open the connect card">
     In a session, click **GitHub** in the workspace header, beside **Share**, or open the workspace's **+** menu and choose **GitHub**. On the home screen, click **+** in the composer and choose **GitHub repos** instead. Both show **Connect GitHub**. In a session, the card above it reads "Sign in with GitHub, and choose the repositories Alpha may work in." and lists what connecting unlocks.
 
-    {/* screenshot to capture: /images/github/github-connect-card.png — The three perks are what connecting unlocks. */}
+    <Frame caption="The three perks are what connecting unlocks.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/github/github-connect-card.webp" alt="A GitHub icon above the heading Connect GitHub and the line Sign in with GitHub, and choose the repositories Alpha may work in. Three rows follow: Clone your repositories into a session; Commit, push and open pull requests; Search your repositories, private ones too. Below them a dark Connect GitHub button." />
+</Frame>
   </Step>
   <Step title="Click Connect GitHub">
     GitHub opens in a new browser tab and asks you to sign in, and which GitHub account to use. If your browser blocks the new tab, this page goes to GitHub instead. On the home screen, your unsent prompt and staged repositories are kept for your return.
@@ -75,7 +79,9 @@ The bar at the top of the **GitHub** tab reads "Connected as", with your avatar 
 
 The **GitHub** tab is the session's view of its repositories. Open it from the header's **GitHub** button (tooltip "GitHub: repositories, branches, commits and pull requests"). Only the session's owner sees it; people you [share the session](/sharing) with don't.
 
-{/* screenshot to capture: /images/github/github-repo-switcher.png — Switch repositories, add one or remove one from the switcher. */}
+<Frame caption="Switch repositories, add one or remove one from the switcher.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/github/github-repo-switcher.webp" alt="The repository title harbor-sailing/harbor-bookings with a count of 2 and its menu open. The menu lists harbor-sailing/harbor-bookings with a check and harbor-sailing/harbor-api with an amber dot, then Add repository…, Publish to GitHub… and a red Remove harbor-bookings." />
+</Frame>
 
 | Part | What it shows |
 | --- | --- |
@@ -110,7 +116,9 @@ Each repository lands at `/workspace/<name>` on the session's machine, or `/work
   <Tab title="In a session">
     Open the **GitHub** tab and click **Add repository**, or choose **Add repository…** in the repo switcher. In the session's composer, **+** → **GitHub repos** opens the same view. It's titled **Add repository**, with "Clone a repository into this session's workspace."
 
-    {/* screenshot to capture: /images/github/github-add-repo-connected.png — Repositories from every connected account, most recently pushed first. */}
+    <Frame caption="Repositories from every connected account, most recently pushed first.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/github/github-add-repo-connected.webp" alt="Add repository with a back arrow and Clone a repository into this session's workspace. A search field reads Search your repos or owner/repo, above a harbor-sailing chip and + Add organization. The list shows harbor-sailing/harbor-bookings dimmed with a check, then harbor-api 19h ago, harbor-site 2d ago, instructor-handbook 5d ago, fleet-maintenance 9d ago and harbor-landing 18d ago, private ones with a lock." />
+</Frame>
 
     Search across your connected accounts, or, with more than one account, narrow to one with the chips (**All**, then each account). The chips end in **Add organization**. The list shows 50 at a time, then **show more**. For a repository that isn't listed, including anyone's public one, type its full name and press <kbd>Enter</kbd>. Click a repository and it clones straight away.
 
@@ -119,7 +127,9 @@ Each repository lands at `/workspace/<name>` on the session's machine, or `/work
   <Tab title="Before the session starts">
     On the home screen, click **+** in the composer and choose **GitHub repos**. The **Repositories** dialog opens, with your login, **disconnect** and **add organization** at the top once you're connected.
 
-    {/* screenshot to capture: /images/github/home-repos-popover.png — Staged repositories are cloned before the agent's first turn. */}
+    <Frame caption="Staged repositories are cloned before the agent's first turn.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/github/home-repos-popover.webp" alt="The home screen composer with a tray chip harbor-sailing/harbor-bookings ×. The open Repositories dialog has the account with disconnect and add organization at the top, a search field, the staged row harbor-sailing/harbor-bookings with its branch set to feature/waitlist and an ×, and the repository list below with harbor-bookings checked." />
+</Frame>
 
     Search, or type `owner/repo` or a github.com URL and press <kbd>Enter</kbd>. Leave a repository's branch field empty for the default branch, or type an existing branch. Repositories your chosen [setup](/sessions/setups) already holds show as "from the setup".
 

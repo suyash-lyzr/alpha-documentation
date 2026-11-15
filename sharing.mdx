@@ -21,7 +21,7 @@ Every session has one permanent, unguessable address, `/s/` followed by a 16-cha
 Pick **Anyone with the link** to show work to someone who won't sign in to Alpha. Pick **Specific people** when the session holds anything you wouldn't post publicly: a forwarded link does nothing for someone who isn't on the list.
 
 <Frame caption="Every session starts Private: only you can open it.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/sharing/share-dialog-link.webp" alt="The Share this session dialog, with a close button at its top right. The description reads: People you let in get a live, read-only view — the chat, the files and the app preview as they happen. They can't send messages, run commands, or change anything. Their watching doesn't keep the machine on: it sleeps once you've been away half an hour, unless the agent is working. Below it, the Private option, Only you. The link is dead for everyone else., is selected with a check mark, above Anyone with the link, No account needed — anyone who opens the URL can watch." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/sharing/share-dialog-link.webp" alt="The Share this session dialog, with a close button at its top right. The description reads: People you let in get a live, read-only view — the chat, the files and the app preview as they happen. They can't send messages, run commands, or change anything. Their watching doesn't keep the machine on: it sleeps once you've been away half an hour, unless the agent is working. Below it, the Private option, Only you. The link is dead for everyone else., is selected with a check mark, above Anyone with the link, No account needed — anyone who opens the URL can watch." />
 </Frame>
 
 ## Share a session
@@ -38,7 +38,9 @@ Only the session's owner can change its sharing. Every change takes effect the m
   <Step title="Add people by email">
     For **Specific people**, type an address into the field ("viewer@example.com — nobody is whitelisted yet") and press <kbd>Enter</kbd> or click **Add**. Each address becomes a chip. Click its **Remove** (×) to take it off. You can list up to 20 addresses, and they must match the emails people sign in to Alpha with.
 
-    {/* screenshot to capture: /images/sharing/share-dialog-specific-people.png — Each chip is an Alpha account that can watch. The session shows up in their sidebar. */}
+    <Frame caption="Each chip is an Alpha account that can watch. The session shows up in their sidebar.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/sharing/share-dialog-specific-people.webp" alt="The Share this session dialog with Specific people selected: Only the Alpha accounts you list below — the session shows up under Shared with you in their sidebar. Below are the chips emma.wilson@example.com and james.parker@example.com, each with a remove ×, an Add another email… field with Add, and the session link with a copy button." />
+</Frame>
   </Step>
   <Step title="Copy the link">
     Click the copy button beside the address. Its tooltip changes from **Copy link** to **Copied**. Clicking the address itself selects it. With **Private** selected the link is dimmed, with the note "Sharing is off — this link currently works only for you."
@@ -71,7 +73,9 @@ Someone you've shared with, signed in to Alpha, gets the same workbench you use,
 
 A session with nothing in it yet shows "Nothing here yet — you'll see this session live as its owner works."
 
-{/* screenshot to capture: /images/sharing/share-viewer-workbench.png — A viewer's workbench: the view only badge replaces the controls, and there's no composer. */}
+<Frame caption="A viewer's workbench: the view only badge replaces the controls, and there's no composer.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/sharing/share-viewer-workbench.webp" alt="The read-only workbench of the Harbor bookings session. The chat header shows Harbor bookings and a view only badge at its right, and there is no message box under the chat. On the right, the Preview shows the Harbor Sailing School booking page with Good days start on the water., Make time for the tide. and the Beginner dinghy, Intermediate keelboat and Sunset cruise cards." />
+</Frame>
 
 ## Watch without an Alpha account
 
@@ -79,7 +83,9 @@ On an Alpha that uses accounts, a visitor who opens an **Anyone with the link** 
 
 To see the files and the app as well, the visitor clicks **Sign in for files & preview**. After signing in they land back on the same link, in the read-only workbench. With **Specific people**, a visitor who isn't signed in is asked to sign in first and returns to the link afterwards.
 
-{/* screenshot to capture: /images/sharing/share-observer-page.png — No account needed to watch the chat. Signing in adds the files and the preview. */}
+<Frame caption="No account needed to watch the chat. Signing in adds the files and the preview.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/sharing/share-observer-page.webp" alt="The transcript-only page for Harbor bookings. The header shows the Alpha mark, Harbor bookings and Alpha · shared session, then a green live pill, a view only pill and a dark Sign in for files & preview button. Below, the chat streams on its own, with no files or preview." />
+</Frame>
 
 ## Find sessions shared with you
 
@@ -87,7 +93,9 @@ Sessions shared with your email appear in your sidebar under **Shared with you**
 
 Hover a row for its card: "Shared by Priya · view only" and the machine's state. A machine that's asleep reads "Machine asleep · wakes when its owner is back". Watching doesn't wake it while its owner is away from Alpha. The transcript is always there, but the files say "this session's machine is asleep while its owner is away" until the owner returns or work starts.
 
-{/* screenshot to capture: /images/sharing/sidebar-shared-with-you.png — Shared sessions get their own section, with the owner's name on every row. */}
+<Frame caption="Shared sessions get their own section, with the owner's name on every row.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/sharing/sidebar-shared-with-you.webp" alt="The sidebar session list under SESSIONS 7, with the Today and Yesterday groups of Harbor sessions and a SHARED WITH YOU section listing Waitlist emails with Priya Shah under it and Instructor rota with James Parker. The pointer rests on Waitlist emails, which opens a card with the session's first prompt, Shared by Priya Shah · view only, and Machine asleep · wakes when its owner is back." />
+</Frame>
 
 ## Stop sharing
 
@@ -131,7 +139,9 @@ Each of these is a full-page card with an **Open your own Alpha** button that le
 | **No access** | "this account isn't on the viewer list — ask the owner to add your email" | The session uses **Specific people**, and the account you're signed in with isn't on it. | Add the email you sign in to Alpha with, or sign in with the listed one. |
 | **Can't open this session** | The reason, from Alpha | Something else went wrong, such as a network error. | Usually nothing. Reload the page, and send the owner the message if it persists. |
 
-{/* screenshot to capture: /images/sharing/share-nothing-here.png — A private session and a missing one look identical, so a link reveals nothing. */}
+<Frame caption="A private session and a missing one look identical, so a link reveals nothing.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0bce4e6aa460e3426daece54f29c495f4565999a/images/sharing/share-nothing-here.webp" alt="A card centred on a blank page with a crossed-out eye icon, the heading Nothing here, the text This share link isn't active — it may be wrong, or sharing was turned off. and an Open your own Alpha button." />
+</Frame>
 
 ## Next steps
 
