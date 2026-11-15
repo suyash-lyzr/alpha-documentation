@@ -11,7 +11,9 @@ The **GitHub** tab is the session's git panel: you switch branches, commit what 
 
 Open it with **GitHub** in the workspace header, beside **Share**. Only the session's owner sees it.
 
-{/* screenshot to capture: /images/github/github-tab-overview.png — One repository, top to bottom: the account commits are authored as, the repository with its pull request button, then branch, changes and pull requests. */}
+<Frame caption="One repository, top to bottom: the account commits are authored as, the repository with its pull request button, then branch, changes and pull requests.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/github/github-tab-overview.webp" alt="The GitHub tab. A bar reads Connected as harbor-sailing, with a Manage button. Below it the repository harbor-sailing/harbor-bookings with a switcher chevron, open-on-GitHub and refresh icons, and a dark Push & create PR ↑2 button. The branch row shows feature/waitlist, a ↑2 pill and Push. CHANGES 0 reads working tree clean, and PULL REQUESTS 2 lists #11 Show instructor photos on class cards and #9 Fix time zone on Sunset cruise times." />
+</Frame>
 
 Pick the place by what you want to do:
 
@@ -31,7 +33,9 @@ Click the branch row to open the branch list, then type in **Filter branches…*
 
 Type a name that doesn't exist yet and the list offers it, such as **Create feature/login**. Alpha creates the branch from where you are and switches to it. A name git wouldn't accept is never offered.
 
-{/* screenshot to capture: /images/github/github-branch-switcher.png — Type a new name and Create appears at the top of the list. */}
+<Frame caption="Type a new name and Create appears at the top of the list.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/github/github-branch-switcher.webp" alt="The branch list open under feature/waitlist. The filter field holds feature/waitlist-emails and the only row is Create feature/waitlist-emails. Above it are the repository header with Push & create PR ↑2 and the ↑2 and Push controls; PULL REQUESTS 2 sits below." />
+</Frame>
 
 When you switch to an existing branch with uncommitted changes, its name shows dimmed until git answers. If the changes would be overwritten, git refuses and the panel says why. If the branch row reads **detached @** and a commit, no branch is checked out: pick or create one, because the pull request button needs a branch.
 
@@ -65,7 +69,9 @@ Type a message in **Commit message (⌘↵ commits & pushes)** and pick one of t
 
 A commit always includes every listed file. To commit only some, ask the agent. If the push is refused, the commit still stands, counted as ahead, and the panel shows git's reason.
 
-{/* screenshot to capture: /images/github/github-changes-commit.png — One message, then Commit & push or Commit. The letters tell you what each file is about to do. */}
+<Frame caption="One message, then Commit & push or Commit. The letters tell you what each file is about to do.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/github/github-changes-commit.webp" alt="The GitHub tab on harbor-sailing/harbor-bookings, branch feature/waitlist. CHANGES 6 lists six files with their letters: db/migrations/0004_waitlist.sql A, src/components/WaitlistButton.tsx U, src/routes/waitlist.ts U, src/routes/classes.ts M, src/lib/email.ts M and src/lib/old-waitlist.ts D. The message field reads Add a class waitlist, with Commit & push and Commit below." />
+</Frame>
 
 **Pull** appears in the branch row when GitHub has commits you don't. It only fast-forwards: if both sides have moved on, git refuses rather than merge behind your back. **Push** appears when everything is committed but not yet on GitHub. Each repository runs one git operation at a time, so the other buttons wait while one runs.
 
@@ -86,7 +92,9 @@ The pull request button sits in the tab's header, beside **Refresh from GitHub**
   <Step title="Create it">
     Click **Create pull request**, or **Push & create pull request** when the branch still needs pushing. The button turns into **View PR #12**, which opens the pull request on GitHub.
 
-    {/* screenshot to capture: /images/github/github-new-pr.png — The form pushes the branch first when it needs to, then opens the pull request. */}
+    <Frame caption="The form pushes the branch first when it needs to, then opens the pull request.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/github/github-new-pr.webp" alt="New pull request with a back arrow: feature/waitlist → main, and 3 commits ahead of origin/main · will push first. The title reads Add a class waitlist and the description Students can join a waitlist when a class is full. When a place opens, the first person on the list gets an email and 24 hours to book it. Below are an unticked Create as draft and a dark Push & create pull request button." />
+</Frame>
   </Step>
 </Steps>
 
@@ -114,7 +122,9 @@ The pull request button is greyed out, with the reason as its tooltip, in these 
   <Step title="Create and push">
     Click **Create repository & push**; the line beside it says what happens, such as "Creates harbor-dev/harbor-site, initializes git with a starter .gitignore, and pushes everything." The button reads **Creating & pushing…** meanwhile. When it's done, the view reads **Published to GitHub**: "The code is pushed, and this session now works on the repository.", with the new repository, its visibility and branch, and **Open on GitHub**. Click **Go to the repository** to return to the tab with it attached.
 
-    {/* screenshot to capture: /images/github/github-publish-form.png — Pick the folder, the owner and the visibility. Alpha does the rest in one push. */}
+    <Frame caption="Pick the folder, the owner and the visibility. Alpha does the rest in one push.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/github/github-publish-form.webp" alt="Publish to GitHub. WHAT TO PUBLISH lists harbor-site (selected: 12 items · main · 3 commits · uncommitted changes), the workspace folder (3 items · will run git init) and harbor-bookings, greyed out as already on GitHub. REPOSITORY shows Owner harbor-sailing, the name harbor-sailing / harbor-site and the description The school's public website. VISIBILITY has Private selected over Public." />
+</Frame>
   </Step>
 </Steps>
 
