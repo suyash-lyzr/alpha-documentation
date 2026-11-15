@@ -78,7 +78,9 @@ You describe a routine, and the agent builds it, tests it once and saves it. Sta
   <Step title="Find the routine session in the sidebar">
     A routine session is an ordinary session marked with a clock in the sidebar. Any session that is home to a routine gets the clock too. The clock is green while a routine is scheduled and pulses while a run is going. It turns a paler green while the routine is paused or nothing is saved yet. To list only routine sessions, open the sidebar's **Filter, group and sort** menu and set **Type** to **Routines**.
 
-    {/* screenshot to capture: /images/routines/sidebar-routine-clocks.png — The clock tells you whether a routine session has anything scheduled. */}
+    <Frame caption="The clock tells you whether a routine session has anything scheduled.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/routines/sidebar-routine-clocks.webp" alt="The sidebar session list under SESSIONS 7. Harbor bookings has a green clock because a routine is scheduled, and Harbor Sailing Classes has a paler clock because its routine is paused; the other sessions have none." />
+</Frame>
   </Step>
   <Step title="Check the saved card">
     When the agent saves the routine, the card **Routine harbor-weekly-summary saved** appears. **When** gives the timetable in words and the time zone, such as "Mondays at 9:00 · London"; **Runs** gives the command (or **Asks the agent**, the instruction); and **Next** gives the first run as a time, such as "Mon 17 Nov, 09:00". When it's the session's first routine, the session's **Routines** tab opens beside the chat.
@@ -118,7 +120,9 @@ The form has no field for a timetable these choices can't express, such as 9:00 
 
 For a command, **More options** adds **Folder** (where the command runs, the workspace by default) and **Stop after (seconds)**, which defaults to 600 and goes up to 3600.
 
-{/* screenshot to capture: /images/routines/routine-edit-form.png — The preview line confirms the next runs before you save. */}
+<Frame caption="The preview line confirms the next runs before you save.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/routines/routine-edit-form.webp" alt="The Morning bookings digest row in edit mode. WHAT IT DOES has Run a command selected over Ask the agent, with the command node jobs/bookings-digest.js. HOW OFTEN is set to On certain days of the week with Mon to Fri selected, at 08:00 AM, no months picked and the time zone Europe/London. The preview line reads At 08:00, only on Monday, Tuesday, Wednesday, Thursday, and Friday · next Mon, Nov 16, 08:00, Tue, Nov 17, 08:00, Wed, Nov 18, 08:00. More options, Save and Cancel sit below." />
+</Frame>
 
 ## Run, pause and edit a routine
 
@@ -155,7 +159,9 @@ An open row has three sections and a footer:
 **Remove** deletes the routine and every run's log, and it can't be undone. To stop a routine you may want back, turn its switch off to pause it.
 </Warning>
 
-{/* screenshot to capture: /images/routines/routine-row-expanded.png — An expanded row: the latest run and its log, what runs, the quick schedule, and the footer with Edit and Remove. */}
+<Frame caption="An expanded row: the latest run and its log, what runs, the quick schedule, and the footer with Edit and Remove.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/routines/routine-row-expanded.webp" alt="The Routines page, 2 of 3 on schedule, with a New routine button. Morning bookings digest is expanded: Weekdays at 8:00 with the next run time, Run now, an on switch and a row of run ticks; Latest run, Succeeded · Fri, Nov 13, 08:00 · 4 s, above a log listing this weekend's classes with times, instructors and seats left; Command node jobs/bookings-digest.js; Schedule with Weekdays selected at 08:00 AM, London; and a footer with Runs in Harbor bookings, Edit and Remove. Below are Seat check before class, every hour, and a paused Harbor weekly summary." />
+</Frame>
 
 ## Read a routine's runs
 
