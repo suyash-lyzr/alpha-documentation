@@ -36,7 +36,7 @@ Use **Select** when words like "the second button in the card" would be ambiguou
     In the [Preview](/workspace/preview) toolbar, click **Select**. Its tooltip changes to "Click an element in the preview — Esc cancels". Until the app's page has loaded, the button is greyed out with "Element picker loads with the app's page".
 
     <Frame caption="The outline and label show exactly what a click will pick.">
-      <img src="/images/workspace/preview-select-hover.png" alt="The Harbor bookings session with Select on in the Preview toolbar. The pointer rests on the headline Good days start on the water., which is outlined and shaded, with a small dark label under it reading h1 and the start of its text." />
+      <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/preview-select-hover.webp" alt="The Harbor bookings session with Select on in the Preview toolbar. The pointer rests on the headline Good days start on the water., which is outlined and shaded, with a small dark label under it reading h1, the quoted headline and its size, 371x96." />
     </Frame>
   </Step>
   <Step title="Click the element">
@@ -46,7 +46,7 @@ Use **Select** when words like "the second button in the card" would be ambiguou
     Type the change, such as "Make this text larger on mobile", and send. For more elements, click **Select** again for each. Picking the same element twice adds nothing.
 
     <Frame caption="The picked headline waits as a chip above your text.">
-      <img src="/images/workspace/preview-select-chip.png" alt="The composer of the Harbor bookings session with one chip above the typed text Make this headline smaller on phones. The chip has a dashed-pointer icon, reads h1 and the quoted start of the headline, Good days start on the wa…, and has a small X on its right. The bottom row shows the + button, GPT-6.1-Sol, xhigh, Build and a lit send button." />
+      <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/preview-select-chip.webp" alt="The composer of the Harbor bookings session with one chip above the typed text Make this headline smaller on phones. The chip has a dashed-pointer icon, reads h1 and the quoted start of the headline, Good days start on the wa…, and has a small X on its right. The bottom row shows the + button, GPT-6.1-Sol, xhigh, Build and a lit send button." />
     </Frame>
   </Step>
 </Steps>
@@ -75,7 +75,7 @@ Use **Draw** when the problem is visual, or when you want several fixes at once.
 The page keeps scrolling while you draw, and each mark stays pinned to what it was drawn over. **Add to chat** captures the whole page, not only the visible part, so you can mark the header and the footer in one go. The picture lands in the composer as an image attachment, and the agent is told your marks point at what you mean.
 
 <Frame caption="Draw on the page, then send it with Add to chat.">
-  <img src="/images/workspace/preview-draw-dock.png" alt="The Harbor bookings session with Draw on in the Preview toolbar. A red line runs across the sailboat photo of the Harbor app. A dock along the bottom of the Preview holds the drawing tools, Draw, Arrow, Box and Numbered pin, then Undo, Clear all marks, Cancel and Add to chat." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/preview-draw-dock.webp" alt="The Harbor bookings session with Draw on in the Preview toolbar. A red line runs across the sailboat photo of the Harbor app. A dock along the bottom of the Preview holds the drawing tools, Draw, Arrow, Box and Numbered pin, then Undo, Clear all marks, Cancel and Add to chat." />
 </Frame>
 
 Capture gives up after 30 seconds with "The preview screenshot timed out." Marks live in the page, so a reload, such as the one at the end of each turn, clears them. Pictures up to [{imageMax}](/reference/limits) reach the model as images.
@@ -92,7 +92,7 @@ Use **Edit** when the wording is wrong: a typo, a heading, a button label. You t
     Hovering outlines a piece of text and turns the pointer into a text cursor. Click, and the caret lands where you clicked. Type over the text as you would in any text box. <kbd>Enter</kbd>, <kbd>Esc</kbd>, <kbd>Tab</kbd> or a click elsewhere ends the typing. Change as many pieces of text as you like.
 
     <Frame caption="Type over any text on the page, then send the changes to the agent.">
-  <img src="/images/workspace/preview-edit-text.png" alt="The Harbor bookings session with Edit highlighted in the Preview toolbar. The app's headline has been retyped to read Good days start on the water. Every week., outlined while it's edited. A bar along the bottom of the Preview reads 1 text change, Clear and Send." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/preview-edit-text.webp" alt="The Harbor bookings session with Edit highlighted in the Preview toolbar. The app's headline has been retyped to read Good days start on the water. Every week., with a dashed outline around it while it's edited. A bar along the bottom of the Preview reads 1 text change, Clear and Send. The composer still holds a chip for the h1 headline from an earlier pick." />
 </Frame>
   </Step>
   <Step title="Send the changes">
@@ -127,7 +127,7 @@ Select text in a file and **Add to prompt** floats under the selection. Click it
 Excalidraw has no shortcut, because <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> is the editor's own lock key there. Use the floating button.
 
 <Frame caption="Select lines in the code viewer, and Add to prompt follows the selection.">
-  <img src="/images/workspace/viewer-code-add-to-prompt.png" alt="The Harbor bookings session with public/styles.css open in the read-only code viewer, with line numbers and a minimap. Lines 5 to 11, the colour variables from --muted to --accent with their colour swatches, are selected, and a small Add to prompt ⌘⇧L chip floats at the end of the selection." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/viewer-code-add-to-prompt.webp" alt="The Harbor bookings session with public/styles.css open in the read-only code viewer, with line numbers and a minimap. Lines 5 to 11, the colour variables from --muted to --accent with their colour swatches, are selected, and a small Add to prompt ⌘⇧L chip floats at the end of the selection." />
 </Frame>
 
 ## Pick and draw in documents
@@ -150,7 +150,7 @@ Each viewer keeps its pointing tools at the right end of the file's header: a pe
 Chips wait above your text until you send. Click a chip's X to remove it, or hover it to read the start of what it holds. On send, each chip's context goes ahead of your text, in the order you added them. A code selection, for example, arrives as `Selected context — server.js (lines 7-13):` followed by the lines.
 
 <Frame caption="A chip waits above your text until you send.">
-  <img src="/images/workspace/pointing-chips-composer.png" alt="The composer of the Harbor bookings session with one chip above the typed text Make this headline smaller on phones. The chip reads h1 and the quoted start of the headline, Good days start on the wa…, with a small X on its right." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/pointing-chips-composer.webp" alt="The composer of the Harbor bookings session with one chip above the typed text Make this headline smaller on phones. The chip reads h1 and the quoted start of the headline, Good days start on the wa…, with a small X on its right." />
 </Frame>
 
 The transcript shows the same chips above your sent text. If a send fails, the chips come back. Opening another session drops chips you haven't sent, and editing a [queued message](/chat/queue-and-steer) turns its chips into plain text.
