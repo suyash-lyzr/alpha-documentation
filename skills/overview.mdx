@@ -9,7 +9,7 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 A skill is a set of instructions the agent loads when a request fits: a release checklist, how your team writes emails, how to handle PDFs. Each skill is a folder with a `SKILL.md` file, and every skill you add reaches all of your sessions from their next message. For the skills Alpha already includes, see [Skills that ship with Alpha](/skills/built-in-skills). To give the agent new tools rather than new know-how, add an [MCP server](/integrations/mcp-servers).
 
 <Frame caption="Explore opens first, on the catalog of skills you can install.">
-  <img src="/images/skills/skills-page-explore.png" alt="The Skills page on its Explore tab, under a dusk cover reading Skills, Your sessions have 7 skills. Below the cover are the Explore and Installed tabs, a search box, Import from GitHub and Write a skill. The Catalog lists skill cards in two columns, each with an icon, a name, a one-line description, a category label such as DESIGN & VISUALS or DOCUMENTS & FILES, its source and an Install button: Algorithmic Art, Canvas Design, Doc Co-authoring, Excel, Figma and Frontend Design. Most popular is chosen at the right." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/skills/skills-page-explore.webp" alt="The Skills page on its Explore tab, under a dusk cover reading Skills, Your sessions have 7 skills. Below the cover are the Explore and Installed tabs, a search box, Import from GitHub and Write a skill. The Catalog lists skill cards in two columns, each with an icon, a name, a one-line description, a category label such as DESIGN & VISUALS or DOCUMENTS & FILES, its source and an Install button: Algorithmic Art, Canvas Design, Doc Co-authoring, Excel, Figma and Frontend Design. Most popular is chosen at the right." />
 </Frame>
 
 ## How should you add a skill?
@@ -54,7 +54,7 @@ A skill's dialog names its category above its title: the category of the catalog
 Click **Install**. Alpha fetches the skill's folder from GitHub, the button becomes a green check with **Installed**, and a banner confirms: "pdf installed — your sessions have it from their next message." The skill appears under **Your skills**. The **Installed** tab lists those alone, as full-width rows with their size and file count.
 
 <Frame caption="Installed lists every skill you have, with where it came from and a switch on each row.">
-  <img src="/images/skills/skills-page-installed.png" alt="The Skills page with the Installed tab selected, under a dusk cover reading Skills and Your sessions have 7 skills. Beside the Explore and Installed tabs are a search box, Import from GitHub and Write a skill. The Your skills shelf reads 7 on, 0 off, and full-width rows list Agent builder, Design system, Evals, Generative UI and Search, each with its icon, its name and short name, a one-line description, the line ships with Alpha with its file count and size, and a switch turned on." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/skills/skills-page-installed.webp" alt="The Skills page with the Installed tab selected, under a dusk cover reading Skills and Your sessions have 7 skills. Beside the Explore and Installed tabs are a search box, Import from GitHub and Write a skill. The Your skills shelf reads 7 on, 0 off, and full-width rows list Agent builder, Design system, Evals, Generative UI and Search, each with its icon, its name and short name, a one-line description, the line ships with Alpha with its file count and size, and a switch turned on." />
 </Frame>
 
 ## Add your own skill
@@ -74,7 +74,7 @@ Click **Write a skill** or **Import from GitHub**. Both open the **Add a skill**
         **Instructions (SKILL.md)** opens with a short template. Replace it with the steps, conventions and things to avoid. To keep a `SKILL.md` you already have, paste the whole file, frontmatter included, and Alpha keeps that frontmatter instead of the two fields above.
 
         <Frame caption="Name it, say when to use it, and write the instructions.">
-          <img src="/images/skills/skills-add-write.png" alt="The Add a skill dialog over the Skills page, with Write it here selected beside Import from GitHub. Its description says a skill is a SKILL.md with a name, a one-line description of when to use it and the instructions. The NAME field shows release-checklist as a placeholder, WHEN TO USE IT shows an example description, and INSTRUCTIONS (SKILL.md) holds a template with What this skill is for, Steps and Notes. A ticked box reads Let the agent use it on its own. Cancel and Add to your skills sit at the bottom right." />
+          <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/skills/skills-add-write.webp" alt="The Add a skill dialog over the Skills page, with Write it here selected beside Import from GitHub. Its description says a skill is a SKILL.md with a name, a one-line description of when to use it and the instructions. The NAME field shows release-checklist as a placeholder, WHEN TO USE IT shows an example description, and INSTRUCTIONS (SKILL.md) holds a template with What this skill is for, Steps and Notes. A ticked box reads Let the agent use it on its own. Cancel and Add to your skills sit at the bottom right." />
         </Frame>
       </Step>
       <Step title="Click Add to your skills">
@@ -104,7 +104,7 @@ Click **Write a skill** or **Import from GitHub**. Both open the **Add a skill**
     Private repositories need [GitHub connected](/github/connect) in a session. There is no limit on the number of files. Files over 1 MB are skipped, and the banner says how many. If the folder adds up to more than 4 MB, the import stops with "the skill is over 4 MB".
 
     <Frame caption="A link to the skill’s folder is enough; Path and Branch or tag are optional.">
-      <img src="/images/skills/skills-add-import.png" alt="The Add a skill dialog with Import from GitHub selected. The REPOSITORY OR URL field shows a GitHub folder link as a placeholder, with a hint that a private repository needs GitHub connected. Below are PATH (OPTIONAL) and BRANCH OR TAG (OPTIONAL), a ticked Let the agent use it on its own box, and Cancel and Add to your skills at the bottom right." />
+      <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/skills/skills-add-import.webp" alt="The Add a skill dialog with Import from GitHub selected. The REPOSITORY OR URL field shows a GitHub folder link as a placeholder, with a hint that a private repository needs GitHub connected. Below are PATH (OPTIONAL) and BRANCH OR TAG (OPTIONAL), a ticked Let the agent use it on its own box, and Cancel and Add to your skills at the bottom right." />
     </Frame>
 
     A skill imported from GitHub keeps its link. Open it later and choose **⋯ → Refresh from GitHub** to pull the latest version.

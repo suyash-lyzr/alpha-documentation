@@ -11,7 +11,7 @@ import { uploadMax } from '/snippets/limits.mdx';
 <Badge>Owner only</Badge> Every run spends your own model key, so people you [share the session](/sharing) with see the canvas but not **Try it**.
 
 <Frame caption="Try it opens beside the canvas, with sample inputs to start from.">
-  <img src="/images/agents/agent-try-it-empty.png" alt="The Agent tab with the Try it panel open on the right, headed Try Harbor Sailing School Inbox Triage. It says each message runs the whole flow on Google ADK and lights up each step on the canvas. Start from a sample lists Beginner lesson for two next month, Cancel and request a refund for tomorrow, Weather concern before this afternoon's lesson, Cancellation with a malicious instruction and General question about summer weather. The Email and Received at fields sit at the bottom, with Google ADK, gpt-6-luna and Run." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/agents/agent-try-it-empty.webp" alt="The Agent tab with the Try it panel open on the right, headed Try Harbor Sailing School Inbox Triage. It says each message runs the whole flow on Google ADK and lights up each step on the canvas. Start from a sample lists Beginner lesson for two next month, Cancel and request a refund for tomorrow, Weather concern before this afternoon's lesson, Cancellation with a malicious instruction and General question about summer weather. The Email and Received at fields sit at the bottom, with Google ADK, gpt-6-luna and Run." />
 </Frame>
 
 ## Open Try it
@@ -27,7 +27,7 @@ To close the chat, click **Try it** again or **Close the chat** in its header.
 The composer has one field for each input your agent declares, named in words, with its type beside the name and its description as the placeholder.
 
 <Frame caption="A sample fills the fields; Run sends it through the agent.">
-  <img src="/images/agents/agent-try-it-typed-fields.png" alt="The Try it panel with the sample Cancel and request a refund for tomorrow loaded. The Email field holds a message from Maya Chen asking to cancel tomorrow's beginner lesson and request a refund, with booking reference HSS-2041, and Received at holds 2026-11-14T09:00:00+00:00. Run is lit at the bottom right." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/agents/agent-try-it-typed-fields.webp" alt="The Try it panel with the sample Cancel and request a refund for tomorrow loaded. The Email field holds a message from Maya Chen asking to cancel tomorrow's beginner lesson and request a refund, with booking reference HSS-2041, and Received at holds 2026-11-14T09:00:00+00:00. Run is lit at the bottom right." />
 </Frame>
 
 | Input type | What the field is | What to know |
@@ -69,7 +69,7 @@ Cards the run hasn't reached yet are drawn faint, and fill in as their step star
 The strip under the chat header shows the steps in run order, each with a dot in the same state. Steps that run together are joined by **+**.
 
 <Frame caption="While it runs, the canvas marks the steps it has reached.">
-  <img src="/images/agents/agent-try-it-running.png" alt="The Agent tab during a Try it run. On the canvas, the Inputs card is marked Done and the rest are faint. In the Try it panel, the message from Maya Chen appears as the input, and below it the agent's reply card reads Running with Starting the agent…." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/agents/agent-try-it-running.webp" alt="The Agent tab during a Try it run. On the canvas, the Inputs card is marked Done and the rest are faint. In the Try it panel, the message from Maya Chen appears as the input, and below it the agent's reply card reads Running with Starting the agent…." />
 </Frame>
 
 The run takes place in the session's machine and doesn't depend on your tab. If you close the chat or the tab, it keeps going. Open the chat again and Alpha picks the run back up. Agents built on the Claude Agent SDK don't report their steps, so on those only the **Inputs** and **Answer** cards get badges.
@@ -79,7 +79,7 @@ The run takes place in the session's machine and doesn't depend on your tab. If 
 When the run ends, the card under your message shows what your agent returned. The header shows the status (**Done**, **Did not finish** or **Stopped**) and how many seconds the run took. Short fields, such as numbers, flags or a word or two, appear as tiles. Longer text follows as sections under each field's name.
 
 <Frame caption="The answer comes back as labelled fields you can read or copy as JSON.">
-  <img src="/images/agents/agent-try-it-answer.png" alt="The Agent tab after a Try it run. The Inputs, Harbor triage and Answer cards on the canvas are marked Done. In the Try it panel, the answer card marked Done shows Category refund, Urgency urgent, Reply subject Re: Cancel tomorrow and refund please, and the start of the reply draft." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/agents/agent-try-it-answer.webp" alt="The Agent tab after a Try it run. The Inputs, Harbor triage and Answer cards on the canvas are marked Done. In the Try it panel, the answer card marked Done shows Category refund, Urgency urgent, Reply subject Re: Cancel tomorrow and refund please, and the start of the reply draft." />
 </Frame>
 
 | Control | What it does |
