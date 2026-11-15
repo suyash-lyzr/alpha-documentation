@@ -10,7 +10,7 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 A setup is a saved machine that new sessions start on. It holds your repositories, already cloned, and whatever your setup script installed, so a session is ready in about a second. To copy one session, transcript included, [fork it](/sessions/fork-and-delete) instead. To add a repository to a single session, use **+ → GitHub repos** on the [home screen](/sessions/home-screen).
 
 <Frame caption="Your setups, each with its status and buttons.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/sessions/setups-manager-list.webp" alt="The Setups page. The line Ready-made machines: your repositories cloned and installed once, so every session starts ready to work sits beside a New setup button. One row lists harbor dev with a Not built badge and the description Harbor booking app, dependencies installed and the database seeded, with Build, Edit and a ⋯ menu at its right." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/sessions/setups-manager-list.webp" alt="The Setups page. The line Ready-made machines: your repositories cloned and installed once, so every session starts ready to work sits beside a New setup button. One row lists harbor dev with a Not built badge and the description Harbor booking app, dependencies installed and the database seeded, with Build, Edit and a ⋯ menu at its right." />
 </Frame>
 
 ## Which machine should a session start on?
@@ -65,7 +65,7 @@ Fill in the form yourself, or ask the agent to save the session you're in. Eithe
         Under **Basics**, give the setup a **Name** your team will recognise, such as `harbor dev`, and a one-line **Description**. Under **Repositories**, type `owner/repo` or paste a github.com URL, add a branch if you don't want the default, and click **Add**. Private repositories need [GitHub connected](/github/connect).
 
         <Frame caption="Name the setup, add repositories and scripts, then save or build.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/sessions/setups-new-form.webp" alt="The New setup form on the Setups page. Basics holds Name harbor dev and the Description. Repositories has an owner/repo field, an optional branch and Add. Scripts holds the Setup script npm ci and npm run db:seed, with the note that it runs once when you build, and the Boot script git pull --ff-only, which runs at the start of every session. Cancel, Save without building and Save & build sit at the bottom right." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/sessions/setups-new-form.webp" alt="The New setup form on the Setups page. Basics holds Name harbor dev and the Description. Repositories has an owner/repo field, an optional branch and Add. Scripts holds the Setup script npm ci and npm run db:seed, with the note that it runs once when you build, and the Boot script git pull --ff-only, which runs at the start of every session. Cancel, Save without building and Save & build sit at the bottom right." />
 </Frame>
       </Step>
       <Step title="Write the scripts">
@@ -139,7 +139,7 @@ On the home screen, the machine is part of the **+** menu. Every new session sta
     Click **+**, then **Machine**, and choose a setup in the **Setup** popover. **Blank machine** is marked **default**. Setups marked **building** or **not built** can't be picked yet. The setup you pick shows as a chip in the tray under the composer; its **×** takes it off. The **Repositories** popover then lists the setup's repositories marked "from the setup", so you don't add them twice.
 
     <Frame caption="Blank machine is the default; your setups follow it.">
-      <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@271d124805a554c4fe200ef30c85667408772ff0/images/sessions/home-setup-picker.webp" alt="The Setup popover open under the home composer's + menu. The header reads Setup, with Manage setups → on the right. The first row is Blank machine, with a DEFAULT badge and a check mark, and below it the harbor dev setup, dimmed and marked not built. The composer above shows the + button, the model chip reading GPT-6.1-Sol, the effort chip reading xhigh, the Build chip and the send button." />
+      <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/sessions/home-setup-picker.webp" alt="The Setup popover open under the home composer's + menu. The header reads Setup, with Manage setups → on the right. The first row is Blank machine, with a DEFAULT badge and a check mark, and below it the harbor dev setup, dimmed and marked not built. The composer above shows the + button, the model chip reading GPT-6.1-Sol, the effort chip reading xhigh, the Build chip and the send button." />
     </Frame>
   </Step>
   <Step title="Send your first prompt">
