@@ -1,12 +1,12 @@
 ---
 title: "File viewers"
 sidebarTitle: "File viewers"
-description: "Code, Markdown, HTML, images, PDFs, Word, Excel, PowerPoint, LaTeX and Mermaid, each opened in a viewer made for it."
+description: "Code, Markdown, HTML, images, video and audio, PDFs, Word, Excel, PowerPoint, LaTeX and Mermaid, each opened in a viewer made for it."
 ---
 
 import { fileDownloadMax } from '/snippets/limits.mdx';
 
-A file viewer is the tab a file opens in when you click it in the files panel, built for its type: an editor for code, rendered pages for Markdown, HTML, PDFs and Office documents, a compiled PDF for LaTeX, and a drawn diagram for Mermaid. Every viewer is read-only, because the files belong to the agent; to change one, ask. Slide decks, Excalidraw drawings and BPMN diagrams are on [Slides, drawings and diagrams](/workspace/decks-and-drawings), and browsing, searching and downloading are on [Files and uploads](/workspace/files).
+A file viewer is the tab a file opens in when you click it in the files panel, built for its type: an editor for code, rendered pages for Markdown, HTML, PDFs and Office documents, a player for video and audio, a compiled PDF for LaTeX, and a drawn diagram for Mermaid. Every viewer is read-only, because the files belong to the agent; to change one, ask. Slide decks, Excalidraw drawings and BPMN diagrams are on [Slides, drawings and diagrams](/workspace/decks-and-drawings), and browsing, searching and downloading are on [Files and uploads](/workspace/files).
 
 <Frame caption="A file tab's header: the path, the Preview and Source switch, the size, the read-only chip and Refresh.">
   <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/viewer-markdown.webp" alt="The Harbor bookings session with styleguide.md open in the Markdown viewer. The tab strip, scrolled to the right, shows Shell, Database, Auth and Secrets, then styleguide.md in front with its ×, then the + button, and at the right the GitHub and Share buttons, the Publish as artifact pill and the files button. The file's header shows a Preview and Source switch with Preview selected, the size 2.9 KB, a read-only chip and a Refresh icon. Below, the rendered file reads Harbor Sailing School, Current UI direction, the line Last updated: 2026-11-14. Direction: Salt &amp; Sail. and a numbered list from Domain and user to Name, then a Components section of bullet points." />
@@ -22,6 +22,7 @@ Alpha picks the viewer from the file's extension. A file that reads as binary an
 | `.md`, `.markdown`, `.mdx`, `.mdown`, `.mkd`, `.mkdn` | Markdown | Select text | [Markdown](#read-markdown-and-html) |
 | `.html`, `.htm` | HTML | Pick, draw, edit | [HTML](#read-markdown-and-html) |
 | 23 image extensions, from `.png` and `.svg` to `.heic` and `.jxl` | Image | **Add to chat** | [Images](#look-at-images) |
+| `.mp4`, `.m4v`, `.mov`, `.webm`, `.ogv`, `.mp3`, `.m4a`, `.aac`, `.wav`, `.oga`, `.ogg`, `.opus`, `.flac` | Video and audio player | — | [Video and audio](#play-video-and-audio) |
 | `.pdf` | PDF | Select text, pick, draw | [PDFs](#read-pdfs) |
 | `.docx`, `.xlsx`, `.pptx`, `.csv`, `.tsv` | Office | Select text or cells, pick, draw | [Office](#read-word-excel-and-powerpoint-files) |
 | `.tex`, `.latex`, `.ltx` | LaTeX | As for PDFs | [LaTeX](#build-a-latex-document) |
@@ -75,6 +76,25 @@ Images open over a checkerboard, so transparency shows, fitted to the pane until
 
 {/* screenshot to capture: /images/workspace/viewer-image.png — The image viewer: the size in the header, the zoom bar, and Add to chat. */}
 
+## Play video and audio
+
+Video and audio files play in the file pane, in your browser's own player, with its own controls for playing, seeking and volume. The header shows the file's size and its length, plus the picture's size for a video, such as `0:42 · 1280 × 720`. **Download the file** sits at the header's right end.
+
+A file of any size plays, and seeking jumps straight to the moment you pick without waiting for the rest of the file. The player keeps up with the file by itself:
+
+| When | The player |
+| --- | --- |
+| You switch to another tab in the workspace, or open another Alpha page over the session | Pauses |
+| The agent changes the file | Reloads with the new version once its tab is in front |
+| You click **Refresh** in the header | Checks for a new version at once, and reloads if there is one |
+
+Whether a file plays depends on your browser: a `.mov`, for example, plays only when the browser can decode the video inside it. Files named `.avi` or `.mkv` don't open in the player. They show "binary file" with **Download**.
+
+| Message | What it means | What to do |
+| --- | --- | --- |
+| "This file didn't play: its format or codec may not work in this browser, or the connection dropped. Retry, or download it instead." | The browser can't decode the file, or the connection broke off. | Click **Retry**, or click **Download** and open the file in another app. You can also ask the agent to convert it, for example to an `.mp4`. |
+| "The file is gone from the workspace." | It was moved or deleted after the tab opened. | Ask the agent where it went. |
+
 ## Read PDFs
 
 A PDF opens as pages in a scrolling column, with selectable text. The bar under the pages holds **Previous page** (<kbd>←</kbd>), **Next page** (<kbd>→</kbd>), a page box, **Zoom out**, **Zoom in**, **Fit** and **Download the file**; the pen and the picker are in the header. No script in a PDF ever runs. Select text and **Add to prompt** sends it with its page.
@@ -126,7 +146,7 @@ In Excel, CSV and TSV files, select cells, a range, a row, a column or the whole
 | Over the [limit](/reference/limits) | "This file is over {fileDownloadMax} — more than the viewer can fetch. Download it instead." |
 | Caught mid-write | "The file could not be read again — showing the last version that could". **Refresh** once the turn ends. |
 
-Files named `.doc`, `.xls` or `.ppt`, and macro and template files (`.docm`, `.xlsm`, `.pptm`, `.dotx`), don't open here: they show "binary file" with **Download**. Animations, video and audio don't play. The page holds still while the pen is active.
+Files named `.doc`, `.xls` or `.ppt`, and macro and template files (`.docm`, `.xlsm`, `.pptm`, `.dotx`), don't open here: they show "binary file" with **Download**. Animations, video and audio inside a document don't play. A video or audio file of its own plays in the [player](#play-video-and-audio). The page holds still while the pen is active.
 
 ## Build a LaTeX document
 

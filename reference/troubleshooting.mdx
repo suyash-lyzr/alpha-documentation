@@ -14,7 +14,7 @@ This page starts from what you see in Alpha, such as a red message, a blank pane
 | Grey placeholder bars, a message about the session's machine, or a transcript that stopped moving | [The machine won't wake, or the chat stops updating](#the-machine-won’t-wake-or-the-chat-stops-updating) |
 | A message in the **Preview** where your app should be, such as "Port not previewable" | [The Preview shows no app](#the-preview-shows-no-app) |
 | A red ✕ line in the transcript, a refused command, or a paused queue | [A turn fails or a command is refused](#a-turn-fails-or-a-command-is-refused) |
-| A failed upload or download, an artifact that won't open, or a **Database** tab with no data | [Uploads, files or the database fail](#uploads-files-or-the-database-fail) |
+| A failed upload or download, a video or audio file that won't play, an artifact that won't open, or a **Database** tab with no data | [Uploads, files or the database fail](#uploads-files-or-the-database-fail) |
 | A failed or stopped version on the **Publish** tab | [A publish fails](#a-publish-fails) |
 | An error from GitHub, an app or an MCP server, or secrets with no value | [GitHub, an app or an MCP server won't connect](#github-an-app-or-an-mcp-server-won’t-connect) |
 
@@ -159,6 +159,17 @@ The frame, or a preview address opened in its own tab, says why there's no app. 
 
     **Fix:** Open the session in Alpha. "Sandbox asleep" reloads itself once the machine is back. For "Sandbox didn't wake", Alpha says what went wrong when it tries to wake the machine. Follow the [machine entries above](#the-machine-won’t-wake-or-the-chat-stops-updating).
   </Accordion>
+  <Accordion title="The Preview shows an API or a helper instead of your app">
+    **Causes:** The app runs more than one server, and the one on screen isn't the front end. The Preview opens on the front end the agent started for you to look at, and keeps a port you picked yourself.
+
+    **Fix:** Click the port in the toolbar and pick the front end under **Serving**. If the Preview keeps opening elsewhere, ask the agent.
+
+    ```text
+    The Preview opens on the API, not the app. Restart the front end as the app I look at in the Preview.
+    ```
+
+    See [Which server does the Preview open on?](/workspace/preview#which-server-does-the-preview-open-on)
+  </Accordion>
   <Accordion title="Sign-in in your app loops, or opens another window">
     **Causes:** Google's sign-in page, like many outside pages, refuses to be shown inside another page. So the **Preview** shows "Continue on accounts.google.com" and opens it in a window of its own. Inside the frame, the browser can also drop your app's sign-in cookies, so the app keeps forgetting you.
 
@@ -243,13 +254,22 @@ A failed turn keeps the workspace and the transcript up to the failure, and your
 
     **Fix:** Go back to the session and send again. Your text is kept in its draft.
   </Accordion>
-  <Accordion title="A download fails with “file is over …” or “the folder is over …”">
-    **Causes:** A single file can be up to {fileDownloadMax}, and a folder up to {folderDownloadMax}. Dependency folders such as `node_modules` are always left out of a folder download and don't count.
+  <Accordion title="A folder download says “the folder is over …”">
+    **Causes:** A folder, or the whole workspace as a `.zip`, can be up to {folderDownloadMax}. Dependency folders such as `node_modules` are always left out and don't count. A single file has no size limit for the session's owner. For people a session is shared with, a text file over {fileDownloadMax} fails in the browser's downloads list.
 
-    **Fix:** Ask the agent to split or compress what you need.
+    **Fix:** Download the files you need one by one, or ask the agent to split or compress what you need.
 
     ```text
     Split exports/harbor-bookings.csv into files small enough to download, and list their paths.
+    ```
+  </Accordion>
+  <Accordion title="A video or audio file says “This file didn't play …”">
+    **Causes:** Your browser can't decode the file's format, or the connection dropped while it played. A `.mov` plays only when the browser can decode the video inside it.
+
+    **Fix:** Click **Retry**. If it still doesn't play, click **Download** and open it in another app, or ask the agent to convert it. See [Play video and audio](/workspace/file-viewers#play-video-and-audio).
+
+    ```text
+    The video at media/harbor-tour.mov doesn't play in the file viewer. Convert it to an H.264 .mp4 next to it.
     ```
   </Accordion>
   <Accordion title="Typing in a file shows “Read-only — ask the agent to change files”">

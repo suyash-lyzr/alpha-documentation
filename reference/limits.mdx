@@ -49,7 +49,8 @@ Files reach the session's machine as uploads, and leave it as downloads. [Files 
 | --- | --- | --- |
 | Size of one uploaded file | {uploadMax} | The upload is refused, and the tile says "Upload failed". Hover it for the reason. |
 | Image the agent can see | {imageMax} | Larger images still land in the session's `uploads` folder. The agent gets them only as files, not as pictures it can look at. |
-| Size of one file you download or view | {fileDownloadMax} | The download is refused. The viewers say the file is more than they can fetch. |
+| Size of one file you view in the workspace | {fileDownloadMax} | The viewer says the file is more than it can fetch and offers a download. Video and audio play at any size. |
+| Size of one file you download from the file tree | None for the session’s owner | Viewers of a [shared session](/sharing) can download a text file of up to {fileDownloadMax}. |
 | Size of a folder you download | {folderDownloadMax} | The download is refused. `node_modules`, `.venv`, `.venvs`, `venv`, `__pycache__` and `.cache` are always left out and don't count. |
 | Text shown in a viewer | 512 KB | The code and source views show the first 512 KB, and the file header says "truncated at 512 KB". Download the file to read the rest. |
 | Results of the file search | 200 | Only the best 200 matches show. Type more of the name. |
@@ -162,8 +163,8 @@ These limits count across your whole account, not per session.
 | --- | --- | --- |
 | Skills you add | 64 per account | Adding another is refused with "at most 64 skills". Remove one first. |
 | Skills shared with everyone | 64 across your Alpha | Sharing another is refused with "at most 64 skills can be shared with everyone". |
-| Size of one skill | 4 MB, and 1 MB per file | The skill is refused with "a skill may total at most 4 MB" (from GitHub: "the skill is over 4 MB"), or with the name of the file that is too large. There is no limit on the number of files. |
-| `SKILL.md` | 256 KB | The skill is refused with "SKILL.md must be under 256 KB". Move detail into reference files beside it. |
+| Size of one skill | 100 MB, and 10 MB per file | The skill is refused with "a skill may total at most 100 MB" (from GitHub: "the skill is over 100 MB"), or with the name of the file that is too large. There is no limit on the number of files. |
+| `SKILL.md` | 1 MB | The skill is refused with "SKILL.md must be under 1 MB". Move detail into reference files beside it. |
 | Local MCP servers | 32 per account | Adding another is refused with "at most 32 MCP servers". Servers you didn't add yourself don't count. |
 | Arguments and settings of a local server | 64 arguments, 32 environment settings | The server is refused with "at most 64 arguments" or "at most 32 environment settings". |
 | Tools from one remote MCP server | 500 | The connection fails with "MCP server returned too many tools". Ask the vendor for a narrower endpoint. |

@@ -85,6 +85,17 @@ A block's buttons stay disabled until the agent's text moves past that block, no
 
 {/* screenshot to capture: /images/chat/genui-quiz.png — Each answer is graded the moment you pick it. Only Go over what I missed, at the end, talks to the agent. */}
 
+## See fonts and colours in the agent's questions
+
+When the agent asks you to choose a look, its questions open one at a time [above the composer](/chat/plan-mode#answer-the-agent’s-questions), and design options show what they describe instead of naming it. **Design system**, a [skill that ships with Alpha](/skills/built-in-skills#get-a-distinctive-design), asks these for an open-ended landing page or site.
+
+| The question asks about | Each option shows |
+| --- | --- |
+| Typography | Its pair of fonts, each line set in its own font: "Title - Cormorant Garamond" in Cormorant Garamond, then "Body - Karla" in Karla, followed by the option's note. "(Recommended)" stays in Alpha's own font. |
+| A palette | Its colours as small round swatches, where the option lists colour codes. |
+
+A font that can't be loaded shows in Alpha's own font, with its name still there. Once you answer, the card in the transcript lists the pair you picked as plain text.
+
 ## Read formulas in a reply
 
 TeX in a reply or in the agent's reasoning draws as typeset math, inline or centred on its own line. Codex's `\(…\)` and `\[…\]` and Claude Code's `$…$` and `$$…$$` draw the same.

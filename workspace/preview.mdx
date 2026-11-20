@@ -27,6 +27,12 @@ Four rules decide what you see:
 
 If the app stops for more than a few seconds, the tab goes away until it runs again. A restart doesn't make it blink. Closing the tab with its × only hides it, and the app keeps running. While the app runs, the **+** menu brings the tab back.
 
+### Which server does the Preview open on?
+
+Many apps run more than one server, such as a web front end, an API and a background helper. The Preview opens on the app's front end, the server the agent started for you to look at. An API or another server that comes up later joins the [port menu](#switch-ports) and doesn't take over the frame. A port you pick from the menu stays on screen.
+
+If the Preview shows an API or a helper instead of your app, pick the front end from the port menu, or ask the agent: "Start the front end as the app I look at in the Preview."
+
 ## Use the toolbar
 
 The toolbar works like a small browser for your app. Its controls sit in three groups: the device switch on the left, the address bar in the middle, and the tools on the right, followed by **Open in new tab**. **Back** and **Forward** move through the app's own history, single-page routes included, and never move Alpha's own address bar.
@@ -45,7 +51,7 @@ When the workspace is narrow, the device switch is hidden first, then the tools 
 
 ## Switch ports
 
-When your app runs more than one server, such as a web front end and an API, click the port to list them all. The menu opens under the port. Ports that serve a page come first, under **Serving**, with a check on the one on screen. The rest sit under **Also listening · no page to frame**, each with its reason. Only servers the agent started appear here.
+When your app runs more than one server, such as a web front end and an API, click the port to list them all. The Preview opens on the front end, and the others wait here (see [Which server does the Preview open on?](#which-server-does-the-preview-open-on)). The menu opens under the port. Ports that serve a page come first, under **Serving**, with a check on the one on screen. The rest sit under **Also listening · no page to frame**, each with its reason. Only servers the agent started appear here.
 
 <Frame caption="With one server running, the menu holds one port, checked as the one on screen.">
   <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/preview-port-menu.webp" alt="The Preview's port menu open under the address bar, which reads node · 3000 with a status dot. The menu is headed SERVING and holds one row, node · 3000 with the Node mark, checked. Draw and Select sit to the right of the bar, and the Harbor app's Sign in button and headline show behind the menu." />

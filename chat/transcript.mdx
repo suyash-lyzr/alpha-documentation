@@ -62,9 +62,19 @@ Between outputs, a pixel loader shows a verb that changes every 3 seconds ("Hamm
 
 Turns keep running while you work elsewhere, so Alpha tells you when one finishes or waits on you.
 
-| Signal | When you see it |
+The browser tab's icon carries a dot for the session open in that tab, so you can tell from another tab or window when to come back. You count as away when the tab is in the background or its window isn't the one in front.
+
+| Dot on the tab's icon | When you see it |
 | --- | --- |
-| An orange dot on the browser tab's icon | The session open in that tab is waiting on you: questions to answer or, in an older Claude Code session, an action to approve. |
+| Grey | The agent is working. While you're away the dot pulses about once a second; while you're on the tab, or when your computer is set to reduce motion, it holds still. |
+| Green | A turn finished while you were away. It stays until you come back to the tab. |
+| Amber | The agent is waiting on you: questions to answer or, in an older Claude Code session, an action to approve. The tab's title then starts "Needs your input · ", such as "Needs your input · Harbor bookings — Alpha". |
+| No dot | Nothing is running and nothing is waiting, or you're on the home screen |
+
+A turn you stop never turns the dot green. In a session [shared with you](/sessions/organize#sessions-shared-with-you), the agent's questions are for its owner, so while one waits the dot stays grey, and the title doesn't start "Needs your input".
+
+| Other signal | When you see it |
+| --- | --- |
 | A speech bubble with a question mark, "Needs your answer" | Before the session's title while it waits on you, and on its row in the sidebar. |
 | A short chime | A turn finished in a session you weren't watching: another session, or this one while the tab was in the background or a page such as **Settings** covered it. |
 | The browser tab's title | Follows where you are: the session's title, such as "Harbor bookings — Alpha", or a page, such as "Settings — Alpha". |

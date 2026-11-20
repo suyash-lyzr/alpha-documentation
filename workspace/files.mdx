@@ -14,7 +14,7 @@ The files panel lists everything in your session's workspace, the `/workspace` f
 
 ## Open the files panel
 
-Click the folder button (**Show files**) at the top right of the workspace, or in the chat header while there's no workspace yet. The panel's header reads **Workspace · N files**, with buttons to download the workspace, **Refresh files** and **Hide files**. Drag the panel's divider to widen it, and click **Hide files** to put it away.
+Click the folder button (**Show files**) at the top right of the workspace, or in the chat header while there's no workspace yet. The panel's header reads **Workspace · N files**, with buttons to download the workspace, **Refresh files** and **Hide files**. Drag the panel's divider to widen it, and click **Hide files** to put it away. On a tablet the panel covers the workspace, and on a phone the whole screen. It closes once you open a file. See [Phones and tablets](/account/phones-and-tablets).
 
 The tree keeps up with the agent by itself while a turn runs. **Refresh files** re-reads it at once.
 
@@ -85,9 +85,13 @@ Each file can be up to [{uploadMax}](/reference/limits), and images up to {image
 
 ## Download what the agent made
 
-Right-click a row: a file offers **Download**, a folder **Download folder (.tar.gz)**. The item reads "Downloading…" until the file arrives. If the download is refused, the menu stays open with the reason.
+Right-click a row: a file offers **Download**, a folder **Download folder (.tar.gz)**. Downloads save straight to your disk, with your browser's own progress in its downloads list, so you can keep working while a large one arrives.
 
-To take everything at once, click the download button in the files panel's header, **Download the workspace (.zip)**. It reads "Zipping the workspace…" while it works, then saves `workspace.zip`. If the download is refused, the button turns red and its tooltip gives the reason, such as "Download failed: the folder is over 500 MB, not counting dependency folders".
+| You download | What you see |
+| --- | --- |
+| A file | Click **Download** and the menu closes. The browser saves the file under its own name. If the connection drops, resume it from the browser's downloads list. |
+| A folder | The item reads "Preparing…" while Alpha checks the folder, then the browser saves `<folder>.tar.gz`. If the folder can't be downloaded, the menu stays open with the reason, such as "the folder is over 500 MB, not counting dependency folders". |
+| The whole workspace | Click the download button in the files panel's header, **Download the workspace (.zip)**. Its tooltip reads "Preparing the workspace…" while Alpha checks it, then the browser saves `workspace.zip`. If it can't be downloaded, the button turns red and its tooltip gives the reason, such as "Download failed: the folder is over 500 MB, not counting dependency folders". |
 
 <Frame caption="Right-click a folder to download it as one .tar.gz archive.">
   <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/workspace/files-download-menu.webp" alt="The files panel's tree with a small context menu open over the public folder, holding one item, Download folder (.tar.gz). Around it the tree lists the data, db and test folders and the files .gitignore, app.js, auth.js, package-lock.json and package.json with their sizes." />
@@ -95,13 +99,13 @@ To take everything at once, click the download button in the files panel's heade
 
 | What you download | Limit | Notes |
 | --- | --- | --- |
-| A file | [{fileDownloadMax}](/reference/limits) | Larger files are refused with "file is over 32 MB". |
+| A file | None | Any size downloads, including large videos and datasets. |
 | A folder | [{folderDownloadMax}](/reference/limits) before compression | Leaves out `node_modules`, `.venv`, `.venvs`, `venv`, `__pycache__` and `.cache`, which don't count. Larger folders are refused with "the folder is over 500 MB, not counting dependency folders". |
 | The whole workspace (`.zip`) | [{folderDownloadMax}](/reference/limits) before compression | The same as a folder: dependency folders are left out and don't count. |
 
-An archive keeps `.git` and `dist`, which the tree hides. To keep the code somewhere for good, [push it to GitHub](/github/branches-and-prs). An open PDF, image, drawing or Office document also has a **Download the file** button. To give someone one file with a link of its own, [publish it as an artifact](/artifacts).
+An archive keeps `.git` and `dist`, which the tree hides. To keep the code somewhere for good, [push it to GitHub](/github/branches-and-prs). An open PDF, image, video or audio file, drawing or Office document also has a **Download the file** button. To give someone one file with a link of its own, [publish it as an artifact](/artifacts).
 
-Viewers of a [shared session](/sharing) can download files but not folders or the whole workspace. Their copy of a file has the owner's secret values replaced with `[redacted]`, which an archive can't do. While the owner is away, a viewer can't wake a sleeping machine, so a download fails with "this session's machine is asleep while its owner is away".
+Viewers of a [shared session](/sharing) can download files but not folders or the whole workspace. Their copy of a text file has the owner's secret values replaced with `[redacted]`, which an archive can't do, and a text file over [{fileDownloadMax}](/reference/limits) doesn't download for them. While the owner is away, a viewer can't wake a sleeping machine, so their downloads fail in the browser until the owner is back.
 
 ## Why can't I edit files here?
 

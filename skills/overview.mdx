@@ -101,7 +101,7 @@ Click **Write a skill** or **Import from GitHub**. Both open the **Add a skill**
   <Tab title="Import from GitHub">
     Paste `owner/repo`, `owner/repo/path/to/skill` or a github.com link to the skill's folder into **Repository or URL**. When you give only `owner/repo`, put the folder holding `SKILL.md` in **Path (optional)**. **Branch or tag (optional)** pins a version. Click **Add to your skills**; the button reads "Fetching…" while Alpha downloads the folder, reference files and scripts included.
 
-    Private repositories need [GitHub connected](/github/connect) in a session. There is no limit on the number of files. Files over 1 MB are skipped, and the banner says how many. If the folder adds up to more than 4 MB, the import stops with "the skill is over 4 MB".
+    Private repositories need [GitHub connected](/github/connect) in a session. There is no limit on the number of files. Files over 10 MB are skipped, and the banner says how many. If the folder adds up to more than 100 MB, the import stops with "the skill is over 100 MB".
 
     <Frame caption="A link to the skill’s folder is enough; Path and Branch or tag are optional.">
       <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/skills/skills-add-import.webp" alt="The Add a skill dialog with Import from GitHub selected. The REPOSITORY OR URL field shows a GitHub folder link as a placeholder, with a hint that a private repository needs GitHub connected. Below are PATH (OPTIONAL) and BRANCH OR TAG (OPTIONAL), with skills/pdf and main as placeholders, a ticked Let the agent use it on its own box, and Cancel and Add to your skills at the bottom right." />
@@ -185,8 +185,8 @@ These limits are fixed, so no setting changes them.
 | Limit or message | What it means |
 | --- | --- |
 | 64 skills per account | "at most 64 skills". Remove one before adding another. |
-| 4 MB per skill, 1 MB per file | "a skill may total at most 4 MB", or "the skill is over 4 MB" when Alpha fetches it from GitHub: a catalog install, an import or a refresh. Larger single files are skipped on import and refresh. There is no limit on the number of files. |
-| 256 KB for `SKILL.md` | "the skill is too long" when you write or edit one, "SKILL.md must be under 256 KB" on import. Move detail into reference files beside it. |
+| 100 MB per skill, 10 MB per file | "a skill may total at most 100 MB", or "the skill is over 100 MB" when Alpha fetches it from GitHub: a catalog install, an import or a refresh. Larger single files are skipped on import and refresh. There is no limit on the number of files. |
+| 1 MB for `SKILL.md` | "the skill is too long" when you write or edit one, "SKILL.md must be under 1 MB" on import. Move detail into reference files beside it. |
 | Name already taken | "a skill named … already exists". Pick another name. |
 | "no SKILL.md in … — point at the skill's own directory" | The link doesn't point at a skill's own folder. Add the path to the folder that holds `SKILL.md`. |
 | "… is already installed" | You already have that catalog skill |
