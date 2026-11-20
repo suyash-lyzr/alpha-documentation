@@ -9,7 +9,7 @@ import { versionsKept, publishPerSession, publishPerAccount } from '/snippets/li
 A published app is a service with its own page in the session's **Publish** tab, where you republish it, change how it runs, switch between its versions and delete it. To put an app online the first time, see [Publish your app](/publish/publish-your-app). For its logs and metrics, see [Monitor and troubleshoot production](/publish/monitor).
 
 <Frame caption="A live service's page with Details open: the header and its actions, the address line, History, and the Details rail at the right.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-service-live.webp" alt="The Publish tab showing harbor-bookings, marked live, with Edit settings, Republish and ⋯. The address harbor-bookings.apps.example.com has a copy button and Open, with also harbor-bookings-4k2p.apps.example.com under it. Below are the Production database card and History, where Version 5 · live · 2 h ago · by the agent · 2m 38s is open with its Log, from Publishing harbor-bookings, version 5 through Build finished in 1m 52s, Starting version 5… and Health check: GET / → 200 to Live at https://harbor-bookings.apps.example.com, and Version 4 · ready with Roll back below it. The Details rail shows Stack Node · Express, Starts with npm start, Port 3000, Source, Toolchain node 22.11.0, Environment STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY plus the paler database variable names, and Services: Database harbor_bookings, Sign-in off." />
+  <img src="/images/publish/publish-service-live.webp" alt="The Publish tab showing harbor-bookings, marked live, with Edit settings, Republish and ⋯. The address harbor-bookings.apps.example.com has a copy button and Open, with also harbor-bookings-4k2p.apps.example.com under it. Below are the Production database card and History, where Version 5 · live · 2 h ago · by the agent · 2m 38s is open with its Log, from Publishing harbor-bookings, version 5 through Build finished in 1m 52s, Starting version 5… and Health check: GET / → 200 to Live at https://harbor-bookings.apps.example.com, and Version 4 · ready with Roll back below it. The Details rail shows Stack Node · Express, Starts with npm start, Port 3000, Source, Toolchain node 22.11.0, Environment STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY plus the paler database variable names, and Services: Database harbor_bookings, Sign-in off." />
 </Frame>
 
 Pick the action by what you want to change:
@@ -51,7 +51,7 @@ A session can publish up to [{publishPerSession}](/reference/limits), one per di
 When one of them is an [AI agent's API](/agents/build-an-agent), each service carries a tag: **App** for "The app people open", **API** for "The agent's API: called from code, not opened in a browser". An API's address line has **Copy endpoint** in place of the copy button and **Open**, and a note under it: "The agent's API, for calling it from code. The app people open is harbor." Click the app's name to open its page.
 
 <Frame caption="Two services in one session, told apart by their App and API tags.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-service-switcher.webp" alt="The harbor-bookings name opened as a menu, with the tags App and live in the header. The menu lists harbor-bookings · App · live and harbor-assistant-api · API · live, each with its address, then + Publish another app." />
+  <img src="/images/publish/publish-service-switcher.webp" alt="The harbor-bookings name opened as a menu, with the tags App and live in the header. The menu lists harbor-bookings · App · live and harbor-assistant-api · API · live, each with its address, then + Publish another app." />
 </Frame>
 
 ## Republish your changes
@@ -62,6 +62,10 @@ A republish sends "Republish harbor." to the agent, with the service's name, as 
 | --- | --- |
 | **Republish** in the service's header | Sends the message at once. Its tooltip reads "Sends “Republish harbor.” to the agent — it publishes the latest changes as a new version". |
 | **Publish changes** in the **Publish** dialog | Click **Publish** beside **Share** to open the dialog, then **Publish changes**. The dialog stands for the service the **Publish** tab shows, or else the first live one. If you picked a domain with **Add domain**, the app gets it first. |
+
+<Frame caption="The Publish dialog for a live app: its address, your own domain and who can see it.">
+  <img src="/images/publish/publish-dialog-live.webp" alt="The Publish dialog with a green dot, Published and Live · published 2 h ago, and a ⋮ menu. Under Website URL: the address harbor-bookings.apps.exam… with pencil, copy and open icons; www.harbor-sailing.com marked Live, with copy and × (stop using) icons; and Visible to anyone with the link." />
+</Frame>
 
 Once a service is live, the **Publish** pill shows a green dot (tooltip "Published: its address, its domain, a new version"). The dialog it opens reads "Published", with "Live · published 2 h ago" under it. Under **Website URL** come the address, which opens the app, with a pencil to [rename it](/publish/custom-domains#rename-the-app’s-address) where your Alpha has its own domain, a copy button (tooltip "Copy the app's link") and **Visit site**; your own domain, if the app has one, with its state; and "Visible to anyone with the link". **Add domain** beside **Website URL** connects a domain you own (see [Custom domains](/publish/custom-domains#connect-a-domain)). A line under them says where the app runs, its port, and whether it has its own database and sign-in.
 
@@ -92,14 +96,14 @@ Both buttons are held while a turn runs ("The agent is busy — ask once it is d
     The rows sit under **Build and run** and **Production services**. After you change **Run command**, press <kbd>Enter</kbd>, click away or click **Check** so Alpha checks it. **Republish** stays off until it has.
 
     <Frame caption="The first address stays fixed. The address on the Alpha's domain under it can be renamed.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-edit-settings.webp" alt="Settings for harbor-bookings with a back arrow. A summary line reads Node · Express, node 22.11.0, 0.8 MB of source and $ npm start. Under Build and run, the Address row says Kept when you republish. beside a read-only field https://harbor-bookings-4k2p.apps.example.com, with also https://harbor-bookings.apps.example.com under it." />
+  <img src="/images/publish/publish-edit-settings.webp" alt="Settings for harbor-bookings with a back arrow. A summary line reads Node · Express, node 22.11.0, 0.8 MB of source and $ npm start. Under Build and run, the Address row says Kept when you republish. beside a read-only field https://harbor-bookings-4k2p.apps.example.com, with also https://harbor-bookings.apps.example.com under it." />
 </Frame>
   </Step>
   <Step title="Pick the environment">
     Click **change** beside the variable names. Current ones become **kept:** chips, and × drops one. Click a secret's chip to include it, or **Add a variable** to type a `NAME` and `value`. **keep all as they are** undoes your changes.
 
     <Frame caption="Secrets are picked by name. Their values never appear in the form.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-env-picker.webp" alt="The Environment row, with the hint Only what you pick here reaches production, at build time and at runtime. It shows kept: chips STRIPE_SECRET_KEY × and STRIPE_PUBLISHABLE_KEY ×, a keep all as they are link, and secret chips SESSION_SECRET, STRIPE_SECRET_KEY, STRIPE_PUBLISHABLE_KEY, RESEND_API_KEY (highlighted as picked) and MAPBOX_TOKEN, with + Add a variable below." />
+  <img src="/images/publish/publish-env-picker.webp" alt="The Environment row, with the hint Only what you pick here reaches production, at build time and at runtime. It shows kept: chips STRIPE_SECRET_KEY × and STRIPE_PUBLISHABLE_KEY ×, a keep all as they are link, and secret chips SESSION_SECRET, STRIPE_SECRET_KEY, STRIPE_PUBLISHABLE_KEY, RESEND_API_KEY (highlighted as picked) and MAPBOX_TOKEN, with + Add a variable below." />
 </Frame>
   </Step>
   <Step title="Republish">
@@ -144,7 +148,7 @@ Rolling back puts a version that already exists back in front of visitors. Alpha
 | **gone** (struck through) | No longer exists, because it was removed outside Alpha. | Nothing. It can't be served again. |
 
 <Frame caption="History, newest first. A ready version is one click from serving again, with Roll back or Roll forward at the end of its row.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-versions-fold.webp" alt="A History timeline: Version 5 · ready · 2 h ago · by the agent · 2m 38s with Roll forward; Version 4 · live · 14 h ago · from the dialog · 2m 43s with Show log; Version 3 · ready with Roll back; Version 2 · failed · 17 h ago · by the agent · 1m 14s; and Version 1 · ready with Roll back." />
+  <img src="/images/publish/publish-versions-fold.webp" alt="A History timeline: Version 5 · ready · 2 h ago · by the agent · 2m 38s with Roll forward; Version 4 · live · 14 h ago · from the dialog · 2m 43s with Show log; Version 3 · ready with Roll back; Version 2 · failed · 17 h ago · by the agent · 1m 14s; and Version 1 · ready with Roll back." />
 </Frame>
 
 Each switch also posts a card in the transcript, such as "Rolled harbor back to version #3". Your next republish makes the new version live again, so a rollback never holds the app on an old version. Alpha keeps the last [{versionsKept}](/reference/limits), never removing the serving one.
@@ -160,7 +164,7 @@ Open **⋯** (**More actions**) in the service's header and choose **Delete serv
 You can also delete from the service's card on the [**Published** page](/publish/monitor#see-everything-you’ve-published): its trash button asks "Delete harbor and its database?" (or "Delete harbor?" without one), with **Keep** and **Delete**.
 
 <Frame caption="One more click deletes the service. Keep backs out.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-delete-confirm.webp" alt="The harbor-bookings header, marked live, where the ⋯ button has given way to a red Delete service button and Keep, beside Edit settings and Republish." />
+  <img src="/images/publish/publish-delete-confirm.webp" alt="The harbor-bookings header, marked live, where the ⋯ button has given way to a red Delete service button and Keep, beside Edit settings and Republish." />
 </Frame>
 
 <Warning>
