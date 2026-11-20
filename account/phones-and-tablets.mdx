@@ -1,0 +1,173 @@
+---
+title: "Use Alpha on a phone or tablet"
+sidebarTitle: "Phones and tablets"
+description: "Every screen of Alpha has a layout for phones and tablets: the chat and the workspace take turns on a phone, the sidebar opens over the page, and touch shows every control."
+---
+
+Alpha works in the browser on a phone or a tablet, with the same sessions, pages and dialogs as on a computer. Each screen rearranges itself to fit and to work by touch. On a window 1024 pixels wide or wider, nothing changes: you get the desktop layout described everywhere else in these docs.
+
+## Which layout do I get?
+
+Alpha picks a layout from the width of the browser window, not from the kind of device.
+
+| Window width | Layout | What changes |
+| --- | --- | --- |
+| 1024 pixels or wider | Desktop | Nothing. The chat and the workspace sit side by side, and the sidebar takes room beside them. |
+| Narrower than 1024 pixels | Tablet | The sidebar and the files panel open over the page. The chat keeps a narrow column beside the workspace. |
+| Narrower than 768 pixels | Phone | One pane at a time: the chat or the workspace. Rows of controls wrap or scroll sideways. |
+
+On a touch screen of any width, controls that otherwise appear only when you hover are always shown (see [Controls that appear on hover](#controls-that-appear-on-hover)).
+
+A narrow desktop window gets the same layouts, so you can try them by making your browser window narrower.
+
+## Open the sidebar
+
+Below 1024 pixels the sidebar doesn't take room beside the page. Tap the menu button at the top left to open it over the page, with the page dimmed behind it. While it's open, the page underneath doesn't respond.
+
+It closes when you:
+
+- Pick a session, by tapping it or through **Search**.
+- Pick a page, such as **Skills** or **Settings**, or **New session**.
+- Tap the dimmed page beside it, or press <kbd>Esc</kbd> on a keyboard.
+
+If a session disappears from under you while the sidebar is open, for example because it was deleted in another tab, the sidebar stays open so you can pick another. Everything in it works as described in [Organize your sessions](/sessions/organize).
+
+<Frame caption="The sidebar opens over the page, with the session dimmed behind it.">
+  <img width="360" src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@8ea45239db4f2b2017841c8de11102e009cb0110/images/account/phone-sidebar.webp" alt="A phone screen with the sidebar open over the dimmed Harbor bookings chat: Alpha at the top, New session and Search, then Published, Domains, Artifacts, Skills, Routines and Integrations, and the Sessions list with Harbor bookings highlighted among the Harbor sessions. The account badge Guest is at the bottom." />
+</Frame>
+
+## Start from the home screen
+
+The [home screen](/sessions/home-screen) keeps its greeting, its composer and the chips that set up the next session. On a phone the greeting and the composer's placeholder are smaller, while what you type stays full size.
+
+Below 1024 pixels, the row of suggestion chips (**Apps**, **Agents**, **Decks & docs** and the rest) becomes one **Need ideas?** button. Tap it and a sheet slides up from the bottom of the screen:
+
+<Steps>
+  <Step title="Pick a category">
+    The sheet, titled **Ideas**, lists each category with its icon and its first suggestion underneath, such as "Build a portfolio site and publish it live" under **Apps**.
+  </Step>
+  <Step title="Pick a suggestion">
+    The sheet shows that category's suggestions, with the category's name as its title. The back arrow returns to the categories.
+  </Step>
+  <Step title="Edit and send">
+    The sheet closes and the suggestion fills the composer. Change it to fit your project, then send it.
+  </Step>
+</Steps>
+
+The **×** at the top right, a tap outside the sheet or <kbd>Esc</kbd> closes it without filling anything in.
+
+<Frame caption="Need ideas? opens the Ideas sheet with every category and its first suggestion.">
+  <img width="360" src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@8ea45239db4f2b2017841c8de11102e009cb0110/images/account/phone-home-ideas.webp" alt="The home screen on a phone, dimmed behind a sheet titled Ideas with an × at the right. It lists Apps, Build a portfolio site and publish it live; Agents, Answer customer questions from my FAQ; Decks & docs, Pitch my startup in ten slides; Images & video, Make a 30-second launch video; Data, Model a SaaS startup's next three years; Automations, Get a morning digest of AI news; and Research, Plan a 3-day road trip on a map." />
+</Frame>
+
+## Work in a session on a phone
+
+On a phone the chat and the workspace take turns, each filling the screen. A session always opens on its chat, including when you switch to it from the sidebar.
+
+| To | Do this |
+| --- | --- |
+| See the workspace | Tap **Show workspace**, the panel button at the right of the session's header. It's there once the workspace has something to show. |
+| Go back to the chat | Tap **Show chat**, the panel button at the top left of the workspace, beside the sidebar's menu button. |
+
+The workspace comes up by itself when you ask to see something in it: when you tap a file in the chat, pick a file in the files panel, open a tab from the **+** menu, open **GitHub**, or switch a service on from the **+** in the chat's header.
+
+What the agent opens doesn't take you away from the chat. When it starts your app in the Preview, switches the Shell on or opens a deck, the tab appears in the workspace, and you stay where you are, mid-sentence in the composer if you were typing. A new plan is the one exception: the **Plan** tab comes up, because its **Implement this plan** button is there (see [Build the plan](/chat/plan-mode#build-the-plan)).
+
+Going back to the chat doesn't open your phone's keyboard. Tap the composer when you want to type.
+
+<Frame caption="On a phone, a session opens on its chat. Show workspace is at the right of the header.">
+  <img width="360" src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@8ea45239db4f2b2017841c8de11102e009cb0110/images/account/phone-session-chat.webp" alt="The Harbor bookings session on a phone: the header with the menu button, the title Harbor bookings and the Show workspace panel button at the right; the end of the agent's summary, a question from the user and the agent's answer about the booking page; and the composer at the bottom with +, the model chip, the effort chip, Build and the send button." />
+</Frame>
+
+### The workspace's top rows
+
+With the workspace in front, its top row holds **Show chat** on the left and the session's buttons on the right: **GitHub**, **Share**, **Publish**, the bug icon and the files button. The tabs take a second row of their own, and scroll sideways when they don't fit. The controls of the tab in front, such as the Shell's, wrap onto a line under the tabs. With a file's tab in front, **Publish as artifact** reads **Publish** below 1024 pixels, and does the same thing.
+
+<Frame caption="The workspace fills the screen. Show chat at the top left goes back to the chat.">
+  <img width="360" src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@8ea45239db4f2b2017841c8de11102e009cb0110/images/account/phone-session-workspace.webp" alt="The workspace on a phone: the menu and Show chat buttons at the top left with GitHub, Share and the files button at the right; a second row of tabs, Preview, Shell and Database; the Preview toolbar; and the Harbor Sailing School booking page with the headline Good days start on the water. and a photo of a sailboat." />
+</Frame>
+
+### The files panel
+
+The files button opens the files panel over the whole screen on a phone, and over the workspace from the right on a tablet. It closes by itself once it has opened a file, so the file is in front. See [Files](/workspace/files).
+
+## Work in a session on a tablet
+
+On a tablet the chat and the workspace stay side by side, and the chat keeps a column at least 320 pixels wide, so the conversation stays readable next to the Preview. The files panel opens over the workspace from the right and closes once it has opened a file. The sidebar opens over the page, as on a phone.
+
+<Frame caption="On a tablet, the chat keeps a column beside the Preview.">
+  <img width="560" src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@8ea45239db4f2b2017841c8de11102e009cb0110/images/account/tablet-session.webp" alt="The Harbor bookings session on a tablet: a narrow chat column on the left with the agent's steps, its summary and the composer, and the workspace on the right with the Preview tabs and toolbar showing the booking page's class cards, Beginner dinghy with Emma Wilson and a Book a place button, then Intermediate keelboat." />
+</Frame>
+
+## Preview, files and viewers on a small screen
+
+The [Preview](/workspace/preview) works as it does on a computer. In a narrow workspace its toolbar drops the device switch first, then shows **Draw**, **Select** and **Edit** as icons without their names.
+
+The file viewers fit the narrower space:
+
+| Viewer | On a phone |
+| --- | --- |
+| Every viewer with a bar along the bottom | The bar scrolls sideways when its buttons don't fit. |
+| A file's header | Leaves out the file's size and the **read-only** chip. The file is still read-only. |
+| Code | No minimap at the side, so the code gets the full width. |
+| Decks | No filmstrip. Use the arrows in the bottom bar to move between slides. See [Decks and drawings](/workspace/decks-and-drawings). |
+| **Database** | The list of tables sits above the table you're looking at, instead of beside it. |
+
+Below 1024 pixels, a wide table in the chat scrolls sideways inside its own box, so the rest of the transcript doesn't move.
+
+## Settings and other pages
+
+The pages you open from the sidebar, such as **Usage**, **Skills**, **Secrets**, **Setups** and **Settings**, rearrange themselves too:
+
+- On a phone, a page's title sits on its own line, with its buttons and search box wrapping underneath.
+- Cards that sit two to a row on a computer stack in one column on a phone.
+- Rows of tabs, such as the **All**, **Yours** and **Shared with you** tabs on the Artifacts page, scroll sideways below 1024 pixels when they don't fit.
+- On a phone, forms with two fields side by side put one under the other, and the tables on the **Admin** pages scroll sideways inside their card.
+- On **Settings** on a phone, the **General** and **Memory** buttons sit in a row above the settings instead of in a column on the left.
+
+Dialogs fit inside the screen and scroll when their content is taller. Below 1024 pixels, menus and pop-ups are never wider than the screen. On a phone, a pop-up that belongs to the pane you can't see, such as the first-time hint about publishing a file as an artifact, waits until you show that pane.
+
+## Controls that appear on hover
+
+With a mouse, some controls appear only when the pointer rests on their row. On a touch screen of any width they're always shown, so you can tap them straight away:
+
+| Where | Control |
+| --- | --- |
+| A session in the sidebar | The **⋯** menu (pin, rename, move to a group, delete) |
+| Your own messages in the chat | **Copy**, and **More** under the session's first message |
+| Queued messages above the composer | **Send now**, edit, delete and **More actions** |
+| A card on the **Artifacts** page | Its menu |
+| A routine on the **Routines** page or in the **Routines** tab | Its actions |
+| An attachment in the bug report | The **×** that removes it |
+| A line in **Production Logs** | The button that pastes the line into the chat for the agent |
+| Your message in the **Agent** tab's **Try it** chat | **Edit and run again** |
+
+## Typing on a phone
+
+- Tapping a text field doesn't zoom the page in.
+- The composer stays above your phone browser's toolbars. On Android, the keyboard shrinks the page instead of covering the composer.
+
+## Known issues
+
+| Issue | What to do |
+| --- | --- |
+| A phone held sideways gets the tablet layout, which leaves the chat little height. | Hold the phone upright. |
+| The card that shows a session's first prompt when you hover its row in the sidebar has no touch equivalent. | Open the session to read it. |
+| A tab that isn't in front shows its **×** only once you pick it, on touch as with a mouse. | Tap the tab first, then its **×**. |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="The workspace" icon="table-columns" href="/workspace/overview">
+    Every tab, and how to arrange the chat and the workspace on a larger screen.
+  </Card>
+  <Card title="The home screen" icon="house" href="/sessions/home-screen">
+    The composer, the chips that set up a session, and the suggestions.
+  </Card>
+  <Card title="Organize your sessions" icon="list" href="/sessions/organize">
+    Find your way around the sidebar, and search every session.
+  </Card>
+  <Card title="Your account and settings" icon="gear" href="/account/your-account">
+    Sign in, the account menu and the Settings page.
+  </Card>
+</CardGroup>

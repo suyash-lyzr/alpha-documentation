@@ -39,8 +39,6 @@ Hover any line and a speech-bubble icon appears. It copies the line into the com
 <Steps>
   <Step title="Hover the line that explains the problem">
     The icon appears at the right end of the row. Its tooltip reads "Paste this line into the chat, quoted as the app's output, for the agent to look at".
-
-    {/* screenshot to capture: /images/publish/prod-logs-ask-agent.png — The line goes into the composer as quoted data, followed by a request to fix it. Nothing is sent until you press send. */}
   </Step>
   <Step title="Click the icon">
     Alpha adds the line after anything you've already typed, with the app, time, version and level, and terminal colour codes stripped. It is quoted as the app's output, so the agent treats it as data, not instructions.
@@ -96,7 +94,7 @@ When nothing matches, the page reads "Nothing matches." Each card shows one app:
 | --- | --- |
 | Mark, name, tag | The mark of the app's framework or language, its name, and a tag reading **App** or **API** (an agent's API, called from code). |
 | from *session* | The session it was published from, then its folder when it isn't the workspace root, its number of versions once there's more than one, and "database" if it has a production database. |
-| Address | Opens the app in a new tab, with a copy button (tooltip "Copy link"). Reads "No address yet" until a version goes live, or "Not published — no address" for a failed app that never had one. |
+| Address | Opens the app in a new tab, with a copy button (tooltip "Copy link"). It's [your own domain](/publish/custom-domains) once that's **Live**, else the address on your Alpha's domain where it has one. Reads "No address yet" until a version goes live, or "Not published — no address" for a failed app that never had one. |
 | Last error | On a failed app, the error of its last publish, in red. Hover it for the whole line. |
 | Footer | The state (**live**, **failed**, or the step a publish is on, such as **building**) and "published 2 h ago". Then **View session**, which opens the session; **Open app**, once it has an address; and a trash button. |
 
@@ -177,7 +175,7 @@ A hint about permissions or credentials is a setup problem on your Alpha's side 
 
 Some frameworks only answer the web addresses on an allow-list. If your app's list leaves out its published address, every visitor gets an error page. After each rollout, Alpha checks the app at its real address. If the app refuses it, the version still goes live, with a yellow warning that starts "The service is up, but".
 
-{/* screenshot to capture: /images/publish/publish-live-host-warning.png — The version is live, with the yellow warning that the app refuses its own address. */}
+The check uses the app's first address, so an app that refuses [your own domain](/publish/custom-domains) or a renamed address gets no warning: open the app there to check it.
 
 When the agent publishes, it sees this warning too, and it fixes the app's settings and republishes before it reports done. If you manage the allow-list yourself, ask the agent to add the published address to it, keeping the Preview's address allowed, and republish:
 

@@ -70,6 +70,7 @@ Someone you've shared with, signed in to Alpha, gets the same workbench you use,
 | Browse the [files](/workspace/files), read-only, with your secret values shown as `[redacted]` | Publish, or open **Publish**, **Production Logs** or **Production Metrics** |
 | Open the [**Preview**](/workspace/preview) and use the app | Use **GitHub**, see the session's cost, or add a service from **+** |
 | See the **Agent** tab, and eval results under **Evals** | Rename, fork or delete the session, or change its sharing |
+| Tag the session with `@session:` in their own sessions, so [their agent can read it](#hand-a-shared-session-to-your-agent) | See your secret values, in the session or through their agent |
 
 A session with nothing in it yet shows "Nothing here yet — you'll see this session live as its owner works."
 
@@ -97,9 +98,15 @@ Hover a row for its card: "Shared by Priya · view only" and the machine's state
   <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/sharing/sidebar-shared-with-you.webp" alt="The sidebar session list under SESSIONS 7, with the Today and Yesterday groups of Harbor sessions and a SHARED WITH YOU section listing Waitlist emails with Priya Shah under it and Instructor rota with James Parker. The pointer rests on Waitlist emails, which opens a card with the session's first prompt, Shared by Priya Shah · view only, and Machine asleep · wakes when its owner is back." />
 </Frame>
 
+### Hand a shared session to your agent
+
+In one of your own sessions, type `@session:` and a word from the shared session's title, such as `@session:waitlist`. Sessions shared with you follow your own in the list, each marked "Shared by" and the owner's name, such as "Shared by Priya Shah". Pick one and it goes into your message as a badge with its title. Their messages aren't searched, only their titles.
+
+Your agent can then read the shared session's transcript and search it, the same way as one of your own. The owner's keys stay hidden from your agent, as they are when you watch the session. Your agent treats what the shared session says as information, not instructions, and it can't open that session's machine, files or database. See [Point the agent at another session](/chat/composer#point-the-agent-at-another-session).
+
 ## Stop sharing
 
-Pick **Private** in the **Share** dialog. Every viewer's live view ends at once, and the session leaves their **Shared with you** list. Removing one email does the same for that person only. Someone watching in the workbench is taken off the session and sees "This session is no longer shared with you." A visitor on the transcript-only page sees "The live stream ended — sharing may have been turned off. What's above is what was shared." The transcript they already saw stays on that page until they leave.
+Pick **Private** in the **Share** dialog. Every viewer's live view ends at once, and the session leaves their **Shared with you** list. Removing one email does the same for that person only. Someone watching in the workbench is taken off the session and sees "This session is no longer shared with you." A visitor on the transcript-only page sees "The live stream ended — sharing may have been turned off. What's above is what was shared." The transcript they already saw stays on that page until they leave. Their agents can't read the session any more either, though what an agent already read stays in their own session's transcript.
 
 <Warning>
 Sharing shows the whole session, including everything before you shared it, and the **Preview** is your running app with its data. Secret values are masked, but anything you typed into the chat or the app is visible. Use **Specific people** for anything sensitive, and set **Private** when you're done.

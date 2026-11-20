@@ -50,8 +50,8 @@ Nothing is set ahead of time. A session without a database has no `DATABASE_URL`
 | --- | --- | --- |
 | `DATABASE_URL` | The session's database is on | The connection string for the session's PostgreSQL. Apps should read this rather than hard-code one. |
 | `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE` | The session's database is on | The same connection, split up, so `psql` connects with no arguments |
-| Your app's sign-in settings | App sign-in is on | What your app needs to sign users in, already filled in. See [Add sign-in to your app](/workspace/app-sign-in). |
-| Your app's key for connected apps | Integrations are turned on for your Alpha | The address and key your app uses to call your connected apps and MCP servers. See [Use integrations in your app](/integrations/in-your-app). |
+| Your app's sign-in settings, whose names start with `ALPHA_` | App sign-in is on | What your app needs to sign users in, already filled in. See [Add sign-in to your app](/workspace/app-sign-in). |
+| `ALPHA_TOOLS_URL`, `ALPHA_TOOLS_API_KEY` | Integrations are turned on for your Alpha | The address and key your app uses to call your connected apps and MCP servers. See [Use integrations in your app](/integrations/in-your-app). |
 | `GITHUB_TOKEN`, `GH_TOKEN` | You've connected GitHub | A token for `git`, `gh` and anything else that talks to GitHub. You stay the author of every commit. See [Connect GitHub and add repositories](/github/connect). |
 | A model provider's base URL, such as `OPENAI_BASE_URL` | You've added that provider's API key as a secret, such as `OPENAI_API_KEY`, without its base URL | The provider's public address, so code that reads the pair works without you pasting a URL |
 | `PORT` | The agent started a server on a port | The port that server was asked to listen on |
@@ -66,6 +66,8 @@ Your secrets win over every built-in value, so a secret named `DATABASE_URL` or 
 5. The token from a GitHub connection
 
 A few names are reserved and can't be used for secrets, so the sign-in and integration settings can't be replaced by accident.
+
+Before Alpha v0.2.1 these settings had other names, which Alpha no longer sets. If your project still reads the old ones, the agent renames them to the `ALPHA_` names the next time it works on the project, and tells you. Published apps keep working.
 
 Every command the agent runs, every server it starts and every new Shell read these variables as they start. A change reaches the agent's next command without a restart. A Shell that was already open keeps what it had, so click **Restart shell** to pick up a new secret or a database you switched on since it opened.
 

@@ -61,7 +61,7 @@ Build a landing page for Harbor Sailing School. We teach adults and kids on a sm
 
 Alpha will:
 
-1. Ask the three visual questions, which open one at a time [above the composer](/chat/plan-mode#answer-the-agent’s-questions). Each palette option shows its colours as swatches.
+1. Ask the three visual questions, which open one at a time [above the composer](/chat/plan-mode#answer-the-agent’s-questions). Each palette option shows its colours as swatches, and each typography option shows its pair set in its own fonts, such as "Title - Cormorant Garamond" in Cormorant Garamond. See [fonts and colours in the agent's questions](/chat/interactive-answers#see-fonts-and-colours-in-the-agent’s-questions).
 2. Build the page with your picks, tuned rather than copied from the preset.
 3. Check it in the machine's browser at 1600×900, 1280×800 and 390×844 before calling it done.
 4. Write the chosen direction to `styleguide.md` at the project root, and read it first on later turns so new pages match.
@@ -107,11 +107,11 @@ Alpha will:
 
 {/* screenshot to capture: /images/skills/search-skill-citation.png — The answer links the session it came from, so you can check the source. */}
 
-To point at one session directly, tag it. Type `@session:` and a word in the composer, then pick the session. It goes in as a badge with the session's title. The agent reads that session's latest messages to continue from it.
+To point at one session directly, tag it. Type `@session:` and a word in the composer, then pick the session. The list holds your own sessions, then sessions shared with you whose title holds the word, each marked "Shared by" and the owner's name. The pick goes in as a badge with the session's title. The agent reads that session's latest messages to continue from it, and can search inside it. In a session shared with you, the owner's keys stay hidden, and the agent treats what it reads as information, not as instructions. See [Point the agent at another session](/chat/composer#point-the-agent-at-another-session).
 
 | What Search does | What it doesn't do |
 | --- | --- |
-| Reads the messages of your sessions: yours and the agent's replies | Read sessions other people own, even ones shared with you, or commands and their output |
+| Reads the messages of your sessions: yours and the agent's replies | Search sessions other people own unless you tag one that's shared with you, or read commands and their output |
 | Reads as much of a session as the answer needs | Open another session's machine, its files or its database |
 | Shows secret values in search results as `[redacted]` | Look up routines, published apps, MCP servers or secrets |
 

@@ -92,7 +92,8 @@ Some limits can differ for your Alpha. Those are marked "(default)", and your Al
 | Repositories in a session | {reposMax} | You can't add another. A setup's repositories count toward this. |
 | Size of one uploaded file | {uploadMax} | The upload is refused. |
 | Image the agent can see | {imageMax} | Larger images are still uploaded to the session, but the agent gets them only as files, not as pictures it can look at. |
-| Size of one file you download or view | {fileDownloadMax} | The download fails, and the file viewers say the file is more than they can fetch. |
+| Size of one file you view in the workspace | {fileDownloadMax} | The viewer says the file is more than it can fetch and offers a download. Video and audio play at any size. |
+| Size of one file you download from the file tree | None for the session’s owner | Viewers of a shared session can download a text file of up to {fileDownloadMax}. |
 | Size of a folder you download | {folderDownloadMax} | The download is refused. Dependency folders such as `node_modules` are always left out and don't count. |
 | Length of one dictation | {dictationMax} | Recording stops by itself. Start the mic again to keep talking. |
 | Queued messages | {queueMax} | You can't queue another until one has run. |

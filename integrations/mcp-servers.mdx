@@ -43,7 +43,7 @@ The **Local** catalog has three servers. None needs a key.
 | Server | What it gives the agent |
 | --- | --- |
 | **Context7** | "Current, version-specific docs for any library", fetched for the libraries the project uses, so the agent works from current APIs. A `CONTEXT7_API_KEY` secret raises its rate limit. |
-| **Memory** | "A knowledge graph the agent keeps between turns", kept in the session, so facts about the project survive compaction. Each session keeps its own graph. |
+| **Memory** | "A knowledge graph the agent keeps between turns", kept in the session, so facts about the project survive compaction. Each session keeps its own graph. For notes that carry across sessions, the agent uses your account's [memory](/account/memory), which needs no server. |
 | **Sequential thinking** | "A scratchpad for step-by-step problem solving", for working through a hard problem in revisable steps before acting. |
 
 New tools reach a session with its next message. If the agent is in the middle of a turn, they arrive when that turn ends.

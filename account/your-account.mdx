@@ -1,12 +1,12 @@
 ---
 title: "Your account and settings"
 sidebarTitle: "Account and settings"
-description: "Sign in, get through the waitlist, find everything in the account menu, report a bug, and set your preferences and theme."
+description: "Sign in, get through the waitlist, find everything in the account menu, report a bug, and set your preferences, theme and memory."
 ---
 
 import { appUrl, feedbackFiles } from '/snippets/limits.mdx';
 
-Your Alpha account holds your sessions, secrets, connections and preferences, and it follows you to any browser you sign in from. This page covers signing in to Alpha, the waitlist, the account menu, reporting a bug, the **Settings** page and the light and dark themes. To have the agent run on your own ChatGPT or Claude plan, which is a separate sign-in, see [Usage, costs and your own plan](/account/usage-and-costs).
+Your Alpha account holds your sessions, secrets, connections and preferences, and it follows you to any browser you sign in from. This page covers signing in to Alpha, the waitlist, the account menu, reporting a bug, the **Settings** page and the light and dark themes. What the agent remembers about you across sessions has a page of its own: [Memory](/account/memory). To have the agent run on your own ChatGPT or Claude plan, which is a separate sign-in, see [Usage, costs and your own plan](/account/usage-and-costs).
 
 ## Sign in to Alpha
 
@@ -51,7 +51,7 @@ Under the line "An agent workbench with real machines.", the screen reads "Reque
 The first time you sign in, Alpha asks one question, "What best describes your work?", with the hint "Pick the closest one. You can change it any time in Settings." The list of roles runs from **Product management** to **Other**.
 
 <Frame caption="On your first visit, Alpha asks what best describes your work. You can skip it.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/account/work-question-dialog.webp" alt="The What best describes your work? dialog over the home screen, with the line Pick the closest one. You can change it any time in Settings., a Choose one select, and Skip and Continue buttons." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@8ea45239db4f2b2017841c8de11102e009cb0110/images/account/work-question-dialog.webp" alt="The What best describes your work? dialog over the home screen, with the line Pick the closest one. You can change it any time in Settings., a Choose one select, and Skip and Continue buttons." />
 </Frame>
 
 Pick one and press **Continue**, or press **Skip**. Either way, the question doesn't come back on any device. Closing the dialog counts as skipping. You can change the answer later in [Settings](#change-your-settings).
@@ -65,7 +65,7 @@ Click your name (or your email, if your account has no name) at the bottom of th
 | Row | What it opens | Learn more |
 | --- | --- | --- |
 | **Usage** | Your spend, by session and by model, at `/usage` | [Usage, costs and your own plan](/account/usage-and-costs) |
-| **Settings** | Your preferences and this device's theme, at `/settings` | [Below](#change-your-settings) |
+| **Settings** | Your preferences, this device's theme and your memory, at `/settings` | [Below](#change-your-settings) and [Memory](/account/memory) |
 | **Secrets** | The **Secrets** page, at `/secrets`. It lists your **Global** secrets, which every session you own can read, your **Secret sets**, and **From setups shared with you** when someone shares a setup that has a set. The row's number counts your global secrets. | [Secrets](/secrets) and [Secret sets](/secrets#secret-sets) |
 | **Setups** | The **Setups** page, at `/setups`: your ready-made machines, and the ones shared with you | [Setups](/sessions/setups) |
 | **Sign in with ChatGPT/Claude** | "Use your own plan": a row each for ChatGPT and Claude, showing "Signed in" or "Not signed in" | [Usage, costs and your own plan](/account/usage-and-costs) |
@@ -119,17 +119,21 @@ If you don't see **Send feedback** in the account menu or the bug icon in the wo
 
 ## Change your settings
 
-The **Settings** page, headed "Your account · this device", holds three groups. **New messages** and your work are saved to your account, so they follow you to every device and browser. **Theme** is kept on this device only.
+The **Settings** page has two sections, listed on the left: **General** and **Memory**. It opens on **General**. On a narrow screen the two sit in a row above the settings instead.
 
-<Frame caption="Settings has three groups: Chat, Appearance and About you.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/account/settings-page.webp" alt="The Settings page in the light theme. Under CHAT, New messages explains that a message sent while the agent works can wait for it to finish (Queue) or reach it right away (Steer), with a select set to Queue and the line ↵ sends this way; ⌃ ↵ sends the other way. Under APPEARANCE, Theme reads On this device. System follows your computer's light or dark mode., with a select set to Light. Under ABOUT YOU, What best describes your work? reads Asked once when you start; change it here any time., with a select set to Not set." />
+<Frame caption="Settings opens on General: new messages, theme and your work.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@8ea45239db4f2b2017841c8de11102e009cb0110/images/account/settings-page.webp" alt="The Settings page in the light theme. General is selected in the list of sections on the left, with Memory below it. Under the General heading, one card holds three rows: New messages, with the line While the agent works. ↵ sends this way, ⌃ ↵ the other. and a select set to Queue; Theme, with the line On this device and a select set to Light; and What best describes your work?, with a select set to Not set." />
 </Frame>
 
-| Group | Setting | Choices | What it changes |
-| --- | --- | --- | --- |
-| **Chat** | **New messages** | **Queue** (default): "Waits its turn: the agent finishes what it's doing, then picks this up next." **Steer**: "Goes to the agent right away and redirects it mid-task, no restart." | What <kbd>Enter</kbd> does when you send a message while the agent is still working. <kbd>⌘</kbd> <kbd>Enter</kbd> always sends the other way (Ctrl on Windows and Linux). |
-| **Appearance** | **Theme** | **System** (default), **Light** or **Dark** | Alpha's colours on this device. **System** follows your computer's light or dark mode. See [Light and dark](#light-and-dark). |
-| **About you** | **What best describes your work?** | One of the roles from the first visit. It reads **Not set** until you pick one. | Your answer to the first-visit question. |
+**General** holds three settings. **New messages** and your work are saved to your account, so they follow you to every device and browser. **Theme** is kept on this device only.
+
+| Setting | Choices | What it changes |
+| --- | --- | --- |
+| **New messages** | **Queue** (default): "Waits its turn: the agent finishes what it's doing, then picks this up next." **Steer**: "Goes to the agent right away and redirects it mid-task, no restart." | What <kbd>Enter</kbd> does when you send a message while the agent is still working. <kbd>⌘</kbd> <kbd>Enter</kbd> always sends the other way (Ctrl on Windows and Linux). |
+| **Theme** | **System** (default), **Light** or **Dark** | Alpha's colours on this device. **System** follows your computer's light or dark mode. See [Light and dark](#light-and-dark). |
+| **What best describes your work?** | One of the roles from the first visit. It reads **Not set** until you pick one. | Your answer to the first-visit question. |
+
+**Memory** lists the notes the agent keeps about you and your repositories across sessions. There you search, edit, pin and delete them, and turn memory off with **Remember across sessions**. See [Memory](/account/memory).
 
 To choose between queueing and steering for a particular message, see [Queue, steer or stop](/chat/queue-and-steer). Choices that belong to one session, such as the agent, model and effort, are set in the composer, not here.
 
@@ -140,7 +144,7 @@ Alpha comes in a light theme and a dark theme. Until you choose, it follows your
 | Where | What it does |
 | --- | --- |
 | The switch at the top right of the [home screen](/sessions/home-screen) | One click flips between light and dark. It shows a moon in the light theme (**Dark mode**) and a sun in the dark one (**Light mode**). Flipping back to the theme your computer uses returns you to **System**, so Alpha follows your computer again. |
-| **Settings → Appearance → Theme** | Pick **System**, **Light** or **Dark**. |
+| **Settings → General → Theme** | Pick **System**, **Light** or **Dark**. |
 
 Your choice is kept in this browser on this device, not on your account, so a phone and a laptop can each have their own. It applies to every Alpha tab in that browser.
 
@@ -148,7 +152,7 @@ Your choice is kept in this browser on this device, not on your account, so a ph
 
 Some Alphas run in guest mode. There is no sign-in screen: each browser gets its own guest identity, the account badge reads **Guest**, and there is no **Sign out** row. Sharing a session with specific people isn't available, because there are no account emails to share with.
 
-If that Alpha later switches to accounts, the first time you sign in from the same browser your guest work moves to your account in one step. That covers your sessions and their published apps, your global secrets (including keys you pasted for integrations), your GitHub connection and your Claude sign-in. Your ChatGPT sign-in doesn't move, so sign in to it again from **Sign in with ChatGPT/Claude**. Setups you saved as a guest don't move either, and stop showing in your list.
+If that Alpha later switches to accounts, the first time you sign in from the same browser your guest work moves to your account in one step. That covers your sessions and their published apps, your global secrets (including keys you pasted for integrations), your GitHub connection, your Claude sign-in and the agent's [memory](/account/memory) of you. Your ChatGPT sign-in doesn't move, so sign in to it again from **Sign in with ChatGPT/Claude**. Setups you saved as a guest don't move either, and stop showing in your list.
 
 ## Sign-in messages
 
@@ -183,7 +187,7 @@ For problems after you're signed in, see [Troubleshooting and FAQ](/reference/tr
   <Card title="Secrets" icon="key" href="/secrets">
     Add API keys once as global secrets or in a secret set, and the agent gets them as environment variables.
   </Card>
-  <Card title="Queue, steer or stop" icon="forward" href="/chat/queue-and-steer">
-    When to pick each, whatever your New messages setting says.
+  <Card title="Memory" icon="brain" href="/account/memory">
+    What the agent remembers about you across sessions, and how to edit it or turn it off.
   </Card>
 </CardGroup>

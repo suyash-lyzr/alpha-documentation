@@ -7,7 +7,7 @@ icon: "box-archive"
 
 import { artifactMax, artifactsMax, artifactsTotal } from '/snippets/limits.mdx';
 
-An artifact is a file from a session that Alpha keeps for you outside that session: a report, a deck, a PDF, a spreadsheet, an image or a page. It gets its own page and its own link, opens in the same viewers as the workspace whether or not the session's machine is awake, and can be shared without sharing the session.
+An artifact is a file from a session that Alpha keeps for you outside that session: a report, a deck, a PDF, a spreadsheet, an image, a video, a recording or a page. It gets its own page and its own link, opens in the same viewers as the workspace whether or not the session's machine is awake, and can be shared without sharing the session.
 
 <Frame caption="Your artifacts and the ones shared with you, in one place.">
   <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/artifacts/artifacts-page.webp" alt="The Artifacts page under a dusk cover reading Artifacts, with the All, Yours and Shared with you tabs, a Search artifacts box and the filter, view and new folder buttons. Make something new offers Docs, Slides and Spreadsheet. Under All artifacts, with the count 1, one card shows a preview of the Harbor Sailing School — Summer Season deck, with its title, an HTML label, its kind Deck, its size 419.6 KB and Updated 2h ago." />
@@ -90,6 +90,7 @@ Alpha copies the file out of the session's machine when it's saved, so the artif
 | A Markdown file | The images it shows by a relative path |
 | A [deck](/workspace/decks-and-drawings) | Its pages' images, plus a PowerPoint file and a PDF made when it's saved |
 | A LaTeX file | Its PDF, built when it's saved |
+| A video or audio file | Nothing else. It can be larger than other artifacts; see [How big can an artifact be?](#how-big-can-an-artifact-be) |
 
 Making a deck's exports or a LaTeX PDF takes a while, so the save waits for them. Links to other websites stay links. Everything an artifact holds counts toward its size; see [How big can an artifact be?](#how-big-can-an-artifact-be).
 
@@ -109,7 +110,7 @@ Only the owner can update an artifact. To build on someone else's, tag it and as
 
 ## Find your artifacts on the Artifacts page
 
-Click **Artifacts** in the sidebar, below **Published**. The page has three tabs:
+Click **Artifacts** in the sidebar, below **Domains**. The page has three tabs:
 
 | Tab | Shows |
 | --- | --- |
@@ -121,7 +122,7 @@ Click **Artifacts** in the sidebar, below **Published**. The page has three tabs
 
 | Button | What it does |
 | --- | --- |
-| **Sort and filter** | **Sort by** **Last updated** (the default), **Last opened**, **Created** or **Title**. Filter by **Kind** (**Document**, **Deck**, **Page**, **Spreadsheet**, **Drawing**, **Image** or **Code**), **Sharing** (**Only you**, **Anyone with the link** or **Specific people**), **Updated** (**Today**, **Past week** or **Past month**) and **Pinned** (**Pinned only**). |
+| **Sort and filter** | **Sort by** **Last updated** (the default), **Last opened**, **Created** or **Title**. Filter by **Kind** (**Document**, **Deck**, **Page**, **Spreadsheet**, **Drawing**, **Image**, **Media** or **Code**), **Sharing** (**Only you**, **Anyone with the link** or **Specific people**), **Updated** (**Today**, **Past week** or **Past month**) and **Pinned** (**Pinned only**). |
 | **Show as a list** / **Show as cards** | Switches between cards and a compact list. |
 | **New folder** | Creates a folder. See [Organize artifacts in folders](#organize-artifacts-in-folders). |
 
@@ -131,7 +132,7 @@ Then come the shelves: **Folders**, **Pinned** (your pinned artifacts, kept abov
 
 ### What a card shows
 
-A card shows the artifact's kind in colour with its title, or the picture itself for an image. Under it are the title, the file's extension, and a line of details:
+A card shows the artifact's kind in colour with its title, or the picture itself for an image. A video or audio file is of the kind **Media**. Under it are the title, the file's extension, and a line of details:
 
 - **Your own**: the kind, the size, when it was updated, who can open it (for example "Anyone with the link", or "2 people via its folder"), how many times others opened it, and "from" the session it came from. Click the session's name to open it with the artifact tagged in the composer.
 - **Shared with you**: who shared it, the kind, the size and when it was updated.
@@ -192,7 +193,9 @@ The title menu starts with the kind and who made it ("Deck by you"), the session
 | **Pin** / **Unpin** | Yours only. |
 | **Delete artifact** | Yours only. Asks for confirmation first. |
 
-Artifacts open in the same viewers as the workspace: PDFs, Word, Excel and PowerPoint files, images, drawings and diagrams, decks, HTML pages, Markdown, a LaTeX file's PDF, and code. See [File viewers](/workspace/file-viewers). They're read-only here; a deck's owner can still export it. Anyone but you sees your secret values masked as `[redacted]` in text files, as viewers of a shared session do.
+Artifacts open in the same viewers as the workspace: PDFs, Word, Excel and PowerPoint files, images, video and audio, drawings and diagrams, decks, HTML pages, Markdown, a LaTeX file's PDF, and code. See [File viewers](/workspace/file-viewers).
+
+Video and audio files (such as `.mp4`, `.mov`, `.webm`, `.mp3`, `.m4a` and `.wav`) play in your browser's own player, with its controls for playing, seeking and volume. Playback starts without waiting for the whole file, and you can jump to any point, however long it is. The player pauses when you switch to another browser tab. **Download** in the bar saves the file. See [Play video and audio](/workspace/file-viewers#play-video-and-audio). They're read-only here; a deck's owner can still export it. Anyone but you sees your secret values masked as `[redacted]` in text files, as viewers of a shared session do.
 
 On its own page, the bar starts with the Alpha logo and ends with **All artifacts** for the owner, or "shared with you" for anyone else.
 
@@ -203,6 +206,7 @@ On its own page, the bar starts with the Alpha logo and ends with **All artifact
 | "This artifact was deleted, or it isn't shared with you." | Inside Alpha: the artifact is gone, or your account isn't allowed to open it. **Back to Artifacts** returns to the list. | Ask the owner to share it with the email you sign in with. |
 | **Nothing here**: "This link isn't active — it may be wrong, or sharing was turned off." | Signed out: the artifact is private, deleted, or the link is mistyped. Alpha shows these the same way on purpose. | Check the link, or ask the owner to share it. |
 | A sign-in screen | The owner shared it with specific people. | Sign in with the invited email. |
+| "This file didn't play: its format or codec may not work in this browser, or the connection dropped. Retry, or download it instead." | A video or audio artifact your browser can't play, or the connection dropped. | Click **Retry**, try another browser, or click **Download** and play it on your computer. |
 
 Each full-page card has an **Open your own Alpha** button.
 
@@ -278,9 +282,12 @@ Pick **Delete** in a card's menu or the **Artifact** menu, or **Delete artifact*
 | Limit | Value |
 | --- | --- |
 | Size of one artifact, with every file it keeps | {artifactMax} |
+| Size of one video or audio file published on its own | Whatever room is left in the total size of your artifacts |
 | Artifacts | {artifactsMax} |
 | Total size of your artifacts | {artifactsTotal} |
 | Title | 60 characters |
+
+A video or audio file over {artifactMax} can still be published as an artifact when you publish the file itself. It counts toward your account's total like any other artifact. An HTML page or Markdown file that shows such a file is still held to {artifactMax}, with everything it keeps.
 
 When you reach a limit, the agent says the save was refused. Delete artifacts you no longer need to make room. See [Limits](/reference/limits#artifacts).
 

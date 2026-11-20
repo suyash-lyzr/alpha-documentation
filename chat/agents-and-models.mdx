@@ -60,6 +60,11 @@ The model chip comes right after **+** in the composer. It shows the agent's mar
 
 Each row shows the model's name and a short tag, such as "latest · workhorse". Hover a row to read the model's full description. Claude models show their version, for example "Opus 5.5". A check marks the model in force; before you pick one, that's the agent's default model. The list is the agent's own, so it can differ between Alphas and change over time. With Claude Code, the list can also depend on whether the session runs on [your own Claude plan](#run-on-your-own-plan).
 
+| Agent | What its list usually holds |
+| --- | --- |
+| Codex | OpenAI's GPT models, such as GPT-6.1 Terra |
+| Claude Code | Opus 5.5, Fable 5.2, Sonnet 5.5 and Haiku 5.5. `fable` now means Fable 5.2, whether the session runs on your Alpha's access or on your own Claude plan. A Claude plan that doesn't offer Fable leaves it out of the list. |
+
 | You want to | Do this |
 | --- | --- |
 | Switch model | Pick a row. In a Claude Code session you can also type a name, for example `/model opus`. |
@@ -68,7 +73,9 @@ Each row shows the model's name and a short tag, such as "latest · workhorse". 
 
 Picking a model resets the effort to that model's default. Changes apply from your next message; a running turn keeps the model it started with. If Alpha refuses a change, the chip goes back and a banner says why.
 
-In a Codex session, a new model sometimes can't pick up the agent's earlier history. The transcript then says "The previous conversation can't be resumed with the current model — starting a fresh agent session (workspace files are kept)." Restate anything the agent needs from earlier in the session.
+In a Codex session, a new model sometimes can't pick up the agent's earlier history. The working line then says "The previous conversation can't be resumed with the current model — starting a fresh agent session (workspace files are kept)". Restate anything the agent needs from earlier in the session.
+
+Where your Alpha's Codex list holds models from more than one provider, switching between a model from one provider and a model from another always starts Codex afresh. Your files stay, but Codex no longer remembers the earlier conversation. The working line says Codex is starting a fresh session. Restate what the agent needs, or stay with models from the same provider for the rest of the session.
 
 ## Set reasoning effort
 
@@ -92,7 +99,7 @@ Until you pick an effort, the chip shows the one the model runs at by default.
 | Agent | Effort until you pick one |
 | --- | --- |
 | Codex | **xhigh**, unless your Alpha is set up with another |
-| Claude Code | **medium** on Opus 5.5, Sonnet 5.5 and Haiku 5.5, **xhigh** on Opus 4.7, and **high** on other models |
+| Claude Code | **medium** on Opus 5.5, Sonnet 5.5 and Haiku 5.5, **xhigh** on Opus 4.7, and **high** on other models, such as Fable 5.2 |
 
 Each model has its own ladder. A Codex model may list a top rung such as **ultra**, which is part of that ladder, not ultracode.
 

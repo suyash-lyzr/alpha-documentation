@@ -73,6 +73,8 @@
             "group": "Your account",
             "pages": [
               "account/your-account",
+              "account/memory",
+              "account/phones-and-tablets",
               "account/usage-and-costs"
             ]
           }
@@ -129,7 +131,8 @@
               "publish/publish-your-app",
               "publish/manage",
               "publish/production-data",
-              "publish/monitor"
+              "publish/monitor",
+              "publish/custom-domains"
             ]
           },
           {

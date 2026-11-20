@@ -10,7 +10,7 @@ import { PromptCard } from '/snippets/prompt-card.jsx';
 Publishing puts your app on the internet at a public `https://` address that starts with a name you choose. The agent asks for the name, then Alpha builds a fresh copy of your app and runs it on Alpha's cloud, so it stays up while the session's machine sleeps. To change or roll back an app that is already live, see [Manage a published app](/publish/manage). To show work in progress instead, [share the session](/sharing).
 
 <Frame caption="Nothing is published yet, so the pill beside Share reads Publish.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-pill-idle.webp" alt="The Harbor bookings session with the chat on the left and the Preview tab on the right showing the Harbor Sailing School booking page. In the workspace header, beside the Share and GitHub buttons, a pill with a rocket icon reads Publish." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@807a4178e822abf7c27b0c53d91770eecf2cca48/images/publish/publish-pill-idle.webp" alt="The Harbor bookings session with the chat on the left and the Preview tab on the right showing the Harbor Sailing School booking page. In the workspace header, beside the Share and GitHub buttons, a pill with a rocket icon reads Publish." />
 </Frame>
 
 <Note>
@@ -73,26 +73,33 @@ Publishing is done by the agent, in the session, so you can see and answer every
 
 <Steps>
   <Step title="Click Publish">
-    With any tab but a file's in front, click **Publish** beside **Share** (tooltip "Publish this app to production"). While the agent is working, the pill is held and its tooltip reads "The agent is busy — ask once it is done", because a message then would [steer](/chat/queue-and-steer) the turn. The **Publish to production** box shows what ships: **Serves** is the process and port serving a page in the Preview, or "detected from the code". **Database** reads "its own, in production" or "none", **Sign-in** reads "on" or "off", and **Access** is always "Public · anyone with the URL".
+    With any tab but a file's in front, click **Publish** beside **Share** (tooltip "Publish this app to production"). The **Publish** dialog opens, headed "Not published". Under **Website URL** it shows the app's address with its name, usually one Alpha suggests from the project, then "Visible to anyone with the link". A line under it says where the app runs, its port, and whether it gets its own database and sign-in.
+  </Step>
+  <Step title="Name the app">
+    The name is the first part of the address. Click the pencil (tooltip "Edit the name") or the name itself, and type. Alpha checks it as you type, and a line under it says what it found:
 
-    <Frame caption="What ships with a first publish, before the agent is asked.">
-      <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-confirm-popover.webp" alt="The body of the Publish to production popover. Four rows: Serves node · 3000, Database its own, in production, Sign-in on, and Access Public · anyone with the URL. Below them: The agent names it (the name is its address), builds it from source and publishes it; the Publish tab follows the rollout. Buttons Cancel and Publish." />
-    </Frame>
+    | The line reads | It means |
+    | --- | --- |
+    | Nothing, or the address the app will get | The name is free. Where your Alpha has its own domain, that domain shows beside the name instead. |
+    | "that name is taken" | Another app on your Alpha has it. Pick another. |
+    | "Lowercase letters, digits and dashes, starting with a letter." | The name breaks the [rules](#choose-a-name). |
+    | "Leave it empty and the agent asks you for a name." | You cleared the name. The agent asks for one in a question card. |
+    | "Couldn't check the name. The agent checks it again." | Alpha couldn't check it now. You can still publish. |
+
+    To serve the app at a domain you own, click **Add domain** beside **Website URL** and pick or add one. See [Custom domains](/publish/custom-domains#connect-a-domain).
   </Step>
   <Step title="Send the request">
-    Click **Publish** in the box. Alpha sends "Deploy this." to the agent, as if you had typed it. One click sends one message.
+    Click **Publish** in the dialog. It's off while the name is being checked, is taken, or breaks the rules. Alpha sends the agent "Deploy this as harbor.", as if you had typed it, or "Deploy this." when you left the name empty. With a domain picked, it adds the domain: "Deploy this as harbor and serve it at www.harbor-sailing.com." One click sends one message. While the agent is working, the button is held and the dialog reads "The agent is busy — ask once it is done", because a message then would [steer](/chat/queue-and-steer) the turn.
   </Step>
   <Step title="Answer the question card">
-    The agent puts everything only you can decide into one [question card](/chat/plan-mode): the name, with a suggestion first; the directory, when there is more than one; and which secrets production gets, when the app reads keys. The agent settles the technical details itself.
-
-    {/* screenshot to capture: /images/publish/publish-agent-asks-name.png — The suggested name comes from the project. Type another in the card's own field. */}
+    The agent puts everything only you can decide into one [question card](/chat/plan-mode): the name, if you didn't give one, with a suggestion first; the directory, when there is more than one; and which secrets production gets, when the app reads keys. The agent settles the technical details itself.
   </Step>
   <Step title="Watch it go live">
     The **Publish** tab opens by itself and follows the build. The agent posts the address in the transcript when it is live. See [Watch the rollout](#watch-the-rollout).
   </Step>
 </Steps>
 
-You can also start from the **Publish** tab: open it from **+** → **Publish**. Before anything is published, it reads "Ship this app to production" and lists the three stages, **Name it**, **Build** and **Serve**. **Publish with the agent** sends the same "Deploy this." as the pill, and is held at the same times.
+You can also start from the **Publish** tab: open it from **+** → **Publish**. Before anything is published, it reads "Ship this app to production" and lists the three stages, **Name it**, **Build** and **Serve**. **Publish with the agent** sends "Deploy this.", and is held at the same times as the dialog's **Publish**.
 
 You can also ask the agent in your own words.
 
@@ -124,7 +131,7 @@ One request covers one publish of one app, until the agent reports it live. If t
 
 ## Choose a name
 
-The name is the first part of the address, so it can't be changed later. Republishing keeps it. For a new address, publish under a new name and [delete the old app](/publish/manage#delete-a-service).
+The name is the first part of the app's first address, so it can't be changed later. Republishing keeps it. Where your Alpha has its own domain, you can [rename the app's address there](/publish/custom-domains#rename-the-app’s-address) instead, or [connect a domain you own](/publish/custom-domains#connect-a-domain). Otherwise, for a new address, publish under a new name and [delete the old app](/publish/manage#delete-a-service).
 
 | Rule | Allowed | Refused |
 | --- | --- | --- |
@@ -139,35 +146,27 @@ A taken name is refused with "the name harbor is taken — pick another". When t
 
 Every app gets its own public `https://` address that starts with the name you chose. Access is public and https is included, so anyone with the address can open it once it is live. On some Alphas a short prefix sits in front of the name.
 
-Where your Alpha has its own domain, the app is also at `https://<name>.<domain>`, mapped after the first successful publish:
+Where your Alpha has its own domain, the app also answers at `https://<name>.<domain>`, such as `https://harbor-bookings.apps.example.com`, the moment it is live. That becomes the app's main address everywhere, with the first address under it after "also". You can rename it, and you can connect a domain you own, such as `www.harbor-sailing.com`, from the **Publish** dialog or the **Domains** page. See [Custom domains](/publish/custom-domains).
 
-| Domain state | What you see |
-| --- | --- |
-| Pending | "certificate being issued (minutes, sometimes an hour)". The **Publish** tab updates by itself once it's ready. |
-| Ready | The domain becomes the main address everywhere, with the app's first address under it. |
-| Failed | "could not be mapped" and the reason. The app's first address keeps working; a domain problem never fails the publish. |
-
-<Frame caption="Once the certificate is ready, the domain is the address you share.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-domain-ready.webp" alt="The harbor-bookings header, marked live, with Edit settings, Republish and ⋯. Below it the address harbor-bookings.apps.example.com has a copy button and Open, with the smaller line also harbor-bookings-4k2p.apps.example.com." />
+<Frame caption="The app's page shows its address on your Alpha's domain, with a pencil to rename it. The first address stays under it.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@807a4178e822abf7c27b0c53d91770eecf2cca48/images/publish/publish-domain-ready.webp" alt="The harbor-bookings service page header: harbor-bookings with a menu arrow, a green live badge, Edit settings, a dark Republish button and a ⋯ menu. Below it the address harbor-bookings.apps.example.com, followed by a pencil to rename it, a copy button and Open, with the smaller line also harbor-bookings-4k2p.apps.example.com." />
 </Frame>
-
-You can't attach a domain you own. Where there is a domain, it is the same for every app on your Alpha.
 
 ## Watch the rollout
 
-The build usually takes 2–6 minutes. The pill beside **Share** reads **Publishing…** meanwhile, and clicking it opens the **Publish** tab. There, the service's state says which step it's on. On a first publish, "Your app's address appears here once it is live." holds the address's place; on a republish, the address stays, with "A new version is rolling out." under it. The new version sits at the top of **History**, marked **rolling out**, with its steps: **Export**, **Plan**, **Build**, **Publish** and **Live**, each marked **Done**, **In progress**, **Failed** or **Waiting**.
+The build usually takes 2–6 minutes. The pill beside **Share** reads **Publishing…** meanwhile (tooltip "Publishing: where it stands"). Clicking it opens the **Publish** dialog with the app's name and the step it's on; **⋯** → **Open Publish tab** opens the tab. There, the service's state says which step it's on. On a first publish, "Your app's address appears here once it is live." holds the address's place; on a republish, the address stays, with "A new version is rolling out." under it. The new version sits at the top of **History**, marked **rolling out**, with its steps: **Export**, **Plan**, **Build**, **Publish** and **Live**, each marked **Done**, **In progress**, **Failed** or **Waiting**.
 
-<Frame caption="The build is under way: the steps, Stop in the header, and the Log following the build.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-rollout-in-progress.webp" alt="The Publish tab for harbor-bookings, marked building. The header shows Edit settings and Republish greyed out, plus Stop and ⋯, and the pill beside Share reads Publishing…. The address harbor-bookings.apps.example.com has A new version is rolling out. under it, then the Production database card. Under History, Version 6 · rolling out · started 1 min ago · by the agent shows the steps Export Done, Plan Done, Build In progress, Publish Waiting and Live Waiting, then Building the app. Its Log, marked live, reads Publishing harbor-bookings, version 6, Detected Node · Express · start: npm start, the environment with both Stripe keys [redacted], Database: harbor_bookings, Installing dependencies… added 214 packages in 17s and Building the app…. A Details rail on the right lists the stack, start command, port, environment and services." />
+<Frame caption="The build is under way: the steps, Stop in the header, and the Log, opened with Show log, following the build.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@807a4178e822abf7c27b0c53d91770eecf2cca48/images/publish/publish-rollout-in-progress.webp" alt="The Publish tab for harbor-bookings, marked building. The header shows Edit settings and Republish greyed out, plus Stop and ⋯, and the pill beside Share reads Publishing…. The address harbor-bookings.apps.example.com has A new version is rolling out. under it, then the Production database card. Under History, Version 6 · rolling out · started 1 min ago · by the agent shows the steps Export Done, Plan Done, Build In progress, Publish Waiting and Live Waiting, then Building the app. Its Log, marked live, reads Publishing harbor-bookings, version 6, Detected Node · Express · start: npm start, the environment with both Stripe keys [redacted], Database: harbor_bookings, Installing dependencies… added 214 packages in 17s and Building the app…. A Details rail on the right lists the stack, start command, port, environment and services." />
 </Frame>
 
-Under the steps, the version's **Log** is already open. It shows the build's own output as it streams in, marked **live**, with a waiting line until the first line arrives. Secret values show as `[redacted]`.
+To read the build, click **Show log** at the end of the version's row. The version's **Log** opens under its steps. It shows the build's own output as it streams in, marked **live**, with a waiting line until the first line arrives. Secret values show as `[redacted]`. The **Details** button at the right of the header (tooltip "Show details") opens a rail with how the version is built and run.
 
 | Log control | What it does |
 | --- | --- |
 | **follow** | Keeps the newest lines in view. Scrolling up lets go; scrolling back to the bottom picks it up again. |
 | Copy button (tooltip "Copy the log") | Copies the whole log. |
-| **Hide log** / **Show log** | Folds the log away under the version, or brings it back. |
+| **Show log** / **Hide log** | Opens the log under the open version, or folds it away. The log starts folded each time you open the app's page. |
 
 Every version has a log, not only a failed one. A version with nothing to show reads "no build output for this version".
 
@@ -176,11 +175,9 @@ The transcript gets a card when the publish starts and one when it ends, visible
 | Card | It reads |
 | --- | --- |
 | Started | That harbor is being published, with a pointer to the **Publish** tab to follow the build. |
-| Live | That harbor is published and how long it took, what went with it, and the address. The pill becomes **Republish**, which opens a popover with the address and **Republish** (see [Republish your changes](/publish/manage#republish-your-changes)), and a link icon beside it copies the address. |
+| Live | That harbor is published and how long it took, what went with it, and the address. The **Publish** pill gets a green dot. It opens the **Publish** dialog with the address and **Publish changes** (see [Republish your changes](/publish/manage#republish-your-changes)). |
 | Live, in yellow | The same, plus a hint starting "The service is up, but …": the app refuses its own hostname. The agent fixes the config and republishes. |
 | Failed | That publishing harbor failed and at which step, a hint and a foldable log tail. Fixes for each hint are in [Troubleshooting and FAQ](/reference/troubleshooting#a-publish-fails). |
-
-{/* screenshot to capture: /images/publish/publish-chat-card-live.png — The live card carries the address and what went with the app. */}
 
 A session publishes one app at a time; meanwhile the buttons are held with "A rollout is in progress". You can close the browser. The publish runs on Alpha's side, and the machine stays awake until it ends.
 

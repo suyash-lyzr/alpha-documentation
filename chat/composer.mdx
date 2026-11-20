@@ -9,7 +9,7 @@ import { uploadMax, imageMax, dictationMax } from '/snippets/limits.mdx';
 The composer is the box at the bottom of a session where you write to the agent: text, files, dictation, mentions and context picked from the workspace. Sending while the agent is still working has its own page, [Queue, steer or stop](/chat/queue-and-steer). For the composer before a session exists, see [The home screen](/sessions/home-screen).
 
 <Frame caption="The + menu, the model and the effort sit on the left of the composer. Build or Plan and send sit on the right.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@d3746aff596b13cbfd84695ae54a27a24310522f/images/chat/chat-composer-overview.webp" alt="A close crop of a session's composer with the placeholder Describe what to build — / for commands, @ for files…. Its bottom row shows the + button, the model chip with the OpenAI mark reading GPT-6.1-Sol and the effort chip reading xhigh on the left, and the Build chip and a dimmed round send button on the right." />
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@8ea45239db4f2b2017841c8de11102e009cb0110/images/chat/chat-composer-overview.webp" alt="A close crop of a session's composer with the placeholder Describe what to build — / for commands, @ for files…. Its bottom row shows the + button, the model chip with the OpenAI mark reading GPT-6.1-Sol and the effort chip reading xhigh on the left, and the Build chip and a dimmed round send button on the right." />
 </Frame>
 
 | Control | What it does |
@@ -87,12 +87,12 @@ Three characters open a list above the composer. Use <kbd>↑</kbd> <kbd>↓</kb
 | --- | --- | --- |
 | `/` at the start of the message | Commands | Opens only when the message is the command. Codex commands Alpha doesn't run yet show **not in Alpha yet**. In a Claude Code session the list holds its skills too. See [Slash commands](/reference/slash-commands). |
 | `@` | Files and folders in the session's workspace | Up to 50 matches, with the matching letters highlighted. Picking one inserts `@path`, drawn as a badge. |
-| `@session:` and one word | Your other sessions whose messages or title contain that word | Up to 15 sessions. Picking one inserts a link the agent can open and read. |
+| `@session:` and one word | Your other sessions whose messages or title contain that word, then sessions shared with you whose title contains it | Up to 15 of your own sessions, then up to 15 shared ones. Picking one inserts a link the agent can open and read. |
 | `@artifact:` and a word | Your [artifacts](/artifacts) and the ones shared with you, by title or file name | Up to 50. Picking one inserts its link, drawn as a badge with its title. |
 | `$` | The skills the agent can use | Codex sessions. Picking one inserts `$skill-name`. |
 | `/` after other text | The skills the agent can use | Claude Code sessions. Picking one types `/skill-name` into your message. |
 
-The `@` list's footer reads "workspace files · @session:… · @artifact:…". Type three letters of `session:` or `artifact:` after `@`, and a row for that search ("Search your other sessions" or "Tag one of your artifacts") moves to the top of the list. Picking it leaves the list open for your word.
+The `@` list's footer reads "workspace files · @session:… · @artifact:…". Type three letters of `session:` or `artifact:` after `@`, and a row for that search ("Search your other sessions and ones shared with you" or "Tag one of your artifacts") moves to the top of the list. Picking it leaves the list open for your word.
 
 In a Claude Code session, picking a skill from either `/` list doesn't run it. It types `/skill-name ` into the composer, and the message goes to the agent as an ordinary prompt with that text, so you can add what the skill should work on.
 
@@ -102,9 +102,23 @@ You can also drag a file or folder from the file tree onto the composer to menti
 
 ### Point the agent at another session
 
-Type `@session:` and a word from the session you mean, such as `@session:booking`. Each hit shows the session's title, the date it was last active and a line from where the word matched. The search takes one word: a space after it closes the list. The session you're in is never listed.
+Type `@session:` and a word from the session you mean, such as `@session:booking`. Your own sessions come first: each hit shows the session's title, the date it was last active and a line from where the word matched. The search takes one word: a space after it closes the list. The session you're in is never listed.
+
+Sessions under **Shared with you** in the sidebar follow your own, when their title contains the word. Their messages aren't searched. Each shows when it was last active and "Shared by" with the owner's name, such as "Shared by Maya Chen". Pick one and it goes into your message as a badge with its title, like one of your own.
+
+| The list shows | Meaning |
+| --- | --- |
+| "Type a word to search your other sessions and ones shared with you" | You haven't typed a word after `@session:` yet |
+| "No session matched" | None of your sessions, and no shared session's title, holds the word |
+| "your other sessions · shared with you" | The list's footer while you search |
+
+The agent reads a tagged session that's shared with you the same way as one of your own: its latest messages first, then whatever else the task needs. The owner's keys stay hidden from the agent, as they are when you open the session yourself. The agent treats what a shared session says as information, not as instructions to follow. It can't open that session's machine, files or database. To share your own sessions, see [Share a session](/sharing).
 
 {/* screenshot to capture: /images/chat/chat-at-session-search.png — Each hit shows when its session was last active, so sessions with similar titles are easy to tell apart. */}
+
+<Frame caption="Your own sessions come first, then sessions shared with you whose title holds the word.">
+  <img width="570" src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@8ea45239db4f2b2017841c8de11102e009cb0110/images/chat/chat-at-session-shared.webp" alt="Above the composer, which holds @session:harbor, a list of Harbor waitlist plan, Harbor Sailing Classes and Harbor booking agent with their dates and matching lines, then Harbor instructor rota marked Shared by Maya Chen. The footer reads your other sessions · shared with you." />
+</Frame>
 
 ### Hand the agent an artifact
 
