@@ -8,6 +8,48 @@ import { appUrl, feedbackFiles, turnMax, uploadMax, imageMax, fileDownloadMax, f
 
 The changelog lists what changed in Alpha, newest release first. Each entry describes something you can see or do, and links to the section that explains it. For what Alpha does today, start with [How Alpha works](/get-started/how-alpha-works).
 
+<Update label="November 20, 2026" description="v0.2.1: memory, video and audio, phones and tablets, custom domains" tags={["New", "Improved", "Fixed"]}>
+
+v0.2.1 gives the agent a **memory** of you and your repositories across sessions, plays **video and audio** in the workspace and on artifact pages, lays Alpha out for **phones and tablets**, and lets you serve a published app at a **domain of your own**.
+
+### New
+
+- **Memory.** The agent [keeps notes about you and your repositories](/account/memory) across sessions, filed under topics, such as your test command or how you like replies. Ask it to remember or forget something, and [browse, edit, pin or delete notes](/account/memory#browse-your-memory) in **Settings → Memory**, where you can also [turn memory off](/account/memory#turn-memory-off).
+- **Video and audio** files [play in the file pane](/workspace/file-viewers#play-video-and-audio) at any size, with seeking, and on [artifact pages](/artifacts#open-an-artifact). A video or audio file larger than other artifacts can still [be published as an artifact](/artifacts#how-big-can-an-artifact-be).
+- **Phones and tablets.** Every screen has a [layout for small screens](/account/phones-and-tablets): on a phone the chat and the workspace take turns, the sidebar opens over the page, and controls that appeared on hover are always shown. The desktop layout is unchanged.
+- **Domains of your own.** [Connect a domain you own](/publish/custom-domains#connect-a-domain) with one DNS record, from the **Publish** dialog or the new [**Domains** page](/publish/custom-domains#the-domains-page), or ask the agent to do it.
+- Published apps answer at an address on your Alpha's own domain, and you can [rename that address](/publish/custom-domains#rename-the-app’s-address).
+- The agent [asks for every missing key in one card](/secrets#what-happens-when-the-agent-needs-a-key), marks the ones your app can run without as optional, and a row above the composer shows which are still missing.
+- [Ask the agent to manage your secret sets](/secrets#ask-the-agent-to-manage-your-sets): create, change or delete them, and attach one to a setup. It works by name and never sees your values.
+- [Paste a `.env` file into a secret set](/secrets#paste-a-env-into-a-set) you own.
+- [Tag a session shared with you](/chat/composer#point-the-agent-at-another-session) with `@session:`, and [your agent can read it](/sharing#hand-a-shared-session-to-your-agent), with the owner's keys kept hidden.
+- Claude Code sessions offer [Fable 5.2](/chat/agents-and-models#choose-a-model), and Codex lists GPT-6.1 Terra.
+
+### Improved
+
+- **Apps that use Alpha's sign-in or connected tools:** their settings now have names starting with `ALPHA_`. If your app was built before this release, the agent [updates the names in your project](/reference/machine-environment#which-environment-variables-are-set) the next time it works on it, and tells you. Published apps keep working.
+- The **Publish** button opens [one dialog](/publish/publish-your-app#publish-your-app) to name the app, add a domain, [publish changes](/publish/manage#republish-your-changes) or unpublish. On the **Publish** tab, a version's log and the **Details** rail open when you ask for them.
+- [The Preview opens on your app's front end](/workspace/preview#which-server-does-the-preview-open-on). An API or another server that starts later waits in the port menu instead of taking over.
+- [Downloads from the file tree](/workspace/files#download-what-the-agent-made) save straight to disk with your browser's own progress, at any size. Folders and the workspace `.zip` show "Preparing…" while Alpha checks them, and say why if they can't be downloaded.
+- The browser tab shows [where your session stands](/chat/transcript#know-when-the-agent-needs-you): a grey dot while the agent works, a green dot for a turn that finished while you were away, and an amber dot with "Needs your input" when a question waits.
+- Typography options in the agent's design questions [show in their own fonts](/chat/interactive-answers#see-fonts-and-colours-in-the-agent’s-questions).
+- **Settings** has two sections, [**General** and **Memory**](/account/your-account#change-your-settings).
+- On a phone or tablet, the home screen's suggestions sit behind one [**Need ideas?** button](/sessions/home-screen#start-from-a-suggestion).
+- Skills can be much larger: [100 MB per skill, 10 MB per file, and 1 MB for `SKILL.md`](/reference/limits#skills-mcp-servers-and-agents).
+- Switching a Codex session to a model from another provider [starts Codex afresh](/chat/agents-and-models#choose-a-model). Your files stay.
+
+### Fixed
+
+- Very long Claude Code sessions no longer stop with "Prompt is too long".
+- Recent work in a session is no longer lost when the session goes to sleep during an Alpha update.
+- A session of your own no longer shows twice in the sidebar when your email is on its list of viewers.
+- Text fields in some dialogs are visible again in the dark theme.
+- Search boxes on Alpha's pages are announced properly by screen readers.
+
+Known issue: a phone held sideways gets the [tablet layout](/account/phones-and-tablets#known-issues).
+
+</Update>
+
 <Update label="November 6, 2026" description="v0.2.0: artifacts, light and dark themes, secret sets" tags={["New", "Improved", "Fixed"]}>
 
 v0.2.0 brings **artifacts**, a page and link of their own for any file you want to keep or share, a fresh design with **light and dark themes**, and **secret sets**, so everyone can bring their own keys to a shared setup. It also reworks the composer and how the agent asks you questions. v0.1.4 shipped the same changes earlier the same day.
