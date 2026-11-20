@@ -27,7 +27,6 @@ v0.2.1 gives the agent a **memory** of you and your repositories across sessions
 
 ### Improved
 
-- **Apps that use Alpha's sign-in or connected tools:** their settings now have names starting with `ALPHA_`. If your app was built before this release, the agent [updates the names in your project](/reference/machine-environment#which-environment-variables-are-set) the next time it works on it, and tells you. Published apps keep working.
 - The **Publish** button opens [one dialog](/publish/publish-your-app#publish-your-app) to name the app, add a domain, [publish changes](/publish/manage#republish-your-changes) or unpublish. On the **Publish** tab, a version's log and the **Details** rail open when you ask for them.
 - [The Preview opens on your app's front end](/workspace/preview#which-server-does-the-preview-open-on). An API or another server that starts later waits in the port menu instead of taking over.
 - [Downloads from the file tree](/workspace/files#download-what-the-agent-made) save straight to disk with your browser's own progress, at any size. Folders and the workspace `.zip` show "Preparing…" while Alpha checks them, and say why if they can't be downloaded.
@@ -41,7 +40,6 @@ v0.2.1 gives the agent a **memory** of you and your repositories across sessions
 ### Fixed
 
 - Very long Claude Code sessions no longer stop with "Prompt is too long".
-- Recent work in a session is no longer lost when the session goes to sleep during an Alpha update.
 - A session of your own no longer shows twice in the sidebar when your email is on its list of viewers.
 - Text fields in some dialogs are visible again in the dark theme.
 - Search boxes on Alpha's pages are announced properly by screen readers.
