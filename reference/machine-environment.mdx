@@ -67,8 +67,6 @@ Your secrets win over every built-in value, so a secret named `DATABASE_URL` or 
 
 A few names are reserved and can't be used for secrets, so the sign-in and integration settings can't be replaced by accident.
 
-Before Alpha v0.2.1 these settings had other names, which Alpha no longer sets. If your project still reads the old ones, the agent renames them to the `ALPHA_` names the next time it works on the project, and tells you. Published apps keep working.
-
 Every command the agent runs, every server it starts and every new Shell read these variables as they start. A change reaches the agent's next command without a restart. A Shell that was already open keeps what it had, so click **Restart shell** to pick up a new secret or a database you switched on since it opened.
 
 A published app doesn't use these copies. It gets its own production database, the same sign-in and the secrets you pick when you publish. See [Production database and sign-in](/publish/production-data).
