@@ -108,19 +108,21 @@ Only an admin can reset a machine, and not while a turn is running or the sessio
 </Steps>
 
 <Warning>
-A reset can't be undone. Every file on the machine goes, including uncommitted or unpushed changes in your repositories, installed packages and the session's database with its data. The transcript stays on screen, but the agent starts afresh and doesn't remember earlier turns, so restate what it needs. Push your work to GitHub, or export the database, before you ask for a reset.
+A reset can't be undone. Every file on the machine goes, including uncommitted or unpushed changes in your repositories, installed packages and the session's database with its data. The transcript stays on screen, but the agent starts afresh and doesn't remember earlier turns, so restate what it needs. It still gets your account's [memory](/account/memory). Push your work to GitHub, or export the database, before you ask for a reset.
 </Warning>
 
 What a reset keeps: the transcript, the session's settings, repositories, secrets and setup, and every app you published from it. Services such as the database start switched off on the new machine, and come back when you or the agent turn them on.
 
 ## What survives what
 
-| | Files | Session database | Installed packages | Transcript and agent memory | Published apps |
+| | Files | Session database | Installed packages | Transcript, and the agent's memory of it | Published apps |
 | --- | --- | --- | --- | --- | --- |
 | **Sleep** | Kept | Kept | Kept, with running processes | Kept | Kept |
 | **[Fork](/sessions/fork-and-delete)** | Copied to the fork | Copied to the fork | Copied to the fork | Copied, and the fork's agent remembers it | Stay with the original only |
 | **Reset** | Deleted. Repositories are cloned again. | Deleted | Deleted. A setup's come back. | Transcript kept. The agent starts over. | Kept |
 | **[Delete](/sessions/fork-and-delete)** | Deleted | Deleted | Deleted | Deleted | Deleted, with their production databases |
+
+Your account's [memory](/account/memory) isn't part of any session, so none of these touch it. Notes saved in a session stay after you delete it, and a reset or a fork gets them like any other session.
 
 The session's machine has {disk} of disk. Other limits are in [Limits](/reference/limits).
 

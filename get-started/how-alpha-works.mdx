@@ -31,6 +31,14 @@ Each session runs one agent, **Codex** or **Claude Code**, picked in the home sc
   Deep dive: the boot, the name, and what to do if the first send fails.
 </Card>
 
+## The agent remembers you across sessions
+
+A new session doesn't carry over your other sessions' conversations, but its agent doesn't start from zero. What it learns about you and your repositories, such as your test command, a publishing rule or how you like replies, it keeps as notes in your account's memory. Every new session starts with your pinned notes and the list of topics, and the agent opens a topic when it fits the task. Notes about one repository reach only the sessions where that repository is attached. Ask the agent to remember or forget something, or review every note in **Settings → Memory**.
+
+<Card title="Memory" icon="brain" href="/account/memory">
+  Deep dive: what the agent saves and never saves, editing and pinning notes, and turning memory off.
+</Card>
+
 ## Every session has its own machine
 
 The session's machine is a small Linux computer that belongs to that session alone. The agent installs packages and runs your app there.
@@ -156,6 +164,7 @@ Every session has one owner, who can share it with viewers. Admins can open any 
 | Published app | Your app running at a public address, outside the machine | [Publish your app](/publish/publish-your-app) |
 | Artifact | A file kept outside its session, with its own page, link and sharing | [Artifacts](/artifacts) |
 | Skill | Saved instructions every session's agent can use | [Skills](/skills/overview) |
+| Memory | Notes the agent keeps about you and your repositories, for the sessions that follow | [Memory](/account/memory) |
 | Integration | An outside service, such as Slack or Google, that the agent and your app can use | [Integrations](/integrations/overview) |
 | Secret | A key or password the agent gets as an environment variable, never in a message | [Secrets](/secrets) |
 | Secret set | A named list of secret names attached to a session or a setup, where each person fills in their own values | [Secret sets](/secrets#secret-sets) |
