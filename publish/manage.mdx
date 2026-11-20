@@ -8,7 +8,7 @@ import { versionsKept, publishPerSession, publishPerAccount } from '/snippets/li
 
 A published app is a service with its own page in the session's **Publish** tab, where you republish it, change how it runs, switch between its versions and delete it. To put an app online the first time, see [Publish your app](/publish/publish-your-app). For its logs and metrics, see [Monitor and troubleshoot production](/publish/monitor).
 
-<Frame caption="A live service's page: the header and its actions, the address line, History, and the Details rail at the right.">
+<Frame caption="A live service's page with Details open: the header and its actions, the address line, History, and the Details rail at the right.">
   <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-service-live.webp" alt="The Publish tab showing harbor-bookings, marked live, with Edit settings, Republish and ⋯. The address harbor-bookings.apps.example.com has a copy button and Open, with also harbor-bookings-4k2p.apps.example.com under it. Below are the Production database card and History, where Version 5 · live · 2 h ago · by the agent · 2m 38s is open with its Log, from Publishing harbor-bookings, version 5 through Build finished in 1m 52s, Starting version 5… and Health check: GET / → 200 to Live at https://harbor-bookings.apps.example.com, and Version 4 · ready with Roll back below it. The Details rail shows Stack Node · Express, Starts with npm start, Port 3000, Source, Toolchain node 22.11.0, Environment STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY plus the paler database variable names, and Services: Database harbor_bookings, Sign-in off." />
 </Frame>
 
@@ -18,6 +18,7 @@ Pick the action by what you want to change:
 | --- | --- | --- |
 | Ship the latest code | **Republish** | Yes, a new version |
 | Change the port, run command, environment variables, database or sign-in | **Edit settings** | Yes, a new version |
+| Rename the address, or serve the app at a domain you own | The pencil beside the address, or the **Your own domain** card. See [Custom domains](/publish/custom-domains). | No |
 | Call off a rollout that's still building | **Stop** | No. The version serving stays as it is. |
 | Undo a bad release, or serve a newer version again | **⋯** → **Roll back**, or **Roll back** / **Roll forward** on a version in **History** | No. It only switches which version is live. |
 | Take the app offline for good | **⋯** → **Delete service** | No, and it can't be undone. |
@@ -28,17 +29,18 @@ If you don't see the **Publish** pill or the **Publish** tab, publishing isn't t
 
 ## Read a service's page
 
-Open **+** → **Publish** and pick the service. On a wide workspace the page has two columns: the service on the left, from its actions down to its history, and a **Details** rail on the right. On a narrow one, **Details** follows the history.
+Open **+** → **Publish** and pick the service. The page runs from the service's actions down to its history. The **Details** button at the right of the header (tooltip "Show details" or "Hide details") opens a **Details** rail: on a wide workspace it sits on the right, and on a narrow one it follows the history.
 
 | Part | What it shows |
 | --- | --- |
-| Header | The name, which opens the switcher (see below); an **App** or **API** tag when the session has an agent's API; the state (**live**, **failed**, or the step a rollout is on, such as **building**). Then **Edit settings**, **Republish**, **Stop** while a rollout can still be stopped, and **⋯** (**More actions**), which holds **Roll back** and **Delete service**. |
-| Address line | The address, which opens the app, a copy button (tooltip "Copy address") and **Open**. "A new version is rolling out." shows under it during a rollout, and "also …" with the app's second address when it has one. Before a first version is live it reads "Your app's address appears here once it is live." |
+| Header | The name, which opens the switcher (see below); an **App** or **API** tag when the session has an agent's API; the state (**live**, **failed**, or the step a rollout is on, such as **building**). Then **Edit settings**, **Republish**, **Stop** while a rollout can still be stopped, **⋯** (**More actions**), which holds **Roll back** and **Delete service**, and **Details**. |
+| Address line | The address, which opens the app, a copy button (tooltip "Copy address") and **Open**. It's your own domain once that's **Live**, else the address on your Alpha's domain, with a pencil to [rename it](/publish/custom-domains#rename-the-app’s-address). "A new version is rolling out." shows under it during a rollout, and "also …" with the app's first address. Before a first version is live it reads "Your app's address appears here once it is live." |
+| **Your own domain** | On a live app, where domains of your own are turned on: the domain the app is served at and its state, or a menu to pick one. See [Custom domains](/publish/custom-domains#pick-a-domain-from-the-app’s-page). |
 | **Production database** | Only when the service has one: when it was made, whether a schema arrived, and the push from the session. See [Production database and sign-in](/publish/production-data). |
 | **History** | Every version, newest first, on a timeline: "Version N", its state, and when it ran, who started it ("by the agent" or "from the dialog") and how long it took. The open version unfolds with its steps while it rolls out or after it fails, any error or hint, and its **Log**. |
-| **Details** | How the open version runs: its stack, how it starts, its port and where its code came from. Then **Environment**, which lists variable names, never their values, and **Services**, which says what **Database** and **Sign-in** production gets. |
+| **Details** | Hidden until you click **Details**. How the open version runs: its stack, how it starts, its port and where its code came from. Then **Environment**, which lists variable names, never their values, and **Services**, which says what **Database** and **Sign-in** production gets. |
 
-The **Log** under the open version is open from the start, on every version. It shows the build's own output with **follow**, a copy button and **Hide log** / **Show log**; see [Watch the rollout](/publish/publish-your-app#watch-the-rollout). Secret values appear as `[redacted]`.
+**Show log** at the end of the open version's row opens its **Log**, which starts folded. It shows the build's own output with **follow**, a copy button and **Hide log**; see [Watch the rollout](/publish/publish-your-app#watch-the-rollout). Secret values appear as `[redacted]`.
 
 Under **Environment**, names you picked show first. Names Alpha sets for the app's database or sign-in follow, paler. A variable of the same name that you pick takes their place.
 
@@ -59,19 +61,24 @@ A republish sends "Republish harbor." to the agent, with the service's name, as 
 | Where | What happens |
 | --- | --- |
 | **Republish** in the service's header | Sends the message at once. Its tooltip reads "Sends “Republish harbor.” to the agent — it publishes the latest changes as a new version". |
-| The **Republish** pill beside **Share** | Opens a popover first (tooltip "Republish, or copy its address"). The pill shows once a service is live, and stands for the service the **Publish** tab shows, or else the first live one. |
+| **Publish changes** in the **Publish** dialog | Click **Publish** beside **Share** to open the dialog, then **Publish changes**. The dialog stands for the service the **Publish** tab shows, or else the first live one. If you picked a domain with **Add domain**, the app gets it first. |
 
-The popover is headed **Republish** and has three rows: **Status**, such as "Live · published 2 h ago"; **Address**, which opens the app in a new tab, with a copy button; and **Access**, "Public · anyone with the URL". Under them, a line reads "The agent publishes the latest changes as a new version; the Publish tab follows the rollout." **Open Publish tab** opens the tab, and **Republish** sends the message. The link icon beside the pill copies the address without opening anything.
+Once a service is live, the **Publish** pill shows a green dot (tooltip "Published: its address, its domain, a new version"). The dialog it opens reads "Published", with "Live · published 2 h ago" under it. Under **Website URL** come the address, which opens the app, with a pencil to [rename it](/publish/custom-domains#rename-the-app’s-address) where your Alpha has its own domain, a copy button (tooltip "Copy the app's link") and **Visit site**; your own domain, if the app has one, with its state; and "Visible to anyone with the link". **Add domain** beside **Website URL** connects a domain you own (see [Custom domains](/publish/custom-domains#connect-a-domain)). A line under them says where the app runs, its port, and whether it has its own database and sign-in.
 
-<Frame caption="The Republish popover. The address can be read and copied even while the button is held.">
-  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-pill-republish.webp" alt="The body of the Republish popover: Status Live · published 2 h ago, Address harbor-bookings.apps.example… with a copy-link button, and Access Public · anyone with the URL. Below them: The agent publishes the latest changes as a new version; the Publish tab follows the rollout. Buttons Open Publish tab and Republish." />
-</Frame>
+The dialog's **⋯** menu holds the rest:
+
+| Item | What it does |
+| --- | --- |
+| **Open Publish tab** | Opens the service's page. |
+| **Edit settings** | Opens [**Settings for harbor**](#change-how-the-app-runs) in the **Publish** tab. Off during a rollout. |
+| **Manage domains** | Opens the [**Domains** page](/publish/custom-domains#the-domains-page), where domains of your own are turned on. |
+| **Unpublish** | Asks "Unpublish harbor?": its addresses stop working and the app is deleted, with its production database if it has one. **Unpublish** confirms and **Keep** backs out. It's the same as [Delete service](#delete-a-service). Off during a rollout. |
 
 Asking in your own words works too, such as "Republish harbor with the latest changes." Saying that the live app needs a fix isn't a request to republish: the agent makes the fix, says a republish would ship it, and waits for you to ask. See [When does the agent publish?](/publish/publish-your-app#when-does-the-agent-publish).
 
-A republish asks you nothing. It keeps the address, port, run command, environment variables and production services, and attaches the same production database. Every name in the session's [secret sets](/secrets#secret-sets) goes with it too. The old version keeps answering until the new one serves.
+A republish asks you nothing. It keeps the addresses, your own domain, the port, run command, environment variables and production services, and attaches the same production database. Every name in the session's [secret sets](/secrets#secret-sets) goes with it too. The old version keeps answering until the new one serves.
 
-Both buttons are held while a turn runs ("The agent is busy — ask once it is done"), because a message then would [steer](/chat/queue-and-steer) the agent instead. In the popover, the reason replaces the line above the buttons, and the address can still be opened and copied. During any of the session's rollouts or rollbacks, the header button is held with "A rollout is in progress", and the pill reads **Publishing…** and opens the **Publish** tab.
+Both buttons are held while a turn runs ("The agent is busy — ask once it is done"), because a message then would [steer](/chat/queue-and-steer) the agent instead. In the dialog, the reason shows above the button, and the address can still be opened and copied. During any of the session's rollouts or rollbacks, the header button is held with "A rollout is in progress", and the pill reads **Publishing…**: its dialog shows the app's name and the step it's on.
 
 ## Change how the app runs
 
@@ -84,7 +91,7 @@ Both buttons are held while a turn runs ("The agent is busy — ask once it is d
   <Step title="Change what you need">
     The rows sit under **Build and run** and **Production services**. After you change **Run command**, press <kbd>Enter</kbd>, click away or click **Check** so Alpha checks it. **Republish** stays off until it has.
 
-    <Frame caption="The form keeps the address fixed.">
+    <Frame caption="The first address stays fixed. The address on the Alpha's domain under it can be renamed.">
   <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-edit-settings.webp" alt="Settings for harbor-bookings with a back arrow. A summary line reads Node · Express, node 22.11.0, 0.8 MB of source and $ npm start. Under Build and run, the Address row says Kept when you republish. beside a read-only field https://harbor-bookings-4k2p.apps.example.com, with also https://harbor-bookings.apps.example.com under it." />
 </Frame>
   </Step>
@@ -104,7 +111,8 @@ Both buttons are held while a turn runs ("The agent is busy — ask once it is d
 
 | Setting | What it does | Rules |
 | --- | --- | --- |
-| **Address** | The public address. | Read-only: the name is the address. For a new one, publish under a new name and delete this service. |
+| **Address** | The public address. | The first address is read-only: the name is the address. Under it, the address on your Alpha's domain has a pencil to [rename it](/publish/custom-domains#rename-the-app’s-address), which takes effect at once, without a republish. |
+| **Custom domain** | "A domain of yours in front of the address, from the Domains page. It is given to the app when you republish." | Shown for a live app where domains of your own are turned on. **None**, your domains that aren't serving another app, or **Add a new domain…**. See [Custom domains](/publish/custom-domains). |
 | **Port** | Where the app listens. Alpha sends requests there and sets `PORT`. | 1 to 65535. Chips offer ports seen listening, **page** on one serving a web page. |
 | **Run command** | Starts the app in production. Empty uses the command Alpha detected. | One line of at most 500 characters, checked before you republish. Hidden for projects that set how they start themselves. |
 | **Environment** | "Only what you pick here reaches production, at build time and at runtime." | Letters, digits and `_`, not starting with a digit, at most 64 characters, each name once. Names Alpha sets for the app, such as `PORT`, and names reserved for the machine's shell, such as `PATH`, are refused. |
@@ -145,9 +153,9 @@ An agent's API gets one more safeguard: a new version must pass a health check t
 
 ## Delete a service
 
-Deleting takes the app offline for good, along with its production database and, if your Alpha gives services an address on its own domain, that address too. The name becomes free for anyone.
+Deleting takes the app offline for good, along with its production database and every address it answers at, a renamed one included. The name becomes free for anyone. A [domain of your own](/publish/custom-domains) stops serving the app but stays on your **Domains** page, ready for another app.
 
-Open **⋯** (**More actions**) in the service's header and choose **Delete service**. Its tooltip says whether the production database goes too. **⋯** then gives way to **Delete service** and **Keep** in the header, and there's no other confirmation. The menu item is off while the service is busy.
+Open **⋯** (**More actions**) in the service's header and choose **Delete service**, or **Unpublish** in the **Publish** dialog's **⋯** menu. Its tooltip says whether the production database goes too. **⋯** then gives way to **Delete service** and **Keep** in the header, and there's no other confirmation. The menu item is off while the service is busy.
 
 You can also delete from the service's card on the [**Published** page](/publish/monitor#see-everything-you’ve-published): its trash button asks "Delete harbor and its database?" (or "Delete harbor?" without one), with **Keep** and **Delete**.
 
@@ -172,6 +180,8 @@ The **Publish** tab belongs to the session's owner. People you [share the sessio
 | Change settings | Yes | No | Yes, when you ask |
 | Roll back or forward | Yes | No | Yes, when you ask |
 | Delete a service | Yes | No | No, never |
+| Rename the address | Yes | No | No |
+| Serve the app at your own domain, or stop | Yes | No | Yes, when you ask |
 
 Every app you've published is listed on the [**Published** page](/publish/monitor#see-everything-you’ve-published) in the sidebar, where you can open it, go to its session or delete it.
 

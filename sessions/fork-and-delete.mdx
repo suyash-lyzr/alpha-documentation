@@ -29,13 +29,9 @@ Fork when the next step could go wrong, or when you want two versions side by si
   </Step>
   <Step title="Confirm with Fork session">
     The **Fork this session?** dialog explains what happens: Alpha copies the whole session, with its machine, workspace files and conversation, into a new session you can take in a different direction. It takes about 15 seconds. Click **Fork session**, or **Cancel** to back out. If the original is asleep, Alpha wakes it to take the copy.
-
-    {/* screenshot to capture: /images/sessions/fork-confirm-dialog.png — Forking copies the whole session. The original isn't changed. */}
   </Step>
   <Step title="Work in the fork">
     The fork opens at once at the top of the sidebar, named after the original with "(fork)" added, for example "Harbor bookings (fork)". It shows the copied transcript while its machine is starting. When the copy is ready, a line with a fork icon appears at the end of the transcript: "Forked from Harbor bookings", followed by a note that the machine, files and transcript were copied and that the fork now goes its own way. Send your next message from there.
-
-    {/* screenshot to capture: /images/sessions/fork-card.png — The "Forked from" line marks where the fork begins. Everything above it is shared history. */}
   </Step>
 </Steps>
 
@@ -69,19 +65,18 @@ There are two ways to delete, and only one of them asks first.
 
 If the session was open, you land on the [home screen](/sessions/home-screen). Another tab that had it open shows "This session was deleted."
 
-{/* screenshot to capture: /images/sessions/delete-confirm-dialog.png — /delete asks first. The sidebar's Delete doesn't. */}
-
 ### What goes with a deleted session?
 
 | Deleted with the session | Kept |
 | --- | --- |
 | The transcript | What you pushed to GitHub |
 | The machine and every file on it, including uncommitted and unpushed work | Your global secrets and connected integrations |
-| Every app published from the session: the service, its custom domain and its production database | The setup the session started from |
+| Every app published from the session: the service, its addresses and its production database | The setup the session started from |
 | The session's routines and session secrets | Forks of the session, which are separate sessions |
 | The session's app sign-in | Its usage. [Usage](/account/usage-and-costs) still counts it, listed as "Deleted session" |
 | | [Artifacts](/artifacts) saved from the session, with their links and sharing |
 | | Your [secret sets](/secrets#secret-sets), including one attached to the session |
+| | Your [domains](/publish/custom-domains#the-domains-page): one that served an app from the session stays on your **Domains** page, free for another app |
 
 <Warning>
 Deleting can't be undone. There is no trash and no archive. **Delete** in the sidebar doesn't ask for confirmation, and a published app from the session goes offline for everyone, along with its production data. To set a session aside instead, move it into a group ([Find and organize sessions](/sessions/organize)).
@@ -90,8 +85,6 @@ Deleting can't be undone. There is no trash and no archive. **Delete** in the si
 ## When fork or delete is refused
 
 A refusal shows as a red banner at the top of the chat, and nothing changes. If you deleted from the sidebar, the row stays or comes back. Click the banner to dismiss it.
-
-{/* screenshot to capture: /images/sessions/error-banner.png — A refusal leaves the session as it was and says why. */}
 
 | Message | When it appears | What to do |
 | --- | --- | --- |

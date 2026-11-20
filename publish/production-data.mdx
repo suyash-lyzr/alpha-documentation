@@ -142,7 +142,7 @@ With sign-in on, the published app uses the same sign-in as the session's app, w
 | Where the app runs | Return addresses accepted |
 | --- | --- |
 | Preview | The session's preview addresses, for each port the app listens on |
-| Published app | Its own addresses, https only, including the custom-domain one if your Alpha gives apps one |
+| Published app | Its own addresses, https only: its first address, its address on your Alpha's domain (renamed or not), and [your own domain](/publish/custom-domains) while it serves the app |
 
 So the app must build its callback URL from the request's host. A callback hard-coded to the preview fails in production with "Invalid parameter: redirect_uri". To fix it, send the agent:
 
@@ -170,8 +170,6 @@ const sql = postgres(
 ```
 
 To see these values for a production database, click **Connect** in the **Database** tab's toolbar. The password is never shown, and the database takes no connections from the internet.
-
-{/* screenshot to capture: /images/publish/database-production-connect.png — Connect shows where the database lives. The password stays sealed. */}
 
 To bring your own database, add `DATABASE_URL` to the app's environment in **Edit settings**, from a [secret](/secrets) or a typed value. Your value wins and Alpha doesn't create a database. An existing production database is kept but not attached to the next version. To use a sign-in service of your own instead of Alpha's, ask the agent to point the app at it.
 

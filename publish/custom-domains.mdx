@@ -1,0 +1,206 @@
+---
+title: "Custom domains"
+sidebarTitle: "Custom domains"
+description: "Give a published app an address people remember: rename its address on your Alpha's domain, or connect a domain you own with one DNS record."
+icon: "globe"
+---
+
+import { PromptCard } from '/snippets/prompt-card.jsx';
+
+Every published app answers at an address under your Alpha's own domain, such as `https://harbor-bookings.apps.example.com`, and you can rename that address. You can also connect a domain you own, such as `www.harbor-sailing.com`, with one DNS record at the company you bought it from. To put an app online first, see [Publish your app](/publish/publish-your-app).
+
+<Note>
+If you don't see **Add domain** in the **Publish** dialog, or a pencil to rename the app's address, it isn't turned on for your Alpha. Ask whoever runs it.
+</Note>
+
+## What addresses does my app get?
+
+A live app can answer at up to three addresses. All of them are public and `https://`, and all of them keep working side by side.
+
+| Address | Example | When you get it |
+| --- | --- | --- |
+| Its first address | `https://harbor-bookings-4k2p.apps.example.com` | The moment the app is live. It starts with the name you chose and never changes. |
+| Its address on your Alpha's domain | `https://harbor-bookings.apps.example.com` | The moment the app is live. You can [rename it](#rename-the-app’s-address). |
+| Your own domain | `https://www.harbor-sailing.com` | Once you [connect it](#connect-a-domain) and its state reads **Live**. |
+
+Alpha shows the best one as the app's address: your own domain once it's **Live**, else the address on your Alpha's domain. That's the address on the service's page in the **Publish** tab, in the **Publish** dialog and on the [**Published** page](/publish/monitor#see-everything-you’ve-published). The first address shows under it, after "also".
+
+<Frame caption="The address on the Alpha's domain is the one you share. The first address stays under it.">
+  <img src="https://cdn.jsdelivr.net/gh/suyash-lyzr/alpha-documentation@0b61fd2f913704672c92bd329ca2bad683e14924/images/publish/publish-domain-ready.webp" alt="The harbor-bookings header, marked live, with Edit settings, Republish and ⋯. Below it the address harbor-bookings.apps.example.com has a copy button and Open, with the smaller line also harbor-bookings-4k2p.apps.example.com." />
+</Frame>
+
+## Rename the app's address
+
+The app's name is fixed, but its address on your Alpha's domain can change: `harbor-bookings.apps.example.com` can become `harbor.apps.example.com`. Only the owner can rename it, and only while the app is live.
+
+<Steps>
+  <Step title="Click the pencil beside the address">
+    Click **Publish** beside **Share**, or open the app's page in the **Publish** tab. Beside the address, click the pencil (tooltip "Rename the address"). In **Edit settings**, the same pencil sits beside the address on the line under **Address**.
+  </Step>
+  <Step title="Type the new name">
+    The field holds the part in front of your Alpha's domain, which stays fixed beside it. Use lowercase letters, digits and dashes, start with a letter, and keep it to 40 characters.
+  </Step>
+  <Step title="Save it">
+    Press <kbd>Enter</kbd> or click the check mark (**Save**). Click × (**Cancel**) or press <kbd>Esc</kbd> to keep the old address. The first rename of an app takes a few minutes, and a line under the field says so. Later renames are quicker.
+  </Step>
+</Steps>
+
+The new address works right away and shows everywhere the old one did. The address with the app's own name keeps answering too, so links you already shared don't break. When you rename a second time, the name you picked the first time stops working.
+
+| Message | What to do |
+| --- | --- |
+| "names use lowercase letters, digits and dashes, start with a letter, and are at most 40 characters" | Change the name to fit the rules. |
+| "that address is taken" | Another app on your Alpha uses that name. Pick another. |
+| "publish the app before renaming its address" | Wait until the app is live, then rename it. |
+
+## Connect a domain
+
+A domain you own, or a subdomain of it such as `www.harbor-sailing.com`, can serve any one of your published apps. You add it once, set one DNS record where the domain is hosted, and it goes **Live** by itself.
+
+<Steps>
+  <Step title="Add the domain">
+    Start in either place:
+
+    - **The Publish dialog.** Click **Publish** beside **Share**, then **Add domain** beside **Website URL**. If you have a domain that isn't serving an app, a menu lists it with its state; pick it, or pick **Add a new domain…**. If you don't, the **Connect a domain** dialog opens straight away.
+    - **The Domains page.** Click **Domains** in the sidebar, then **Add domain**.
+
+    The **Connect a domain** dialog reads "A domain you own, or a subdomain of it such as www. Either takes one DNS record, shown next." Type the domain, such as `www.harbor-sailing.com`, and click **Connect**. It takes a few seconds, and the button reads **Connecting…** meanwhile.
+  </Step>
+  <Step title="Set the DNS record">
+    The dialog now shows the domain with its state, and the steps under "Point www.harbor-sailing.com at Alpha". Follow them where you bought the domain:
+
+    1. **Open your domain's DNS settings.** Sign in where you bought the domain (GoDaddy, Namecheap, Cloudflare and so on) and open its DNS settings, often called *DNS*, *Manage DNS* or *DNS records*.
+    2. **Delete the records it has now.** Remove every **A**, **AAAA** and **CNAME** record with the name shown. They point the domain somewhere else, such as the registrar's parking page.
+    3. **Add this record.** Copy each value with the button beside it (**Copy name**, **Copy value**).
+    4. **Save, and come back here.**
+
+    | Type | Name | Value | TTL |
+    | --- | --- | --- | --- |
+    | `A` | `www` | Your Alpha's address, such as `203.0.113.10` | Default |
+
+    The **Name** is the part in front of your domain. For the domain itself, such as `harbor-sailing.com`, it's `@`: "@ means harbor-sailing.com itself. Some providers call this field Host, or want it left empty." Some providers want the full name instead, such as `www.harbor-sailing.com`. On Cloudflare, turn the proxy off (grey cloud, *DNS only*).
+  </Step>
+  <Step title="Wait for it to go live">
+    Alpha keeps checking by itself, or click **Verify now** to check at once. The dialog says how long it takes: "usually minutes, at most an hour, though some providers take longer to publish a change". Click **Done** whenever you like. The domain carries on by itself, and **Finish setup** or the **Domains** page brings the steps back.
+  </Step>
+  <Step title="Point it at your app">
+    Pick the domain for the app, before or after it's **Live**. In the **Publish** dialog, the domain you added shows in its own row under the address. Click **Publish changes** for a live app: the domain is given to the app at once, and the agent is asked to republish it. On a first publish, click **Publish**: the agent is asked to publish the app and serve it at the domain, such as "Deploy this as harbor and serve it at www.harbor-sailing.com." The first domain for an app takes a few minutes.
+  </Step>
+</Steps>
+
+Once a domain is **Live** and serves the app, it's the app's address everywhere. Keep the DNS record afterwards: the domain needs it to keep serving the app over `https://`.
+
+### Domain states
+
+A domain's state shows as a badge beside it, in the **Publish** dialog, the **Publish** tab, every domain menu and on the **Domains** page.
+
+| State | Meaning | What to do |
+| --- | --- | --- |
+| **Verifying** | Alpha is waiting to see your DNS record. A line under the domain says what it found, such as "www.harbor-sailing.com has no address yet. Add the A record below, then verify again." | Set the record, then click **Verify now**. |
+| **Setting up** | Alpha has seen the record and is getting the domain ready for `https://`. | Wait. It's usually minutes. |
+| **Live** | The domain serves its app over `https://`. | Nothing. Keep the DNS record. |
+| **Failed** | The domain couldn't be set up. The reason shows under it. | Click **Retry** on the **Domains** page once the record is right, or remove the domain and add it again. |
+
+### Pick a domain from the app's page
+
+A live app's page in the **Publish** tab has a **Your own domain** card under the address:
+
+| The card shows | What you can do |
+| --- | --- |
+| A domain and its state | **Finish setup** (until it's **Live**) reopens the DNS steps. **Stop using** takes the domain off the app. **Manage domains** opens the **Domains** page. |
+| **Pick a domain** | Pick one of your domains that isn't serving an app, or **Add a new domain…**, then click **Use**. |
+| "No domain to use yet." | **Add a domain** opens the **Connect a domain** dialog. |
+
+In **Edit settings**, the **Custom domain** menu does the same: "A domain of yours in front of the address, from the Domains page. It is given to the app when you republish." Pick **None** to stop using one.
+
+## Ask the agent to connect a domain
+
+The agent can connect a domain for you, in the session the app was published from.
+
+<PromptCard label="Serve the app at your domain">
+
+```text
+Serve harbor at www.harbor-sailing.com.
+```
+
+</PromptCard>
+
+Alpha will:
+
+1. Add the domain to your **Domains** page if it isn't there yet, and point it at the app. The first domain for an app takes a few minutes.
+2. Tell you the DNS record to set where the domain is hosted. The domain goes **Live** once the record is in place.
+
+The agent connects a domain only when you ask, and it never changes your DNS: setting the record is yours to do. You can also ask it to stop serving the app at its domain; the domain stays on your **Domains** page. If the app needs a republish to accept the new domain, the agent says so and waits for you to ask.
+
+## The Domains page
+
+Click **Domains** in the sidebar, between **Published** and **Artifacts**, or **Manage domains** in the **Publish** dialog's **⋯** menu or on an app's page. It lists every domain on your account, newest first, and belongs to you: domains aren't tied to a session.
+
+The header reads **Domains**, with "2 of 3 live" under it once you have domains, and **Add domain** at the right. With none, the page reads "No domains yet. Add one here or from an app's Publish button. It takes one DNS record where the domain is hosted."
+
+Each row shows the domain, what it serves ("Serves harbor-bookings" or "Not serving an app"), when Alpha last checked it while it's **Verifying** or **Setting up**, and its state. **Verify now** sits on rows that aren't **Live** yet. Click a row to open it:
+
+| Part | What it shows |
+| --- | --- |
+| Reason | What the last check found, when there's something to fix. |
+| DNS record | The steps and the record to set, or, once it's **Live**, the record to keep: "The record that points www.harbor-sailing.com at Alpha." |
+| **Serves** | The app's name and session, which opens the session, with **Stop using**. With no app, **Choose an app** lists your live apps that don't have a domain yet. Without any, it reads "No published app to connect yet." |
+| Actions | **Open** opens the app at the domain, once it's **Live** and serving one. **Retry** shows on a **Failed** domain. **Remove** removes the domain. |
+
+## Move or remove a domain
+
+A domain serves one app at a time, and an app has one domain at a time.
+
+| You want to | Do this |
+| --- | --- |
+| Stop serving an app at its domain | Click × (tooltip "Stop using this domain") on the domain's row in the **Publish** dialog, **Stop using** on the app's page or on the **Domains** page, or pick **None** under **Custom domain** in **Edit settings**. The app keeps its other addresses, and the domain stays on your **Domains** page, ready for another app. |
+| Move a domain to another app | Stop using it on the first app, then pick it for the other, from that app's **Publish** dialog, its page or **Choose an app** on the **Domains** page. The DNS record stays as it is, and the domain stays **Live**. |
+| Remove a domain from your account | On the **Domains** page, open the row and click **Remove**. It asks "Remove www.harbor-sailing.com? harbor-bookings stops answering at it, and its certificate is deleted. Your DNS record stays yours to clear." Click **Remove** again, or **Keep**. |
+
+[Unpublishing an app](/publish/manage#delete-a-service), or deleting the session it came from, takes the app off its domain. The domain stays on your **Domains** page.
+
+## Limits
+
+| Limit | Value |
+| --- | --- |
+| Domains per account | 5 |
+| Domains per app | 1 |
+| Apps per domain | 1 |
+| Accounts per domain | 1. A domain someone else on your Alpha added can't be added again. |
+
+## Troubleshooting
+
+| You see | Why | What to do |
+| --- | --- | --- |
+| "that is not a domain name" | The text isn't a domain. | Type only the domain, such as `www.harbor-sailing.com`, without `https://` or a path. |
+| "… is a public suffix, not a domain anyone owns" | You typed an ending that nobody owns on its own, such as `co.uk`. | Type the whole domain. |
+| "that address is one of ours" | The domain is your Alpha's own domain, or under it. | [Rename the app's address](#rename-the-app’s-address) instead. |
+| "… belongs to another account" | Someone else on your Alpha added this domain. | Ask them to remove it from their **Domains** page. |
+| "each account can have up to 5 domains" | You have 5 domains. | Remove one you don't use. |
+| "… points at …, not …. Change its A record to …." | The domain still points somewhere else. | Change the A record to the value shown, then click **Verify now**. |
+| "… points at … but also at …. Delete the other A and AAAA records." | Another record points the domain somewhere else too. | Delete the other A and AAAA records, then click **Verify now**. |
+| A note that the domain points here and is being checked, "which can take up to an hour" | The record is right. | Wait. The state changes by itself. |
+| "… already serves another app. Stop using it there to use it here." | You added a domain that already serves one of your apps. | Stop using it on that app first. |
+| "this app is already served at … — stop using it first" | The app already has a domain. | Stop using that domain, then pick the new one. |
+| "publish the app before giving it a domain" | The app isn't live. | Pick the domain while you publish, or once the app is live. |
+| Your browser warns that the connection isn't private | The domain isn't **Live** yet, so it can't serve `https://`. | Wait for **Live**. Meanwhile the app's other addresses work. |
+| A "not found" error right after you point a domain at an app, or rename its address | The change takes a few minutes to reach everywhere. | Wait a few minutes and reload. |
+| The domain is **Live**, but the app shows an error page about the host not being allowed | Some apps answer only the addresses they were set up with. | Ask the agent to allow the domain in the app's settings and republish. See [The service is up, but refuses its own address](/publish/monitor#the-service-is-up-but-refuses-its-own-address). |
+| A message that domains aren't set up on this Alpha | Domains of your own aren't turned on for your Alpha. | Ask whoever runs it. |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Publish your app" icon="rocket" href="/publish/publish-your-app">
+    Put an app online at its own address, then give it a domain.
+  </Card>
+  <Card title="Manage a published app" icon="clock-rotate-left" href="/publish/manage">
+    Republish, change settings, roll back, or delete an app.
+  </Card>
+  <Card title="Production database and sign-in" icon="database" href="/publish/production-data">
+    Sign-in on the published app works on its own domain too.
+  </Card>
+  <Card title="Monitor and troubleshoot production" icon="chart-line" href="/publish/monitor">
+    Read the live app's logs and metrics, and fix a publish that failed.
+  </Card>
+</CardGroup>
