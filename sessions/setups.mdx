@@ -95,10 +95,11 @@ Fill in the form yourself, or ask the agent to save the session you're in. Eithe
     Alpha will:
 
     1. Collect the install, migrate and seed commands this session needed, in dependency order.
-    2. Save the setup under your account and build it on a fresh machine, not this one.
-    3. Tell you when it's ready to pick on the home screen, or that it's still building.
+    2. If the setup needs keys, put their names in one of your [secret sets](#add-a-secret-set) and attach it in the same save, so the build already has your values. It never writes a key into the setup or its scripts.
+    3. Save the setup under your account and build it on a fresh machine, not this one.
+    4. Tell you when it's ready to pick on the home screen, or that it's still building.
 
-    The agent can't share a setup, and it replaces an existing setup of the same name only when you ask for exactly that.
+    The agent never sees or types a secret's value. If it made a new set for the setup, add your values on the [**Secrets**](/secrets#secret-sets) page, then rebuild. The agent can't share a setup, and it replaces an existing setup of the same name only when you ask for exactly that.
   </Tab>
 </Tabs>
 
@@ -129,6 +130,18 @@ Under **Secrets & sharing**, pick a set from **Secret set**, or choose **No secr
 | Someone you share the setup with | Their own values. They see the set's names but never yours, and the setup's row on their **Setups** page reads **Add N secrets** until they've filled theirs in. |
 
 A change to a setup's set, or to who it's shared with, reaches every session started from the setup shortly, with no restart. A session's own secrets win over the setup's set. The full order is on [Secrets](/secrets#secret-sets).
+
+You can also ask the agent to do this for you, by name: create a set, attach it to one of your setups, swap it for another or detach it. It never sees or types a value, and it works only on your own sets and setups.
+
+<PromptCard label="Try this">
+
+```text
+Attach my "Harbor keys" secret set to the harbor dev setup.
+```
+
+</PromptCard>
+
+The agent can't delete a set while a setup uses it: it's told "setups still use this set (harbor dev) — detach it from each first". See [Ask the agent to manage your sets](/secrets#ask-the-agent-to-manage-your-sets).
 
 ## Start a session from a setup
 
@@ -229,6 +242,7 @@ Builds are limited to 30 minutes (default), and two run at a time across your Al
 | "timed out after 30 minutes" | Move slow, optional steps out of the setup script |
 | "a setup with this name already exists" | Names are unique across your Alpha, even for setups you can't see. Choose another. |
 | "at most 5 setups per account" | Delete one of your own first |
+| "missing from the secret set: RESEND_API_KEY", in the build log | The build ran without your value for those names. Add them on the [**Secrets**](/secrets#when-a-value-is-missing) page, then rebuild. |
 | "This session's setup no longer exists — starting a blank machine (its repositories are cloned fresh)." | The setup was deleted or unshared. The session carries on without its installs. |
 | A line saying the setup's boot script failed and Alpha is continuing | Ask the agent to read the boot script's output on the machine, then fix the boot script |
 

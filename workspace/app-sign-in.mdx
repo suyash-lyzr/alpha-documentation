@@ -63,6 +63,8 @@ Your app's sign-in settings are already available to the agent, and it wires the
 | **Client ID** | Your app's id with the sign-in service. One per session. |
 | **Client secret** | Proves a request comes from your app's server. |
 
+A line under them names the variables your app reads these from, each starting with `ALPHA_`. A published app gets the same ones.
+
 Sign-in works on the app's preview addresses and, once published, on its own addresses. The agent sets it up so the same app works at each of them, without hard-coding any one address.
 
 <Warning>
@@ -139,6 +141,14 @@ If sign-in fails with an error about an invalid redirect, the app sent people ba
 ```text
 Sign-in fails with an invalid redirect error. Send people back to the address they opened the app on, instead of a hard-coded one.
 ```
+
+If an app built a while ago stops signing people in after a restart or after its machine wakes, it may still read these settings under older names Alpha no longer sets. The agent updates the names in your project the next time it works on it, tells you, and asks before restarting anything you have running. To do it now, send:
+
+```text
+Update the app to read the new ALPHA_ sign-in settings, then restart it.
+```
+
+Published apps keep working, including after you republish them.
 
 ## Next steps
 

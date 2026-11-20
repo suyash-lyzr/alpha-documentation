@@ -50,11 +50,13 @@ The key appears in two places. Both show the same key for the open session.
 
 {/* screenshot to capture: /images/integrations/alpha-tools-builtin-panel.png — Alpha tools is a built-in, so there is nothing to connect. Its panel carries the same key card. */}
 
+The card has two rows, named after the variables your app reads: `ALPHA_TOOLS_URL`, your Alpha's address for tools, and `ALPHA_TOOLS_API_KEY`, the session's key, masked until you reveal it.
+
 | Control | What it does |
 | --- | --- |
 | Copy icon on a row | Copies that value, shown or not. The tooltips read "Copy the URL" and "Copy the key". |
 | **Reveal** / **Hide** | Shows the start and end of the key, or masks it again. |
-| **Copy .env lines** | Copies both variables as two `.env` lines. The button reads **Copied** afterwards. |
+| **Copy .env lines** | Copies both variables as two `.env` lines, `ALPHA_TOOLS_URL=…` and `ALPHA_TOOLS_API_KEY=…`. The button reads **Copied** afterwards. |
 | **Rotate** | Replaces the key at once, with no confirmation. The new key is shown and the button reads **Rotated ✓** for a moment. See [Rotate the key](#rotate-the-key). |
 
 ## Run your app outside Alpha
@@ -66,7 +68,7 @@ When you download or push an app and run it on your own machine or host, it no l
     Under **This session's key**, click **Copy .env lines**.
   </Step>
   <Step title="Paste them into the app's .env">
-    Add them, as they are, to the `.env` file the app loads at startup. The address points at your Alpha, so the place you run the app must be able to reach it.
+    Add them, as they are, to the `.env` file the app loads at startup. The app's code reads `ALPHA_TOOLS_URL` and `ALPHA_TOOLS_API_KEY`. The address points at your Alpha, so the place you run the app must be able to reach it.
   </Step>
   <Step title="Keep the key out of your repository">
     The agent never writes the key into a file. Instead, it lists both names in `.env.example` with empty values, so the code says what it needs without carrying the key. Keep `.env` out of version control.
@@ -91,6 +93,8 @@ Rotate as soon as the key leaks: pasted into a message, committed to a repositor
 | Your other sessions | Unaffected. Each session has its own key. |
 
 Deleting the session retires its key the same way.
+
+Alpha has renamed these two variables. An exported copy set up from older lines keeps working until you rotate, but the new lines use the `ALPHA_` names, so check that the copy's code reads `ALPHA_TOOLS_URL` and `ALPHA_TOOLS_API_KEY` before you paste them in. In the session itself, the agent updates the names in your project the next time it works on it, and tells you. Published apps keep working.
 
 ## How the agent calls your tools
 
